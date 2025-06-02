@@ -1,0 +1,100 @@
+/* Mobile Navigation Styles */
+
+/* Mobile Navigation Button */
+.mobile-nav-toggle {
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 0;
+    transition: 0.5s;
+    position: relative;
+    z-index: 9998;
+}
+
+/* Transparent Button Style */
+.btn-transparent {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--nav-color, #7f7f90);
+}
+
+.btn-transparent:hover,
+.btn-transparent:focus,
+.btn-transparent:active {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--nav-hover-color, #ce1212) !important;
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav-sidebar {
+    position: absolute;
+    top: 30;
+    right: 15px;
+    width: 250px;
+    max-height: 0;
+    background: var(--nav-mobile-background-color, #ffffff);
+    padding: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 9997;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    opacity: 0;
+    border-radius: 8px;
+    transform: translateY(-10px);
+}
+
+.mobile-nav-sidebar.active {
+    max-height: 400px;
+    padding: 10px 0;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Navigation Links */
+.mobile-nav-links {
+    padding: 5px 0;
+    margin: 0;
+    list-style: none;
+}
+
+.mobile-nav-links li {
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav-link {
+    display: block;
+    position: relative;
+    color: var(--nav-color, #7f7f90);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 25px;
+    text-decoration: none;
+    transition: 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    color: var(--nav-hover-color, #ce1212);
+    background-color: rgba(206, 18, 18, 0.05);
+    border-left-color: var(--nav-hover-color, #ce1212);
+}
+
+/* Body class when mobile nav is active */
+body.mobile-nav-active {
+    overflow-x: hidden;
+}
+
+/* No overlay for dropdown menu */
+
+/* RTL Support */
+html[dir="rtl"] .mobile-nav-sidebar {
+    right: auto;
+    left: 0;
+}
+
+/* Removed mobile-nav-close styles as the element is no longer used */
