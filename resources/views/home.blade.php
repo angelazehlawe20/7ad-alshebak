@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<!-- //test upload -->
+
 @section('content')
 
   {{-- Hero Section --}}
