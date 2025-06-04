@@ -24,6 +24,7 @@
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/mobile-nav.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/language-toggle.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/menu.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>

@@ -3,1159 +3,407 @@
 @section('title', 'Menu')
 
 @section('content')
-
 <section id="menu" class="menu section">
-
     <!-- Section Title -->
     <div id="menu-content"></div>
     <div class="container section-title" data-aos="fade-up">
         <p><span>Had AlShebak</span> <span class="description-title">Menu</span></p>
-    </div><!-- End Section Title -->
-    <div class="menu-categories sticky-top py-3 bg-white" style="top: 80px; z-index: 1000;">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8">
-                    <div class="d-flex justify-content-center flex-wrap">
-                        <a href="#starters" class="menu-btn mx-2"
-                            onclick="scrollToSection('starters'); return false;">Starters</a>
-                        <a href="#breakfast" class="menu-btn mx-2"
-                            onclick="scrollToSection('breakfast'); return false;">Breakfast</a>
-                        <a href="#lunch" class="menu-btn mx-2"
-                            onclick="scrollToSection('lunch'); return false;">Lunch</a>
-                        <a href="#dinner" class="menu-btn mx-2"
-                            onclick="scrollToSection('dinner'); return false;">Dinner</a>
-                        <a href="#drinks" class="menu-btn mx-2"
-                            onclick="scrollToSection('drinks'); return false;">Drinks</a>
-                        <a href="#dessert" class="menu-btn mx-2"
-                            onclick="scrollToSection('dessert'); return false;">Dessert</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <script>
-        // Function to scroll to a specific section
-        function scrollToSection(sectionId) {
-            // Check if we're on the menu page
-            const isMenuPage = window.location.pathname.includes('/menu');
 
-            if (!isMenuPage) {
-                // If not on menu page, redirect to menu page with hash
-                window.location.href = '{{ route("menu") }}#' + sectionId;
-                return;
-            }
+    <div class="container">
 
-            // If we're already on the menu page, just scroll to the section
-            const element = document.getElementById(sectionId);
-            if (element) {
-                // Smooth scroll to element
-                element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
+        <ul class="nav nav-tabs d-flex justify-content-center position-sticky top-0 bg-white z-3" data-aos="fade-up" data-aos-delay="100">
+          <li class="nav-item">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
+              <h4>Starters</h4>
+            </a>
+          </li><!-- End tab nav item -->
 
-        // Handle hash in URL when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if there's a hash in the URL
-            if (window.location.hash) {
-                // Get the section ID from the hash (remove the # symbol)
-                const sectionId = window.location.hash.substring(1);
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
+              <h4>Breakfast</h4>
+            </a><!-- End tab nav item -->
 
-                // Add a small delay to ensure the page is fully loaded
-                setTimeout(function() {
-                    // Scroll to the section
-                    const element = document.getElementById(sectionId);
-                    if (element) {
-                        element.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+              <h4>Lunch</h4>
+            </a>
+          </li><!-- End tab nav item -->
 
-                        // Update active button
-                        updateActiveButton(sectionId);
-                    }
-                }, 300);
-            }
-        });
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
+              <h4>Dinner</h4>
+            </a>
+          </li><!-- End tab nav item -->
 
-        // Function to update active button
-        function updateActiveButton(sectionId) {
-            // Remove active class from all buttons
-            document.querySelectorAll('.menu-btn').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
+        </ul>
 
-            // Add active class to the button corresponding to the current section
-            const activeButton = document.querySelector('.menu-btn[href="#' + sectionId + '"]');
-            if (activeButton) {
-                activeButton.classList.add('active');
-            }
-        }
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
 
-        // Update active button when scrolling
-        window.addEventListener('scroll', function() {
-            // Get all section elements
-            const sections = ['starters', 'breakfast', 'lunch', 'dinner', 'drinks', 'dessert'];
+          <div class="tab-pane fade active show" id="menu-starters">
 
-            // Find the section that is currently in view
-            for (let i = 0; i < sections.length; i++) {
-                const section = document.getElementById(sections[i]);
-                if (section) {
-                    const rect = section.getBoundingClientRect();
-
-                    // Check if section is in viewport (with some buffer for better UX)
-                    if (rect.top <= 150 && rect.bottom >= 150) {
-                        updateActiveButton(sections[i]);
-                        break;
-                    }
-                }
-            }
-        });
-    </script>
-
-    <section id="starters">
-        <div class="container text-center">
-            <h2>Starters</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
-
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>Starters</h3>
             </div>
-        </div>
-    </section> <!-- End Starters section -->
 
-    <section id="breakfast">
-        <div class="container text-center">
-            <h2>Breakfast</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
+            <div class="row gy-5">
 
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Magnam Tiste</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $5.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Aut Luia</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $14.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Est Eligendi</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $8.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Laboriosam Direva</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $9.95
+                </p>
+              </div><!-- Menu Item -->
 
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
-        </div>
-    </section> <!-- End Breakfast section -->
+          </div><!-- End Starter Menu Content -->
 
-    <section id="lunch">
-        <div class="container text-center">
-            <h2>Lunch</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
+          <div class="tab-pane fade" id="menu-breakfast">
 
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>Breakfast</h3>
             </div>
-        </div>
-    </section> <!-- End Lunch section -->
 
-    <section id="dinner">
-        <div class="container text-center">
-            <h2>Dinner</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
+            <div class="row gy-5">
 
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Magnam Tiste</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $5.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Aut Luia</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $14.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Est Eligendi</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $8.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Laboriosam Direva</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $9.95
+                </p>
+              </div><!-- Menu Item -->
 
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
-        </div>
-    </section> <!-- End Dinner section -->
+          </div><!-- End Breakfast Menu Content -->
 
-    <section id="drinks">
-        <div class="container text-center">
-            <h2>Drinks</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
+          <div class="tab-pane fade" id="menu-lunch">
 
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>Lunch</h3>
             </div>
-        </div>
-    </section> <!-- End Drinks section -->
 
-    <section id="dessert">
-        <div class="container text-center">
-            <h2>Dessert</h2>
-            <div class="swiper mySwiper">
-                <div class=" swiper-wrapper">
+            <div class="row gy-5">
 
-                    <!-- Slide 1: يحتوي على 6 كروت -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر الكارد 6 مرات داخل كل slide -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 1</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Magnam Tiste</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $5.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 2</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Aut Luia</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $14.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 3</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Est Eligendi</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $8.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 4</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 5</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
 
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 6</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Laboriosam Direva</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $9.95
+                </p>
+              </div><!-- Menu Item -->
 
-                    <!-- Slide 2: يحتوي على 6 كروت جديدة -->
-                    <div class="swiper-slide">
-                        <div class="row">
-                            <!-- كرر كروت جديدة 6 مرات -->
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 7</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 8</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 9</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 10</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 11</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-6 mb-4">
-                                <div class="card h-100 shadow">
-                                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid"
-                                        alt="Offer Image">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Offer 12</h3>
-                                        <p class="card-text">Description</p>
-                                        <p class="card-price text-danger fw-bold">price: 18 $</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
-        </div>
-    </section> <!-- End Dessert section -->
+          </div><!-- End Lunch Menu Content -->
 
-</section><!-- End Menu Section -->
+          <div class="tab-pane fade" id="menu-dinner">
+
+            <div class="tab-header text-center">
+              <p>Menu</p>
+              <h3>Dinner</h3>
+            </div>
+
+            <div class="row gy-5">
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-1.png" class="glightbox"><img src="assets/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Magnam Tiste</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $5.95
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-2.png" class="glightbox"><img src="assets/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Aut Luia</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $14.95
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-3.png" class="glightbox"><img src="assets/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Est Eligendi</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $8.95
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-4.png" class="glightbox"><img src="assets/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-5.png" class="glightbox"><img src="assets/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Eos Luibusdam</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $12.95
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
+                <h4>Laboriosam Direva</h4>
+                <p class="ingredients">
+                  Lorem, deren, trataro, filede, nerada
+                </p>
+                <p class="price">
+                  $9.95
+                </p>
+              </div><!-- Menu Item -->
+
+            </div>
+          </div><!-- End Dinner Menu Content -->
+
+        </div>
+
+      </div>
+
 @endsection
 
+@push('scripts')
 <script>
-    document.querySelectorAll('.menu-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-</script>
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtns = document.querySelectorAll('.menu-btn');
+    const menuCategories = document.querySelectorAll('.menu-category');
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper(".mySwiper", {
-    loop: false,
-    slidesPerView: 1,
-    slidesPerGroup: 1,
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
+    menuBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons and add to clicked button
+            menuBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Hide all categories
+            menuCategories.forEach(category => {
+                category.classList.add('d-none');
+            });
+
+            // Show selected category
+            const categoryId = this.getAttribute('data-category');
+            const selectedCategory = document.getElementById(categoryId);
+            if (selectedCategory) {
+                selectedCategory.classList.remove('d-none');
+            }
+        });
+    });
+});
 </script>
+@endpush
+
+<style>
+.menu-btn {
+    padding: 8px 16px;
+    border: 2px solid #ccc;
+    background: white;
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.menu-btn.active {
+    background: #ff6b6b;
+    color: white;
+    border-color: #ff6b6b;
+}
+
+.menu-category {
+    transition: all 0.3s ease;
+}
+</style>
