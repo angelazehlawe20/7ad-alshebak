@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Translations extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'key',
+        'value_ar',
+        'value_en'
+    ];
 }

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->var('title_ar');
-            $table->var('title_en');
+            $table->string('title_ar');
+            $table->string('title_en');
             $table->text('description_ar');
             $table->text('description_en');
-            $table->bool('active');
+            $table->boolean('active');
             $table->date('valid_until');
             $table->timestamps();
         });

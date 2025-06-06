@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Book a table')
+@section('title', 'Manage Reservations')
 
 @section('content')
 <!-- Book A Table Section -->
@@ -8,101 +8,110 @@
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <p><span>Book A Table</span> <span class="description-title">Now</span></p>
+        <h2>Manage Reservations</h2>
     </div>
     <!-- End Section Title -->
 
     <div class="container">
-        <div class="row align-items-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('admin.reservations.store') }}" method="POST" class="p-4 rounded-4 bg-white">
+                            @csrf
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+                                        id="name" placeholder="Customer Name" value="{{ old('name') }}" required>
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                        name="email" id="email" placeholder="Customer Email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text">+963</span>
+                                        <input type="text" class="form-control @error('phone') is-invalid @enderror" 
+                                            name="phone" id="phone" placeholder="9XXXXXXXX" maxlength="9" 
+                                            value="{{ old('phone') }}" required>
+                                    </div>
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div id="phone-error" class="text-danger mt-1" style="font-size: 14px; min-height: 18px;"></div>
+                                </div>
 
-            <!-- Left Image Column -->
-            <div class="col-lg-5 mb-4 mb-lg-0">
-                <img src="{{asset('assets/img/reservation.jpg')}}" alt="Reservation" class="img-fluid rounded-4 shadow">
-            </div>
-
-            <!-- Right Form Column -->
-            <div class="col-lg-7">
-                <form action="forms/book-a-table.php" method="post" role="form"
-                    class="php-email-form p-4 rounded-4 shadow bg-white">
-                    <div class="row gy-3">
-                        <div class="col-md-6">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text">+963</span>
-                                <input type="text" class="form-control" name="phone" id="phone" placeholder="9XXXXXXXX"
-                                    maxlength="9" required>
+                                <div class="col-md-6">
+                                    <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" 
+                                        id="date" value="{{ old('date') }}" required>
+                                    @error('date')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" class="form-control @error('time') is-invalid @enderror" 
+                                        name="time" id="time" value="{{ old('time') }}" required>
+                                    @error('time')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control @error('people') is-invalid @enderror" 
+                                        name="people" id="people" placeholder="# of people" value="{{ old('people') }}" required>
+                                    @error('people')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control @error('message') is-invalid @enderror" 
+                                        name="message" rows="4" placeholder="Message (optional)">{{ old('message') }}</textarea>
+                                    @error('message')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
-                            <!-- الخطأ يظهر هنا -->
-                            <div id="phone-error" class="text-danger mt-1" style="font-size: 14px; min-height: 18px;">
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4 py-2">Create Reservation</button>
                             </div>
-                        </div>
-
-
-                        <div class="col-md-6">
-                            <input type="date" name="date" class="form-control" id="date" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="time" class="form-control" name="time" id="time" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" name="people" id="people"
-                                placeholder="# of people" required>
-                        </div>
-                        <div class="col-12">
-                            <textarea class="form-control" name="message" rows="4"
-                                placeholder="Message (optional)"></textarea>
-                        </div>
+                        </form>
                     </div>
-
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary px-4 py-2">Book a Table</button>
-                    </div>
-
-                    <!-- Form Messages -->
-                    <div class="loading mt-3">Loading</div>
-                    <div class="error-message mt-2"></div>
-                    <div class="sent-message mt-2">Your booking request was sent. Thank you!</div>
-
-                </form>
+                </div>
             </div>
-
         </div>
     </div>
 
-</section> <!-- End Book A Table Section -->
+</section>
 
 <script>
     const phoneInput = document.getElementById('phone');
     const phoneError = document.getElementById('phone-error');
 
     function validatePhone() {
-      const value = phoneInput.value.replace(/\D/g, ''); // إزالة كل غير الأرقام
-      phoneInput.value = value; // تحديث القيمة داخل الحقل
+        const value = phoneInput.value.replace(/\D/g, '');
+        phoneInput.value = value;
 
-      if (value.length !== 9 || !value.startsWith('9')) {
-        phoneError.textContent = "Please enter a valid number like 9XXXXXXXX.";
-        return false;
-      } else {
-        phoneError.textContent = "";
-        return true;
-      }
+        if (value.length !== 9 || !value.startsWith('9')) {
+            phoneError.textContent = "Please enter a valid number like 9XXXXXXXX.";
+            return false;
+        } else {
+            phoneError.textContent = "";
+            return true;
+        }
     }
 
-    // عند الكتابة
     phoneInput.addEventListener('input', validatePhone);
 
-    // عند الإرسال
     document.querySelector('form').addEventListener('submit', function (e) {
-      if (!validatePhone()) {
-        e.preventDefault(); // إيقاف الإرسال إن كان الرقم غير صالح
-      }
+        if (!validatePhone()) {
+            e.preventDefault();
+        }
     });
 </script>
 

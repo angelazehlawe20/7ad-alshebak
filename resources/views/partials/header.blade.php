@@ -6,7 +6,7 @@
             <!-- Logo -->
             <div class="col-6 col-md-3 d-flex align-items-center">
                 <img src="{{ asset('assets/img/logo_7adAlshebak.png') }}" alt="Logo" class="me-2"
-                    style="max-height: 40px;">
+                    style="max-height: 60px;">
                 <a href="{{ route('hero') }}" class="text-decoration-none">
                     <h1 class="sitename m-0 fs-5">Had AlShebak</h1>
                 </a>

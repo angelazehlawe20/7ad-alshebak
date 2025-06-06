@@ -243,15 +243,15 @@ h6 {
 
 .header .logo img {
     max-width: 100%;
-      height: auto;
-      max-height: 40px;
+    height: auto;
+    max-height: 60px;
 }
 
 /* توسيط العنوان بجانب اللوغو */
 .header .sitename {
     line-height: 1;
     font-weight: 600;
-  }
+}
 
 .header .logo h1 {
     font-size: 30px;
@@ -283,32 +283,33 @@ h6 {
     background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
 
- /* اجعل القائمة متجاوبة */
- @media (max-width: 767.98px) {
+/* اجعل القائمة متجاوبة */
+@media (max-width: 767.98px) {
+
     /* اخفاء التنقل في الشاشات الصغيرة */
     .header nav {
-      display: none !important;
+        display: none !important;
     }
-  }
+}
 
 .scrolled .header {
     box-shadow: 0px 0 18px rgba(0, 0, 0, 0.1);
 }
 
 
-    .mobile-nav-active {
-        overflow: hidden;
-    }
+.mobile-nav-active {
+    overflow: hidden;
+}
 
-    .mobile-nav-active .mobile-nav-toggle {
-        color: #fff;
-        position: absolute;
-        font-size: 32px;
-        top: 15px;
-        right: 15px;
-        margin-right: 0;
-        z-index: 9999;
-    }
+.mobile-nav-active .mobile-nav-toggle {
+    color: #fff;
+    position: absolute;
+    font-size: 32px;
+    top: 15px;
+    right: 15px;
+    margin-right: 0;
+    z-index: 9999;
+}
 
 
 

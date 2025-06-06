@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MenuImage extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'image_id',
+        'menu_id'
+    ];
 }

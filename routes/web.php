@@ -1,34 +1,63 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuItemController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// Public routes
 Route::get('/', function () {
     return view('home');
 })->name('hero');
+Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
+Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
+Route::get('/book', [BookingController::class, 'index'])->name('book');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
-Route::get('/all-offers', function () {
-    return view('partials.all_offers');
-})->name('all_offers');
+// admin
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/menu', function () {
-    return view('partials.menu');
-})->name('menu');
-
-Route::get('/book', function () {
-    return view('partials.book');
-})->name('book');
-
-Route::get('/contact', function () {
-    return view('partials.contact');
-})->name('contact');
+    Route::resource('menu_items', App\Http\Controllers\Admin\MenuItemController::class)->names([
+        'index' => 'menu',
+        'create' => 'menu_items.create',
+        'store' => 'menu.store',
+        'edit' => 'menu.edit',
+        'update' => 'menu.update',
+        'destroy' => 'menu.destroy',
+    ]);
+    Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->names([
+        'index' => 'offers.index',
+        'create' => 'offers.create', 
+        'store' => 'offers.store',
+        'edit' => 'offers.edit',
+        'update' => 'offers.update',
+        'destroy' => 'offers.destroy'
+    ]);
+    Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class)->names([
+        'index' => 'bookings.index',
+        'create' => 'bookings.create',
+        'store' => 'bookings.store',
+        'edit' => 'bookings.edit',
+        'update' => 'bookings.update',
+        'destroy' => 'bookings.destroy'
+    ]);
+    Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->names([
+        'index' => 'contacts.index',
+        'create' => 'contacts.create',
+        'store' => 'contacts.store',
+        'edit' => 'contacts.edit',
+        'update' => 'contacts.update',
+        'destroy' => 'contacts.destroy'
+    ]);
+});

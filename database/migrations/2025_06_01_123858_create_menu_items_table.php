@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
-            $table->var('name_ar');
-            $table->var('name_en');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->string('name_ar');
+            $table->string('name_en');
             $table->text('description_ar');
             $table->text('description_en');
             $table->decimal('price');
             $table->timestamps();
         });
+
     }
 
     /**
