@@ -33,10 +33,17 @@ class OfferController extends Controller
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'active' => 'required|boolean',
-            'valid_until' => 'required|date',
+            'valid_until' => 'required|date|after_or_equal:today',
         ]);
 
-        Offer::create($request->all());
+        Offer::create([
+            'title_ar' => $request->title_ar,
+            'title_en' => $request->title_en,
+            'description_ar' => $request->description_ar,
+            'description_en' => $request->description_en,
+            'active' => $request->active,
+            'valid_until' => $request->valid_until,
+        ]);
 
         return redirect()->route('admin.offers.index')->with('success', 'Offer created successfully.');
     }
@@ -56,7 +63,7 @@ class OfferController extends Controller
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'active' => 'required|boolean',
-            'valid_until' => 'required|date',
+            'valid_until' => 'required|date|after_or_equal:today',
         ]);
 
         $offer->update($request->all());
@@ -71,5 +78,4 @@ class OfferController extends Controller
 
         return redirect()->route('admin.offers.index')->with('success', 'Offer deleted successfully.');
     }
-
 }

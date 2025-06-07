@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offers', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('title_ar');
-            $table->string('title_en');
-            $table->text('description_ar')->nullable();
-            $table->text('description_en')->nullable();
-            $table->boolean('active')->default(true);
-            $table->date('valid_until');
+            $table->string('key')->unique();  // مثال: site_name
+            $table->text('value')->nullable(); // يمكن أن تكون نصوص طويلة
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offers');
+        Schema::dropIfExists('settings');
     }
 };

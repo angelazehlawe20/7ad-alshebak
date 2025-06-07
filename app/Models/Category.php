@@ -13,4 +13,8 @@ class Category extends Model
         'name_ar',
         'name_en',
     ];
+
+    public function menuItems() {
+        return $this->hasMany(MenuItem::class);
+    }
 }

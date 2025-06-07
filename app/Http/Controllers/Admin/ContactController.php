@@ -3,63 +3,56 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Contact::query();
+
+        // تطبيق الفلاتر
+        if ($request->status == 'read') {
+            $query->where('is_read', true);
+        } elseif ($request->status == 'unread') {
+            $query->where('is_read', false);
+        }
+
+        if ($request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%");
+            });
+        }
+
+        $contacts = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin.contacts.index', compact('contacts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function show(Contact $contact)
     {
-        //
+        // نضع الرسالة كمقروءة تلقائيًا إذا لم تكن كذلك
+        if (! $contact->is_read) {
+            $contact->update(['is_read' => true]);
+        }
+
+        return view('admin.contacts.show', compact('contact'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function markAsRead(Contact $contact)
     {
-        //
+        $contact->update(['is_read' => true]);
+        return redirect()->back()->with('success', 'Message marked as read.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy(Contact $contact)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $contact->delete();
+        return redirect()->back()->with('success', 'Message deleted.');
     }
 }

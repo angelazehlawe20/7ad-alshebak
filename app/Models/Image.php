@@ -12,4 +12,12 @@ class Image extends Model
     protected $fillable = [
         'path',
     ];
+
+    public function menuItems() {
+        return $this->belongsToMany(MenuItem::class, 'menu_image');
+    }
+
+    public function offers() {
+        return $this->belongsToMany(Offer::class, 'offer_image');
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuItemController;
@@ -29,8 +31,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('menu_items', App\Http\Controllers\Admin\MenuItemController::class)->names([
-        'index' => 'menu',
-        'create' => 'menu_items.create',
+        'index' => 'menu.index',
+        'create' => 'menu.create',
         'store' => 'menu.store',
         'edit' => 'menu.edit',
         'update' => 'menu.update',
@@ -38,7 +40,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     ]);
     Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->names([
         'index' => 'offers.index',
-        'create' => 'offers.create', 
+        'create' => 'offers.create',
         'store' => 'offers.store',
         'edit' => 'offers.edit',
         'update' => 'offers.update',
@@ -54,10 +56,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     ]);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->names([
         'index' => 'contacts.index',
-        'create' => 'contacts.create',
+        'create' => 'contacts.markAsRead',
         'store' => 'contacts.store',
         'edit' => 'contacts.edit',
         'update' => 'contacts.update',
         'destroy' => 'contacts.destroy'
     ]);
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });

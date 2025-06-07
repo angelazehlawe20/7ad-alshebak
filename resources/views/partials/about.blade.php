@@ -4,6 +4,8 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
       <p><span>Who</span> <span class="description-title">We Are</span></p>
+      <p>{{ \App\Models\Setting::get('about_ar') }}</p>
+      <p>{{ \App\Models\Setting::get('about_en') }}</p>
     </div><!-- End Section Title -->
 
     <div class="container">

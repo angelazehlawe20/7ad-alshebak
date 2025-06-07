@@ -2,55 +2,91 @@
 @section('title', 'Offers')
 
 @section('content')
-<h3>Offers</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Offers Management</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.offers.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add New Offer
+                        </a>
+                    </div>
+                </div>
 
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-<a href="{{ route('admin.offers.create') }}" class="btn btn-primary mb-3">Add New Offer</a>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Title (EN)</th>
-            <th>Title (AR)</th>
-            <th>Active</th>
-            <th>Valid Until</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse ($offers as $offer)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $offer->title_en }}</td>
-                <td>{{ $offer->title_ar }}</td>
-                <td>
-                    @if($offer->active)
-                        <span class="badge bg-success">Active</span>
-                    @else
-                        <span class="badge bg-secondary">Inactive</span>
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     @endif
-                </td>
-                <td>{{ $offer->valid_until->format('Y-m-d') }}</td>
-                <td>
-                    <a href="{{ route('admin.offers.edit', $offer->id) }}" class="btn btn-sm btn-info">Edit</a>
-                    <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Are you sure you want to delete this offer?');">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="6" class="text-center">No offers found.</td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th width="25%">Title (EN)</th>
+                                    <th width="25%">Title (AR)</th>
+                                    <th width="10%">Status</th>
+                                    <th width="15%">Valid Until</th>
+                                    <th width="20%">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($offers as $offer)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $offer->title_en }}</td>
+                                        <td>{{ $offer->title_ar }}</td>
+                                        <td>
+                                            @if($offer->active)
+                                                <span class="badge badge-success">Active</span>
+                                            @else
+                                                <span class="badge badge-secondary">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $offer->valid_until->format('Y-m-d') }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ route('admin.offers.edit', $offer->id) }}"
+                                                   class="btn btn-info btn-sm"
+                                                   title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form action="{{ route('admin.offers.destroy', $offer->id) }}"
+                                                      method="POST"
+                                                      class="d-inline-block">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="btn btn-danger btn-sm"
+                                                            title="Delete"
+                                                            onclick="return confirm('Are you sure you want to delete this offer?');">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <i class="fas fa-tag fa-2x text-muted mb-2"></i>
+                                            <p class="mb-0">No offers found.</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

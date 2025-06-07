@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
@@ -19,9 +20,11 @@ class MenuItemController extends Controller
 
     // عرض صفحة إنشاء عنصر جديد
     public function create()
-    {
-        return view('admin.menu_items.create');
-    }
+{
+    $categories = Category::all(); // اجلب كل التصنيفات
+
+    return view('admin.menu_items.create', compact('categories'));
+}
 
     // تخزين عنصر جديد
     public function store(Request $request)
@@ -60,7 +63,7 @@ class MenuItemController extends Controller
 
         $menuItem->update($request->all());
 
-        return redirect()->route('admin.menu_items.index')->with('success', 'Menu item updated successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }
 
     // حذف عنصر معين
@@ -68,6 +71,6 @@ class MenuItemController extends Controller
     {
         $menuItem->delete();
 
-        return redirect()->route('admin.menu_items.index')->with('success', 'Menu item deleted successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');
     }
 }

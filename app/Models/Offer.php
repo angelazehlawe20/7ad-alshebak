@@ -17,4 +17,8 @@ class Offer extends Model
         'active',
         'valid_until'
     ];
+
+    public function images() {
+        return $this->belongsToMany(Image::class, 'offer_image');
+    }
 }

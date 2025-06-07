@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -10,56 +11,28 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Booking::query();
+
+        if ($request->has('status') && in_array($request->status, ['pending', 'confirmed', 'cancelled'])) {
+            $query->where('status', $request->status);
+        }
+
+        $bookings = $query->latest()->paginate(10);
+
+        return view('admin.bookings.index', compact('bookings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Request $request, Booking $booking)
     {
-        //
-    }
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,cancelled',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $booking->update(['status' => $request->status]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.bookings.index')->with('success', 'Booking status updated successfully.');
     }
 }
