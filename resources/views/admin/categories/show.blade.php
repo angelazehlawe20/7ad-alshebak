@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Menu Items')
+@section('title', 'Category Details')
 
 @section('content')
     <div class="container-fluid">
@@ -8,14 +8,19 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Menu Items Management</h3>
-                        <div class="card-tools">
-                            <a href="{{ route('admin.menu.create') }}" class="btn btn-primary mr-2">
-                                <i class="fas fa-plus"></i> Add New Menu Item
-                            </a>
-                        </div>
+                        <h3 class="card-title">Category: {{ $category->name_en }} ({{ $category->name_ar }})</h3>
                     </div>
                     <div class="card-body">
+                        <div class="mb-3">
+                            <select id="categoryFilter" class="form-control w-25">
+                                <option value="">All Categories</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}" {{ $category->id == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name_en }} ({{ $cat->name_ar }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-striped">
                                 <thead>
@@ -26,22 +31,18 @@
                                         <th>Description (EN)</th>
                                         <th>Description (AR)</th>
                                         <th width="10%">Price</th>
-                                        <th>Category</th>
                                         <th width="15%">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($items as $item)
+                                    @forelse ($category->menuItems as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->name_en }}</td>
                                             <td>{{ $item->name_ar }}</td>
                                             <td>{{ $item->description_en }}</td>
                                             <td>{{ $item->description_ar }}</td>
-                                            <td>{{ number_format($item->price, 2) }}</td>
-                                            <td>
-                                                {{ $item->category->name_en }} - {{ $item->category->name_ar }}
-                                            </td>
+                                            <td>${{ number_format($item->price, 2) }}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('admin.menu.edit', $item->id) }}"
@@ -66,9 +67,9 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="8" class="text-center">
+                                            <td colspan="7" class="text-center">
                                                 <i class="fas fa-utensils fa-2x mb-2"></i>
-                                                <p>No menu items found</p>
+                                                <p>No menu items found in this category</p>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -80,4 +81,17 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            const categoryId = this.value;
+            if (categoryId) {
+                window.location.href = "{{ route('admin.categories.show', '') }}/" + categoryId;
+            } else {
+                window.location.href = "{{ route('admin.categories.index') }}";
+            }
+        });
+    </script>
+    @endpush
 @endsection

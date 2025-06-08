@@ -9,14 +9,11 @@ use Illuminate\Http\Request;
 
 class MenuItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-    {
-        $items = MenuItem::all();
-        return view('admin.menu_items.index', compact('items'));
-    }
+{
+    $items = MenuItem::with('category')->get();
+    return view('admin.menu_items.index', compact('items'));
+}
 
     // عرض صفحة إنشاء عنصر جديد
     public function create()
@@ -40,18 +37,20 @@ class MenuItemController extends Controller
 
         MenuItem::create($request->all());
 
-        return redirect()->route('admin.menu_items.index')->with('success', 'Menu item created successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
     }
 
     // عرض صفحة تعديل عنصر معين
     public function edit(MenuItem $menuItem)
     {
-        return view('admin.menu_items.edit', compact('menuItem'));
+        $categories = Category::all(); // Get all categories for the dropdown
+        return view('admin.menu_items.edit', compact('menuItem', 'categories'));
     }
 
     // تحديث عنصر معين
     public function update(Request $request, MenuItem $menuItem)
     {
+        // Validate the incoming request data
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name_ar' => 'required|string|max:255',
@@ -61,7 +60,15 @@ class MenuItemController extends Controller
             'price' => 'required|numeric|min:0',
         ]);
 
-        $menuItem->update($request->all());
+        // Update only the validated fields
+        $menuItem->update([
+            'category_id' => $request->category_id,
+            'name_ar' => $request->name_ar,
+            'name_en' => $request->name_en,
+            'description_ar' => $request->description_ar,
+            'description_en' => $request->description_en,
+            'price' => $request->price,
+        ]);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }

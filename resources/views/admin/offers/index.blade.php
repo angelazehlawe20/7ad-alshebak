@@ -64,14 +64,40 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                            class="btn btn-danger btn-sm"
+                                                            class="btn btn-danger btn-sm delete-offer"
                                                             title="Delete"
-                                                            onclick="return confirm('Are you sure you want to delete this offer?');">
+                                                            data-id="{{ $offer->id }}">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </div>
                                         </td>
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.delete-offer').on('click', function(e) {
+            e.preventDefault();
+            const button = $(this);
+            const form = button.closest('form');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush
                                     </tr>
                                 @empty
                                     <tr>

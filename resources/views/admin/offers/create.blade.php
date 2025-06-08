@@ -2,101 +2,108 @@
 @section('title', 'Create Offer')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Create New Offer</h5>
+<div class="container-fluid px-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-plus me-1"></i>
+                    Create New Offer
                 </div>
-                <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('admin.offers.store') }}" method="POST" class="needs-validation" novalidate>
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="title_ar" class="form-label">Title (Arabic) <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="title_ar" name="title_ar" value="{{ old('title_ar') }}" required>
-                                    <div class="invalid-feedback">Please provide an Arabic title.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="title_en" class="form-label">Title (English) <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="title_en" name="title_en" value="{{ old('title_en') }}" required>
-                                    <div class="invalid-feedback">Please provide an English title.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="description_ar" class="form-label">Description (Arabic) <small class="text-muted">(Optional)</small></label>
-                                    <textarea class="form-control" id="description_ar" name="description_ar" rows="4">{{ old('description_ar') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="description_en" class="form-label">Description (English) <small class="text-muted">(Optional)</small></label>
-                                    <textarea class="form-control" id="description_en" name="description_en" rows="4">{{ old('description_en') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="active" class="form-label">Status <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="active" name="active" required>
-                                        <option value="1" {{ old('active', '1') == "1" ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ old('active') == "0" ? 'selected' : '' }}>Inactive</option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select a status.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="valid_until" class="form-label">Valid Until <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="valid_until" name="valid_until" value="{{ old('valid_until') }}" required>
-                                    <div class="invalid-feedback">Please provide a valid date.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-footer text-end">
-                            <button type="submit" class="btn btn-primary">Create Offer</button>
-                            <a href="{{ route('admin.offers.index') }}" class="btn btn-light">Cancel</a>
-                        </div>
-                    </form>
+                <div>
+                    <a href="{{ route('admin.offers.index') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-list me-1"></i> Back to List
+                    </a>
                 </div>
             </div>
         </div>
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('admin.offers.store') }}" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="title_ar" class="form-label required">Title (Arabic)</label>
+                        <input type="text" name="title_ar" id="title_ar"
+                            class="form-control @error('title_ar') is-invalid @enderror"
+                            value="{{ old('title_ar') }}" required>
+                        @error('title_ar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="title_en" class="form-label required">Title (English)</label>
+                        <input type="text" name="title_en" id="title_en"
+                            class="form-control @error('title_en') is-invalid @enderror"
+                            value="{{ old('title_en') }}" required>
+                        @error('title_en')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="description_ar" class="form-label">Description (Arabic)</label>
+                        <textarea name="description_ar" id="description_ar"
+                            class="form-control @error('description_ar') is-invalid @enderror"
+                            rows="3">{{ old('description_ar') }}</textarea>
+                        @error('description_ar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="description_en" class="form-label">Description (English)</label>
+                        <textarea name="description_en" id="description_en"
+                            class="form-control @error('description_en') is-invalid @enderror"
+                            rows="3">{{ old('description_en') }}</textarea>
+                        @error('description_en')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="active" class="form-label required">Status</label>
+                        <select name="active" id="active"
+                            class="form-select @error('active') is-invalid @enderror" required>
+                            <option value="1" {{ old('active', '1') == "1" ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ old('active') == "0" ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                        @error('active')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="valid_until" class="form-label required">Valid Until</label>
+                        <input type="date" name="valid_until" id="valid_until"
+                            class="form-control @error('valid_until') is-invalid @enderror"
+                            value="{{ old('valid_until') }}" required>
+                        @error('valid_until')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Create Offer
+                    </button>
+                    <a href="{{ route('admin.offers.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    // Form validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
-@endpush
-
 @endsection

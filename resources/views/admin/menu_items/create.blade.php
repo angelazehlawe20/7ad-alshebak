@@ -81,20 +81,20 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="description_en" class="form-label required">Description (English)</label>
+                        <label for="description_en" class="form-label ">Description (English)</label>
                         <textarea name="description_en" id="description_en"
                             class="form-control @error('description_en') is-invalid @enderror"
-                            rows="3" required>{{ old('description_en') }}</textarea>
+                            rows="3" >{{ old('description_en') }}</textarea>
                         @error('description_en')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="description_ar" class="form-label required">Description (Arabic)</label>
+                        <label for="description_ar" class="form-label ">Description (Arabic)</label>
                         <textarea name="description_ar" id="description_ar"
                             class="form-control @error('description_ar') is-invalid @enderror"
-                            rows="3" required>{{ old('description_ar') }}</textarea>
+                            rows="3" >{{ old('description_ar') }}</textarea>
                         @error('description_ar')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

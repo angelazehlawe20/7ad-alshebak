@@ -64,4 +64,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     ]);
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::resource('/categories', App\Http\Controllers\Admin\CategoryController::class)->names([
+        'index' => 'categories.index',
+        'create' => 'categories.create',
+        'store' => 'categories.store',
+        'edit' => 'categories.edit',
+        'update' => 'categories.update',
+        'destroy' => 'categories.destroy'
+    ]);
+
 });

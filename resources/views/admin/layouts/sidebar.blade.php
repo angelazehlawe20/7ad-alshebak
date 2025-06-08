@@ -13,6 +13,10 @@
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.menu.index') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-utensils me-2"></i> Menu Items
             </a>
+            <a href="{{ route('admin.categories.index') }}"
+                class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.categories.index') ? 'active bg-primary text-white' : 'text-dark' }}">
+                <i class="fas fa-list me-2"></i> Categories
+            </a>
             <a href="{{ route('admin.offers.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.offers.index') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-gift me-2"></i> Offers
