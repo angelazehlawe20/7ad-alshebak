@@ -11,16 +11,6 @@
                         <h3 class="card-title">Category: {{ $category->name_en }} ({{ $category->name_ar }})</h3>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <select id="categoryFilter" class="form-control w-25">
-                                <option value="">All Categories</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ $category->id == $cat->id ? 'selected' : '' }}>
-                                        {{ $cat->name_en }} ({{ $cat->name_ar }})
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-striped">
                                 <thead>
