@@ -34,18 +34,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'index' => 'menu.index',
         'create' => 'menu.create',
         'store' => 'menu.store',
+        'filterByCategory' => 'menu.filter',
         'edit' => 'menu.edit',
         'update' => 'menu.update',
         'destroy' => 'menu.destroy',
     ]);
+    Route::get('/menu/filter', [App\Http\Controllers\Admin\MenuItemController::class, 'filterByCategory'])->name('menu.filter');
+    Route::get('/menu/createItemInCategory', [App\Http\Controllers\Admin\MenuItemController::class, 'createItemInCategory'])->name('menu.createItemInCategory');
+
     Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->names([
         'index' => 'offers.index',
         'create' => 'offers.create',
         'store' => 'offers.store',
+        'show' => 'offers.show',
         'edit' => 'offers.edit',
         'update' => 'offers.update',
         'destroy' => 'offers.destroy'
     ]);
+    Route::get('/offers/filter', [App\Http\Controllers\Admin\OfferController::class, 'filterByCategory'])->name('offers.filter');
+
     Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class)->names([
         'index' => 'bookings.index',
         'create' => 'bookings.create',
@@ -73,5 +80,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'update' => 'categories.update',
         'destroy' => 'categories.destroy'
     ]);
-
 });

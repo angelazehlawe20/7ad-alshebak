@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('title_ar');
             $table->string('title_en');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->boolean('active')->default(true);
             $table->date('valid_until');
+            $table->decimal('price');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -21,6 +21,8 @@ class MenuItem extends Model
         'price',
         'description_ar',
         'description_en',
+        'image',
+
     ];
 
     /**
@@ -42,11 +44,6 @@ class MenuItem extends Model
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);
-    }
-
-    public function images()
-    {
-        return $this->belongsToMany(Image::class, 'menu_image');
     }
 
     public function category()

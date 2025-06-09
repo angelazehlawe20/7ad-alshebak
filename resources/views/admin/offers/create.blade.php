@@ -19,35 +19,65 @@
         </div>
         <div class="card-body">
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
             @endif
 
-            <form action="{{ route('admin.offers.store') }}" method="POST">
+            <form action="{{ route('admin.offers.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-3">
+                        <label for="category_id" class="form-label required">Category</label>
+                        <select name="category_id" id="category_id"
+                            class="form-select @error('category_id') is-invalid @enderror" required>
+                            <option value="">Select Category</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id')==$category->id ? 'selected' : ''
+                                }}>
+                                {{ $category->name_en }} - {{ $category->name_ar }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label required">Price ($)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" name="price" id="price" step="0.01"
+                                class="form-control @error('price') is-invalid @enderror"
+                                value="{{ old('price') }}" required>
+                            @error('price')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
                         <label for="title_ar" class="form-label required">Title (Arabic)</label>
                         <input type="text" name="title_ar" id="title_ar"
-                            class="form-control @error('title_ar') is-invalid @enderror"
-                            value="{{ old('title_ar') }}" required>
+                            class="form-control @error('title_ar') is-invalid @enderror" value="{{ old('title_ar') }}"
+                            required>
                         @error('title_ar')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="title_en" class="form-label required">Title (English)</label>
                         <input type="text" name="title_en" id="title_en"
-                            class="form-control @error('title_en') is-invalid @enderror"
-                            value="{{ old('title_en') }}" required>
+                            class="form-control @error('title_en') is-invalid @enderror" value="{{ old('title_en') }}"
+                            required>
                         @error('title_en')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -57,7 +87,7 @@
                             class="form-control @error('description_ar') is-invalid @enderror"
                             rows="3">{{ old('description_ar') }}</textarea>
                         @error('description_ar')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -67,19 +97,19 @@
                             class="form-control @error('description_en') is-invalid @enderror"
                             rows="3">{{ old('description_en') }}</textarea>
                         @error('description_en')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="active" class="form-label required">Status</label>
-                        <select name="active" id="active"
-                            class="form-select @error('active') is-invalid @enderror" required>
-                            <option value="1" {{ old('active', '1') == "1" ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ old('active') == "0" ? 'selected' : '' }}>Inactive</option>
+                        <select name="active" id="active" class="form-select @error('active') is-invalid @enderror"
+                            required>
+                            <option value="1" {{ old('active', '1' )=="1" ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>Inactive</option>
                         </select>
                         @error('active')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -89,7 +119,16 @@
                             class="form-control @error('valid_until') is-invalid @enderror"
                             value="{{ old('valid_until') }}" required>
                         @error('valid_until')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="image" class="form-label required">Image</label>
+                        <input type="file" name="image" id="image"
+                            class="form-control @error('image') is-invalid @enderror" accept="image/*" required>
+                        @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>

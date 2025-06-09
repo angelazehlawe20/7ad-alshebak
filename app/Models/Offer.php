@@ -15,10 +15,18 @@ class Offer extends Model
         'description_ar',
         'description_en',
         'active',
-        'valid_until'
+        'valid_until',
+        'image',
+        'price',
+        'category_id'
     ];
 
-    public function images() {
-        return $this->belongsToMany(Image::class, 'offer_image');
+    protected $casts = [
+        'valid_until' => 'date',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

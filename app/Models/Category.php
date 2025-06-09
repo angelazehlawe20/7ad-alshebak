@@ -18,4 +18,9 @@ class Category extends Model
     {
         return $this->hasMany(MenuItem::class, 'category_id');
     }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class, 'category_id');
+    }
 }

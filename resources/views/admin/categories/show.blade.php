@@ -10,6 +10,13 @@
                     <div class="card-header">
                         <h3 class="card-title">Category: {{ $category->name_en }} ({{ $category->name_ar }})</h3>
                     </div>
+                    <div class="card-header">
+                        <div class="card-tools">
+                            <a href="{{ route('admin.menu.createItemInCategory', ['id' => $category->id]) }}" class="btn btn-primary mr-2">
+                                <i class="fas fa-plus"></i> Add New Menu Item
+                            </a>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-striped">

@@ -10,74 +10,93 @@ use Illuminate\Http\Request;
 class MenuItemController extends Controller
 {
     public function index()
-{
-    $items = MenuItem::with('category')->get();
-    return view('admin.menu_items.index', compact('items'));
-}
+    {
+        $items = MenuItem::with('category')->get();
+        $categories = Category::all();
+        return view('admin.menu_items.index', compact('items', 'categories'));
+    }
 
-    // عرض صفحة إنشاء عنصر جديد
+    public function filterByCategory(Request $request)
+    {
+        $id = $request->input('id');
+        $categories = Category::all();
+        $items = $id
+            ? MenuItem::where('category_id', $id)->with('category')->get()
+            : MenuItem::with('category')->get();
+
+        return view('admin.menu_items.index', compact('items', 'categories'));
+    }
+
     public function create()
-{
-    $categories = Category::all(); // اجلب كل التصنيفات
+    {
+        $categories = Category::all();
+        return view('admin.menu_items.create', compact('categories'));
+    }
 
-    return view('admin.menu_items.create', compact('categories'));
-}
+    public function createItemInCategory(Request $request)
+    {
+        $id = $request->input('id');
+        $category = Category::findOrFail($id);
+        $categories = Category::all(); // لازم لإعادة استخدام نفس الـ Blade
+        return view('admin.menu_items.create', compact('category', 'categories'));
+    }
 
-    // تخزين عنصر جديد
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string',
-            'description_en' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'description_en' => 'nullable|string',
+            'description_ar' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        MenuItem::create($request->all());
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        MenuItem::create($validated);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
     }
 
-    // عرض صفحة تعديل عنصر معين
     public function edit(MenuItem $menuItem)
     {
-        $categories = Category::all(); // Get all categories for the dropdown
+        $categories = Category::all();
         return view('admin.menu_items.edit', compact('menuItem', 'categories'));
     }
 
-    // تحديث عنصر معين
     public function update(Request $request, MenuItem $menuItem)
     {
-        // Validate the incoming request data
-        $request->validate([
+        $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string',
-            'description_en' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'description_en' => 'nullable|string',
+            'description_ar' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        // Update only the validated fields
-        $menuItem->update([
-            'category_id' => $request->category_id,
-            'name_ar' => $request->name_ar,
-            'name_en' => $request->name_en,
-            'description_ar' => $request->description_ar,
-            'description_en' => $request->description_en,
-            'price' => $request->price,
-        ]);
+        if ($request->hasFile('image')) {
+            // حذف الصورة القديمة إن وُجدت
+            if ($menuItem->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($menuItem->image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($menuItem->image);
+            }
+
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $menuItem->update($validated);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }
 
-    // حذف عنصر معين
     public function destroy(MenuItem $menuItem)
     {
         $menuItem->delete();
-
         return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');
     }
 }
