@@ -5,30 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 class ContactController extends Controller
 {
 
-    public function index()
-    {
-        $contacts = Contact::orderBy('created_at', 'desc');
-        return view('admin.contacts.index', compact('contacts'));
-    }
-
-    public function filterByIsRead(Request $request)
+    public function index(Request $request)
 {
-    $status = $request->input('status');
+    $filter = $request->query('filter'); // read or unread or null
 
-    $contacts = Contact::query();
+    $contactsQuery = \App\Models\Contact::query();
 
-    if ($status === 'read') {
-        $contacts->where('is_read', true);
-    } elseif ($status === 'unread') {
-        $contacts->where('is_read', false);
+    if ($filter === 'read') {
+        $contactsQuery->where('is_read', true);
+    } elseif ($filter === 'unread') {
+        $contactsQuery->where('is_read', false);
     }
 
-    $contacts = $contacts->orderBy('created_at', 'desc')->paginate(10); // يمكنك استخدام ->get() بدلاً من ->paginate()
+    $contacts = $contactsQuery->orderBy('created_at', 'desc')->get();
 
     return view('admin.contacts.index', compact('contacts'));
 }

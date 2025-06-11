@@ -115,9 +115,7 @@
                 </nav>
 
                 <div class="container-fluid p-4">
-
                     @include('admin.partials.alerts')
-
                     @yield('content')
                 </div>
             </div>
@@ -143,6 +141,7 @@
             }
         });
     </script>
+    @stack('scripts')
     @yield('scripts')
 
 </body>
