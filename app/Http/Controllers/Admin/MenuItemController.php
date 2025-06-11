@@ -6,26 +6,48 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class MenuItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = MenuItem::with('category')->get();
         $categories = Category::all();
+        $categoryId = $request->id;
+
+        if ($categoryId) {
+            $items = MenuItem::where('category_id', $categoryId)->get();
+
+            if ($items->isEmpty()) {
+                return redirect()->route('admin.menu.index')->with('warning', 'No items found in this category.');
+            }
+        } else {
+            $items = MenuItem::all();
+        }
+
         return view('admin.menu_items.index', compact('items', 'categories'));
     }
+
 
     public function filterByCategory(Request $request)
     {
-        $id = $request->input('id');
+        $categoryId = $request->category_id; // ✅ بدل id
+
+        if ($categoryId) {
+            $items = MenuItem::where('category_id', $categoryId)->get();
+
+            if ($items->isEmpty()) {
+                return redirect()->route('admin.menu.index')
+                    ->with('warning', 'No items found for the selected category.');
+            }
+        } else {
+            $items = MenuItem::all();
+        }
+
         $categories = Category::all();
-        $items = $id
-            ? MenuItem::where('category_id', $id)->with('category')->get()
-            : MenuItem::with('category')->get();
 
         return view('admin.menu_items.index', compact('items', 'categories'));
     }
+
 
     public function create()
     {
@@ -37,7 +59,7 @@ class MenuItemController extends Controller
     {
         $id = $request->input('id');
         $category = Category::findOrFail($id);
-        $categories = Category::all(); // لازم لإعادة استخدام نفس الـ Blade
+        $categories = Category::all();
         return view('admin.menu_items.create', compact('category', 'categories'));
     }
 
@@ -54,13 +76,18 @@ class MenuItemController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('images', 'public');
+            // Create menu_items directory if it doesn't exist
+            Storage::makeDirectory('public/menu_items');
+            $validated['image'] = $request->file('image')->store('menu_items', 'public');
         }
 
         MenuItem::create($validated);
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
+        // هنا نتحقق من redirect_to
+        $redirectTo = $request->input('redirect_to', route('admin.menu.index'));
+        return redirect($redirectTo)->with('success', 'Menu item created successfully.');
     }
+
 
     public function edit(MenuItem $menuItem)
     {
@@ -68,8 +95,10 @@ class MenuItemController extends Controller
         return view('admin.menu_items.edit', compact('menuItem', 'categories'));
     }
 
-    public function update(Request $request, MenuItem $menuItem)
+    public function update(Request $request, $id)
     {
+        $menuItem = MenuItem::findOrFail($id);
+
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
@@ -81,22 +110,42 @@ class MenuItemController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // حذف الصورة القديمة إن وُجدت
-            if ($menuItem->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($menuItem->image)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($menuItem->image);
+            // Delete old image if exists
+            if ($menuItem->image) {
+                Storage::delete('public/' . $menuItem->image);
             }
 
-            $validated['image'] = $request->file('image')->store('images', 'public');
+            // Store new image in menu_items directory
+            Storage::makeDirectory('public/menu_items');
+            $validated['image'] = $request->file('image')->store('menu_items', 'public');
         }
 
         $menuItem->update($validated);
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
+        $redirectTo = $request->input('redirect_to', route('admin.menu.index'));
+        return redirect($redirectTo)->with('success', 'Menu item updated successfully.');
     }
 
-    public function destroy(MenuItem $menuItem)
+    public function destroy(Request $request)
     {
+        $id = $request->input('id');
+        $menuItem = MenuItem::findOrFail($id);
+
+        // حذف الصورة إن وجدت
+        if ($menuItem->image) {
+            Storage::delete('public/' . $menuItem->image);
+        }
+
         $menuItem->delete();
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');
+
+        // رجوع إلى صفحة الفئة المحددة إذا كانت موجودة
+        if ($request->has('category_id') && $request->category_id != '') {
+            return redirect()->route('admin.menu.index', ['id' => $request->category_id])
+                ->with('success', 'Menu item deleted successfully.');
+        }
+
+        // الرجوع إلى كل العناصر إذا لم يكن هناك فئة محددة
+        return redirect()->route('admin.menu.index')
+            ->with('success', 'Menu item deleted successfully.');
     }
 }

@@ -21,34 +21,34 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.menu.update', $menuItem->id) }}" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    <form action="{{ route('admin.menu.update', $menuItem->id) }}" method="POST" enctype="multipart/form-data" novalidate>
                         @csrf
                         @method('PUT')
 
-                        {{-- Category Selection --}}
+                        {{-- حقل redirect_to لإعادة التوجيه --}}
+                        <input type="hidden" name="redirect_to" value="{{ url()->previous() }}">
+
+                        {{-- اختيار التصنيف --}}
                         <div class="form-group mb-3">
                             <label for="category_id" class="form-label">Category</label>
                             <select name="category_id" class="form-select" required>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $menuItem->category_id) == $category->id ? 'selected' : '' }}>
-                                        @if($category->id == $menuItem->category_id)
-                                            {{ $menuItem->category->name_en }} ({{ $menuItem->category->name_ar }}) [Current]
-                                        @else
-                                            {{ $category->name_en }} - {{ $category->name_ar }}
-                                        @endif
+                                        {{ $category->name_en }} - {{ $category->name_ar }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="row">
-                            {{-- Name Fields --}}
+                            {{-- الاسم بالإنجليزي --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Name (English)</label>
                                     <input type="text" name="name_en" class="form-control" value="{{ old('name_en', $menuItem->name_en) }}" required>
                                 </div>
                             </div>
+                            {{-- الاسم بالعربي --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Name (Arabic)</label>
@@ -58,13 +58,14 @@
                         </div>
 
                         <div class="row">
-                            {{-- Description Fields --}}
+                            {{-- الوصف بالإنجليزي --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Description (English)</label>
                                     <textarea name="description_en" class="form-control" rows="4">{{ old('description_en', $menuItem->description_en) }}</textarea>
                                 </div>
                             </div>
+                            {{-- الوصف بالعربي --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Description (Arabic)</label>
@@ -74,7 +75,7 @@
                         </div>
 
                         <div class="row">
-                            {{-- Price Field --}}
+                            {{-- السعر --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Price</label>
@@ -84,23 +85,21 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- Image Field --}}
+                            {{-- رفع الصورة --}}
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Image</label>
-                                    <input type="file" name="image" class="form-control" accept="image/*" id="imageInput" onchange="previewImage(this)">
-                                    @if($menuItem->image)
-                                        <div class="mt-2" id="imagePreview">
-                                            <img src="{{ asset('storage/' . $menuItem->image) }}" alt="Current Menu Item Image" class="img-thumbnail" style="max-height: 100px">
-                                        </div>
-                                    @endif
+                                    <input type="file" name="image" class="form-control" accept="image/*">
+                                    <div class="mt-2" id="imagePreview" style="display: {{ $menuItem->image ? 'block' : 'none' }};">
+                                        <img src="{{ $menuItem->image ? asset('storage/' . $menuItem->image) : '' }}" alt="Menu Item Image" class="img-thumbnail" style="max-height: 100px;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-footer text-end">
                             <button type="submit" class="btn btn-primary">Update Item</button>
-                            <a href="{{ route('admin.menu.index') }}" class="btn btn-light">Cancel</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-light">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -109,27 +108,22 @@
     </div>
 </div>
 
-@push('scripts')
 <script>
-function previewImage(input) {
-    const preview = document.getElementById('imagePreview');
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
+    document.querySelector('input[name="image"]').addEventListener('change', function(e) {
+        const preview = document.getElementById('imagePreview');
+        const img = preview.querySelector('img');
 
-        reader.onload = function(e) {
-            if (!preview) {
-                const newPreview = document.createElement('div');
-                newPreview.className = 'mt-2';
-                newPreview.id = 'imagePreview';
-                input.parentElement.appendChild(newPreview);
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
+                preview.style.display = 'block';
             }
-            preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-height: 100px">`;
+            reader.readAsDataURL(e.target.files[0]);
+        } else {
+            preview.style.display = 'none';
         }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+    });
 </script>
-@endpush
 
 @endsection

@@ -39,11 +39,11 @@ class OfferController extends Controller
             'active' => 'required|boolean',
             'price' => 'required|numeric|min:0',
             'valid_until' => 'required|date|after_or_equal:today',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('images', 'public');
+            $validated['image'] = $request->file('image')->store('offers', 'public');
         }
 
         Offer::create($validated);
@@ -53,19 +53,30 @@ class OfferController extends Controller
 
     public function filterByCategory(Request $request)
     {
-        $id = $request->input('category_id'); // ✅ بدل 'id'
+        $categoryId = $request->category;
+
+        $offers = Offer::when($categoryId, function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })->get();
+
         $categories = Category::all();
-        $offers = $id
-            ? Offer::where('category_id', $id)->with('category_id')->get()
-            : Offer::with('category_id')->get();
 
         return view('admin.offers.index', compact('offers', 'categories'));
     }
 
-    public function show(Offer $offer)
+    public function filterByStatus(Request $request)
     {
-        return view('admin.offers.show', compact('offer'));
+        $status = $request->status;
+
+        $offers = Offer::when($status !== null, function ($query) use ($status) {
+            $query->where('active', $status);
+        })->get();
+
+        $categories = Category::all();
+
+        return view('admin.offers.index', compact('offers', 'categories'));
     }
+
 
     // عرض صفحة تعديل عرض معين
     public function edit(Offer $offer)
@@ -84,7 +95,7 @@ class OfferController extends Controller
             'active' => 'required|boolean',
             'price' => 'required|numeric|min:0',
             'valid_until' => 'required|date|after_or_equal:today',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
@@ -93,7 +104,7 @@ class OfferController extends Controller
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($offer->image);
             }
 
-            $validated['image'] = $request->file('image')->store('images', 'public');
+            $validated['image'] = $request->file('image')->store('offers', 'public');
         }
 
         $offer->update($validated);

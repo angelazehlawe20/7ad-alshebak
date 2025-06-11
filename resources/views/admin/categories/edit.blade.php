@@ -12,15 +12,6 @@
                 </div>
 
                 <div class="card-body">
-                    @if(session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-
                     <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -32,12 +23,9 @@
                                     <input type="text"
                                            name="name_ar"
                                            id="name_ar"
-                                           class="form-control @error('name_ar') is-invalid @enderror"
+                                           class="form-control"
                                            value="{{ old('name_ar', $category->name_ar) }}"
                                            required>
-                                    @error('name_ar')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
 
@@ -47,12 +35,9 @@
                                     <input type="text"
                                            name="name_en"
                                            id="name_en"
-                                           class="form-control @error('name_en') is-invalid @enderror"
+                                           class="form-control"
                                            value="{{ old('name_en', $category->name_en) }}"
                                            required>
-                                    @error('name_en')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
                         </div>

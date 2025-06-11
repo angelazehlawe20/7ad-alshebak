@@ -1,154 +1,121 @@
 @extends('admin.layouts.app')
+
 @section('title', 'Contact Messages')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row mb-4">
-            <div class="col-12">
-                <h3 class="mb-3">Contact Messages</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
 
-                <!-- Filter -->
-                <div class="card">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('admin.contacts.index') }}" class="d-flex gap-2">
-                            <div style="max-width: 200px;">
-                                <select name="status" class="form-select">
-                                    <option value="">All Status</option>
-                                    <option value="unread" {{ request('status') == 'unread' ? 'selected' : '' }}>Unread</option>
-                                    <option value="read" {{ request('status') == 'read' ? 'selected' : '' }}>Read</option>
-                                </select>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="input-group">
-                                    <input type="text" name="search" class="form-control"
-                                        placeholder="Search by name, email, or subject"
-                                        value="{{ request('search') }}">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-search"></i> Search
-                                    </button>
-                                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">
-                                        <i class="fas fa-undo"></i> Reset
-                                    </a>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title m-0">Contact Messages Management</h3>
+                </div>
+
+                <div class="card-body">
+
+                    {{-- فلترة حسب الحالة --}}
+                    <form action="{{ route('admin.contacts.filterByIsRead') }}" method="GET" class="mb-4 d-flex align-items-center gap-3">
+                        <div class="form-group mb-0">
+                            <label for="status" class="form-label me-2">Filter by Status:</label>
+                            <select name="status" id="status" class="form-select" onchange="this.form.submit()" style="min-width: 200px;">
+                                <option value="">-- All Statuses --</option>
+                                <option value="unread" {{ request('status') == 'unread' ? 'selected' : '' }}>Unread</option>
+                                <option value="read" {{ request('status') == 'read' ? 'selected' : '' }}>Read</option>
+                            </select>
+                        </div>
+                        @if(request('status'))
+                        <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">Clear Filter</a>
+                        @endif
+                    </form>
+
+                    {{-- قائمة الرسائل --}}
+                    <div class="row g-4">
+                        @forelse ($contacts as $contact)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title text-primary mb-0">
+                                            <span class="text-muted">Name:</span> {{ $contact->name }}
+                                        </h5>
+                                        @if($contact->is_read)
+                                        <span class="badge bg-success">Read</span>
+                                        @else
+                                        <span class="badge bg-warning text-dark">Unread</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <i class="fas fa-envelope text-secondary me-2"></i>
+                                        <span class="text-muted">Email:</span> {{ $contact->email }}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Subject:</h6>
+                                        <p>{{ $contact->subject }}</p>
+                                    </div>
+
+                                    <div>
+                                        <i class="fas fa-clock text-secondary me-2"></i>
+                                        <small class="text-muted">{{ $contact->created_at->format('Y-m-d H:i') }}</small>
+                                    </div>
                                 </div>
+
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('admin.contacts.show', $contact->id) }}" class="btn btn-outline-primary flex-grow-1">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+
+                                        @if(!$contact->is_read)
+                                        <form action="{{ route('admin.contacts.markAsRead') }}" method="POST" class="flex-grow-1 m-0">
+                                            @csrf
+                                            <input type="hidden" name="contact_id" value="{{ $contact->id }}">
+                                            <button type="submit" class="btn btn-outline-success w-100">
+                                                <i class="fas fa-check-double"></i> Mark as Read
+                                            </button>
+                                        </form>
+                                        @endif
+
+                                        <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST" class="flex-grow-1 m-0 delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger w-100">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
                             </div>
-                        </form>
+                        </div>
+                        @empty
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-envelope fa-4x text-secondary mb-3"></i>
+                            <h4 class="text-secondary">No messages found</h4>
+                            <p class="text-muted">There are no messages matching your criteria.</p>
+                        </div>
+                        @endforelse
                     </div>
-                </div>
 
-                <!-- Table -->
-                <div class="card mt-4">
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Subject</th>
-                                    <th>Status</th>
-                                    <th>Sent At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($contacts as $contact)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $contact->name }}</td>
-                                        <td>
-                                            <a href="mailto:{{ $contact->email }}" class="text-decoration-none">
-                                                {{ $contact->email }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="text-wrap" style="max-width: 200px;">
-                                                {{ Str::limit($contact->subject, 50) }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-{{ $contact->is_read ? 'success' : 'warning' }}">
-                                                {{ $contact->is_read ? 'Read' : 'Unread' }}
-                                            </span>
-                                        </td>
-                                        <td>{{ $contact->created_at->format('Y-m-d H:i') }}</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{ route('admin.contacts.show', $contact->id) }}"
-                                                    class="btn btn-info"
-                                                    data-bs-toggle="tooltip"
-                                                    title="View Message">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-
-                                                @if(!$contact->is_read)
-                                                    <form action="{{ route('admin.contacts.markAsRead', $contact->id) }}"
-                                                        method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit"
-                                                            class="btn btn-success"
-                                                            data-bs-toggle="tooltip"
-                                                            title="Mark as Read">
-                                                            <i class="fas fa-check"></i>
-                                                        </button>
-                                                    </form>
-                                                @endif
-
-                                                <form action="{{ route('admin.contacts.destroy', $contact->id) }}"
-                                                    method="POST"
-                                                    class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-danger"
-                                                        data-bs-toggle="tooltip"
-                                                        title="Delete Message">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center py-4">
-                                            <div class="text-muted">
-                                                <i class="fas fa-inbox fa-3x mb-3"></i>
-                                                <div>No messages found</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    {{ $contacts->withQueryString()->links() }}
                 </div>
             </div>
+
         </div>
     </div>
-
-    @push('scripts')
-    <script>
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        // Delete confirmation
-        document.querySelectorAll('.delete-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (confirm('Are you sure you want to delete this message?')) {
-                    this.submit();
-                }
-            });
-        });
-    </script>
-    @endpush
+</div>
 @endsection
+
+@push('scripts')
+<script>
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to delete this message?')) {
+                this.submit();
+            }
+        });
+    });
+</script>
+@endpush

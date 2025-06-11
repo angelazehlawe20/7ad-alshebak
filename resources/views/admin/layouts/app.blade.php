@@ -46,7 +46,7 @@
 
         .sidebar .nav-link.active {
             background: var(--sidebar-active);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .main-content {
@@ -80,12 +80,9 @@
 <body class="bg-light">
     <div class="container-fluid">
         <div class="row g-0">
-            <!-- Sidebar -->
             @include('admin.layouts.sidebar')
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 px-0 main-content">
-                <!-- Top Navbar -->
                 <nav class="navbar navbar-expand-lg sticky-top">
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none" type="button" id="sidebarToggle">
@@ -98,8 +95,11 @@
                                     <i class="fas fa-user-circle me-2"></i> Admin
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i> Profile</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>
+                                            Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li>
                                         <form action="" method="POST" class="d-inline">
                                             @csrf
@@ -114,21 +114,9 @@
                     </div>
                 </nav>
 
-                <!-- Page Content -->
                 <div class="container-fluid p-4">
-                    @if(session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
 
-                    @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
+                    @include('admin.partials.alerts')
 
                     @yield('content')
                 </div>
@@ -140,12 +128,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Toggle sidebar on mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('show');
         });
 
-        // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(event) {
             const sidebar = document.querySelector('.sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
@@ -157,6 +143,8 @@
             }
         });
     </script>
+    @yield('scripts')
+
 </body>
 
 </html>

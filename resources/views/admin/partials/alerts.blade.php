@@ -23,7 +23,7 @@
         <div class="alert-body">
             <div class="alert-title">
                 <i class="fas fa-times-circle me-2"></i>
-                <strong>هناك أخطاء:</strong>
+                <strong>There are errors :</strong>
             </div>
             <ul class="mb-0 mt-2 ps-3">
                 @foreach ($errors->all() as $error)

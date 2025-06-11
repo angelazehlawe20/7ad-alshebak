@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Offers Management</h3>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title m-0">Offers Management</h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.offers.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Add New Offer
@@ -16,103 +16,154 @@
                 </div>
 
                 <div class="card-body">
-                    @if(session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th width="5%">#</th>
-                                    <th width="25%">Title (EN)</th>
-                                    <th width="25%">Title (AR)</th>
-                                    <th width="10%">Status</th>
-                                    <th width="15%">Valid Until</th>
-                                    <th width="20%">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($offers as $offer)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $offer->title_en }}</td>
-                                        <td>{{ $offer->title_ar }}</td>
-                                        <td>
-                                            @if($offer->active)
-                                                <span class="badge badge-success">Active</span>
-                                            @else
-                                                <span class="badge badge-secondary">Inactive</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $offer->valid_until->format('Y-m-d') }}</td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.offers.edit', $offer->id) }}"
-                                                   class="btn btn-info btn-sm"
-                                                   title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <form action="{{ route('admin.offers.destroy', $offer->id) }}"
-                                                      method="POST"
-                                                      class="d-inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="btn btn-danger btn-sm delete-offer"
-                                                            title="Delete"
-                                                            data-id="{{ $offer->id }}">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
+                    <div class="mb-4">
+                        <form id="filterForm" action="{{ route('admin.offers.filter.category') }}" method="GET">
+                            <div class="row">
+                                <div class="row">
+                                    <!-- نموذج فلترة حسب الفئة -->
+                                    <div class="col-md-6">
+                                        <form action="{{ route('admin.offers.filter.category') }}" method="GET">
+                                            <div class="form-group">
+                                                <label for="category" class="form-label">Filter by Category:</label>
+                                                <select name="category" id="category" class="form-select"
+                                                    onchange="this.form.submit()">
+                                                    <option value="">-- All Categories --</option>
+                                                    @foreach($categories ?? [] as $category)
+                                                    <option value="{{ $category->id }}" {{
+                                                        request('category')==$category->id ? 'selected' : '' }}>
+                                                        {{ $category->name_en }} | {{ $category->name_ar }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        </td>
+                                        </form>
+                                    </div>
+                                    <!-- نموذج فلترة حسب الحالة -->
+                                    <div class="col-md-6">
+                                        <form action="{{ route('admin.offers.filter.status') }}" method="GET">
+                                            <div class="form-group">
+                                                <label for="status" class="form-label">Filter by Status:</label>
+                                                <select name="status" id="status" class="form-select"
+                                                    onchange="this.form.submit()">
+                                                    <option value="">-- All Status --</option>
+                                                    <option value="1" {{ request('status')=='1' ? 'selected' : '' }}>
+                                                        Active</option>
+                                                    <option value="0" {{ request('status')=='0' ? 'selected' : '' }}>
+                                                        Inactive</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
 
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.delete-offer').on('click', function(e) {
-            e.preventDefault();
-            const button = $(this);
-            const form = button.closest('form');
+                    <div class="row g-4 pt-4">
+                        @forelse ($offers as $offer)
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card h-100 shadow-sm">
+                                <div class="position-relative">
+                                    <div style="height: 300px; background-color: #f8f9fa; padding: 10px;">
+                                        @if($offer->image)
+                                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top h-100"
+                                            alt="{{ $offer->title_en }}" loading="lazy" style="object-fit: contain;">
+                                        @else
+                                        <div class="d-flex h-100 align-items-center justify-content-center">
+                                            <i class="fas fa-image fa-3x text-secondary"></i>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="position-absolute top-0 end-0 m-2">
+                                        <span class="badge bg-primary fs-6">${{ number_format($offer->price, 2)
+                                            }}</span>
+                                    </div>
+                                    <div class="position-absolute top-0 start-0 m-2">
+                                        @if($offer->active)
+                                        <span class="badge bg-success">Active</span>
+                                        @else
+                                        <span class="badge bg-secondary">Inactive</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">{{ $offer->title_en }}</h5>
+                                    <h6 class="text-muted">{{ $offer->title_ar }}</h6>
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-    });
-</script>
-@endpush
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">
-                                            <i class="fas fa-tag fa-2x text-muted mb-2"></i>
-                                            <p class="mb-0">No offers found.</p>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                    <div class="mt-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-tag text-secondary me-2"></i>
+                                            <small class="text-muted">
+                                                {{ $offer->category->name_en }} | {{ $offer->category->name_ar }}
+                                            </small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-calendar-alt text-secondary me-2"></i>
+                                            <small class="text-muted">
+                                                Valid until: {{ $offer->valid_until->format('M d, Y') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('admin.offers.edit', $offer->id) }}"
+                                            class="btn btn-outline-primary flex-grow-1">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST"
+                                            class="flex-grow-1">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger w-100 delete-offer"
+                                                data-id="{{ $offer->id }}">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
+                                <h4 class="text-secondary">No offers found</h4>
+                                <p class="text-muted">Try adjusting your filter criteria or add new offers.</p>
+                            </div>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+            $('.delete-offer').on('click', function(e) {
+                e.preventDefault();
+                const button = $(this);
+                const form = button.closest('form');
+
+                Swal.fire({
+                    title: 'Delete Confirmation',
+                    text: "This action cannot be undone. Are you sure?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+</script>
+@endpush
 @endsection

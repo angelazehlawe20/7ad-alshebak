@@ -3,69 +3,62 @@
 @section('title', 'Add New Category')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Add New Category</h3>
-                    <div class="card-tools">
-                        <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Back
-                        </a>
+<div class="container-fluid px-4">
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-plus me-1"></i> Add New Category
+            </div>
+            <div>
+                <a href="{{ route('admin.categories.index') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-list me-1"></i> Back to List
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('admin.categories.store') }}" method="POST" id="categoryForm">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name_ar" class="form-label required">
+                            <i class="fas fa-language"></i> Name (Arabic)
+                        </label>
+                        <input type="text"
+                               name="name_ar"
+                               id="name_ar"
+                               class="form-control @error('name_ar') is-invalid @enderror"
+                               value="{{ old('name_ar') }}"
+                               required>
+                        @error('name_ar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="name_en" class="form-label required">
+                            <i class="fas fa-language"></i> Name (English)
+                        </label>
+                        <input type="text"
+                               name="name_en"
+                               id="name_en"
+                               class="form-control @error('name_en') is-invalid @enderror"
+                               value="{{ old('name_en') }}"
+                               required>
+                        @error('name_en')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
-                <div class="card-body">
-                    @include('admin.partials.alerts')
-
-                    <form action="{{ route('admin.categories.store') }}" method="POST">
-                        @csrf
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name_ar">
-                                        <i class="fas fa-language"></i> Name (Arabic)
-                                    </label>
-                                    <input type="text"
-                                           name="name_ar"
-                                           id="name_ar"
-                                           class="form-control @error('name_ar') is-invalid @enderror"
-                                           value="{{ old('name_ar') }}"
-                                           required>
-                                    @error('name_ar')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name_en">
-                                        <i class="fas fa-language"></i> Name (English)
-                                    </label>
-                                    <input type="text"
-                                           name="name_en"
-                                           id="name_en"
-                                           class="form-control @error('name_en') is-invalid @enderror"
-                                           value="{{ old('name_en') }}"
-                                           required>
-                                    @error('name_en')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-right mt-3">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-check-circle"></i> Save Category
-                            </button>
-                        </div>
-                    </form>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Create Category
+                    </button>
+                    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </a>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

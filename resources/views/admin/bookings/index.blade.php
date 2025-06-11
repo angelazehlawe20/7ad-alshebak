@@ -3,33 +3,36 @@
 @section('title', 'Bookings')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row mb-4">
-            <div class="col-12">
-                <h3 class="mb-3">Bookings Management</h3>
-
-                <!-- Filter -->
-                <div class="card">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('admin.bookings.index') }}" class="d-flex align-items-center gap-2" style="max-width: 400px;">
-                            <select name="status" onchange="this.form.submit()" class="form-select">
-                                <option value="">All Statuses</option>
-                                @foreach(['pending', 'confirmed', 'cancelled'] as $status)
-                                    <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
-                                        {{ ucfirst($status) }}
-                                    </option>
-                                @endforeach
-                            </select>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title m-0">Bookings Management</h3>
+                </div>
+                <div class="card-body">
+                    {{-- Status Filter --}}
+                    <div class="mb-4">
+                        <form method="GET" action="{{ route('admin.bookings.index') }}"
+                            class="d-flex align-items-center gap-2">
+                            <div class="form-group flex-grow-1 mb-0">
+                                <label for="status" class="form-label">Filter by Status:</label>
+                                <select name="status" id="status" class="form-select" onchange="this.form.submit()">
+                                    <option value=""> -- All Statuses -- </option>
+                                    @foreach(['pending', 'confirmed', 'cancelled'] as $status)
+                                        <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
+                                            {{ ucfirst($status) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             @if(request('status'))
-                                <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">Reset</a>
+                                <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary mt-4">Clear Filter</a>
                             @endif
                         </form>
                     </div>
-                </div>
 
-                <!-- Table -->
-                <div class="card mt-4">
-                    <div class="card-body table-responsive">
+                    <div class="table-responsive">
                         <table class="table table-hover table-striped">
                             <thead class="table-light">
                                 <tr>
@@ -48,13 +51,13 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $booking->name }}</td>
                                         <td>
-                                            <div>📱 {{ $booking->phone }}</div>
-                                            <div>📧 {{ $booking->email }}</div>
+                                            <div><i class="fas fa-phone text-secondary me-1"></i> {{ $booking->phone }}</div>
+                                            <div><i class="fas fa-envelope text-secondary me-1"></i> {{ $booking->email }}</div>
                                         </td>
                                         <td>
-                                            <div>👥 {{ $booking->guests_count }} guests</div>
-                                            <div>📅 {{ $booking->booking_date }}</div>
-                                            <div>⏰ {{ $booking->booking_time }}</div>
+                                            <div><i class="fas fa-users text-secondary me-1"></i> {{ $booking->guests_count }} guests</div>
+                                            <div><i class="fas fa-calendar text-secondary me-1"></i> {{ $booking->booking_date }}</div>
+                                            <div><i class="fas fa-clock text-secondary me-1"></i> {{ $booking->booking_time }}</div>
                                         </td>
                                         <td>
                                             <div class="text-wrap" style="max-width: 200px;">
@@ -74,25 +77,34 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <form action="{{ route('admin.bookings.updateStatus', $booking->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
-                                                    @foreach(['pending', 'confirmed', 'cancelled'] as $status)
-                                                        <option value="{{ $status }}" {{ $booking->status == $status ? 'selected' : '' }}>
-                                                            {{ ucfirst($status) }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </form>
+                                            <div class="d-flex gap-2">
+                                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="status" value="confirmed">
+                                                    <button type="submit" class="btn btn-outline-success btn-sm w-100">
+                                                        <i class="fas fa-check"></i> Confirm
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="status" value="cancelled">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center py-4">
-                                            <div class="text-muted">
-                                                <i class="fas fa-calendar-times fa-3x mb-3"></i>
-                                                <div>No bookings found</div>
+                                        <td colspan="7">
+                                            <div class="text-center py-5">
+                                                <i class="fas fa-calendar-times fa-4x text-secondary mb-3"></i>
+                                                <h4 class="text-secondary">No bookings found</h4>
+                                                <p class="text-muted">Try adjusting your filter criteria.</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -100,12 +112,13 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
 
-                <div class="mt-4">
-                    {{ $bookings->withQueryString()->links() }}
+                    <div class="mt-4">
+                        {{ $bookings->withQueryString()->links() }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

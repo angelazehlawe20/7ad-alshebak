@@ -16,8 +16,6 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('admin.partials.alerts')
-
                         <div class="row g-4">
                             @forelse ($categories as $category)
                                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">

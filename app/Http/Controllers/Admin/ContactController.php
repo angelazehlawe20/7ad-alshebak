@@ -5,54 +5,66 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class ContactController extends Controller
 {
-    public function index(Request $request)
+
+    public function index()
     {
-        $query = Contact::query();
-
-        // تطبيق الفلاتر
-        if ($request->status == 'read') {
-            $query->where('is_read', true);
-        } elseif ($request->status == 'unread') {
-            $query->where('is_read', false);
-        }
-
-        if ($request->search) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('subject', 'like', "%{$search}%");
-            });
-        }
-
-        $contacts = $query->orderBy('created_at', 'desc')->paginate(10);
-
+        $contacts = Contact::orderBy('created_at', 'desc');
         return view('admin.contacts.index', compact('contacts'));
     }
+
+    public function filterByIsRead(Request $request)
+{
+    $status = $request->input('status');
+
+    $contacts = Contact::query();
+
+    if ($status === 'read') {
+        $contacts->where('is_read', true);
+    } elseif ($status === 'unread') {
+        $contacts->where('is_read', false);
+    }
+
+    $contacts = $contacts->orderBy('created_at', 'desc')->paginate(10); // يمكنك استخدام ->get() بدلاً من ->paginate()
+
+    return view('admin.contacts.index', compact('contacts'));
+}
+
 
 
     public function show(Contact $contact)
     {
-        // نضع الرسالة كمقروءة تلقائيًا إذا لم تكن كذلك
-        if (! $contact->is_read) {
+        // Mark the contact as read when viewed
+        if (!$contact->is_read) {
             $contact->update(['is_read' => true]);
         }
 
-        return view('admin.contacts.show', compact('contact'));
+        // Get related contacts (optional) - can be used to show similar messages
+        $relatedContacts = Contact::where('id', '!=', $contact->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.contacts.show', [
+            'contact' => $contact,
+            'relatedContacts' => $relatedContacts
+        ]);
     }
 
-    public function markAsRead(Contact $contact)
+    public function markAsRead(Request $request)
     {
+        $id = $request->input('contact_id');
+        $contact = Contact::findOrFail($id);
         $contact->update(['is_read' => true]);
+
         return redirect()->back()->with('success', 'Message marked as read.');
     }
 
     public function destroy(Contact $contact)
     {
         $contact->delete();
-        return redirect()->back()->with('success', 'Message deleted.');
+        return redirect()->back()->with('success', 'Message deleted successfully.');
     }
 }

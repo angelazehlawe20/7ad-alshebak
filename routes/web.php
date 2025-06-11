@@ -42,16 +42,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/menu/filter', [App\Http\Controllers\Admin\MenuItemController::class, 'filterByCategory'])->name('menu.filter');
     Route::get('/menu/createItemInCategory', [App\Http\Controllers\Admin\MenuItemController::class, 'createItemInCategory'])->name('menu.createItemInCategory');
 
-    Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->names([
+    Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->except(['show'])->names([
         'index' => 'offers.index',
         'create' => 'offers.create',
         'store' => 'offers.store',
-        'show' => 'offers.show',
         'edit' => 'offers.edit',
         'update' => 'offers.update',
         'destroy' => 'offers.destroy'
     ]);
-    Route::get('/offers/filter', [App\Http\Controllers\Admin\OfferController::class, 'filterByCategory'])->name('offers.filter');
+    Route::get('/offers/filter_by_category', [App\Http\Controllers\Admin\OfferController::class, 'filterByCategory'])->name('offers.filter.category');
+    Route::get('/offers/filter_by_status', [App\Http\Controllers\Admin\OfferController::class, 'filterByStatus'])->name('offers.filter.status');
 
     Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class)->names([
         'index' => 'bookings.index',
@@ -70,7 +70,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'destroy' => 'contacts.destroy'
     ]);
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+
 
     Route::resource('/categories', App\Http\Controllers\Admin\CategoryController::class)->names([
         'index' => 'categories.index',
@@ -80,4 +81,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'update' => 'categories.update',
         'destroy' => 'categories.destroy'
     ]);
+
+    Route::get('contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');
+    Route::get('contacts/filter', [App\Http\Controllers\Admin\ContactController::class, 'filterByIsRead'])->name('contacts.filterByIsRead');
+    Route::get('contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
+    Route::patch('contacts/mark-as-read', [App\Http\Controllers\Admin\ContactController::class, 'markAsRead'])->name('contacts.markAsRead');
+    Route::delete('contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
 });
