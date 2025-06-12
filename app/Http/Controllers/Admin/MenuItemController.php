@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 class MenuItemController extends Controller
 {
     public function index(Request $request)
@@ -126,9 +127,8 @@ class MenuItemController extends Controller
         return redirect($redirectTo)->with('success', 'Menu item updated successfully.');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id)
     {
-        $id = $request->input('id');
         $menuItem = MenuItem::findOrFail($id);
 
         // حذف الصورة إن وجدت
@@ -138,14 +138,7 @@ class MenuItemController extends Controller
 
         $menuItem->delete();
 
-        // رجوع إلى صفحة الفئة المحددة إذا كانت موجودة
-        if ($request->has('category_id') && $request->category_id != '') {
-            return redirect()->route('admin.menu.index', ['id' => $request->category_id])
-                ->with('success', 'Menu item deleted successfully.');
-        }
-
-        // الرجوع إلى كل العناصر إذا لم يكن هناك فئة محددة
-        return redirect()->route('admin.menu.index')
-            ->with('success', 'Menu item deleted successfully.');
+        // العودة للصفحة السابقة (سواء كانت فلتر تصنيف أو كل العناصر)
+        return redirect()->back()->with('success', 'Menu item deleted successfully.');
     }
 }

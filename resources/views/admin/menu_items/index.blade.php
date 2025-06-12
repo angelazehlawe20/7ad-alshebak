@@ -84,13 +84,12 @@
                                         <form action="{{ route('admin.menu.destroy', $item->id) }}" method="POST"
                                             class="flex-grow-1"
                                             onsubmit="return confirm('Are you sure you want to delete this item?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="category_id" value="{{ request('category_id') }}">
-                                            <button type="submit" class="btn btn-outline-danger w-100">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
+                                          @csrf
+                                          @method('DELETE')
+                                          <button type="submit" class="btn btn-outline-danger w-100">
+                                              <i class="fas fa-trash"></i> Delete
+                                          </button>
+                                      </form>
                                     </div>
                                 </div>
                             </div>
