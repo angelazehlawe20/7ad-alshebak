@@ -10,4 +10,6 @@ class ContactController extends Controller
     {
         return view("partials.contact");
     }
+
+    
 }
