@@ -23,6 +23,8 @@ Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
 Route::get('/book', [BookingController::class, 'index'])->name('book');
 Route::post('/book/table', [BookingController::class, 'store'])->name('book.store');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact/sent', [ContactController::class, 'store'])->name('contact.store');
+
 
 // admin
 Route::prefix('admin')->name('admin.')->group(function () {

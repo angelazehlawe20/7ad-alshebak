@@ -64,7 +64,7 @@
                                             </div>
                                             <div class="text-muted">
                                                 <i class="fas fa-clock"></i>
-                                                <small class="ms-2">{{ $contact->sent_at ? $contact->sent_at->format('Y-m-d H:i') : 'N/A' }}</small>
+                                                <small class="ms-2">{{ $contact->created_at ? $contact->created_at->format('Y-m-d H:i') : '' }}</small>
                                             </div>
                                         </div>
                                         <div class="card-footer bg-transparent">

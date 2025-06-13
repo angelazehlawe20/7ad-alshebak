@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Contact;
 use App\Models\MenuItem;
 use App\Models\Offer;
 use Illuminate\Http\Request;
@@ -19,6 +20,11 @@ class DashboardController extends Controller
     {
         // إحضار عدد العناصر من قاعدة البيانات
         $statistics = [
+            'contactsCount' => Contact::count(),
+            'contactByIsRead' => [
+                'unread' => Contact::where('is_read',false)->count(),
+                'read' => Contact::where('is_read',true)->count(),
+            ],
             'menuItemsCount' => MenuItem::count(),
             'offersCount' => Offer::count(),
             'bookingsCount' => Booking::count(),
@@ -30,6 +36,9 @@ class DashboardController extends Controller
         ];
 
         return view('admin.dashboard', [
+            'contactsCount'=> $statistics['contactsCount'],
+            'unreadMessages'=> $statistics['contactByIsRead']['unread'],
+            'readMessages'=> $statistics['contactByIsRead']['read'],
             'menuItemsCount' => $statistics['menuItemsCount'],
             'offersCount' => $statistics['offersCount'],
             'bookingsCount' => $statistics['bookingsCount'],

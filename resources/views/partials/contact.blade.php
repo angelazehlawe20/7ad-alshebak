@@ -56,7 +56,8 @@
 
     </div>
 
-    <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
+    <form action={{route('contact.store')}} method="POST" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
+        @csrf
         <div class="row gy-4">
 
             <div class="col-md-6">

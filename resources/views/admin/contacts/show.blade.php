@@ -50,6 +50,11 @@
                                                     @endif
                                                 </td>
                                             </tr>
+
+                                            <tr>
+                                                <th scope="row">Sent At</th>
+                                                <td>{{ $contact->created_at }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
