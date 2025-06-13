@@ -85,7 +85,7 @@
                                                             class="btn btn-success"
                                                             data-bs-toggle="tooltip"
                                                             title="Mark Message as Read">
-                                                            <i class="fas fa-check-double me-1"></i>Mark Read
+                                                            <i class="fas fa-check-double me-1"></i>Mark As Read
                                                         </button>
                                                     </form>
                                                     @endif
@@ -112,7 +112,6 @@
                                     <div class="text-center py-5">
                                         <i class="fas fa-envelope fa-4x text-secondary mb-3"></i>
                                         <h4 class="text-secondary">No Messages Found</h4>
-                                        <p class="text-muted">There are no messages.</p>
                                     </div>
                                 </div>
                                 @endforelse

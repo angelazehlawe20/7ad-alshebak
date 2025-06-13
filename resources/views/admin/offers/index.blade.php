@@ -111,10 +111,10 @@
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                         <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST"
-                                            class="flex-grow-1">
+                                            class="flex-grow-1" onsubmit="return confirm('Are you sure you want to delete this item?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger w-100 delete-offer"
+                                            <button type="submit" class="btn btn-outline-danger w-100"
                                                 data-id="{{ $offer->id }}">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
@@ -128,7 +128,6 @@
                             <div class="text-center py-5">
                                 <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
                                 <h4 class="text-secondary">No offers found</h4>
-                                <p class="text-muted">Try adjusting your filter criteria or add new offers.</p>
                             </div>
                         </div>
                         @endforelse
@@ -138,32 +137,4 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-            $('.delete-offer').on('click', function(e) {
-                e.preventDefault();
-                const button = $(this);
-                const form = button.closest('form');
-
-                Swal.fire({
-                    title: 'Delete Confirmation',
-                    text: "This action cannot be undone. Are you sure?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Yes, delete it',
-                    cancelButtonText: 'Cancel',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-</script>
-@endpush
 @endsection

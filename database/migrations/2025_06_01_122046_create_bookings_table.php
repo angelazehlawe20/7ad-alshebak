@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->text('email');
+            $table->text('email')->nullable();
             $table->integer('guests_count');
             $table->date('booking_date');
             $table->time('booking_time');
-            $table->string('message');
+            $table->string('message')->nullable();
             $table->enum('status', ['pending','confirmed','cancelled'])->default('pending');
             $table->timestamps();
         });

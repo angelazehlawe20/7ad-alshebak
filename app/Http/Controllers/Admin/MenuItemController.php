@@ -127,7 +127,7 @@ class MenuItemController extends Controller
         return redirect($redirectTo)->with('success', 'Menu item updated successfully.');
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $menuItem = MenuItem::findOrFail($id);
 

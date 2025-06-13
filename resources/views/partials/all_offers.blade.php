@@ -7,121 +7,59 @@
     <div class="container">
         <h2 class="text-center mb-5 fw-bold" data-aos="fade-up">Our Latest Offers 🔥</h2>
 
+        <!-- Category Filter -->
+        <div class="row mb-4">
+            <div class="col-md-6 mx-auto">
+                <select class="form-select" id="categoryFilter">
+                    <option value=""> -- All Categories -- </option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name_ar }} - {{ $category->name_en }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <div class="row gy-4">
-
-            <!-- Card 1 -->
+            @forelse($offers as $offer)
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img" alt="Offer Image">
+                    <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top offer-img" alt="{{ $offer->title }}">
                     <div class="card-body">
-                        <h3 class="card-title">1 Breakfast offer</h3>
-                        <p class="card-text">Offer1 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
+                        <h3 class="card-title">{{ $offer->title }}</h3>
+                        <p class="card-text">{{ $offer->description }}</p>
+                        <p class="card-price text-danger fw-bold">price: {{ $offer->price }} $</p>
+                        <p class="card-category text-muted">
+                            <small>Category: {{ $offer->category->name_ar }} - {{ $offer->category->name_en }}</small>
+                        </p>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer2.png" class="card-img-top offer-img" alt="Offer Image">
-                    <div class="card-body">
-                        <h3 class="card-title">2 dinner offer</h3>
-                        <p class="card-text">Offer2 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                    </div>
+            @empty
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    No offers available at the moment.
                 </div>
             </div>
-
-            <!-- Card 3 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img" alt="Offer Image">
-                    <div class="card-body">
-                        <h3 class="card-title">3 barbecue offer</h3>
-                        <p class="card-text">Offer3 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row gy-4">
-
-                <!-- Card 1 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">1 Breakfast offer</h3>
-                            <p class="card-text">Offer1 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 2 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer2.png" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">2 dinner offer</h3>
-                            <p class="card-text">Offer2 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 3 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">3 barbecue offer</h3>
-                            <p class="card-text">Offer3 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row gy-4">
-
-                <!-- Card 1 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">1 Breakfast offer</h3>
-                            <p class="card-text">Offer1 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 2 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer2.png" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">2 dinner offer</h3>
-                            <p class="card-text">Offer2 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Card 3 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow">
-                        <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img" alt="Offer Image">
-                        <div class="card-body">
-                            <h3 class="card-title">3 barbecue offer</h3>
-                            <p class="card-text">Offer3 Description</p>
-                            <p class="card-price text-danger fw-bold">price: 15 $</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
+            @endforelse
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script>
+    document.getElementById('categoryFilter').addEventListener('change', function () {
+        const selectedCategory = this.value;
+        const url = new URL("{{ route('all_offers') }}", window.location.origin);
+
+        if (selectedCategory) {
+            url.searchParams.set('category', selectedCategory);
+        }
+
+        window.location.href = url.toString();
+    });
+</script>
+
+@endpush
 @endsection

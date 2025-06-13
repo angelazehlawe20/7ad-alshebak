@@ -72,7 +72,6 @@
                             <div class="text-center py-5">
                                 <i class="fas fa-utensils fa-4x text-secondary mb-3"></i>
                                 <h4 class="text-secondary">No menu items found in this category</h4>
-                                <p class="text-muted">Add new menu items to get started.</p>
                             </div>
                         </div>
                         @endforelse

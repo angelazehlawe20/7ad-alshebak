@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
 Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
 Route::get('/book', [BookingController::class, 'index'])->name('book');
+Route::post('/book/table', [BookingController::class, 'store'])->name('book.store');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // admin

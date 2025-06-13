@@ -99,7 +99,6 @@
                             <div class="text-center py-5">
                                 <i class="fas fa-utensils fa-4x text-secondary mb-3"></i>
                                 <h4 class="text-secondary">No menu items found</h4>
-                                <p class="text-muted">Try adjusting your filter criteria or add new items.</p>
                             </div>
                         </div>
                         @endforelse

@@ -1,6 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
-@section('title', 'Manage Reservations')
+@section('title', 'Book a table')
 
 @section('content')
 <!-- Book A Table Section -->
@@ -8,28 +8,27 @@
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <h2>Manage Reservations</h2>
+        <p><span>Book your table</span> <span class="description-title">Now</span></p>
     </div>
-    <!-- End Section Title -->
 
     <div class="container">
         <div class="row" data-aos="fade-up" data-aos-delay="100">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.reservations.store') }}" method="POST" class="p-4 rounded-4 bg-white">
+                        <form action="{{ route('book.store') }}" method="POST" class="p-4 rounded-4 bg-white">
                             @csrf
                             <div class="row gy-3">
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
-                                        id="name" placeholder="Customer Name" value="{{ old('name') }}" required>
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" placeholder="Your Name" value="{{ old('name') }}" required maxlength="255">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                        name="email" id="email" placeholder="Customer Email" value="{{ old('email') }}">
+                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" placeholder="Your Email" value="{{ old('email') }}" maxlength="255">
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -37,9 +36,9 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-text">+963</span>
-                                        <input type="text" class="form-control @error('phone') is-invalid @enderror" 
-                                            name="phone" id="phone" placeholder="9XXXXXXXX" maxlength="9" 
-                                            value="{{ old('phone') }}" required>
+                                        <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"
+                                            id="phone" placeholder="9XXXXXXXX" maxlength="9"
+                                            value="{{ old('phone') }}" required pattern="9[0-9]{8}">
                                     </div>
                                     @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -48,29 +47,30 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" 
-                                        id="date" value="{{ old('date') }}" required>
-                                    @error('date')
+                                    <input type="date" name="booking_date" class="form-control @error('booking_date') is-invalid @enderror"
+                                        id="booking_date" value="{{ old('booking_date') }}" required min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+                                    @error('booking_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="time" class="form-control @error('time') is-invalid @enderror" 
-                                        name="time" id="time" value="{{ old('time') }}" required>
-                                    @error('time')
+                                    <input type="time" name="booking_time" class="form-control @error('booking_time') is-invalid @enderror"
+                                        id="booking_time" value="{{ old('booking_time') }}" required>
+                                    @error('booking_time')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" class="form-control @error('people') is-invalid @enderror" 
-                                        name="people" id="people" placeholder="# of people" value="{{ old('people') }}" required>
-                                    @error('people')
+                                    <input type="number" name="guests_count" class="form-control @error('guests_count') is-invalid @enderror"
+                                        id="guests_count" placeholder="# of people" value="{{ old('guests_count') }}"
+                                        required min="1" max="50">
+                                    @error('guests_count')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control @error('message') is-invalid @enderror" 
-                                        name="message" rows="4" placeholder="Message (optional)">{{ old('message') }}</textarea>
+                                    <textarea name="message" class="form-control @error('message') is-invalid @enderror"
+                                        rows="4" placeholder="Message (optional)" maxlength="1000">{{ old('message') }}</textarea>
                                     @error('message')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -78,7 +78,7 @@
                             </div>
 
                             <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary px-4 py-2">Create Reservation</button>
+                                <button type="submit" class="btn btn-primary px-4 py-2">BOOK A TABLE</button>
                             </div>
                         </form>
                     </div>
