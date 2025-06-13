@@ -13,7 +13,7 @@
             </div>
 
             <!-- Desktop Navigation -->
-            <div class="col-md-6 d-none d-md-flex justify-content-center">
+            <div class="col-md-6 d-none d-md-flex justify-content-center sticky-nav">
                 <nav class="d-flex gap-3">
                     <a href="{{ route('hero') }}" class="nav-link">Home</a>
                     <a href="{{ route('all_offers') }}" class="nav-link">Offers</a>
@@ -88,6 +88,37 @@
       const body = document.body;
       const navLinks = document.querySelectorAll(".nav-link");
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+      const header = document.getElementById('header');
+      const stickyNav = document.querySelector('.sticky-nav');
+      let lastScrollTop = 0;
+
+      // Handle sticky navigation
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+          // Scrolling down
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          // Scrolling up
+          header.style.transform = 'translateY(0)';
+        }
+
+        if (scrollTop > 100) {
+          header.style.position = 'fixed';
+          header.style.width = '100%';
+          header.style.top = '0';
+          header.style.backgroundColor = '#fff';
+          header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+          header.style.zIndex = '1000';
+          header.style.transition = 'transform 0.3s ease-in-out';
+        } else {
+          header.style.position = 'static';
+          header.style.boxShadow = 'none';
+        }
+
+        lastScrollTop = scrollTop;
+      });
 
       // دالة لإغلاق الـ sidebar
       function closeSidebar() {
