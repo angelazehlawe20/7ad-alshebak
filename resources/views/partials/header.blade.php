@@ -30,7 +30,7 @@
                 </button>
             </div>
 
-            <!-- Language Toggle Button (Desktop) -->
+            <!-- Language Toggle -->
             <div class="col-6 col-md-3 d-none d-md-flex justify-content-end">
                 @if(app()->getLocale() == 'en')
                 <a href="?lang=ar" class="btn btn-light language-btn">
@@ -77,7 +77,6 @@
     </ul>
 </nav>
 
-<!-- SCRIPT -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
       const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
@@ -89,38 +88,23 @@
       const navLinks = document.querySelectorAll(".nav-link");
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
       const header = document.getElementById('header');
-      const stickyNav = document.querySelector('.sticky-nav');
-      let lastScrollTop = 0;
 
-      // Handle sticky navigation
+      // اجعل الهيدر دائمًا ثابتًا في الأعلى
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > lastScrollTop) {
-          // Scrolling down
-          header.style.transform = 'translateY(-100%)';
-        } else {
-          // Scrolling up
-          header.style.transform = 'translateY(0)';
-        }
-
-        if (scrollTop > 100) {
-          header.style.position = 'fixed';
-          header.style.width = '100%';
-          header.style.top = '0';
-          header.style.backgroundColor = '#fff';
-          header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
-          header.style.zIndex = '1000';
-          header.style.transition = 'transform 0.3s ease-in-out';
-        } else {
-          header.style.position = 'static';
-          header.style.boxShadow = 'none';
-        }
-
-        lastScrollTop = scrollTop;
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.width = '100%';
+        header.style.backgroundColor = '#fff';
+        header.style.boxShadow = scrollTop > 100
+          ? '0 2px 15px rgba(0, 0, 0, 0.1)'
+          : 'none';
+        header.style.zIndex = '1000';
+        header.style.transition = 'all 0.3s ease-in-out';
       });
 
-      // دالة لإغلاق الـ sidebar
+      // دالة لإغلاق القائمة الجانبية
       function closeSidebar() {
         mobileNavSidebar.classList.remove("active");
         body.classList.remove("mobile-nav-active");
@@ -128,7 +112,7 @@
         toggleIcon?.classList.add("bi-list");
       }
 
-      // تفعيل زر القائمة الجانبية
+      // زر فتح/إغلاق القائمة الجانبية
       mobileNavToggle?.addEventListener('click', () => {
         const isActive = mobileNavSidebar.classList.toggle('active');
         body.classList.toggle('mobile-nav-active', isActive);
@@ -142,10 +126,10 @@
         }
       });
 
-      // إغلاق عند الضغط على الـ overlay
+      // عند الضغط على الخلفية السوداء (overlay) تغلق القائمة
       mobileNavOverlay?.addEventListener('click', closeSidebar);
 
-      // إغلاق عند الضغط على أي رابط داخلي في القائمة الجانبية
+      // عند الضغط على أحد روابط القائمة الجانبية
       mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
           const linkPath = new URL(link.href).pathname;
@@ -157,12 +141,12 @@
         });
       });
 
-      // إغلاق بزر X وتحديث الصفحة
+      // زر X للإغلاق + تحديث الصفحة
       closeSidebarBtn?.addEventListener("click", () => {
         closeSidebar();
         setTimeout(() => {
           location.reload();
-        }, 80); // تأخير خفيف لضمان الإغلاق البصري
+        }, 80);
       });
 
       // تمييز الرابط النشط
@@ -180,4 +164,4 @@
 
       updateActiveLinkByPath();
     });
-</script>
+  </script>
