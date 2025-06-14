@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\MenuItemController;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
-    return view('home');
+    return view('home',compact('about'));
 })->name('hero');
 Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
 Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
@@ -24,6 +25,8 @@ Route::get('/book', [BookingController::class, 'index'])->name('book');
 Route::post('/book/table', [BookingController::class, 'store'])->name('book.store');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact/sent', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
 
 
 // admin
@@ -86,4 +89,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
     Route::post('/contacts/mark-as-read', [App\Http\Controllers\Admin\ContactController::class, 'markAsRead'])->name('contacts.markAsRead');
     Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+
+
+    Route::get('/about/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
+    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');  // عرض صفحة الفورم
+    Route::post('/about/create', [AboutController::class, 'createAbout'])->name('about.store'); // حفظ البيانات
 });
