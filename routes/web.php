@@ -7,6 +7,10 @@ use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Models\About;
+use App\Models\Category;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
-    return view('home',compact('about'));
+    $about = About::first();
+    $offers = Offer::latest()->get();
+    $categories = Category::all();
+
+    return view('home', compact('about', 'offers', 'categories'));
 })->name('hero');
 Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
 Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');

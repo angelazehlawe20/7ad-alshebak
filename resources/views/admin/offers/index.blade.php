@@ -31,30 +31,15 @@
                                                     @foreach($categories ?? [] as $category)
                                                     <option value="{{ $category->id }}" {{
                                                         request('category')==$category->id ? 'selected' : '' }}>
-                                                        {{ $category->name_en }} | {{ $category->name_ar }}
+                                                        {{ $category->name_en }} - {{ $category->name_ar }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </form>
                                     </div>
-                                    <!-- نموذج فلترة حسب الحالة -->
-                                    <div class="col-md-6">
-                                        <form action="{{ route('admin.offers.filter.status') }}" method="GET">
-                                            <div class="form-group">
-                                                <label for="status" class="form-label">Filter by Status:</label>
-                                                <select name="status" id="status" class="form-select"
-                                                    onchange="this.form.submit()">
-                                                    <option value="">-- All Status --</option>
-                                                    <option value="1" {{ request('status')=='1' ? 'selected' : '' }}>
-                                                        Active</option>
-                                                    <option value="0" {{ request('status')=='0' ? 'selected' : '' }}>
-                                                        Inactive</option>
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
+                            </div>
                         </form>
                     </div>
 
@@ -93,13 +78,13 @@
                                         <div class="d-flex align-items-center mb-2">
                                             <i class="fas fa-tag text-secondary me-2"></i>
                                             <small class="text-muted">
-                                                {{ $offer->category->name_en }} | {{ $offer->category->name_ar }}
+                                                {{ $offer->category->name_en }} - {{ $offer->category->name_ar }}
                                             </small>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-calendar-alt text-secondary me-2"></i>
                                             <small class="text-muted">
-                                                Valid until: {{ $offer->valid_until->format('M d, Y') }}
+                                                Valid until: {{ $offer->valid_until->format('M d, Y h:i A') }}
                                             </small>
                                         </div>
                                     </div>
@@ -111,7 +96,8 @@
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                         <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST"
-                                            class="flex-grow-1" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                            class="flex-grow-1"
+                                            onsubmit="return confirm('Are you sure you want to delete this item?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger w-100"

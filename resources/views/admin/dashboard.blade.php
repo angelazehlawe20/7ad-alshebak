@@ -94,8 +94,7 @@
             <div class="card text-bg-warning h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Read Messages</h5>
-                    <p class="card-text h2">{{ $
-                    readMessages }}</p>
+                    <p class="card-text h2">{{ $readMessages }}</p>
                 </div>
             </div>
         </div>

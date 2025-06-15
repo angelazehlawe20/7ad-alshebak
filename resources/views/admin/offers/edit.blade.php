@@ -81,7 +81,7 @@
                             <div class="col-md-3">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Valid Until</label>
-                                    <input type="date" name="valid_until" class="form-control" value="{{ old('valid_until', $offer->valid_until->format('Y-m-d')) }}" required>
+                                    <input type="datetime-local" name="valid_until" class="form-control" value="{{ old('valid_until', $offer->valid_until->format('Y-m-d\TH:i')) }}" required>
                                 </div>
                             </div>
                             {{-- Image Field --}}

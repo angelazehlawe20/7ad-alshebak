@@ -6,46 +6,36 @@
     </div><!-- End Section Title -->
     <div class="container">
         <div class="row gy-4">
-
-            <!-- Card 1 -->
-            <div class="col-lg-4 col-md-6 col-6">
-                <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer1.jpg" class="card-img-top offer-img img-fluid" alt="Offer Image">
-                    <div class="card-body">
-                        <h3 class="card-title">1 Breakfast offer</h3>
-                        <p class="card-text">Offer1 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
+            @forelse($offers->take(3) as $offer)
+                <div class="col-lg-4 col-md-6 col-6">
+                    <div class="card h-100 shadow">
+                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top offer-img img-fluid" alt="{{ $offer->title }}">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h3 class="card-title h4 mb-2">{{ $offer->title_en }}</h3>
+                                <h3 class="card-title h4 text-secondary">{{ $offer->title_ar }}</h3>
+                            </div>
+                            <p class="card-text">{{ $offer->description_en }}</p>
+                            <p class="card-text">{{ $offer->description_ar }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt me-2"></i>Valid until: {{ $offer->valid_until }}</p>
+                            <p class="card-text"><small class="text-muted"><i class="fas fa-tag me-2"></i>Category: {{ $offer->category->name_en }} - {{ $offer->category->name_ar }}</small></p>
+                            <p class="card-price text-danger fw-bold fs-4">{{ $offer->price }} $</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="col-lg-4 col-md-6 col-6">
-                <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer2.png" class="card-img-top offer-img img-fluid" alt="Offer Image">
-                    <div class="card-body">
-                        <h3 class="card-title">2 dinner offer</h3>
-                        <p class="card-text">Offer2 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
+            @empty
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
+                        <h4 class="text-secondary">No offers found at the moment.</h4>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-lg-4 col-md-6 col-6">
-                <div class="card h-100 shadow">
-                    <img src="assets/img/offer/offer3.jpg" class="card-img-top offer-img img-fluid" alt="Offer Image">
-                    <div class="card-body">
-                        <h3 class="card-title">3 barbecue offer</h3>
-                        <p class="card-text">Offer3 Description</p>
-                        <p class="card-price text-danger fw-bold">price: 15 $</p>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
-        <div class="text-center mt-4">
-            <a href="{{ route('all_offers') }}" class="btn px-4 py-2" style="background-color:#ec1111; color:white;">See
-                All Offers</a>
+        <div class="text-center mt-5">
+            <a href="{{ route('all_offers') }}" class="btn btn-lg px-5 py-3" style="background-color:#ec1111; color:white;">
+                See All Offers
+            </a>
         </div>
     </div>
 </section> <!-- End Offers Section -->
