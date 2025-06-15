@@ -9,8 +9,8 @@
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-home me-2"></i> Dashboard
             </a>
-            <a href="{{ route('admin.about.edit') }}"
-                class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.about.edit') ? 'active bg-primary text-white' : 'text-dark' }}">
+            <a href="{{ route('admin.about.indexForAdmin') }}"
+                class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.about.indexForAdmin') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-info-circle me-2"></i> About
             </a>
             <a href="{{ route('admin.categories.index') }}"

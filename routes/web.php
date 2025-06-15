@@ -99,8 +99,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
 
 
-    Route::get('/about/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::get('/about/index', [AboutController::class, 'indexForAdmin'])->name('about.indexForAdmin');
     Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
     Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');  // عرض صفحة الفورم
     Route::post('/about/create', [AboutController::class, 'createAbout'])->name('about.store'); // حفظ البيانات
+    Route::post('admin/about/delete-image', [AboutController::class, 'deleteImage'])->name('about.deleteImage');
 });

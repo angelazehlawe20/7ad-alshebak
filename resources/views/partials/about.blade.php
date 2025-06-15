@@ -42,7 +42,7 @@
                     <div class="swiper-slide">
                         <a class="glightbox" data-gallery="images-gallery" href="{{ asset('storage/' . $image) }}">
                             <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded shadow gallery-image"
-                                alt="Gallery Image" loading="lazy">
+                                alt="Gallery Image" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
                     </div>
                     @empty

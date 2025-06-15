@@ -77,6 +77,28 @@
     </ul>
 </nav>
 
+<!-- Add padding to main content -->
+<style>
+    main {
+        padding-top: 100px; /* Increased padding for better spacing */
+    }
+
+    /* Additional styles for cleaner layout */
+    .header {
+        height: 80px;
+        background: #fff;
+    }
+
+    body {
+        padding-top: 80px; /* Add body padding to prevent content from hiding under fixed header */
+    }
+
+    /* Ensure smooth transition when header becomes fixed */
+    #header {
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
       const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
@@ -89,7 +111,7 @@
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
       const header = document.getElementById('header');
 
-      // اجعل الهيدر دائمًا ثابتًا في الأعلى
+      // Make header fixed at top with improved styling
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -97,14 +119,12 @@
         header.style.top = '0';
         header.style.width = '100%';
         header.style.backgroundColor = '#fff';
-        header.style.boxShadow = scrollTop > 100
+        header.style.boxShadow = scrollTop > 50  // Reduced scroll threshold
           ? '0 2px 15px rgba(0, 0, 0, 0.1)'
           : 'none';
         header.style.zIndex = '1000';
-        header.style.transition = 'all 0.3s ease-in-out';
       });
 
-      // دالة لإغلاق القائمة الجانبية
       function closeSidebar() {
         mobileNavSidebar.classList.remove("active");
         body.classList.remove("mobile-nav-active");
@@ -112,7 +132,6 @@
         toggleIcon?.classList.add("bi-list");
       }
 
-      // زر فتح/إغلاق القائمة الجانبية
       mobileNavToggle?.addEventListener('click', () => {
         const isActive = mobileNavSidebar.classList.toggle('active');
         body.classList.toggle('mobile-nav-active', isActive);
@@ -126,22 +145,19 @@
         }
       });
 
-      // عند الضغط على الخلفية السوداء (overlay) تغلق القائمة
       mobileNavOverlay?.addEventListener('click', closeSidebar);
 
-      // عند الضغط على أحد روابط القائمة الجانبية
       mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
           const linkPath = new URL(link.href).pathname;
           const currentPath = window.location.pathname;
           if (linkPath === currentPath) {
-            e.preventDefault(); // منع إعادة تحميل الصفحة
+            e.preventDefault();
           }
           closeSidebar();
         });
       });
 
-      // زر X للإغلاق + تحديث الصفحة
       closeSidebarBtn?.addEventListener("click", () => {
         closeSidebar();
         setTimeout(() => {
@@ -149,7 +165,6 @@
         }, 80);
       });
 
-      // تمييز الرابط النشط
       function updateActiveLinkByPath() {
         const currentPath = window.location.pathname;
         navLinks.forEach(link => {
@@ -164,4 +179,4 @@
 
       updateActiveLinkByPath();
     });
-  </script>
+</script>
