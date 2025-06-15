@@ -1,11 +1,11 @@
 <section id="about" class="about section">
-    <div class="container section-title" data-aos="fade-up">
+    <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <p><span>Who</span> <span class="description-title">We Are</span></p>
     </div>
 
     <div class="container">
         {{-- Gallery Slider Section --}}
-        <div data-aos="fade-up" data-aos-delay="100">
+        <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
             <div class="swiper init-swiper gallery-swiper">
                 {{-- Swiper Configuration --}}
                 <script type="application/json" class="swiper-config">
@@ -59,10 +59,10 @@
             </div>
         </div>
 
-        {{-- Content Section --}}
+        {{-- Main Content --}}
         <div class="row gy-4 align-items-center mt-5">
             {{-- About Text --}}
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="50">
                 <div class="content ps-0 ps-lg-5">
                     <p class="text-center lead">
                         {{ $about->main_text ?? 'No about text available.' }}
@@ -71,7 +71,7 @@
             </div>
 
             {{-- Why Choose Us --}}
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
                 <div class="why-box bg-dark text-white rounded p-4">
                     <h3 class="section-title mb-4">
                         {{ $about->why_title ?? 'Why Choose Us' }}

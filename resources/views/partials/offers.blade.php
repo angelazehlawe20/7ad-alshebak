@@ -1,7 +1,7 @@
 <!-- Offers Section -->
 <section id="offers" class="offers section light-background py-5">
     <!--Section Title -->
-    <div class="container section-title" data-aos="fade-up">
+    <div class="container section-title">
         <p><span>Had AlShebak</span> <span class="description-title">Offers</span></p>
     </div><!-- End Section Title -->
     <div class="container">

@@ -74,7 +74,7 @@
             mirror: false
         });
     }
-    window.addEventListener('load', aosInit);
+    window.addEventListener('DOMContentLoaded', aosInit);
 
     /**
      * Initiate glightbox

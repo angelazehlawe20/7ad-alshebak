@@ -12,11 +12,11 @@
                     Your premier destination for memorable moments.
                 </p>
 
-                <div class="d-flex gap-3" data-aos="fade-up" data-aos-delay="200">
-                    <a href="{{route('book')}}" class="btn btn-primary btn-lg btn-get-started">
+                <div class="d-flex gap-3" data-aos="zoom-out">
+                    <a href="{{route('book')}}" class="btn btn-primary btn-lg btn-get-started border-0 shadow-lg animated" style="border-radius: 30px;">
                         <i class="fas fa-calendar-check me-2"></i>Book a Table
                     </a>
-                    <a href="{{route('menu')}}" class="btn btn-outline-primary btn-lg btn-get-started">
+                    <a href="{{route('menu')}}" class="btn btn-primary btn-lg btn-get-started border-0 shadow-lg animated" style="border-radius: 30px;">
                         <i class="fas fa-utensils me-2"></i>View Menu
                     </a>
                 </div>

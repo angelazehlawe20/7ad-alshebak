@@ -51,7 +51,7 @@ class AboutController extends Controller
         $about->gallery_images = json_encode($existingImages);
         $about->save();
 
-        return redirect()->back()->with('success', 'تم تحديث قسم من نحن بنجاح.');
+        return redirect()->back()->with('success', 'About section updated successfully');
     }
 
     public function create()

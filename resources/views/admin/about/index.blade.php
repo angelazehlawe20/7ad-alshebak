@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'About Settings')
+@section('title', 'About Page')
 
 @section('content')
 <div class="content-wrapper">
@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-info-circle"></i> About Settings</h1>
+                    <h1 class="m-0"><i class="fas fa-info-circle"></i> About Page</h1>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-sm btn-secondary d-none" id="uploadImagesBtn" onclick="document.getElementById('newGalleryImages').click()">
-                                        <i class="fas fa-upload"></i> Add New Images
+                                        <i class="fas fa-upload"></i>&nbsp;Add New Images
                                     </button>
                                     <input type="file" class="d-none" name="new_gallery_images[]" id="newGalleryImages" multiple
                                         accept="image/*" onchange="previewImages(this)">
@@ -129,7 +129,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label><i class="fas fa-heading mr-2"></i><strong>Why Choose Us Title</strong></label>
+                                    <label><i class="fas mr-2"></i><strong>Why Choose Us Title</strong></label>
                                     <input type="text" class="form-control" name="why_title"
                                         value="{{ $about->why_title ?? 'Why Choose Us' }}" readonly>
                                 </div>
@@ -165,15 +165,15 @@
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="button" id="editBtn" class="btn btn-primary btn-lg">
-                            <i class="fas fa-edit mr-2"></i>Edit About
+                            <i class="fas fa-edit mr-2"></i> Edit About
                         </button>
 
                         <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none">
-                            <i class="fas fa-save mr-2"></i>Save Changes
+                            <i class="fas fa-save mr-2"></i> Save Changes
                         </button>
 
                         <button type="button" id="cancelBtn" class="btn btn-secondary btn-lg d-none">
-                            <i class="fas fa-times mr-2"></i>Cancel
+                            <i class="fas fa-times mr-2"></i> Cancel
                         </button>
                     </div>
                 </div>
