@@ -1,18 +1,20 @@
 <!-- HEADER -->
-<header id="header" class="header cky-tostip">
+<header id="header" class="header">
   <div class="container">
     <div class="row align-items-center">
 
       <!-- Logo -->
-      <div class="col-6 col-md-3 d-flex align-items-center">
-        <img src="{{ asset('assets/img/logo_7adAlshebak.png') }}" alt="Logo" class="me-2" style="max-height: 60px;">
-        <a href="{{ route('hero') }}" class="text-decoration-none">
-          <h1 class="sitename m-0 fs-5">Had AlShebak</h1>
-        </a>
+      <div class="col-6 col-md-3">
+        <div class="logo">
+          <img src="{{ $settings->logo }}" alt="Logo">
+          <a href="{{ route('hero') }}" class="text-decoration-none">
+            <h1 class="sitename">Had AlShebak</h1>
+          </a>
+        </div>
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="col-md-6 d-none d-md-flex justify-content-center sticky-nav">
+      <div class="col-md-6 d-none d-md-flex justify-content-center">
         <nav class="d-flex gap-3">
           <a href="{{ route('hero') }}" class="nav-link">Home</a>
           <a href="{{ route('all_offers') }}" class="nav-link">Offers</a>
@@ -76,34 +78,8 @@
   </ul>
 </nav>
 
-<!-- Add padding to main content -->
-<style>
-  main {
-    padding-top: 150px;
-    /* Increased padding for better spacing */
-  }
-
-  /* Additional styles for cleaner layout */
-  .header {
-    height: 80px;
-    background: #fff;
-  }
-
-  body {
-    padding-top: 0;
-    /* Remove body padding to prevent scrolling issues */
-    overflow-x: hidden;
-    /* Prevent horizontal scrolling */
-  }
-
-  /* Ensure smooth transition when header becomes fixed */
-  #header {
-    transition: all 0.3s ease-in-out;
-  }
-</style>
-
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
       const mobileNavSidebar = document.querySelector('.mobile-nav-sidebar');
       const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
@@ -113,67 +89,48 @@
       const navLinks = document.querySelectorAll(".nav-link");
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
       const header = document.getElementById('header');
-
-      // Make header fixed at top with improved styling
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        header.style.position = 'fixed';
-        header.style.top = '0';
-        header.style.width = '100%';
-        header.style.backgroundColor = '#fff';
-        header.style.boxShadow = scrollTop > 50  // Reduced scroll threshold
-          ? '0 2px 15px rgba(0, 0, 0, 0.1)'
-          : 'none';
-        header.style.zIndex = '1000';
-      });
-
+  
+      // وظيفة: إصلاح التمرير
+      function restoreScroll() {
+        body.style.overflow = '';
+        body.style.position = '';
+        body.style.height = '';
+        body.style.touchAction = '';
+      }
+  
+      function disableScroll() {
+        body.style.overflow = 'hidden';
+        body.style.position = 'fixed';
+        body.style.height = '100%';
+        body.style.touchAction = 'none';
+      }
+  
       function closeSidebar() {
         mobileNavSidebar.classList.remove("active");
         body.classList.remove("mobile-nav-active");
+        restoreScroll();
         toggleIcon?.classList.remove("bi-x");
         toggleIcon?.classList.add("bi-list");
-        // Restore scrolling when sidebar is closed
-        document.body.style.position = '';
-        document.body.style.overflow = '';
-        document.body.style.width = '';
-        document.body.style.height = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.touchAction = '';
       }
-
+  
+      // عندما يتم الضغط على زر القائمة
       mobileNavToggle?.addEventListener('click', () => {
         const isActive = mobileNavSidebar.classList.toggle('active');
         body.classList.toggle('mobile-nav-active', isActive);
-
+  
         if (isActive) {
           toggleIcon?.classList.remove('bi-list');
           toggleIcon?.classList.add('bi-x');
-          // Prevent scrolling when sidebar is open
-          document.body.style.position = 'fixed';
-          document.body.style.overflow = 'hidden';
-          document.body.style.width = '100%';
-          document.body.style.height = '100%';
-          document.body.style.top = '0';
-          document.body.style.left = '0';
-          document.body.style.touchAction = 'none';
+          disableScroll();
         } else {
-          toggleIcon?.classList.remove('bi-x');
-          toggleIcon?.classList.add('bi-list');
-          // Restore scrolling when sidebar is closed
-          document.body.style.position = '';
-          document.body.style.overflow = '';
-          document.body.style.width = '';
-          document.body.style.height = '';
-          document.body.style.top = '';
-          document.body.style.left = '';
-          document.body.style.touchAction = '';
+          closeSidebar();
         }
       });
-
+  
+      // إغلاق عند النقر على الخلفية
       mobileNavOverlay?.addEventListener('click', closeSidebar);
-
+  
+      // إغلاق القائمة عند اختيار أي رابط فيها
       mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
           const linkPath = new URL(link.href).pathname;
@@ -184,14 +141,16 @@
           closeSidebar();
         });
       });
-
+  
+      // زر X يغلق القائمة ويعيد التمرير
       closeSidebarBtn?.addEventListener("click", () => {
         closeSidebar();
         setTimeout(() => {
-          location.reload();
+          location.reload(); // إذا أردت إعادة تحميل الصفحة
         }, 80);
       });
-
+  
+      // تغيير لون الرابط النشط حسب الصفحة
       function updateActiveLinkByPath() {
         const currentPath = window.location.pathname;
         navLinks.forEach(link => {
@@ -203,7 +162,67 @@
           link.classList.toggle("active", linkPath === currentPath);
         });
       }
-
+  
+      // عند التمرير - تثبيت الهيدر
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        header.classList.toggle('header-fixed', scrollTop > 50);
+      });
+  
       updateActiveLinkByPath();
+    });
+
+    function disableScroll() {
+  document.body.style.overflow = 'hidden';
+}
+
+function enableScroll() {
+  document.body.style.overflow = '';
+}
+
+function closeSidebar() {
+  mobileNavSidebar.classList.remove("active");
+  body.classList.remove("mobile-nav-active");
+  enableScroll();
+  toggleIcon?.classList.remove("bi-x");
+  toggleIcon?.classList.add("bi-list");
+}
+
+mobileNavToggle?.addEventListener('click', () => {
+  const isActive = mobileNavSidebar.classList.toggle('active');
+  body.classList.toggle('mobile-nav-active', isActive);
+
+  if (isActive) {
+    disableScroll();
+    toggleIcon?.classList.remove('bi-list');
+    toggleIcon?.classList.add('bi-x');
+  } else {
+    closeSidebar();
+  }
+});
+
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+        const toggleBtn = document.querySelector('.mobile-nav-toggle');
+        const sidebar = document.querySelector('.mobile-nav-sidebar');
+        const overlay = document.querySelector('.mobile-nav-overlay');
+
+        // فتح القائمة
+        toggleBtn?.addEventListener('click', () => {
+            body.classList.add('mobile-nav-active');
+            sidebar?.classList.add('active');
+        });
+
+        // إغلاق القائمة عند الضغط على overlay أو زر الإغلاق أو أحد الروابط
+        document.querySelectorAll(
+            '.mobile-nav-close, .close-sidebar-btn, .mobile-nav-links a, .mobile-nav-overlay'
+        ).forEach(el => {
+            el.addEventListener('click', () => {
+                body.classList.remove('mobile-nav-active');
+                sidebar?.classList.remove('active');
+            });
+        });
     });
 </script>

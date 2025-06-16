@@ -55,10 +55,10 @@
                 position: relative;
             }
 
-            /* When mobile nav is active, prevent scrolling on the main content */
-            body.mobile-nav-active .mobile-container {
-                height: 100vh;
+            /* منع التمرير فقط عند فتح القائمة الجانبية */
+            body.mobile-nav-active {
                 overflow: hidden;
+                height: 100vh;
             }
         }
     </style>
@@ -100,6 +100,25 @@
                 event.preventDefault();
             }
         }, { passive: false });
+
+        // تأكد من إزالة كلاس mobile-nav-active عند إغلاق القائمة الجانبية
+        document.addEventListener("DOMContentLoaded", () => {
+            const body = document.body;
+            const toggleIcon = document.querySelector(".mobile-nav-toggle");
+            const mobileNavSidebar = document.querySelector(".mobile-nav");
+
+            function closeSidebar() {
+                mobileNavSidebar?.classList.remove("active");
+                body.classList.remove("mobile-nav-active");
+                toggleIcon?.classList.remove("bi-x");
+                toggleIcon?.classList.add("bi-list");
+            }
+
+            // مثال على زر إغلاق
+            document.querySelectorAll(".mobile-nav-close, .mobile-nav a").forEach(el => {
+                el.addEventListener("click", closeSidebar);
+            });
+        });
     </script>
 
     @stack('scripts')

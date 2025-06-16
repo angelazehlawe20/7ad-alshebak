@@ -25,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $view->with('footer', Setting::first());
         });
+        View::composer('*', function ($view) {
+            $view->with('settings', Setting::first());
+        });
     }
 }
