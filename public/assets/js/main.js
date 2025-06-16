@@ -1,71 +1,78 @@
-
 (function () {
     "use strict";
 
-    /**
-     * Apply .scrolled class to the body as the page is scrolled down
-     */
+    /** ------------------------------
+     * 1. Scroll - Add .scrolled to <body>
+    --------------------------------- */
     function toggleScrolled() {
-        const selectBody = document.querySelector('body');
-        const selectHeader = document.querySelector('#header');
-        if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
-        window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
+        const body = document.querySelector('body');
+        const header = document.querySelector('#header');
+        if (!header.classList.contains('scroll-up-sticky') &&
+            !header.classList.contains('sticky-top') &&
+            !header.classList.contains('fixed-top')) return;
+        body.classList.toggle('scrolled', window.scrollY > 100);
     }
-
-    document.addEventListener('scroll', toggleScrolled);
+    window.addEventListener('scroll', toggleScrolled);
     window.addEventListener('load', toggleScrolled);
 
-    /**
-     * Mobile nav toggle
-     */
+    /** ------------------------------
+     * 2. Mobile Navigation
+    --------------------------------- */
     const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+    const mobileNavCloseBtn = document.querySelector('.mobile-nav-close');
 
-    if (mobileNavToggleBtn) {
-        function mobileNavToogle() {
-            document.querySelector('body').classList.toggle('mobile-nav-active');
-            mobileNavToggleBtn.classList.toggle('bi-list');
-            mobileNavToggleBtn.classList.toggle('bi-x');
-        }
-        mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+    function mobileNavToggle() {
+        document.body.classList.toggle('mobile-nav-active');
+        mobileNavToggleBtn.classList.toggle('bi-list');
+        mobileNavToggleBtn.classList.toggle('bi-x');
     }
 
-    /**
-     * Hide mobile nav on same-page/hash links
-     */
-    document.querySelectorAll('#navmenu a').forEach(navmenu => {
-        navmenu.addEventListener('click', () => {
-            if (document.querySelector('.mobile-nav-active')) {
-                mobileNavToogle();
+    function mobileNavClose() {
+        document.body.classList.remove('mobile-nav-active');
+        if (mobileNavToggleBtn.classList.contains('bi-x')) {
+            mobileNavToggleBtn.classList.remove('bi-x');
+            mobileNavToggleBtn.classList.add('bi-list');
+        }
+    }
+
+    if (mobileNavToggleBtn) {
+        mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
+    }
+    if (mobileNavCloseBtn) {
+        mobileNavCloseBtn.addEventListener('click', mobileNavClose);
+    }
+
+    // Close mobile nav on internal link click
+    document.querySelectorAll('#navmenu a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (document.body.classList.contains('mobile-nav-active')) {
+                mobileNavClose();
             }
         });
-
     });
 
-    /**
-     * Toggle mobile nav dropdowns
-     */
-    document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-        navmenu.addEventListener('click', function (e) {
+    // Toggle dropdowns inside mobile nav
+    document.querySelectorAll('.navmenu .toggle-dropdown').forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
             e.preventDefault();
             this.parentNode.classList.toggle('active');
-            this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
+            const dropdown = this.parentNode.nextElementSibling;
+            if (dropdown) dropdown.classList.toggle('dropdown-active');
             e.stopImmediatePropagation();
         });
     });
 
-    /**
-     * Preloader
-     */
+    /** ------------------------------
+     * 3. Preloader
+    --------------------------------- */
     const preloader = document.querySelector('#preloader');
     if (preloader) {
-        window.addEventListener('load', () => {
-            preloader.remove();
-        });
+        window.addEventListener('load', () => preloader.remove());
     }
 
-    /**
-     * Animation on scroll function and init
-     */
+    /** ------------------------------
+     * 4. Animate on Scroll (AOS)
+    --------------------------------- */
     function aosInit() {
         AOS.init({
             duration: 600,
@@ -76,87 +83,76 @@
     }
     window.addEventListener('DOMContentLoaded', aosInit);
 
-    /**
-     * Initiate glightbox
-     */
-    const glightbox = GLightbox({
-        selector: '.glightbox'
-    });
+    /** ------------------------------
+     * 5. GLightbox Init
+    --------------------------------- */
+    GLightbox({ selector: '.glightbox' });
 
-    /**
-     * Initiate Pure Counter
-     */
+    /** ------------------------------
+     * 6. PureCounter Init
+    --------------------------------- */
     new PureCounter();
 
-    /**
-     * Init swiper sliders
-     */
+    /** ------------------------------
+     * 7. Swiper Init
+    --------------------------------- */
     function initSwiper() {
-        document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
-            let config = JSON.parse(
-                swiperElement.querySelector(".swiper-config").innerHTML.trim()
-            );
-
-            if (swiperElement.classList.contains("swiper-tab")) {
-                initSwiperWithCustomPagination(swiperElement, config);
+        document.querySelectorAll(".init-swiper").forEach(swiperEl => {
+            let config = JSON.parse(swiperEl.querySelector(".swiper-config").innerHTML.trim());
+            if (swiperEl.classList.contains("swiper-tab")) {
+                initSwiperWithCustomPagination(swiperEl, config); // افترض أنها معرفة مسبقًا
             } else {
-                new Swiper(swiperElement, config);
+                new Swiper(swiperEl, config);
             }
         });
     }
-
     window.addEventListener("load", initSwiper);
 
-    /**
-     * Correct scrolling position upon page load for URLs containing hash links.
-     */
-    window.addEventListener('load', function (e) {
-        if (window.location.hash) {
-            if (document.querySelector(window.location.hash)) {
-                setTimeout(() => {
-                    let section = document.querySelector(window.location.hash);
-                    let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-                    window.scrollTo({
-                        top: section.offsetTop - parseInt(scrollMarginTop),
-                        behavior: 'smooth'
-                    });
-                }, 100);
-            }
+    /** ------------------------------
+     * 8. Smooth scroll to hash on page load
+    --------------------------------- */
+    window.addEventListener('load', () => {
+        if (window.location.hash && document.querySelector(window.location.hash)) {
+            setTimeout(() => {
+                const section = document.querySelector(window.location.hash);
+                const marginTop = parseInt(getComputedStyle(section).scrollMarginTop || 0);
+                window.scrollTo({
+                    top: section.offsetTop - marginTop,
+                    behavior: 'smooth'
+                });
+            }, 100);
         }
     });
 
-    /**
-     * Navmenu Scrollspy
-     */
-    let navmenulinks = document.querySelectorAll('.navmenu a');
-
+    /** ------------------------------
+     * 9. Scrollspy Navigation
+    --------------------------------- */
+    const navLinks = document.querySelectorAll('.navmenu a');
     function navmenuScrollspy() {
-        navmenulinks.forEach(navmenulink => {
-            if (!navmenulink.hash) return;
-            let section = document.querySelector(navmenulink.hash);
+        const scrollY = window.scrollY + 200;
+        navLinks.forEach(link => {
+            if (!link.hash) return;
+            const section = document.querySelector(link.hash);
             if (!section) return;
-            let position = window.scrollY + 200;
-            if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-                document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
-                navmenulink.classList.add('active');
-            } else {
-                navmenulink.classList.remove('active');
-            }
-        })
+
+            const inSection = scrollY >= section.offsetTop && scrollY <= section.offsetTop + section.offsetHeight;
+            link.classList.toggle('active', inSection);
+        });
     }
     window.addEventListener('load', navmenuScrollspy);
     document.addEventListener('scroll', navmenuScrollspy);
 
+    /** ------------------------------
+     * 10. External page to section
+    --------------------------------- */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            if (window.location.pathname !== "/") {
+                e.preventDefault();
+                const section = this.getAttribute('href');
+                window.location.href = "/" + section;
+            }
+        });
+    });
 
 })();
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    if (window.location.pathname !== "/") {
-      e.preventDefault();
-      const section = this.getAttribute('href');
-      window.location.href = "/" + section;
-    }
-  });
-});
-

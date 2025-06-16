@@ -34,6 +34,9 @@
             body {
                 font-size: 16px;
                 -webkit-text-size-adjust: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
             }
 
             .container {
@@ -44,6 +47,18 @@
             img {
                 max-width: 100%;
                 height: auto;
+            }
+
+            .mobile-container {
+                width: 100%;
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            /* When mobile nav is active, prevent scrolling on the main content */
+            body.mobile-nav-active .mobile-container {
+                height: 100vh;
+                overflow: hidden;
             }
         }
     </style>

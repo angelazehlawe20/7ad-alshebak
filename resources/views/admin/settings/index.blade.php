@@ -6,9 +6,9 @@
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-4">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-cogs"></i> Site Settings</h1>
+                    <h1 class="m-0"><i class="fas fa-cogs"></i>&nbsp;&nbsp;Site Settings</h1>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
 
     <section class="content">
         <div class="container-fluid">
-            <form action="{{ route('admin.settings.update') }}" method="POST" id="settingsForm">
+            <form action="{{ route('admin.settings.update') }}" method="POST" id="settingsForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -24,35 +24,45 @@
                     <div class="col-md-6">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-address-card mr-2"></i>Contact Information</h3>
+                                <h3 class="card-title"><i class="fas fa-address-card mr-2"></i>&nbsp;&nbsp;Contact Information</h3>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="site_name"><i class="fas fa-building mr-2"></i><strong>Site Name</strong></label>
-                                    <input type="text" class="form-control @error('site_name') is-invalid @enderror"
-                                        id="site_name" name="site_name" readonly
-                                        value="{{ old('site_name', $settings['site_name'] ?? '') }}">
-                                    @error('site_name')
+                            <div class="card-body pt-4">
+                                <div class="form-group mb-4">
+                                    <label for="address"><i class="fas fa-map-marker-alt mr-2"></i>&nbsp;&nbsp;<strong>Address</strong></label>
+                                    <textarea class="form-control @error('address') is-invalid @enderror"
+                                        id="address" name="address" readonly rows="3"
+                                        style="resize: vertical;">{{ old('address', $settings->address ?? '') }}</textarea>
+                                    @error('address')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="contact_email"><i class="fas fa-envelope mr-2"></i><strong>Contact Email</strong></label>
-                                    <input type="email" class="form-control @error('contact_email') is-invalid @enderror"
-                                        id="contact_email" name="contact_email" readonly
-                                        value="{{ old('contact_email', $settings['contact_email'] ?? '') }}">
-                                    @error('contact_email')
+                                <div class="form-group mb-4">
+                                    <label for="email"><i class="fas fa-envelope mr-2"></i>&nbsp;&nbsp;<strong>Email</strong></label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" readonly
+                                        value="{{ old('email', $settings->email ?? '') }}">
+                                    @error('email')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="phone_number"><i class="fas fa-phone mr-2"></i><strong>Phone Number</strong></label>
-                                    <input type="tel" class="form-control @error('phone_number') is-invalid @enderror"
-                                        id="phone_number" name="phone_number" readonly
-                                        value="{{ old('phone_number', $settings['phone_number'] ?? '') }}">
-                                    @error('phone_number')
+                                <div class="form-group mb-4">
+                                    <label for="phone"><i class="fas fa-phone mr-2"></i>&nbsp;&nbsp;<strong>Phone</strong></label>
+                                    <input type="tel" class="form-control @error('phone') is-invalid @enderror"
+                                        id="phone" name="phone" readonly
+                                        value="{{ old('phone', $settings->phone ?? '') }}">
+                                    @error('phone')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="opening_hours"><i class="fas fa-clock mr-2"></i>&nbsp;&nbsp;<strong>Opening Hours</strong></label>
+                                    <input type="text" class="form-control @error('opening_hours') is-invalid @enderror"
+                                        id="opening_hours" name="opening_hours" readonly
+                                        value="{{ old('opening_hours', $settings->opening_hours ?? '') }}">
+                                    @error('opening_hours')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -63,25 +73,61 @@
                     <div class="col-md-6">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-info-circle mr-2"></i>About Information</h3>
+                                <h3 class="card-title"><i class="fas fa-share-alt mr-2"></i>&nbsp;&nbsp;Social Media & Branding</h3>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="about_ar"><i class="fas fa-language mr-2"></i><strong>About (Arabic)</strong></label>
-                                    <textarea class="form-control @error('about_ar') is-invalid @enderror"
-                                        id="about_ar" name="about_ar" rows="5" dir="rtl" readonly>{{ old('about_ar', $settings['about_ar'] ?? '') }}</textarea>
-                                    @error('about_ar')
+                            <div class="card-body pt-4">
+                                <div class="form-group mb-4">
+                                    <label for="facebook_url"><i class="fab fa-facebook mr-2"></i>&nbsp;&nbsp;<strong>Facebook URL</strong></label>
+                                    <input type="url" class="form-control @error('facebook_url') is-invalid @enderror"
+                                        id="facebook_url" name="facebook_url" readonly
+                                        value="{{ old('facebook_url', $settings->facebook_url ?? '') }}">
+                                    @error('facebook_url')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="about_en"><i class="fas fa-language mr-2"></i><strong>About (English)</strong></label>
-                                    <textarea class="form-control @error('about_en') is-invalid @enderror"
-                                        id="about_en" name="about_en" rows="5" dir="ltr" readonly>{{ old('about_en', $settings['about_en'] ?? '') }}</textarea>
-                                    @error('about_en')
+                                <div class="form-group mb-4">
+                                    <label for="instagram_url"><i class="fab fa-instagram mr-2"></i>&nbsp;&nbsp;<strong>Instagram URL</strong></label>
+                                    <input type="url" class="form-control @error('instagram_url') is-invalid @enderror"
+                                        id="instagram_url" name="instagram_url" readonly
+                                        value="{{ old('instagram_url', $settings->instagram_url ?? '') }}">
+                                    @error('instagram_url')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="whatsapp"><i class="fab fa-whatsapp mr-2"></i>&nbsp;&nbsp;<strong>WhatsApp</strong></label>
+                                    <input type="text" class="form-control @error('whatsapp') is-invalid @enderror"
+                                        id="whatsapp" name="whatsapp" readonly
+                                        value="{{ old('whatsapp', $settings->whatsapp ?? '') }}">
+                                    @error('whatsapp')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="logo"><i class="fas fa-image mr-2"></i>&nbsp;&nbsp;<strong>Logo</strong></label>
+                                    <input type="file" class="form-control @error('logo') is-invalid @enderror"
+                                        id="logo" name="logo" readonly disabled>
+                                    @error('logo')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    @if($settings->logo)
+                                        <img src="{{ asset('uploads/settings/' . $settings->logo) }}" alt="Logo" class="mt-2" style="max-height: 50px">
+                                    @endif
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="favicon"><i class="fas mr-2"></i>&nbsp;&nbsp;<strong>Favicon</strong></label>
+                                    <input type="file" class="form-control @error('favicon') is-invalid @enderror"
+                                        id="favicon" name="favicon" readonly disabled>
+                                    @error('favicon')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    @if($settings->favicon)
+                                        <img src="{{ asset('uploads/settings/' . $settings->favicon) }}" alt="Favicon" class="mt-2" style="max-height: 32px">
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -91,15 +137,15 @@
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="button" id="editBtn" class="btn btn-primary btn-lg">
-                            <i class="fas fa-edit mr-2"></i>Edit Settings
+                            <i class="fas fa-edit mr-2"></i>&nbsp;&nbsp;Edit Settings
                         </button>
 
-                        <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none">
-                            <i class="fas fa-save mr-2"></i>Save Changes
+                        <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none mx-2">
+                            <i class="fas fa-save mr-2"></i>&nbsp;&nbsp;Save Changes
                         </button>
 
                         <button type="button" id="cancelBtn" class="btn btn-secondary btn-lg d-none">
-                            <i class="fas fa-times mr-2"></i>Cancel
+                            <i class="fas fa-times mr-2"></i>&nbsp;&nbsp;Cancel
                         </button>
                     </div>
                 </div>

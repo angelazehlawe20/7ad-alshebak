@@ -15,6 +15,8 @@ class Contact extends Model
         'subject',
         'message',
         'is_read',
-        'sent_at'
+        'sent_at',
+        'facebook_link',
+        'instagram_link'
     ];
 }

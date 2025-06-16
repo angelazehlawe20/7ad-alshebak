@@ -2,15 +2,18 @@
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\social_linksController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\HomeController;
 use App\Models\About;
 use App\Models\Category;
 use App\Models\Offer;
+use App\Models\Hero_Page;
+use App\Models\Social_link;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,12 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
+    $heroPage = Hero_Page::first();
     $about = About::first();
     $offers = Offer::latest()->get();
     $categories = Category::all();
 
-    return view('home', compact('about', 'offers', 'categories'));
+    return view('home', compact('about', 'offers', 'categories','heroPage'));
 })->name('hero');
+
 Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
 Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
 Route::get('/book', [BookingController::class, 'index'])->name('book');
@@ -101,7 +106,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/about/index', [AboutController::class, 'indexForAdmin'])->name('about.indexForAdmin');
     Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
-    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');  // عرض صفحة الفورم
+    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create'); // حفظ البيانات
     Route::post('/about/create', [AboutController::class, 'createAbout'])->name('about.store'); // حفظ البيانات
-    Route::post('admin/about/delete-image', [AboutController::class, 'deleteImage'])->name('about.deleteImage');
+    Route::post('/about/delete-image', [AboutController::class, 'deleteImage'])->name('about.deleteImage');
+
+
+    Route::get('/hero/index', [HeroController::class, 'indexForAdmin'])->name('hero.indexForAdmin');
+    Route::get('/hero/create', [HeroController::class, 'create'])->name('hero.create');  // عرض صفحة الفورم
+    Route::post('/hero/create', [HeroController::class, 'store'])->name('hero.store'); // حفظ البيانات
+    Route::put('/hero/update', [HeroController::class, 'update'])->name('hero.update');
+    Route::post('/hero/delete-image', [HeroController::class, 'destroy'])->name('hero.deleteImage');
+
+
 });

@@ -13,6 +13,10 @@
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.about.indexForAdmin') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-info-circle me-2"></i> About
             </a>
+            <a href="{{ route('admin.hero.indexForAdmin') }}"
+                class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.hero.indexForAdmin') ? 'active bg-primary text-white' : 'text-dark' }}">
+                <i class="fas fa-info-circle me-2"></i> Hero
+            </a>
             <a href="{{ route('admin.categories.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.categories.index') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-list me-2"></i> Categories

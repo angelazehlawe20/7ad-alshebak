@@ -53,7 +53,7 @@
 
                         <div class="card-footer text-end">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="{{ route('admin.about.index') }}" class="btn btn-light">Cancel</a>
+                            <a href="{{ route('admin.about.indexForAdmin') }}" class="btn btn-light">Cancel</a>
                         </div>
                     </form>
                 </div>

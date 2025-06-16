@@ -5,9 +5,7 @@
 @section('content')
 <div class="container-fluid px-3">
     <div class="d-flex align-items-center mb-4">
-        <button class="btn btn-link d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
-            <i class="fas fa-bars"></i>
-        </button>
+
         <h1 class="h2 mb-0">Dashboard</h1>
     </div>
     <p class="small">Welcome to the Admin Dashboard. Use the sidebar to navigate through the management sections.</p>

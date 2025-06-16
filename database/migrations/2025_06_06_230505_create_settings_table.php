@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();  // مثال: site_name
-            $table->text('value')->nullable(); // يمكن أن تكون نصوص طويلة
+            $table->text('address')->nullable();
+            $table->string('email')->unique();
+            $table->string('phone', 10)->nullable();
+            $table->string('opening_hours')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('favicon')->nullable();
             $table->timestamps();
         });
     }
