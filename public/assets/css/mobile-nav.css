@@ -1,12 +1,24 @@
 /* Mobile Navigation Styles */
+
 /* Mobile Navigation Button */
 .mobile-nav-toggle {
+    color: var(--nav-color, #7f7f90);
     font-size: 28px;
     cursor: pointer;
     line-height: 0;
     transition: 0.5s;
-    color: var(--accent-color);
-    z-index: 9999;
+    position: relative;
+    z-index: 9998;
+    background: transparent;
+    border: none;
+}
+
+.mobile-nav-toggle:focus {
+    outline: none;
+}
+
+.mobile-nav-toggle:hover {
+    color: var(--nav-color, #7f7f90);
 }
 
 /* Mobile Navigation Sidebar */
@@ -14,104 +26,19 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: #fff;
+    width: 50%;
+    max-width: 350px;
+    height: 100%;
+    background: var(--nav-mobile-background-color, #ffffff);
     padding: 20px 0;
-    transition: 0.3s;
-    z-index: 9999;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9997;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
     overflow-y: auto;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+    border-radius: 20px 0 0 20px;
 }
 
 .mobile-nav-sidebar.active {
-    right: 0;
-}
-
-/* RTL Support */
-html[dir="rtl"] .mobile-nav-sidebar {
-    right: auto;
-    left: -100%;
-}
-
-html[dir="rtl"] .mobile-nav-sidebar.active {
-    right: auto;
-    left: 0;
-}
-
-/* Close Button */
-#closeSidebarBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    z-index: 10000;
-}
-
-html[dir="rtl"] #closeSidebarBtn {
-    right: auto;
-    left: 10px;
-}
-
-/* Mobile Navigation Links */
-.mobile-nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-nav-links li {
-    padding: 10px 20px;
-}
-
-.mobile-nav-links li a {
-    display: block;
-    font-size: 18px;
-    color: #333;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.mobile-nav-links li a:hover,
-.mobile-nav-links li a.active {
-    color: var(--accent-color);
-}
-
-/* Body Style When Mobile Nav is Active */
-body.mobile-nav-active {
-    overflow: hidden !important;
-    /* position: fixed !important; حذفنا هذه الخاصية لمنع تجميد الصفحة */
-    width: 100% !important;
-    height: 100% !important;
-    top: 0 !important;
-    left: 0 !important;
-    touch-action: none !important; /* Disable touch scrolling */
-}
-
-/* Overlay */
-.mobile-nav-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9998;
-    display: none;
-    touch-action: none; /* Disable touch scrolling on overlay */
-}
-
-body.mobile-nav-active .mobile-nav-overlay {
-    display: block;
-}
-
-/* RTL Support for Overlay */
-html[dir="rtl"] .mobile-nav-overlay {
-    left: auto;
     right: 0;
 }
 
@@ -166,19 +93,11 @@ html[dir="rtl"] .mobile-nav-overlay {
     color: var(--nav-hover-color, #ce1212);
 }
 
-/* Overlay effect with blur when mobile nav is active */
-body.mobile-nav-active::before {
-    content: "";
-    position: fixed;
-    top: 80px; /* Adjust to header height */
-    left: 0;
-    width: 100%;
-    height: calc(100% - 80px);
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9996;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+/* Body class when mobile nav is active */
+body.mobile-nav-active {
+    overflow: hidden;
 }
+
 
 /* close-sidebar-btn */
 .close-sidebar-btn {
@@ -208,7 +127,6 @@ body.mobile-nav-active::before {
 html[dir="rtl"] .mobile-nav-sidebar {
     right: auto;
     left: -100%;
-    top: 80px; /* Adjusted for RTL */
 }
 
 html[dir="rtl"] .mobile-nav-sidebar.active {

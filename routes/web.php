@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\social_linksController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\BookingController;
@@ -13,7 +12,6 @@ use App\Models\About;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Hero_Page;
-use App\Models\Social_link;
 use Illuminate\Support\Facades\Route;
 
 /*

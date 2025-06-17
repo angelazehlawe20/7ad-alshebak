@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Hero_Page;
 use App\Models\Setting;
 use App\Models\Social_link;
 use Illuminate\Support\Facades\View;
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         });
         View::composer('*', function ($view) {
             $view->with('settings', Setting::first());
+        });
+        View::composer('*', function ($view) {
+            $view->with('heroPage', Hero_Page::first());
         });
     }
 }

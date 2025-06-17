@@ -18,8 +18,7 @@
                 <i class="icon bi bi-geo-alt flex-shrink-0"></i>
                 <div>
                     <h3>Address</h3>
-                    <p>Blue Tower Hotel, 11th Floor, Al-Hamra Street, Damascus, Syria
-                    </p>
+                    <p>{{$footer?->address}}</p>
                 </div>
             </div>
         </div><!-- End Info Item -->
@@ -29,7 +28,7 @@
                 <i class="icon bi bi-telephone flex-shrink-0"></i>
                 <div>
                     <h3>Call Us</h3>
-                    <p>+963 995 200 600</p>
+                    <p>{{$footer?->phone}}</p>
                 </div>
             </div>
         </div><!-- End Info Item -->
@@ -39,7 +38,7 @@
                 <i class="icon bi bi-envelope flex-shrink-0"></i>
                 <div>
                     <h3>Email Us</h3>
-                    <p>operation@hadalshebak.com</p>
+                    <p>{{$footer?->email}}</p>
                 </div>
             </div>
         </div><!-- End Info Item -->
@@ -49,7 +48,7 @@
                 <i class="icon bi bi-clock flex-shrink-0"></i>
                 <div>
                     <h3>Opening Hours<br></h3>
-                    <p>24 / 7</p>
+                    <p>{{$footer?->opening_hours}}</p>
                 </div>
             </div>
         </div><!-- End Info Item -->

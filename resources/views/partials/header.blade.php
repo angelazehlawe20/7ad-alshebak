@@ -5,14 +5,13 @@
 
       <!-- Logo -->
       <div class="col-6 col-md-3">
-        <div class="logo">
-          <img src="{{ $settings->logo }}" alt="Logo">
+        <div class="logo d-flex align-items-center gap-2">
+          <img src="{{ asset('uploads/settings/' . $settings?->logo) }}" alt="Logo">
           <a href="{{ route('hero') }}" class="text-decoration-none">
-            <h1 class="sitename">Had AlShebak</h1>
+            <h1 class="sitename">{{ $heroPage?->title_en ?? '' }}</h1>
           </a>
         </div>
       </div>
-
       <!-- Desktop Navigation -->
       <div class="col-md-6 d-none d-md-flex justify-content-center">
         <nav class="d-flex gap-3">
@@ -90,7 +89,6 @@
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
       const header = document.getElementById('header');
   
-      // وظيفة: إصلاح التمرير
       function restoreScroll() {
         body.style.overflow = '';
         body.style.position = '';
@@ -113,7 +111,6 @@
         toggleIcon?.classList.add("bi-list");
       }
   
-      // عندما يتم الضغط على زر القائمة
       mobileNavToggle?.addEventListener('click', () => {
         const isActive = mobileNavSidebar.classList.toggle('active');
         body.classList.toggle('mobile-nav-active', isActive);
@@ -127,10 +124,8 @@
         }
       });
   
-      // إغلاق عند النقر على الخلفية
       mobileNavOverlay?.addEventListener('click', closeSidebar);
   
-      // إغلاق القائمة عند اختيار أي رابط فيها
       mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
           const linkPath = new URL(link.href).pathname;
@@ -142,15 +137,13 @@
         });
       });
   
-      // زر X يغلق القائمة ويعيد التمرير
       closeSidebarBtn?.addEventListener("click", () => {
         closeSidebar();
         setTimeout(() => {
-          location.reload(); // إذا أردت إعادة تحميل الصفحة
+          location.reload();
         }, 80);
       });
   
-      // تغيير لون الرابط النشط حسب الصفحة
       function updateActiveLinkByPath() {
         const currentPath = window.location.pathname;
         navLinks.forEach(link => {
@@ -163,66 +156,11 @@
         });
       }
   
-      // عند التمرير - تثبيت الهيدر
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         header.classList.toggle('header-fixed', scrollTop > 50);
       });
   
       updateActiveLinkByPath();
-    });
-
-    function disableScroll() {
-  document.body.style.overflow = 'hidden';
-}
-
-function enableScroll() {
-  document.body.style.overflow = '';
-}
-
-function closeSidebar() {
-  mobileNavSidebar.classList.remove("active");
-  body.classList.remove("mobile-nav-active");
-  enableScroll();
-  toggleIcon?.classList.remove("bi-x");
-  toggleIcon?.classList.add("bi-list");
-}
-
-mobileNavToggle?.addEventListener('click', () => {
-  const isActive = mobileNavSidebar.classList.toggle('active');
-  body.classList.toggle('mobile-nav-active', isActive);
-
-  if (isActive) {
-    disableScroll();
-    toggleIcon?.classList.remove('bi-list');
-    toggleIcon?.classList.add('bi-x');
-  } else {
-    closeSidebar();
-  }
-});
-
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const body = document.body;
-        const toggleBtn = document.querySelector('.mobile-nav-toggle');
-        const sidebar = document.querySelector('.mobile-nav-sidebar');
-        const overlay = document.querySelector('.mobile-nav-overlay');
-
-        // فتح القائمة
-        toggleBtn?.addEventListener('click', () => {
-            body.classList.add('mobile-nav-active');
-            sidebar?.classList.add('active');
-        });
-
-        // إغلاق القائمة عند الضغط على overlay أو زر الإغلاق أو أحد الروابط
-        document.querySelectorAll(
-            '.mobile-nav-close, .close-sidebar-btn, .mobile-nav-links a, .mobile-nav-overlay'
-        ).forEach(el => {
-            el.addEventListener('click', () => {
-                body.classList.remove('mobile-nav-active');
-                sidebar?.classList.remove('active');
-            });
-        });
     });
 </script>

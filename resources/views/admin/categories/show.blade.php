@@ -34,7 +34,7 @@
                                     </div>
                                     @endif
                                     <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-primary fs-6">${{ number_format($item->price, 2) }}</span>
+                                        <span class="badge bg-primary fs-6">${{ number_format($item->price) }}</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
