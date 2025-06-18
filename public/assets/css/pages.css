@@ -5,7 +5,6 @@
     width: 100%;
     min-height: 60vh;
     position: relative;
-    padding: 140px 0 60px; /* 140px بدلًا من 60px لتوفير مساحة تحت الهيدر */
     display: flex;
     align-items: center;
 }

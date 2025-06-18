@@ -1,17 +1,25 @@
 <?php
 
-use App\Http\Controllers\Admin\AboutController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\HeroController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\MenuItemController;
-use App\Http\Controllers\OfferController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\ContactController;
-use App\Models\About;
-use App\Models\Category;
-use App\Models\Offer;
-use App\Models\Hero_Page;
+use App\Http\Controllers\Admin\{
+    AboutController,
+    AdminController as AdminAdminController,
+    DashboardController,
+    HeroController,
+    SettingsController,
+    MenuItemController as AdminMenuItemController,
+    OfferController as AdminOfferController,
+    BookingController as AdminBookingController,
+    ContactController as AdminContactController,
+    CategoryController
+};
+use App\Http\Controllers\{
+    AdminController,
+    MenuItemController,
+    OfferController,
+    BookingController,
+    ContactController
+};
+use App\Models\{About, Category, Offer, Hero_Page};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,42 +29,60 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public routes
-Route::get('/', function () {
-    $heroPage = Hero_Page::first();
-    $about = About::first();
-    $offers = Offer::latest()->get();
-    $categories = Category::all();
 
-    return view('home', compact('about', 'offers', 'categories','heroPage'));
+Route::get('/', function () {
+    return view('home', [
+        'heroPage' => Hero_Page::first(),
+        'about' => About::first(),
+        'offers' => Offer::latest()->get(),
+        'categories' => Category::all()
+    ]);
 })->name('hero');
 
-Route::get('/all-offers', [OfferController::class, 'index'])->name('all_offers');
-Route::get('/menu', [MenuItemController::class, 'index'])->name('menu');
-Route::get('/book', [BookingController::class, 'index'])->name('book');
-Route::post('/book/table', [BookingController::class, 'store'])->name('book.store');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::post('/contact/sent', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/about', [AboutController::class, 'index'])->name('about');
+// Public Feature Routes
+Route::controller(OfferController::class)->group(function() {
+    Route::get('/all-offers', 'index')->name('all_offers');
+});
 
+Route::controller(MenuItemController::class)->group(function() {
+    Route::get('/menu', 'index')->name('menu');
+});
 
+Route::controller(BookingController::class)->group(function() {
+    Route::get('/book', 'index')->name('book');
+    Route::post('/book/table', 'store')->name('book.store');
+});
 
-// admin
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::controller(ContactController::class)->group(function() {
+    Route::get('/contact', 'index')->name('contact');
+    Route::post('/contact/sent', 'store')->name('contact.store');
+});
+
+Route::controller(AboutController::class)->group(function() {
+    Route::get('/about', 'index')->name('about');
+});
+
+// Admin Routes
+Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('menu_items', App\Http\Controllers\Admin\MenuItemController::class)->names([
+    // Menu Items Management
+    Route::resource('menu_items', AdminMenuItemController::class)->names([
         'index' => 'menu.index',
         'create' => 'menu.create',
         'store' => 'menu.store',
-        'filterByCategory' => 'menu.filter',
         'edit' => 'menu.edit',
         'update' => 'menu.update',
         'destroy' => 'menu.destroy',
     ]);
-    Route::get('/menu/filter', [App\Http\Controllers\Admin\MenuItemController::class, 'filterByCategory'])->name('menu.filter');
-    Route::get('/menu/createItemInCategory', [App\Http\Controllers\Admin\MenuItemController::class, 'createItemInCategory'])->name('menu.createItemInCategory');
+    Route::controller(AdminMenuItemController::class)->group(function() {
+        Route::get('/menu/filter', 'filterByCategory')->name('menu.filter');
+        Route::get('/menu/createItemInCategory', 'createItemInCategory')->name('menu.createItemInCategory');
+    });
 
-    Route::resource('offers', App\Http\Controllers\Admin\OfferController::class)->except(['show'])->names([
+    // Offers Management
+    Route::resource('offers', AdminOfferController::class)->except(['show'])->names([
         'index' => 'offers.index',
         'create' => 'offers.create',
         'store' => 'offers.store',
@@ -64,10 +90,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'update' => 'offers.update',
         'destroy' => 'offers.destroy'
     ]);
-    Route::get('/offers/filter_by_category', [App\Http\Controllers\Admin\OfferController::class, 'filterByCategory'])->name('offers.filter.category');
-    Route::get('/offers/filter_by_status', [App\Http\Controllers\Admin\OfferController::class, 'filterByStatus'])->name('offers.filter.status');
+    Route::controller(AdminOfferController::class)->group(function() {
+        Route::get('/offers/filter_by_category', 'filterByCategory')->name('offers.filter.category');
+        Route::get('/offers/filter_by_status', 'filterByStatus')->name('offers.filter.status');
+    });
 
-    Route::resource('bookings', App\Http\Controllers\Admin\BookingController::class)->names([
+    // Bookings Management
+    Route::resource('bookings', AdminBookingController::class)->names([
         'index' => 'bookings.index',
         'create' => 'bookings.create',
         'store' => 'bookings.store',
@@ -75,19 +104,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'update' => 'bookings.update',
         'destroy' => 'bookings.destroy'
     ]);
-    Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->names([
-        'index' => 'contacts.index',
-        'create' => 'contacts.markAsRead',
-        'store' => 'contacts.store',
-        'edit' => 'contacts.edit',
-        'update' => 'contacts.update',
-        'destroy' => 'contacts.destroy'
-    ]);
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::put('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
 
+    // Settings Management
+    Route::controller(SettingsController::class)->group(function() {
+        Route::get('/settings', 'index')->name('settings.index');
+        Route::put('/settings/update', 'update')->name('settings.update');
+    });
 
-    Route::resource('/categories', App\Http\Controllers\Admin\CategoryController::class)->names([
+    // Categories Management
+    Route::resource('categories', CategoryController::class)->names([
         'index' => 'categories.index',
         'create' => 'categories.create',
         'store' => 'categories.store',
@@ -96,24 +121,36 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'destroy' => 'categories.destroy'
     ]);
 
-    Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');
-    Route::get('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
-    Route::post('/contacts/mark-as-read', [App\Http\Controllers\Admin\ContactController::class, 'markAsRead'])->name('contacts.markAsRead');
-    Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+    // Contacts Management
+    Route::controller(AdminContactController::class)->group(function() {
+        Route::get('/contacts', 'index')->name('contacts.index');
+        Route::get('/contacts/{contact}', 'show')->name('contacts.show');
+        Route::post('/contacts/mark-as-read', 'markAsRead')->name('contacts.markAsRead');
+        Route::delete('/contacts/{contact}', 'destroy')->name('contacts.destroy');
+    });
 
+    // About Management
+    Route::controller(AboutController::class)->group(function() {
+        Route::get('/about/index', 'indexForAdmin')->name('about.indexForAdmin');
+        Route::put('/about/update', 'update')->name('about.update');
+        Route::get('/about/create', 'create')->name('about.create');
+        Route::post('/about/create', 'createAbout')->name('about.store');
+        Route::post('/about/delete-image', 'deleteImage')->name('about.deleteImage');
+    });
 
-    Route::get('/about/index', [AboutController::class, 'indexForAdmin'])->name('about.indexForAdmin');
-    Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
-    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create'); // حفظ البيانات
-    Route::post('/about/create', [AboutController::class, 'createAbout'])->name('about.store'); // حفظ البيانات
-    Route::post('/about/delete-image', [AboutController::class, 'deleteImage'])->name('about.deleteImage');
+    // Hero Management
+    Route::controller(HeroController::class)->group(function() {
+        Route::get('/hero/index', 'indexForAdmin')->name('hero.indexForAdmin');
+        Route::get('/hero/create', 'create')->name('hero.create');
+        Route::post('/hero/create', 'store')->name('hero.store');
+        Route::put('/hero/update', 'update')->name('hero.update');
+        Route::post('/hero/delete-image', 'destroy')->name('hero.deleteImage');
+    });
 
-
-    Route::get('/hero/index', [HeroController::class, 'indexForAdmin'])->name('hero.indexForAdmin');
-    Route::get('/hero/create', [HeroController::class, 'create'])->name('hero.create');  // عرض صفحة الفورم
-    Route::post('/hero/create', [HeroController::class, 'store'])->name('hero.store'); // حفظ البيانات
-    Route::put('/hero/update', [HeroController::class, 'update'])->name('hero.update');
-    Route::post('/hero/delete-image', [HeroController::class, 'destroy'])->name('hero.deleteImage');
-
-
+    // Admin Authentication
+    Route::controller(AdminAdminController::class)->group(function() {
+        Route::post('/admin/login', 'login')->name('login');
+        Route::post('/admin/logout', 'logout')->name('logout');
+        Route::put('/admin/profile', 'update')->name('profile.update');
+    });
 });

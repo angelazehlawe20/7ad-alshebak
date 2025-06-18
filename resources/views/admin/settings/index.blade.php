@@ -73,7 +73,7 @@
                     <div class="col-md-6">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-share-alt mr-2"></i>&nbsp;&nbsp;Social Media & Branding</h3>
+                                <h3 class="card-title"><i class="fas fa-share-alt mr-2"></i>&nbsp;&nbsp;Social Media & Logo</h3>
                             </div>
                             <div class="card-body pt-4">
                                 <div class="form-group mb-4">

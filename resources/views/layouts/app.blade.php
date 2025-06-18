@@ -5,9 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'Had AlShebak')</title>
-
-        <link href="{{ asset('uploads/settings/'.$settings->favicon) }}">
-        <link href="{{ asset('uploads/settings/'.$settings->favicon) }}" >
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
@@ -22,7 +21,7 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/base.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/component.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/components.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/layout.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/pages.css') }}" rel="stylesheet">

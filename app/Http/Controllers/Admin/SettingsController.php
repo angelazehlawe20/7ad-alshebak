@@ -25,7 +25,7 @@ class SettingsController extends Controller
             'instagram_url' => 'nullable|string|url',
             'whatsapp' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024'
+            'favicon' => 'nullable|mimes:ico,png,jpg|max:1024'
         ]);
 
         $settings = Setting::firstOrNew();
