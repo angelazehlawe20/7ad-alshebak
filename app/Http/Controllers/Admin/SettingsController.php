@@ -39,17 +39,27 @@ class SettingsController extends Controller
         $settings->whatsapp = $request->whatsapp;
 
         if ($request->hasFile('logo')) {
-            $logo = $request->file('logo');
-            $logoName = time() . '.' . $logo->getClientOriginalExtension();
-            $logo->move(public_path('uploads/settings'), $logoName);
-            $settings->logo = $logoName;
+            // Delete old logo if exists
+            if ($settings->logo && file_exists(public_path('uploads/settings/' . $settings->logo))) {
+                unlink(public_path('uploads/settings/' . $settings->logo));
+            }
+        
+            $file = $request->file('logo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/settings'), $filename);
+            $settings->logo = $filename;
         }
 
         if ($request->hasFile('favicon')) {
-            $favicon = $request->file('favicon');
-            $faviconName = 'favicon.' . $favicon->getClientOriginalExtension();
-            $favicon->move(public_path('uploads/settings'), $faviconName);
-            $settings->favicon = $faviconName;
+            // Delete old logo if exists
+            if ($settings->favicon && file_exists(public_path('uploads/settings/' . $settings->favicon))) {
+                unlink(public_path('uploads/settings/' . $settings->favicon));
+            }
+        
+            $file = $request->file('favicon');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/settings'), $filename);
+            $settings->favicon = $filename;
         }
 
         $settings->save();

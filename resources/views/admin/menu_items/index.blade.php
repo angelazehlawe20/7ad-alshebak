@@ -38,25 +38,25 @@
                             @endif
                         </form>
                     </div>
-
                     <div class="row g-4">
                         @forelse ($items as $item)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="card h-100 shadow-sm">
-                                <div class="position-relative">
+                                <div class="position-relative" style="height: 300px;">
                                     @if($item->image)
-                                    <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top"
+                                    <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top w-100 h-100"
                                         alt="{{ $item->name_en }}" loading="lazy"
-                                        style="height: 300px; object-fit: contain; background-color: #f8f9fa; padding: 10px;">
+                                        style="object-fit: contain; background-color: #f8f9fa; padding: 10px;">
                                     @else
-                                    <div class="bg-light text-center p-4" style="height: 300px;">
-                                        <i class="fas fa-image fa-3x text-secondary" style="margin-top: 100px;"></i>
+                                    <div
+                                        class="bg-light text-center p-4 w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-image fa-3x text-secondary"></i>
                                         <p class="mt-2 text-secondary">No image available</p>
                                     </div>
                                     @endif
                                     <div class="position-absolute top-0 end-0 m-2">
                                         <span class="badge bg-primary fs-6">{{ number_format($item->price) }}
-                                            $</span>
+                                        $</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -84,12 +84,12 @@
                                         <form action="{{ route('admin.menu.destroy', $item->id) }}" method="POST"
                                             class="flex-grow-1"
                                             onsubmit="return confirm('Are you sure you want to delete this item?')">
-                                          @csrf
-                                          @method('DELETE')
-                                          <button type="submit" class="btn btn-outline-danger w-100">
-                                              <i class="fas fa-trash"></i> Delete
-                                          </button>
-                                      </form>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger w-100">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

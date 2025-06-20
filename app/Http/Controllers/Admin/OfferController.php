@@ -38,7 +38,7 @@ class OfferController extends Controller
             'description_en' => 'nullable|string',
             'active' => 'required|boolean',
             'price' => 'required|numeric|min:0',
-            'valid_until' => 'required|date|date_format:M d, Y h:i A|after_or_equal:today',
+            'valid_until' => 'required|date|after_or_equal:today',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 

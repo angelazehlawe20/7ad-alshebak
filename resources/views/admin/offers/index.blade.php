@@ -59,8 +59,7 @@
                                         @endif
                                     </div>
                                     <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-primary fs-6">${{ number_format($offer->price)
-                                            }}</span>
+                                        <span class="badge bg-primary fs-6">{{ number_format($offer->price) }} $</span>
                                     </div>
                                     <div class="position-absolute top-0 start-0 m-2">
                                         @if($offer->active)

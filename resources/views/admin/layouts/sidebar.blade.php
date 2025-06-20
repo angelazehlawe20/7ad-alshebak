@@ -5,6 +5,10 @@
             <p class="text-muted small mb-0">Admin Dashboard</p>
         </div>
         <nav class="nav flex-column p-3">
+            <a href="{{ route('admin.profile.index') }}"
+                class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.profile.index') ? 'active bg-primary text-white' : 'text-dark' }}">
+                <i class="fas fa-home me-2"></i> Profile
+            </a>
             <a href="{{ route('admin.dashboard') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : 'text-dark' }}">
                 <i class="fas fa-home me-2"></i> Dashboard

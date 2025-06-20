@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Admin\{
     AboutController,
-    AdminController as AdminAdminController,
     DashboardController,
     HeroController,
     SettingsController,
+    AdminController,
     MenuItemController as AdminMenuItemController,
     OfferController as AdminOfferController,
     BookingController as AdminBookingController,
@@ -13,7 +13,6 @@ use App\Http\Controllers\Admin\{
     CategoryController
 };
 use App\Http\Controllers\{
-    AdminController,
     MenuItemController,
     OfferController,
     BookingController,
@@ -63,7 +62,7 @@ Route::controller(AboutController::class)->group(function() {
 });
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -130,12 +129,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // About Management
-    Route::controller(AboutController::class)->group(function() {
+    Route::controller(AboutController::class)->group(function () {
         Route::get('/about/index', 'indexForAdmin')->name('about.indexForAdmin');
         Route::put('/about/update', 'update')->name('about.update');
+        Route::post('/about/update-image', 'updateImage')->name('about.updateImage');
+        Route::post('/about/delete-image', 'deleteImage')->name('about.deleteImage');
         Route::get('/about/create', 'create')->name('about.create');
         Route::post('/about/create', 'createAbout')->name('about.store');
-        Route::post('/about/delete-image', 'deleteImage')->name('about.deleteImage');
     });
 
     // Hero Management
@@ -147,10 +147,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::post('/hero/delete-image', 'destroy')->name('hero.deleteImage');
     });
 
+
     // Admin Authentication
-    Route::controller(AdminAdminController::class)->group(function() {
-        Route::post('/admin/login', 'login')->name('login');
-        Route::post('/admin/logout', 'logout')->name('logout');
-        Route::put('/admin/profile', 'update')->name('profile.update');
+    Route::controller(AdminController::class)->group(function() {
+        /*Route::post('/login', 'login')->name('login');
+        Route::post('/logout', 'logout')->name('logout');*/
+        Route::get('/profile', 'index')->name('profile.index');
+        Route::put('/profile/update', 'update')->name('profile.update');
     });
+
 });

@@ -82,7 +82,7 @@
                                 <div class="form-group mb-3">
                                     <label class="form-label">Valid Until</label>
                                     <input type="datetime-local" name="valid_until" class="form-control"
-                                        value="{{ old('valid_until') ? \Carbon\Carbon::parse(old('valid_until'))->format('Y-m-d\TH:i') : '' }}">
+                                    value="{{ old('valid_until') ? \Carbon\Carbon::parse(old('valid_until'))->format('Y-m-d\TH:i') : '' }}"
                                 </div>
                             </div>
                         </div>

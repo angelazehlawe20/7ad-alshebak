@@ -6,139 +6,68 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class MenuItemController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
+        $items = MenuItem::all();
         $categories = Category::all();
-        $categoryId = $request->id;
-
-        if ($categoryId) {
-            $items = MenuItem::where('category_id', $categoryId)->get();
-
-            if ($items->isEmpty()) {
-                return redirect()->route('admin.menu.index')->with('warning', 'No items found in this category.');
-            }
-        } else {
-            $items = MenuItem::all();
-        }
-
-        return view('admin.menu_items.index', compact('items', 'categories'));
+        return view('admin.menu_items.index', compact('items','categories'));
     }
 
-
-    public function filterByCategory(Request $request)
-    {
-        $categoryId = $request->category_id; // ✅ بدل id
-
-        if ($categoryId) {
-            $items = MenuItem::where('category_id', $categoryId)->get();
-
-            if ($items->isEmpty()) {
-                return redirect()->route('admin.menu.index')
-                    ->with('warning', 'No items found for the selected category.');
-            }
-        } else {
-            $items = MenuItem::all();
-        }
-
-        $categories = Category::all();
-
-        return view('admin.menu_items.index', compact('items', 'categories'));
-    }
-
-
+    // عرض صفحة إنشاء عنصر جديد
     public function create()
     {
         $categories = Category::all();
-        return view('admin.menu_items.create', compact('categories'));
+        return view('admin.menu_items.create',compact('categories'));
     }
 
-    public function createItemInCategory(Request $request)
-    {
-        $id = $request->input('id');
-        $category = Category::findOrFail($id);
-        $categories = Category::all();
-        return view('admin.menu_items.create', compact('category', 'categories'));
-    }
-
+    // تخزين عنصر جديد
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'name_en' => 'required|string',
-            'name_ar' => 'required|string',
-            'description_en' => 'nullable|string',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'description_ar' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description_en' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
         ]);
 
-        if ($request->hasFile('image')) {
-            // Create menu_items directory if it doesn't exist
-            Storage::makeDirectory('public/menu_items');
-            $validated['image'] = $request->file('image')->store('menu_items', 'public');
-        }
+        MenuItem::create($request->all());
 
-        MenuItem::create($validated);
-
-        // هنا نتحقق من redirect_to
-        $redirectTo = $request->input('redirect_to', route('admin.menu.index'));
-        return redirect($redirectTo)->with('success', 'Menu item created successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
     }
 
-
+    // عرض صفحة تعديل عنصر معين
     public function edit(MenuItem $menuItem)
     {
-        $categories = Category::all();
-        return view('admin.menu_items.edit', compact('menuItem', 'categories'));
+        return view('admin.menu_items.edit', compact('menuItem'));
     }
 
-    public function update(Request $request, $id)
+    // تحديث عنصر معين
+    public function update(Request $request, MenuItem $menuItem)
     {
-        $menuItem = MenuItem::findOrFail($id);
-
-        $validated = $request->validate([
+        $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'name_en' => 'required|string',
-            'name_ar' => 'required|string',
-            'description_en' => 'nullable|string',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'description_ar' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description_en' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
         ]);
 
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($menuItem->image) {
-                Storage::delete('public/' . $menuItem->image);
-            }
+        $menuItem->update($request->all());
 
-            // Store new image in menu_items directory
-            Storage::makeDirectory('public/menu_items');
-            $validated['image'] = $request->file('image')->store('menu_items', 'public');
-        }
-
-        $menuItem->update($validated);
-
-        $redirectTo = $request->input('redirect_to', route('admin.menu.index'));
-        return redirect($redirectTo)->with('success', 'Menu item updated successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }
 
-    public function destroy($id)
+    // حذف عنصر معين
+    public function destroy(MenuItem $menuItem)
     {
-        $menuItem = MenuItem::findOrFail($id);
-
-        // حذف الصورة إن وجدت
-        if ($menuItem->image) {
-            Storage::delete('public/' . $menuItem->image);
-        }
-
         $menuItem->delete();
 
-        // العودة للصفحة السابقة (سواء كانت فلتر تصنيف أو كل العناصر)
-        return redirect()->back()->with('success', 'Menu item deleted successfully.');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');
     }
 }

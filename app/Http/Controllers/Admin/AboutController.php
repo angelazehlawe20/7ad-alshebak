@@ -5,21 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\About;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+
+
 class AboutController extends Controller
 {
+    // عرض صفحة about للزوار
     public function index()
     {
         $about = About::first();
         return view('partials.about', compact('about'));
     }
 
+    // عرض صفحة about للوحة التحكم
     public function indexForAdmin()
     {
         $about = About::first() ?? new About();
         return view('admin.about.index', compact('about'));
     }
 
+    // تحديث بيانات about
     public function update(Request $request)
     {
         $about = About::first() ?? new About();
@@ -28,23 +32,25 @@ class AboutController extends Controller
         $about->why_title = $request->why_title;
         $about->why_points = json_encode(array_filter($request->why_points));
 
-        // الصور المتبقية بعد الحذف
+        // الصور الحالية بعد الحذف
         $existingImages = json_decode($request->input('existing_images'), true) ?? [];
 
-        // Delete removed images from storage
+        // حذف الصور المحذوفة من التخزين
         $oldImages = json_decode($about->gallery_images ?? '[]', true);
         $removedImages = array_diff($oldImages, $existingImages);
         foreach ($removedImages as $image) {
-            if (Storage::disk('public')->exists($image)) {
-                Storage::disk('public')->delete($image);
+            $path = public_path($image);
+            if (file_exists($path)) {
+                unlink($path);
             }
         }
 
-        // الصور الجديدة المرفوعة
+        // إضافة الصور الجديدة
         if ($request->hasFile('new_gallery_images')) {
             foreach ($request->file('new_gallery_images') as $file) {
-                $path = $file->store('gallery', 'public');
-                $existingImages[] = $path; // نضيفها للمصفوفة النهائية
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/gallery'), $filename);
+                $existingImages[] = 'images/gallery/' . $filename;
             }
         }
 
@@ -54,6 +60,49 @@ class AboutController extends Controller
         return redirect()->back()->with('success', 'About section updated successfully');
     }
 
+    // تحديث صورة واحدة (عند تعديلها مباشرة في الواجهة)
+    public function updateImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'original_image' => 'required|string'
+        ]);
+
+        $oldImage = $request->original_image;
+        $about = About::first();
+
+        if (!$about || !$oldImage) {
+            return response()->json(['success' => false, 'message' => 'Invalid data']);
+        }
+
+        // حذف الصورة القديمة
+        $oldPath = public_path($oldImage);
+        if (file_exists($oldPath)) {
+            unlink($oldPath);
+        }
+
+        // رفع الصورة الجديدة
+        $file = $request->file('image');
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $newImagePath = 'images/gallery/' . $filename;
+        $file->move(public_path('images/gallery'), $filename);
+
+        // تعديل مسار الصورة في مصفوفة الصور
+        $gallery = json_decode($about->gallery_images ?? '[]', true);
+        $gallery = array_map(function ($img) use ($oldImage, $newImagePath) {
+            return $img === $oldImage ? $newImagePath : $img;
+        }, $gallery);
+
+        $about->gallery_images = json_encode($gallery);
+        $about->save();
+
+        return response()->json([
+            'success' => true,
+            'newImage' => $newImagePath,
+        ]);
+    }
+
+    // إنشاء about لأول مرة
     public function create()
     {
         return view('admin.about.create');
@@ -61,7 +110,6 @@ class AboutController extends Controller
 
     public function createAbout(Request $request)
     {
-        // Validate request data
         $request->validate([
             'main_text' => 'required|string|max:1000',
             'why_title' => 'required|string|max:255',
@@ -74,45 +122,45 @@ class AboutController extends Controller
         $about->why_title = $request->why_title;
         $about->why_points = json_encode(array_filter($request->why_points));
 
+        $images = [];
+
         if ($request->hasFile('gallery_images')) {
-            $images = [];
             foreach ($request->file('gallery_images') as $file) {
-                $path = $file->store('gallery', 'public');
-                $images[] = $path;
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/gallery'), $filename);
+                $images[] = 'images/gallery/' . $filename;
             }
-            $about->gallery_images = json_encode($images);
-        } else {
-            $about->gallery_images = json_encode([]);
         }
 
+        $about->gallery_images = json_encode($images);
         $about->save();
 
         return redirect()->back()->with('success', 'About section created successfully');
     }
 
+    // حذف صورة من المعرض
     public function deleteImage(Request $request)
-{
-    $imageToDelete = $request->image;
+    {
+        $imageToDelete = $request->image;
 
-    $about = About::first();
-    if (!$about) {
-        return response()->json(['success' => false]);
+        $about = About::first();
+        if (!$about) {
+            return response()->json(['success' => false]);
+        }
+
+        $images = json_decode($about->gallery_images ?? '[]', true);
+
+        // حذف من التخزين
+        $path = public_path($imageToDelete);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        // حذف من المصفوفة
+        $images = array_filter($images, fn($img) => $img !== $imageToDelete);
+        $about->gallery_images = json_encode(array_values($images));
+        $about->save();
+
+        return response()->json(['success' => true]);
     }
-
-    $images = json_decode($about->gallery_images ?? '[]', true);
-
-    // احذف من التخزين إذا موجود
-    if (Storage::disk('public')->exists($imageToDelete)) {
-        Storage::disk('public')->delete($imageToDelete);
-    }
-
-    // احذف من المصفوفة
-    $images = array_filter($images, fn ($img) => $img !== $imageToDelete);
-
-    // حدّث القيمة في قاعدة البيانات
-    $about->gallery_images = json_encode(array_values($images));
-    $about->save();
-
-    return response()->json(['success' => true]);
-}
 }
