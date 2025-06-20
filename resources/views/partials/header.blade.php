@@ -6,9 +6,9 @@
       <!-- Logo -->
       <div class="col-6 col-md-3">
         <div class="logo d-flex align-items-center gap-2">
-          <img src="{{ asset('uploads/settings/' . $settings?->logo) }}" alt="Logo">
+          <img src="{{ asset('uploads/settings/' . $settings?->logo) }}" alt="Logo" style="width: 80px; height: auto;">
           <a href="{{ route('hero') }}" class="text-decoration-none">
-            <h1 class="sitename">{{ $heroPage?->title_en ?? '' }}</h1>
+            <h1 class="sitename" style="font-size: 1.5rem;">{{ $heroPage?->title_en ?? $heroPage?->title_ar }}</h1>
           </a>
         </div>
       </div>
@@ -88,21 +88,21 @@
       const navLinks = document.querySelectorAll(".nav-link");
       const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
       const header = document.getElementById('header');
-  
+
       function restoreScroll() {
         body.style.overflow = '';
         body.style.position = '';
         body.style.height = '';
         body.style.touchAction = '';
       }
-  
+
       function disableScroll() {
         body.style.overflow = 'hidden';
         body.style.position = 'fixed';
         body.style.height = '100%';
         body.style.touchAction = 'none';
       }
-  
+
       function closeSidebar() {
         mobileNavSidebar.classList.remove("active");
         body.classList.remove("mobile-nav-active");
@@ -110,11 +110,11 @@
         toggleIcon?.classList.remove("bi-x");
         toggleIcon?.classList.add("bi-list");
       }
-  
+
       mobileNavToggle?.addEventListener('click', () => {
         const isActive = mobileNavSidebar.classList.toggle('active');
         body.classList.toggle('mobile-nav-active', isActive);
-  
+
         if (isActive) {
           toggleIcon?.classList.remove('bi-list');
           toggleIcon?.classList.add('bi-x');
@@ -123,9 +123,9 @@
           closeSidebar();
         }
       });
-  
+
       mobileNavOverlay?.addEventListener('click', closeSidebar);
-  
+
       mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
           const linkPath = new URL(link.href).pathname;
@@ -136,14 +136,14 @@
           closeSidebar();
         });
       });
-  
+
       closeSidebarBtn?.addEventListener("click", () => {
         closeSidebar();
         setTimeout(() => {
           location.reload();
         }, 80);
       });
-  
+
       function updateActiveLinkByPath() {
         const currentPath = window.location.pathname;
         navLinks.forEach(link => {
@@ -155,12 +155,12 @@
           link.classList.toggle("active", linkPath === currentPath);
         });
       }
-  
+
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         header.classList.toggle('header-fixed', scrollTop > 50);
       });
-  
+
       updateActiveLinkByPath();
     });
 </script>
