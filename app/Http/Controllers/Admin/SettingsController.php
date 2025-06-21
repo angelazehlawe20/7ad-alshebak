@@ -40,25 +40,33 @@ class SettingsController extends Controller
 
         if ($request->hasFile('logo')) {
             // Delete old logo if exists
-            if ($settings->logo && file_exists(public_path('uploads/settings/' . $settings->logo))) {
-                unlink(public_path('uploads/settings/' . $settings->logo));
+            if ($settings->logo && file_exists(public_path('images/settings/' . $settings->logo))) {
+                unlink(public_path('images/settings/' . $settings->logo));
             }
         
             $file = $request->file('logo');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/settings'), $filename);
+            // Create directory if it doesn't exist
+            if (!file_exists(public_path('images/settings'))) {
+                mkdir(public_path('images/settings'), 0755, true);
+            }
+            $file->move(public_path('images/settings'), $filename);
             $settings->logo = $filename;
         }
 
         if ($request->hasFile('favicon')) {
-            // Delete old logo if exists
-            if ($settings->favicon && file_exists(public_path('uploads/settings/' . $settings->favicon))) {
-                unlink(public_path('uploads/settings/' . $settings->favicon));
+            // Delete old favicon if exists
+            if ($settings->favicon && file_exists(public_path('images/settings/' . $settings->favicon))) {
+                unlink(public_path('images/settings/' . $settings->favicon));
             }
         
             $file = $request->file('favicon');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/settings'), $filename);
+            // Create directory if it doesn't exist
+            if (!file_exists(public_path('images/settings'))) {
+                mkdir(public_path('images/settings'), 0755, true);
+            }
+            $file->move(public_path('images/settings'), $filename);
             $settings->favicon = $filename;
         }
 

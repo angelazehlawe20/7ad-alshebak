@@ -157,7 +157,7 @@
 @endsection
  <style>
 .glightbox-close {
-    display: block !important;  /* اجبر ظهور زر الإغلاق */
+    display: block !important; 
     position: fixed !important;
     top: 20px !important;
     right: 20px !important;

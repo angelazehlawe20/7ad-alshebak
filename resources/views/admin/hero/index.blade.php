@@ -41,9 +41,8 @@
 
                                 <div class="form-group">
                                     <button type="button" class="btn btn-sm btn-secondary d-none" id="uploadImagesBtn">
-                                        <i class="fas fa-upload"></i>&nbsp;Add New Image
+                                        <i class="fas fa-edit"></i>&nbsp;Edit Image
                                     </button>
-                                    <!-- هنا عدلت اسم الحقل من new_hero_image إلى image -->
                                     <input type="file" class="d-none" name="image" id="newHeroImage" accept="image/*"
                                         onchange="previewImage(this)">
                                     <div id="imagePreviewContainer" class="mt-2"></div>
@@ -108,6 +107,12 @@
 @endsection
 
 @section('scripts')
+
+<script>
+    window.routes = {
+        deleteImage: "{{ route('admin.hero.deleteImage') }}",
+    };
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const editBtn = document.getElementById('editBtn');
@@ -118,10 +123,9 @@
         const deleteButtons = document.querySelectorAll('.delete-image');
 
         function enableEditMode() {
-            // أزل readonly من الحقول (لو وجدت)
             document.querySelectorAll('#heroForm input:not([type="hidden"]), #heroForm textarea').forEach(input => {
                 input.removeAttribute('readonly');
-                input.removeAttribute('disabled'); // لو كان هناك disabled
+                input.removeAttribute('disabled');
             });
             saveBtn.classList.remove('d-none');
             cancelBtn.classList.remove('d-none');
@@ -156,16 +160,43 @@
         }
 
         deleteButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to delete this image?')) {
-                    const imageToDelete = this.dataset.image;
-                    this.closest('.gallery-preview').remove();
-                    // هنا يمكنك إضافة طلب ajax إذا أردت حذف الصورة من السيرفر
-                }
-            });
+    btn.addEventListener('click', handleDeleteImage, { once: true });
+});
+
+function handleDeleteImage(event) {
+    event.stopPropagation(); // <--- أضف هذا السطر
+
+    if (confirm('Are you sure you want to delete this image?')) {
+        const btn = event.currentTarget;
+        const imageToDelete = btn.dataset.image;
+        const galleryPreview = btn.closest('.gallery-preview');
+
+        fetch(window.routes.deleteImage, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ image: imageToDelete })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                galleryPreview.remove();
+            } else {
+                alert('Failed to delete image. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the image.');
         });
+    }
+}
+
 
         cancelBtn.addEventListener('click', () => window.location.reload());
     });
 </script>
+
 @endsection

@@ -144,7 +144,8 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
         Route::get('/hero/create', 'create')->name('hero.create');
         Route::post('/hero/create', 'store')->name('hero.store');
         Route::put('/hero/update', 'update')->name('hero.update');
-        Route::post('/hero/delete-image', 'destroy')->name('hero.deleteImage');
+        Route::post('/hero/delete', 'destroy')->name('hero.destroy');
+        Route::post('/hero/delete-image', 'deleteImage')->name('hero.deleteImage');
     });
 
 

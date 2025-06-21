@@ -62,43 +62,38 @@ class HeroController extends Controller
 
     public function update(Request $request)
     {
-        $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_ar' => 'required|string|max:255',
-            'main_text_en' => 'required|string',
-            'main_text_ar' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
+        $hero = Hero_Page::first(); // أو الطريقة التي تجلب بها بيانات الـ hero
 
-        $heroPage = Hero_Page::latest()->first();
-
-        if (!$heroPage) {
-            $heroPage = new Hero_Page();
-        }
-
-        // Delete old image if new image is uploaded
-        if ($request->hasFile('image') && $heroPage->image) {
-            if (File::exists(public_path($heroPage->image))) {
-                File::delete(public_path($heroPage->image));
-            }
-        }
-
-        $heroPage->title_en = $validated['title_en'];
-        $heroPage->title_ar = $validated['title_ar'];
-        $heroPage->main_text_en = $validated['main_text_en'];
-        $heroPage->main_text_ar = $validated['main_text_ar'];
-
+        // تحقق هل تم رفع صورة جديدة
         if ($request->hasFile('image')) {
+            // مسار الصورة القديمة
+            $oldImage = public_path($hero->image);
+
+            // حذف الصورة القديمة لو كانت موجودة
+            if (file_exists($oldImage)) {
+                unlink($oldImage);
+            }
+
+            // رفع الصورة الجديدة
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/hero'), $imageName);
-            $heroPage->image = 'images/hero/' . $imageName;
+
+            // تحديث مسار الصورة في قاعدة البيانات
+            $hero->image = 'images/hero/' . $imageName;
         }
 
-        $heroPage->save();
+        // تحديث باقي الحقول (العناوين، النصوص ...)
+        $hero->title_en = $request->input('title_en');
+        $hero->title_ar = $request->input('title_ar');
+        $hero->main_text_en = $request->input('main_text_en');
+        $hero->main_text_ar = $request->input('main_text_ar');
 
-        return redirect()->route('admin.hero.indexForAdmin')->with('success', 'Hero page updated successfully.');
+        $hero->save();
+
+        return redirect()->back()->with('success', 'Hero updated successfully.');
     }
+
 
     public function updateImage(Request $request)
     {
@@ -129,6 +124,26 @@ class HeroController extends Controller
         ]);
     }
 
+    public function deleteImage(Request $request)
+    {
+        $image = $request->image;
+        
+        // Extract filename from path
+        $filename = basename($image);
+        
+        // Construct full path to image in hero folder
+        $imagePath = public_path('images/hero/' . $filename);
+
+        if (File::exists($imagePath)) {
+            File::delete($imagePath);
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Image not found: ' . $imagePath
+        ]);
+    }
     public function destroy($id)
     {
         $heroPage = Hero_Page::findOrFail($id);
