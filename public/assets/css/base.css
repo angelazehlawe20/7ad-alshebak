@@ -29,11 +29,9 @@ h6 {
 }
 
 .nav-link.active {
-    color: #ec1111 !important;
-    /* استبدل باللون الذي تريده */
+    color: #AC8C64 !important;
     font-weight: bold;
-    border-bottom: 2px solid #ec1111;
-    /* خط سفلي للتأكيد (اختياري) */
+    border-bottom: 2px solid #AC8C64;
 }
 
 /*--------------------------------------------------------------

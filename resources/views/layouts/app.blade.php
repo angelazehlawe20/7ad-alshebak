@@ -5,11 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'Had AlShebak')</title>
-    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+    @section('head')
+    <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
+    @endsection
     <link href="{{ asset('assets/img/favicon.ico') }}" rel="apple-touch-icon">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

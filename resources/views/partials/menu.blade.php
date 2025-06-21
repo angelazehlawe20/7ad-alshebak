@@ -34,7 +34,7 @@
                 <div class="row gy-5">
                     @forelse($category->menuItems as $item)
                     <div class="col-lg-4 menu-item">
-                        <div class="menu-card">
+                        <div class="menu-card h-100">
                             <div class="menu-image-wrapper">
                                 @if($item->image)
                                 <a href="{{ asset('storage/' . $item->image) }}" class="glightbox">
@@ -48,26 +48,28 @@
                                 @endif
                             </div>
 
-                            <div class="menu-content">
+                            <div class="menu-content d-flex flex-column h-100">
                                 <div class="menu-header">
                                     <h4 class="menu-title">{{ $item->name_ar }}</h4>
                                     <small class="menu-subtitle">{{ $item->name_en }}</small>
                                 </div>
 
-                                @if($item->description_ar)
-                                <p class="menu-description">
-                                    {{ $item->description_ar }}
-                                </p>
-                                @endif
+                                <div class="flex-grow-1">
+                                    @if($item->description_ar)
+                                    <p class="menu-description">
+                                        {{ $item->description_ar }}
+                                    </p>
+                                    @endif
 
-                                @if($item->description_en)
-                                <p class="menu-description-en">
-                                    {{ $item->description_en }}
-                                </p>
-                                @endif
+                                    @if($item->description_en)
+                                    <p class="menu-description-en">
+                                        {{ $item->description_en }}
+                                    </p>
+                                    @endif
+                                </div>
 
-                                <div class="menu-footer">
-                                    <span class="menu-price">${{ number_format($item->price, 2) }}</span>
+                                <div class="menu-footer mt-auto">
+                                    <span class="menu-price">{{ number_format($item->price, 2) }} $</span>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +128,8 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
     }
 
     .menu-card:hover {
@@ -224,6 +228,6 @@
     .menu-price {
         font-size: 1.3rem;
         font-weight: bold;
-        color: #ff6b6b;
+        color: #AC8C64;
     }
 </style>

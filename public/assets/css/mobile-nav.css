@@ -1,8 +1,8 @@
-/* Mobile Navigation Styles */
+@import url('./variables.css');
 
 /* Mobile Navigation Button */
 .mobile-nav-toggle {
-    color: var(--nav-color, #7f7f90);
+    color: var(--nav-color);
     font-size: 28px;
     cursor: pointer;
     line-height: 0;
@@ -18,7 +18,7 @@
 }
 
 .mobile-nav-toggle:hover {
-    color: var(--nav-color, #7f7f90);
+    color: var(--nav-color);
 }
 
 /* Mobile Navigation Sidebar */
@@ -29,7 +29,7 @@
     width: 50%;
     max-width: 350px;
     height: 100%;
-    background: var(--nav-mobile-background-color, #ffffff);
+    background: var(--nav-mobile-background-color);
     padding: 20px 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 9997;
@@ -50,12 +50,12 @@
     font-size: 24px;
     cursor: pointer;
     background: transparent;
-    color: var(--nav-color, #7f7f90);
+    color: var(--nav-color);
     transition: 0.3s;
 }
 
 .mobile-nav-close:hover {
-    color: var(--nav-hover-color, #ce1212);
+    color: var(--nav-hover-color);
 }
 
 /* Mobile Navigation Links */
@@ -79,7 +79,7 @@
 .mobile-nav-link {
     display: flex;
     align-items: center;
-    color: var(--nav-color, #7f7f90);
+    color: var(--nav-color);
     font-size: 16px;
     font-weight: 500;
     padding: 12px 25px;
@@ -90,7 +90,7 @@
 
 .mobile-nav-link:hover,
 .mobile-nav-link.active {
-    color: var(--nav-hover-color, #ce1212);
+    color: var(--nav-hover-color);
 }
 
 /* Body class when mobile nav is active */
@@ -106,7 +106,7 @@ body.mobile-nav-active {
     right: 15px;
     background: rgba(206, 18, 18, 0.1);
     border: none;
-    color: var(--nav-hover-color, #ce1212);
+    color: var(--nav-hover-color);
     font-size: 20px;
     cursor: pointer;
     padding: 8px;
