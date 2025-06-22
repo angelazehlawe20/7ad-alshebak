@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 reader.onload = function (e) {
                     col.innerHTML = `
                         <div class="card">
-                            <img src="${e.target.result}" class="card-img-top" alt="Preview" style="height: 150px; object-fit: cover;">
+                            <img src="${e.target.result}" class="card-img-top" alt="Preview" style="height: 150px; object-fit: contain;">
                             <div class="card-body p-2">
                                 <p class="card-text small text-muted mb-0">${file.name}</p>
                             </div>

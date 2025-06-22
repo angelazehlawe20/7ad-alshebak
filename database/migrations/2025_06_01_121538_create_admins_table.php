@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('الايميل')->unique();
             $table->string('password');
-            $table->string('كلمة السر');
+            $table->string('كلمة المرور');
             $table->timestamps();
         });
     }

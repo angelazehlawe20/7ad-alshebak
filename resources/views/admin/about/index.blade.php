@@ -37,7 +37,7 @@
                                             <a class="glightbox" data-gallery="images-gallery" href="{{ asset($image) }}">
                                                 <img src="{{ asset($image) }}"
                                                     class="img-fluid rounded shadow gallery-image" alt="Gallery Image"
-                                                    style="width: 100%; height: 150px; object-fit: cover;">
+                                                    style="width: 100%; height: 150px; object-fit: contain;">
                                             </a>
 
                                             <button type="button"
@@ -157,7 +157,7 @@
 @endsection
  <style>
 .glightbox-close {
-    display: block !important; 
+    display: block !important;
     position: fixed !important;
     top: 20px !important;
     right: 20px !important;

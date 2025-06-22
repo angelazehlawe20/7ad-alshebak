@@ -20,7 +20,7 @@
                         <a class="glightbox d-block w-100 h-100" data-gallery="images-gallery"
                             href="{{ asset($image) }}">
                             <img src="{{ asset($image) }}" alt="Gallery Image" loading="lazy"
-                                style="width: 100%; height: 100%; object-fit: cover;">
+                                style="width: 100%; height: 100%; object-fit: contain;">
                         </a>
                     </div>
                 </div>

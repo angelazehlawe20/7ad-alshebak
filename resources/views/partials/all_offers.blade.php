@@ -32,7 +32,7 @@
                         <a href="{{ asset($offer->image ? 'storage/' . $offer->image : 'assets/img/placeholder.jpg') }}" class="glightbox">
                             <img src="{{ asset($offer->image ? 'storage/' . $offer->image : 'assets/img/placeholder.jpg') }}"
                                 class="menu-img img-fluid w-100 h-100"
-                                style="object-fit: cover;"
+                                style="object-fit: contain;"
                                 alt="{{ $offer->title }}">
                         </a>
                     </div>
