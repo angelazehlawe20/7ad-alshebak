@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SettingsController extends Controller
 {
@@ -38,28 +39,30 @@ class SettingsController extends Controller
         $settings->instagram_url = $request->instagram_url;
         $settings->whatsapp = $request->whatsapp;
 
+        // شعار اللوغو
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if ($settings->logo && file_exists(public_path('uploads/settings/' . $settings->logo))) {
-                unlink(public_path('uploads/settings/' . $settings->logo));
+            if ($settings->logo && File::exists(public_path($settings->logo))) {
+                File::delete(public_path($settings->logo));
             }
-        
+
             $file = $request->file('logo');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/settings'), $filename);
-            $settings->logo = $filename;
+            $destination = 'images/settings/logo/';
+            $file->move(public_path($destination), $filename);
+            $settings->logo = $destination . $filename;
         }
 
+        // أيقونة الفافيكون
         if ($request->hasFile('favicon')) {
-            // Delete old logo if exists
-            if ($settings->favicon && file_exists(public_path('uploads/settings/' . $settings->favicon))) {
-                unlink(public_path('uploads/settings/' . $settings->favicon));
+            if ($settings->favicon && File::exists(public_path($settings->favicon))) {
+                File::delete(public_path($settings->favicon));
             }
-        
+
             $file = $request->file('favicon');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/settings'), $filename);
-            $settings->favicon = $filename;
+            $destination = 'images/settings/favicon/';
+            $file->move(public_path($destination), $filename);
+            $settings->favicon = $destination . $filename;
         }
 
         $settings->save();

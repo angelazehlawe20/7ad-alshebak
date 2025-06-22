@@ -63,6 +63,34 @@ section,
     position: relative;
 }
 
+/* صورة على اليسار */
+.section-title p::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background-image: url('/assets/img/title_images/before.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* صورة على اليمين */
+.section-title p::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background-image: url('/assets/img/title_images/after.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .section-title h2 {
     font-size: 13px;
     letter-spacing: 1px;
@@ -76,6 +104,8 @@ section,
 }
 
 .section-title p {
+    position: relative;
+    padding: 0 70px;
     color: var(--heading-color);
     margin: 10px 0 0 0;
     font-size: 48px;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class MenuItemController extends Controller
 {
@@ -13,14 +14,14 @@ class MenuItemController extends Controller
     {
         $items = MenuItem::all();
         $categories = Category::all();
-        return view('admin.menu_items.index', compact('items','categories'));
+        return view('admin.menu_items.index', compact('items', 'categories'));
     }
 
     // عرض صفحة إنشاء عنصر جديد
     public function create()
     {
         $categories = Category::all();
-        return view('admin.menu_items.create',compact('categories'));
+        return view('admin.menu_items.create', compact('categories'));
     }
 
     // تخزين عنصر جديد
@@ -33,9 +34,19 @@ class MenuItemController extends Controller
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        MenuItem::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/menu_item'), $imageName);
+            $data['image'] = 'images/menu_item/' . $imageName;
+        }
+
+        MenuItem::create($data);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
     }
@@ -43,7 +54,8 @@ class MenuItemController extends Controller
     // عرض صفحة تعديل عنصر معين
     public function edit(MenuItem $menuItem)
     {
-        return view('admin.menu_items.edit', compact('menuItem'));
+        $categories = Category::all();
+        return view('admin.menu_items.edit', compact('menuItem', 'categories'));
     }
 
     // تحديث عنصر معين
@@ -56,9 +68,23 @@ class MenuItemController extends Controller
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $menuItem->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            if ($menuItem->image && File::exists(public_path($menuItem->image))) {
+                File::delete(public_path($menuItem->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/menu_item'), $imageName);
+            $data['image'] = 'images/menu_item/' . $imageName;
+        }
+
+        $menuItem->update($data);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
     }
@@ -66,6 +92,10 @@ class MenuItemController extends Controller
     // حذف عنصر معين
     public function destroy(MenuItem $menuItem)
     {
+        if ($menuItem->image && File::exists(public_path($menuItem->image))) {
+            File::delete(public_path($menuItem->image));
+        }
+
         $menuItem->delete();
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');

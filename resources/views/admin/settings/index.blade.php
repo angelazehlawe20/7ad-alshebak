@@ -128,7 +128,7 @@
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                     @if($settings->logo)
-                                    <img id="logo-preview" src="{{ asset('uploads/settings/' . $settings->logo) }}"
+                                    <img id="logo-preview" src="{{ asset($settings->logo) }}"
                                         alt="Logo" class="mt-2" style="max-height: 50px">
                                     @else
                                     <img id="logo-preview" src="#" alt="Logo Preview" class="mt-2 d-none"
@@ -144,8 +144,8 @@
                                     @error('favicon')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
-                                    @if($settings->logo)
-                                    <img id="favicon-preview" src="{{ asset('uploads/settings/' . $settings->favicon) }}"
+                                    @if($settings->favicon)
+                                    <img id="favicon-preview" src="{{ asset($settings->favicon) }}"
                                         alt="Favicon" class="mt-2" style="max-height: 50px">
                                     @else
                                     <img id="favicon-preview" src="#" alt="Favicon Preview" class="mt-2 d-none"
@@ -181,22 +181,28 @@
 @section('scripts')
 <script>
     document.getElementById('editBtn').addEventListener('click', function() {
-    const inputs = document.querySelectorAll('#settingsForm input, #settingsForm textarea');
-    inputs.forEach(input => {
-        input.removeAttribute('readonly');
-        input.removeAttribute('disabled');
+        const inputs = document.querySelectorAll('#settingsForm input, #settingsForm textarea');
+        inputs.forEach(input => {
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+        });
+
+        // رفع صلاحية حقول الصور (logo و favicon)
+        document.getElementById('logo').removeAttribute('readonly');
+        document.getElementById('logo').removeAttribute('disabled');
+        document.getElementById('favicon').removeAttribute('readonly');
+        document.getElementById('favicon').removeAttribute('disabled');
+
+        // Show Save & Cancel buttons
+        document.getElementById('saveBtn').classList.remove('d-none');
+        document.getElementById('cancelBtn').classList.remove('d-none');
+        this.classList.add('d-none');
     });
 
-    // Show Save & Cancel buttons
-    document.getElementById('saveBtn').classList.remove('d-none');
-    document.getElementById('cancelBtn').classList.remove('d-none');
-    this.classList.add('d-none');
-});
-
-// Cancel button logic
-document.getElementById('cancelBtn').addEventListener('click', function () {
-    window.location.reload(); // Reload to discard changes
-});
+    // Cancel button logic
+    document.getElementById('cancelBtn').addEventListener('click', function () {
+        window.location.reload(); // Reload to discard changes
+    });
 </script>
 
 <script>
@@ -215,5 +221,4 @@ document.getElementById('cancelBtn').addEventListener('click', function () {
     handleImagePreview('logo', 'logo-preview');
     handleImagePreview('favicon', 'favicon-preview');
 </script>
-    
 @endsection

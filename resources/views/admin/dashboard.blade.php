@@ -13,7 +13,7 @@
     <div class="row g-3">
         <!-- Card 1: Total Menu Items -->
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-white bg-primary h-100">
+            <div class="card card-primary h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Total Menu Items</h5>
                     <p class="card-text h2">{{ $menuItemsCount }}</p>
@@ -21,9 +21,8 @@
             </div>
         </div>
 
-        <!-- Card 2: Total Offers -->
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-white bg-success h-100">
+            <div class="card card-success h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Total Offers</h5>
                     <p class="card-text h2">{{ $offersCount }}</p>
@@ -31,9 +30,8 @@
             </div>
         </div>
 
-        <!-- Card 3: Total Bookings -->
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-primary h-100">
+            <div class="card card-primary h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Total Bookings</h5>
                     <p class="card-text h2">{{ $bookingsCount }}</p>
@@ -42,7 +40,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-success h-100">
+            <div class="card card-success h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Confirmed</h5>
                     <p class="card-text h2">{{ $confirmedBookings }}</p>
@@ -51,7 +49,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-warning h-100">
+            <div class="card card-warning h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Pending</h5>
                     <p class="card-text h2">{{ $pendingBookings }}</p>
@@ -60,7 +58,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-danger h-100">
+            <div class="card card-danger h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Cancelled</h5>
                     <p class="card-text h2">{{ $cancelledBookings }}</p>
@@ -68,9 +66,8 @@
             </div>
         </div>
 
-        <!-- Card: Total Contact Messages -->
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-info h-100">
+            <div class="card card-info h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Total Messages</h5>
                     <p class="card-text h2">{{ $contactsCount }}</p>
@@ -78,9 +75,8 @@
             </div>
         </div>
 
-        <!-- Card: Unread Messages -->
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-warning h-100">
+            <div class="card card-warning h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Unread Messages</h5>
                     <p class="card-text h2">{{ $unreadMessages }}</p>
@@ -89,13 +85,14 @@
         </div>
 
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card text-bg-warning h-100">
+            <div class="card card-warning h-100">
                 <div class="card-body">
                     <h5 class="card-title h6">Read Messages</h5>
                     <p class="card-text h2">{{ $readMessages }}</p>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -109,4 +106,44 @@
         @include('admin.layouts.sidebar')
     </div>
 </div>
+<style>
+
+:root{
+    --default-color: #4C4C4C;
+    --accent-color: #AC8C64;
+    --surface-color: #e8c095;
+    --contrast-color: #ffffff;
+}
+    /* بطاقة ذات خلفية رئيسية مخصصة */
+
+.card-primary {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+}
+
+/* بطاقة ذات خلفية ثانوية (مثل النجاح) */
+.card-success {
+    background-color: var(--surface-color);
+    color: var(--default-color);
+}
+
+/* بطاقة ذات خلفية تحذيرية */
+.card-warning {
+    background-color: #f0c36d; /* يمكنك تعديلها لتتناسب مع ألوانك */
+    color: var(--default-color);
+}
+
+/* بطاقة ذات خلفية معلومات */
+.card-info {
+    background-color: #a3c4bc; /* أو لون مناسب من ألوانك */
+    color: var(--default-color);
+}
+
+/* بطاقة ذات خلفية خطأ/تحذير */
+.card-danger {
+    background-color: #d66a6a; /* أو لون مناسب */
+    color: var(--contrast-color);
+}
+</style>
+
 @endsection

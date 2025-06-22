@@ -10,16 +10,6 @@
                     <h5>Edit Offer</h5>
                 </div>
                 <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     <form action="{{ route('admin.offers.update', $offer->id) }}" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
                         @csrf
                         @method('PUT')
@@ -90,7 +80,7 @@
                                     <label class="form-label">Image</label>
                                     <input type="file" name="image" class="form-control" accept="image/*">
                                     <div class="mt-2" id="imagePreview" style="display: {{ $offer->image ? 'block' : 'none' }};">
-                                        <img src="{{ $offer->image ? asset('storage/' . $offer->image) : '' }}"
+                                        <img src="{{ $offer->image ? asset($offer->image) : '' }}"
                                              alt="Offer Image" class="img-thumbnail" style="max-height: 100px">
                                     </div>
                                 </div>

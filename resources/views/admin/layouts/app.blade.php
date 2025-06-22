@@ -8,18 +8,24 @@
     <meta name="author" content="Admin">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - Admin Panel</title>
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset($settings->favicon) }}" rel="icon">
+    <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
     <style>
         :root {
-            --sidebar-bg: #343a40;
-            --sidebar-hover: rgba(255, 255, 255, 0.1);
-            --sidebar-active: #0d6efd;
+            --sidebar-bg: #4C3A1B;
+            /* بني داكن دافئ */
+            --sidebar-hover: rgba(172, 140, 100, 0.15);
+            /* ظل ذهبي شفاف */
+            --sidebar-active: #AC8C64;
+            /* لون الaccent الموجود */
             --main-bg: #f8f9fa;
+            /* يمكنك إبقاؤه كما هو */
         }
 
         body {
@@ -27,12 +33,16 @@
         }
 
         .sidebar {
-            min-height: 100vh;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
             background: var(--sidebar-bg);
             color: #fff;
             transition: all 0.3s ease;
             width: 250px;
         }
+
 
         .sidebar .nav-link {
             color: #fff;

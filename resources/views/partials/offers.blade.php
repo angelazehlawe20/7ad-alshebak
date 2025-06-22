@@ -19,7 +19,7 @@
                             <p class="card-text">{{ $offer->description_ar }}</p>
                             <p class="card-text"><i class="far fa-calendar-alt me-2"></i>Valid until: {{ $offer->valid_until }}</p>
                             <p class="card-text"><small class="text-muted"><i class="fas fa-tag me-2"></i>Category: {{ $offer->category->name_en }} - {{ $offer->category->name_ar }}</small></p>
-                            <p class="card-price text-danger fw-bold fs-4">{{ $offer->price }} $</p>
+                            <p class="card-price fw-bold fs-4" style="color: #AC8C64;">{{ $offer->price }} $</p>
                         </div>
                     </div>
                 </div>

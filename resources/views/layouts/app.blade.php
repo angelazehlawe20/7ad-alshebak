@@ -5,11 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'Had AlShebak')</title>
-    @section('head')
-    <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
-    @endsection
-    <link href="{{ asset('assets/img/favicon.ico') }}" rel="apple-touch-icon">
-
+    <link href="{{ asset($settings->favicon) }}" rel="icon">
+    <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">

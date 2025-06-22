@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
             $table->text('main_text')->nullable();
-            $table->json('gallery_images')->nullable(); // مصفوفة من الصور
-            $table->json('why_points')->nullable();     // نقاط البوكس
-            $table->string('why_title')->nullable();    // عنوان البوكس
+            $table->text('النص الأساسي')->nullable();
+            $table->json('gallery_images')->nullable();
+            $table->json('صور المعرض')->nullable();  // مصفوفة من الصور
+            $table->json('why_points')->nullable();
+            $table->json('نقاط مربع النص')->nullable();     // نقاط البوكس
+            $table->string('why_title')->nullable();
+            $table->string('عنوان نربع النص')->nullable();
             $table->timestamps();
         });
     }

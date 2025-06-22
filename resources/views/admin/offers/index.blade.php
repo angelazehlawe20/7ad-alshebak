@@ -50,7 +50,7 @@
                                 <div class="position-relative">
                                     <div style="height: 300px; background-color: #f8f9fa; padding: 10px;">
                                         @if($offer->image)
-                                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top h-100"
+                                        <img src="{{ asset($offer->image) }}" class="card-img-top h-100"
                                             alt="{{ $offer->title_en }}" loading="lazy" style="object-fit: contain;">
                                         @else
                                         <div class="d-flex h-100 align-items-center justify-content-center">

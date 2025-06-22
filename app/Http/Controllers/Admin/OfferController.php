@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class OfferController extends Controller
 {
@@ -43,7 +44,10 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('offers', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/offers'), $imageName);
+            $validated['image'] = 'images/offers/' . $imageName;
         }
 
         Offer::create($validated);
@@ -99,12 +103,14 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // حذف الصورة القديمة إن وُجدت
-            if ($offer->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($offer->image)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($offer->image);
+            if ($offer->image && File::exists(public_path($offer->image))) {
+                File::delete(public_path($offer->image));
             }
 
-            $validated['image'] = $request->file('image')->store('offers', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/offers'), $imageName);
+            $validated['image'] = 'images/offers/' . $imageName;
         }
 
         $offer->update($validated);
@@ -112,9 +118,13 @@ class OfferController extends Controller
         return redirect()->route('admin.offers.index')->with('success', 'Offer updated successfully.');
     }
 
-    // حذف عرض معين
     public function destroy(Offer $offer)
     {
+        // حذف الصورة من public عند حذف العرض
+        if ($offer->image && File::exists(public_path($offer->image))) {
+            File::delete(public_path($offer->image));
+        }
+
         $offer->delete();
 
         return redirect()->route('admin.offers.index')->with('success', 'Offer deleted successfully.');

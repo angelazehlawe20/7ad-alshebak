@@ -91,7 +91,7 @@
                                     <label class="form-label">Image</label>
                                     <input type="file" name="image" class="form-control" accept="image/*">
                                     <div class="mt-2" id="imagePreview" style="display: {{ $menuItem->image ? 'block' : 'none' }};">
-                                        <img src="{{ $menuItem->image ? asset('storage/' . $menuItem->image) : '' }}" alt="Menu Item Image" class="img-thumbnail" style="max-height: 100px;">
+                                        <img src="{{ $menuItem->image ? asset($menuItem->image) : '' }}" alt="Menu Item Image" class="img-thumbnail" style="max-height: 100px;">
                                     </div>
                                 </div>
                             </div>

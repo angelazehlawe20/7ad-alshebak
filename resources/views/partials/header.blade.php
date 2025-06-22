@@ -6,7 +6,7 @@
       <!-- Logo -->
       <div class="col-6 col-md-3">
         <div class="logo d-flex align-items-center gap-2">
-          <img src="{{ asset('uploads/settings/' . $settings?->logo) }}" alt="Logo" style="width: 80px; height: auto;">
+          <img src="{{ asset($settings?->logo) }}" alt="Logo" style="width: 80px; height: auto;">
           <a href="{{ route('hero') }}" class="text-decoration-none">
             <h1 class="sitename" style="font-size: 1.5rem;">{{ $heroPage?->title_en ?? $heroPage?->title_ar }}</h1>
           </a>

@@ -139,25 +139,32 @@
         uploadBtn.addEventListener('click', () => fileInput.click());
 
         window.previewImage = function(input) {
-            const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = '';
+    const container = document.getElementById('imagePreviewContainer');
+    container.innerHTML = '';
 
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    container.innerHTML = `
-                        <div class="card">
-                            <img src="${e.target.result}" class="card-img-top" alt="Preview"
-                                style="height: 200px; object-fit: cover;">
-                            <div class="card-body p-2">
-                                <p class="card-text small text-muted mb-0">${input.files[0].name}</p>
-                            </div>
-                        </div>
-                    `;
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
+    // إخفاء الصورة القديمة
+    const galleryPreview = document.querySelector('.gallery-preview');
+    if (galleryPreview) {
+        galleryPreview.style.display = 'none';
+    }
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            container.innerHTML = `
+                <div class="card">
+                    <img src="${e.target.result}" class="card-img-top" alt="Preview"
+                        style="height: 200px; object-fit: cover;">
+                    <div class="card-body p-2">
+                        <p class="card-text small text-muted mb-0">${input.files[0].name}</p>
+                    </div>
+                </div>
+            `;
         }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
         deleteButtons.forEach(btn => {
     btn.addEventListener('click', handleDeleteImage, { once: true });

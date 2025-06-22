@@ -44,7 +44,7 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="position-relative" style="height: 300px;">
                                     @if($item->image)
-                                    <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top w-100 h-100"
+                                    <img src="{{ asset($item->image) }}" class="card-img-top w-100 h-100"
                                         alt="{{ $item->name_en }}" loading="lazy"
                                         style="object-fit: contain; background-color: #f8f9fa; padding: 10px;">
                                     @else
@@ -56,7 +56,7 @@
                                     @endif
                                     <div class="position-absolute top-0 end-0 m-2">
                                         <span class="badge bg-primary fs-6">{{ number_format($item->price) }}
-                                        $</span>
+                                            $</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
