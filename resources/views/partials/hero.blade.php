@@ -11,10 +11,10 @@
                 </p>
 
                 <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start" data-aos="zoom-out" data-aos-once="true">
-                    <a href="{{route('book')}}" class="btn btn-primary btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
+                    <a href="{{route('book')}}" class="btn btn-get-started btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
                         <i class="fas fa-calendar-check me-2"></i>Book a Table
                     </a>
-                    <a href="{{route('menu')}}" class="btn btn-primary btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
+                    <a href="{{route('menu')}}" class="btn btn-get-startedy btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
                         <i class="fas fa-utensils me-2"></i>View Menu
                     </a>
                 </div>
