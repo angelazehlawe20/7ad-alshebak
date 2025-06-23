@@ -15,18 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('العنوان');
+            $table->string('title_ar');
             $table->string('title_en');
-            $table->text('الوصف')->nullable();
+            $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->boolean('active')->default(true);
-            $table->boolean('الحالة')->default(true);
             $table->datetime('valid_until');
-            $table->datetime('تاريخ انتهاء العرض');
             $table->decimal('price');
-            $table->decimal('السعر');
             $table->string('image')->nullable();
-            $table->string('الصورة')->nullable();
             $table->timestamps();
         });
     }

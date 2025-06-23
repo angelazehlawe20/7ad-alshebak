@@ -22,7 +22,7 @@ class Offer extends Model
     ];
 
     protected $casts = [
-        'valid_until' => 'date',
+        'valid_until' => 'datetime',
     ];
 
     public function category()

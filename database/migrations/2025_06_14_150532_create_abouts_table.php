@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
-            $table->text('main_text')->nullable();
-            $table->text('النص الأساسي')->nullable();
+            $table->text('main_text_en')->nullable();
+            $table->text('main_text_ar')->nullable();
             $table->json('gallery_images')->nullable();
-            $table->json('صور المعرض')->nullable();  // مصفوفة من الصور
-            $table->json('why_points')->nullable();
-            $table->json('نقاط مربع النص')->nullable();     // نقاط البوكس
-            $table->string('why_title')->nullable();
-            $table->string('عنوان نربع النص')->nullable();
+            $table->json('why_points_en')->nullable();
+            $table->json('why_points_ar')->nullable();
+            $table->string('why_title_en')->nullable();
+            $table->string('why_title_ar')->nullable();
             $table->timestamps();
         });
     }

@@ -8,28 +8,38 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-
     public function index(Request $request)
-{
-    $filter = $request->query('filter'); // read or unread or null
+    {
+        $filter = $request->query('filter');
+        $locale = app()->getLocale();
 
-    $contactsQuery = \App\Models\Contact::query();
+        $contactsQuery = Contact::query()
+            ->select([
+                'id',
+                'name_' . $locale . ' as name',
+                'email',
+                'subject_' . $locale . ' as subject',
+                'message_' . $locale . ' as message',
+                'is_read',
+                'sent_at',
+                'created_at'
+            ]);
 
-    if ($filter === 'read') {
-        $contactsQuery->where('is_read', true);
-    } elseif ($filter === 'unread') {
-        $contactsQuery->where('is_read', false);
+        if ($filter === 'read') {
+            $contactsQuery->where('is_read', true);
+        } elseif ($filter === 'unread') {
+            $contactsQuery->where('is_read', false);
+        }
+
+        $contacts = $contactsQuery->orderBy('created_at', 'desc')->get();
+
+        return view('admin.contacts.index', compact('contacts'));
     }
-
-    $contacts = $contactsQuery->orderBy('created_at', 'desc')->get();
-
-    return view('admin.contacts.index', compact('contacts'));
-}
-
-
 
     public function show(Contact $contact)
     {
+        $locale = app()->getLocale();
+        
         // Mark the contact as read when viewed
         if (!$contact->is_read) {
             $contact->update(['is_read' => true]);
@@ -37,6 +47,16 @@ class ContactController extends Controller
 
         // Get related contacts (optional) - can be used to show similar messages
         $relatedContacts = Contact::where('id', '!=', $contact->id)
+            ->select([
+                'id',
+                'name_' . $locale . ' as name',
+                'email',
+                'subject_' . $locale . ' as subject',
+                'message_' . $locale . ' as message',
+                'is_read',
+                'sent_at',
+                'created_at'
+            ])
             ->orderBy('created_at', 'desc')
             ->get();
 

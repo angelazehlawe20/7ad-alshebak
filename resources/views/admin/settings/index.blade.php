@@ -30,12 +30,21 @@
                             </div>
                             <div class="card-body pt-4">
                                 <div class="form-group mb-4">
-                                    <label for="address"><i
-                                            class="fas fa-map-marker-alt mr-2"></i>&nbsp;&nbsp;<strong>Address</strong></label>
-                                    <textarea class="form-control @error('address') is-invalid @enderror" id="address"
-                                        name="address" readonly rows="3"
-                                        style="resize: vertical;">{{ old('address', $settings->address ?? '') }}</textarea>
-                                    @error('address')
+                                    <label><i class="fas fa-map-marker-alt mr-2"></i>&nbsp;&nbsp;<strong>Address (Arabic)</strong></label>
+                                    <textarea class="form-control @error('address_ar') is-invalid @enderror" id="address_ar"
+                                        name="address_ar" readonly rows="3"
+                                        style="resize: vertical;">{{ old('address_ar', $settings->address_ar ?? '') }}</textarea>
+                                    @error('address_ar')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label><i class="fas fa-map-marker-alt mr-2"></i>&nbsp;&nbsp;<strong>Address (English)</strong></label>
+                                    <textarea class="form-control @error('address_en') is-invalid @enderror" id="address_en"
+                                        name="address_en" readonly rows="3"
+                                        style="resize: vertical;">{{ old('address_en', $settings->address_en ?? '') }}</textarea>
+                                    @error('address_en')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -55,7 +64,7 @@
                                     <label for="phone"><i
                                             class="fas fa-phone mr-2"></i>&nbsp;&nbsp;<strong>Phone</strong></label>
                                     <input type="tel" class="form-control @error('phone') is-invalid @enderror"
-                                        id="phone" name="phone" readonly
+                                        id="phone" name="phone" readonly maxlength="10"
                                         value="{{ old('phone', $settings->phone ?? '') }}">
                                     @error('phone')
                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -127,30 +136,30 @@
                                     @error('logo')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
-                                    @if($settings->logo)
-                                    <img id="logo-preview" src="{{ asset($settings->logo) }}"
-                                        alt="Logo" class="mt-2" style="max-height: 50px">
-                                    @else
-                                    <img id="logo-preview" src="#" alt="Logo Preview" class="mt-2 d-none"
+                                    @php
+                                    $logoPath = isset($settings) && $settings->logo
+                                    ? asset($settings->logo)
+                                    : asset('assets/img/logos/web-app-manifest-512x512.png');
+                                    @endphp
+                                    <img id="logo-preview" src="{{ $logoPath }}" alt="Logo" class="mt-2"
                                         style="max-height: 50px">
-                                    @endif
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="favicon"><i
-                                            class="fas mr-2"></i>&nbsp;&nbsp;<strong>Favicon</strong></label>
+                                            class="fas fa-bookmark mr-2"></i>&nbsp;&nbsp;<strong>Favicon</strong></label>
                                     <input type="file" class="form-control @error('favicon') is-invalid @enderror"
                                         id="favicon" name="favicon" readonly disabled>
                                     @error('favicon')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
-                                    @if($settings->favicon)
-                                    <img id="favicon-preview" src="{{ asset($settings->favicon) }}"
-                                        alt="Favicon" class="mt-2" style="max-height: 50px">
-                                    @else
-                                    <img id="favicon-preview" src="#" alt="Favicon Preview" class="mt-2 d-none"
+                                    @php
+                                    $faviconPath = isset($settings) && $settings->favicon
+                                    ? asset($settings->favicon)
+                                    : asset('assets/img/logos/web-app-manifest-512x512.png');
+                                    @endphp
+                                    <img id="favicon-preview" src="{{ $faviconPath }}" alt="Favicon" class="mt-2"
                                         style="max-height: 50px">
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -187,26 +196,22 @@
             input.removeAttribute('disabled');
         });
 
-        // رفع صلاحية حقول الصور (logo و favicon)
         document.getElementById('logo').removeAttribute('readonly');
         document.getElementById('logo').removeAttribute('disabled');
         document.getElementById('favicon').removeAttribute('readonly');
         document.getElementById('favicon').removeAttribute('disabled');
 
-        // Show Save & Cancel buttons
         document.getElementById('saveBtn').classList.remove('d-none');
         document.getElementById('cancelBtn').classList.remove('d-none');
         this.classList.add('d-none');
     });
 
-    // Cancel button logic
     document.getElementById('cancelBtn').addEventListener('click', function () {
-        window.location.reload(); // Reload to discard changes
+        window.location.reload();
     });
 </script>
 
 <script>
-    // Function to handle image preview
     function handleImagePreview(inputId, previewId) {
         document.getElementById(inputId).addEventListener('change', function(event) {
             const [file] = event.target.files;
@@ -217,7 +222,7 @@
             }
         });
     }
-    // Initialize preview handlers for both logo and favicon
+    
     handleImagePreview('logo', 'logo-preview');
     handleImagePreview('favicon', 'favicon-preview');
 </script>

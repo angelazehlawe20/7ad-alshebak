@@ -6,12 +6,23 @@
       <!-- Logo -->
       <div class="col-6 col-md-3">
         <div class="logo d-flex align-items-center gap-2">
-          <img src="{{ asset($settings?->logo) }}" alt="Logo" style="width: 80px; height: auto;">
+
+          {{-- عرض الشعار مع صورة افتراضية في حال عدم وجوده --}}
+          @if(isset($settings->logo) && file_exists(public_path($settings->logo)))
+            <img src="{{ asset($settings->logo) }}" alt="Logo" style="width: 80px; height: auto;">
+          @else
+            <img src="{{ asset('assets/img/logos/web-app-manifest-512x512.png') }}" alt="Default Logo" style="width: 80px; height: auto;">
+          @endif
+
           <a href="{{ route('hero') }}" class="text-decoration-none">
-            <h1 class="sitename" style="font-size: 1.5rem;">{{ $heroPage?->title_en ?? $heroPage?->title_ar }}</h1>
+            <h1 class="sitename" style="font-size: 1.5rem;">
+              {{ $heroPage?->title_en ?? $heroPage?->title_ar ?? 'Had AlShebak' }}
+            </h1>
           </a>
+
         </div>
       </div>
+
       <!-- Desktop Navigation -->
       <div class="col-md-6 d-none d-md-flex justify-content-center">
         <nav class="d-flex gap-3">
@@ -33,11 +44,11 @@
       <!-- Language Toggle -->
       <div class="col-6 col-md-3 d-none d-md-flex justify-content-end">
         @if(app()->getLocale() == 'en')
-        <a href="?lang=ar" class="btn btn-light language-btn">
+        <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn">
           <img src="{{ asset('assets/img/flags/ar.png') }}" alt="Arabic" class="flag-icon" width="20"> AR
         </a>
         @else
-        <a href="?lang=en" class="btn btn-light language-btn">
+        <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn">
           <img src="{{ asset('assets/img/flags/en.png') }}" alt="English" class="flag-icon" width="20"> EN
         </a>
         @endif

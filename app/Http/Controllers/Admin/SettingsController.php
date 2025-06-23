@@ -18,7 +18,8 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'address' => 'nullable|string',
+            'address_ar' => 'nullable|string',
+            'address_en' => 'nullable|string',
             'email' => 'required|email|unique:settings,email,' . Setting::first()?->id,
             'phone' => 'nullable|string|max:10',
             'opening_hours' => 'nullable|string',
@@ -31,7 +32,8 @@ class SettingsController extends Controller
 
         $settings = Setting::firstOrNew();
 
-        $settings->address = $request->address;
+        $settings->address_ar = $request->address_ar;
+        $settings->address_en = $request->address_en;
         $settings->email = $request->email;
         $settings->phone = $request->phone;
         $settings->opening_hours = $request->opening_hours;
@@ -39,7 +41,7 @@ class SettingsController extends Controller
         $settings->instagram_url = $request->instagram_url;
         $settings->whatsapp = $request->whatsapp;
 
-        // شعار اللوغو
+        // ✅ شعار اللوغو
         if ($request->hasFile('logo')) {
             if ($settings->logo && File::exists(public_path($settings->logo))) {
                 File::delete(public_path($settings->logo));
@@ -50,9 +52,12 @@ class SettingsController extends Controller
             $destination = 'images/settings/logo/';
             $file->move(public_path($destination), $filename);
             $settings->logo = $destination . $filename;
+        } elseif (!$settings->logo) {
+            // إذا لا يوجد سابقًا شعار، عين مسار افتراضي
+            $settings->logo = 'assets/img/logos/web-app-manifest-512x512.png';
         }
 
-        // أيقونة الفافيكون
+        // ✅ أيقونة الفافيكون
         if ($request->hasFile('favicon')) {
             if ($settings->favicon && File::exists(public_path($settings->favicon))) {
                 File::delete(public_path($settings->favicon));
@@ -63,6 +68,9 @@ class SettingsController extends Controller
             $destination = 'images/settings/favicon/';
             $file->move(public_path($destination), $filename);
             $settings->favicon = $destination . $filename;
+        } elseif (!$settings->favicon) {
+            // إذا لا يوجد سابقًا فافيكون، عين مسار افتراضي
+            $settings->favicon = 'assets/img/favicons/favicon.ico';
         }
 
         $settings->save();

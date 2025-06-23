@@ -26,15 +26,6 @@ class MenuItem extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'price' => 'decimal:2',
-    ];
-
-    /**
      * Scope a query to filter by category.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

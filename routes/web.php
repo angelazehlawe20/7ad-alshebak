@@ -29,6 +29,13 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, config('app.available_locales', ['en', 'ar']))) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::get('/', function () {
     return view('home', [
         'heroPage' => Hero_Page::first(),

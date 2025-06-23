@@ -5,8 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'Had AlShebak')</title>
+    @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
     <link href="{{ asset($settings->favicon) }}" rel="icon">
     <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
+    @else
+    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
+    @endif
+
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">

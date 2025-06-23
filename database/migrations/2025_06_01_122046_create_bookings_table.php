@@ -13,22 +13,16 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('الاسم');
+            $table->string('name_ar');
+            $table->string('name_en');
             $table->string('phone');
-            $table->string('رقم الهاتف');
             $table->text('email')->nullable();
-            $table->text('الايميل')->nullable();
             $table->integer('guests_count');
-            $table->integer('عدد الاشخاص للحجز');
             $table->date('booking_date');
-            $table->date('تاريخ الحجز');
             $table->time('booking_time');
-            $table->time('وقت الحجز');
-            $table->string('message')->nullable();
-            $table->string('الرسالة')->nullable();
+            $table->string('message_ar')->nullable();
+            $table->string('message_en')->nullable();
             $table->enum('status', ['pending','confirmed','cancelled'])->default('pending');
-            $table->enum('الحالة', ['معلقة','مقبولة','مرفوضة'])->default('معلقة');
             $table->timestamps();
         });
     }

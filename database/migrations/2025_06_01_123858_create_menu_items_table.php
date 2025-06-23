@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('الاسم');
+            $table->string('name_ar');
             $table->string('name_en');
-            $table->text('الوصف')->nullable();
+            $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->decimal('price');
-            $table->decimal('السعر');
             $table->string('image')->nullable();
-            $table->string('الصورة')->nullable();
             $table->timestamps();
         });
 

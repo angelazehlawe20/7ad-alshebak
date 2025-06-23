@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hero_Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Str;
 class HeroController extends Controller
 {
     public function index()
@@ -36,20 +36,16 @@ class HeroController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $heroPage = new Hero_Page();
-        $heroPage->title_en = $validated['title_en'];
-        $heroPage->title_ar = $validated['title_ar'];
-        $heroPage->main_text_en = $validated['main_text_en'];
-        $heroPage->main_text_ar = $validated['main_text_ar'];
+        $data = $validated;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/hero'), $imageName);
-            $heroPage->image = 'images/hero/' . $imageName;
+            $data['image'] = 'images/hero/' . $imageName;
         }
 
-        $heroPage->save();
+        Hero_Page::create($data);
 
         return redirect()->route('admin.hero.indexForAdmin')->with('success', 'Hero page created successfully.');
     }
@@ -62,38 +58,33 @@ class HeroController extends Controller
 
     public function update(Request $request)
     {
-        $hero = Hero_Page::first(); // أو الطريقة التي تجلب بها بيانات الـ hero
+        $hero = Hero_Page::first();
+        
+        $validated = $request->validate([
+            'title_en' => 'required|string|max:255',
+            'title_ar' => 'required|string|max:255',
+            'main_text_en' => 'required|string',
+            'main_text_ar' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-        // تحقق هل تم رفع صورة جديدة
+        $data = $validated;
+
         if ($request->hasFile('image')) {
-            // مسار الصورة القديمة
-            $oldImage = public_path($hero->image);
-
-            // حذف الصورة القديمة لو كانت موجودة
-            if (file_exists($oldImage)) {
-                unlink($oldImage);
+            if ($hero->image && File::exists(public_path($hero->image))) {
+                File::delete(public_path($hero->image));
             }
 
-            // رفع الصورة الجديدة
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/hero'), $imageName);
-
-            // تحديث مسار الصورة في قاعدة البيانات
-            $hero->image = 'images/hero/' . $imageName;
+            $data['image'] = 'images/hero/' . $imageName;
         }
 
-        // تحديث باقي الحقول (العناوين، النصوص ...)
-        $hero->title_en = $request->input('title_en');
-        $hero->title_ar = $request->input('title_ar');
-        $hero->main_text_en = $request->input('main_text_en');
-        $hero->main_text_ar = $request->input('main_text_ar');
-
-        $hero->save();
+        $hero->update($data);
 
         return redirect()->back()->with('success', 'Hero updated successfully.');
     }
-
 
     public function updateImage(Request $request)
     {
@@ -105,17 +96,14 @@ class HeroController extends Controller
         $originalImage = $request->input('original_image');
         $imageFile = $request->file('image');
 
-        // اسم جديد عشوائي للصورة
-        $newImageName = \Illuminate\Support\Str::random(20) . '.' . $imageFile->getClientOriginalExtension();
+        $newImageName = Str::random(20) . '.' . $imageFile->getClientOriginalExtension();
         $destinationPath = public_path('images/hero');
 
-        // حفظ الصورة الجديدة
         $imageFile->move($destinationPath, $newImageName);
 
-        // حذف الصورة القديمة إن وجدت
         $oldImagePath = $destinationPath . '/' . basename($originalImage);
-        if (file_exists($oldImagePath)) {
-            unlink($oldImagePath);
+        if (File::exists($oldImagePath)) {
+            File::delete($oldImagePath);
         }
 
         return response()->json([
@@ -127,12 +115,7 @@ class HeroController extends Controller
     public function deleteImage(Request $request)
     {
         $image = $request->image;
-        
-        // Extract filename from path
-        $filename = basename($image);
-        
-        // Construct full path to image in hero folder
-        $imagePath = public_path('images/hero/' . $filename);
+        $imagePath = public_path('images/hero/' . basename($image));
 
         if (File::exists($imagePath)) {
             File::delete($imagePath);
@@ -144,16 +127,13 @@ class HeroController extends Controller
             'message' => 'Image not found: ' . $imagePath
         ]);
     }
+
     public function destroy($id)
     {
         $heroPage = Hero_Page::findOrFail($id);
 
-        // Delete image from storage if exists
-        if ($heroPage->image) {
-            $imagePath = public_path($heroPage->image);
-            if (File::exists($imagePath)) {
-                File::delete($imagePath);
-            }
+        if ($heroPage->image && File::exists(public_path($heroPage->image))) {
+            File::delete(public_path($heroPage->image));
         }
 
         $heroPage->delete();

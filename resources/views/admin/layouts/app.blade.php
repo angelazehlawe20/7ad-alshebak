@@ -8,8 +8,13 @@
     <meta name="author" content="Admin">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - Admin Panel</title>
+    @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
     <link href="{{ asset($settings->favicon) }}" rel="icon">
     <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
+    @else
+    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
+    @endif
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

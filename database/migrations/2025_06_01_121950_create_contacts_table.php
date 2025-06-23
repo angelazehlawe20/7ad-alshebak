@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('الاسم');
+            $table->string('name_ar');
+            $table->string('name_en');
             $table->string('email')->nullable();
-            $table->string('الايميل')->nullable();
-            $table->string('subject');
-            $table->string('الموضوع');
-            $table->text('message');
-            $table->text('الرسالة');
+            $table->string('subject_ar');
+            $table->string('subject_en');
+            $table->text('message_ar');
+            $table->text('message_en');
             $table->boolean('is_read')->default(false);
-            $table->boolean('تمت القراءة')->default(false);
             $table->timestamps();
         });
     }

@@ -30,16 +30,18 @@ class BookingController extends Controller
         try {
             // Validate the request data
             $validatedData = $request->validate([
-                "name" => "required|string|max:255",
+                "name_ar" => "required|string|max:255",
+                "name_en" => "required|string|max:255", 
                 "email" => "nullable|email|max:255",
                 "phone" => "required|regex:/^9\d{8}$/",
                 "guests_count" => "required|integer|min:1|max:50",
                 "booking_date" => "required|date|after:today",
                 "booking_time" => "required|date_format:H:i",
-                "message" => "nullable|string|max:1000",
+                "message_ar" => "nullable|string|max:1000",
+                "message_en" => "nullable|string|max:1000",
             ]);
 
-            // Add status field
+            // Add status field 
             $validatedData['status'] = 'pending';
 
             // Save booking

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\About;
 use Illuminate\Http\Request;
 
-
 class AboutController extends Controller
 {
     // عرض صفحة about للزوار
@@ -28,9 +27,12 @@ class AboutController extends Controller
     {
         $about = About::first() ?? new About();
 
-        $about->main_text = $request->main_text;
-        $about->why_title = $request->why_title;
-        $about->why_points = json_encode(array_filter($request->why_points));
+        $about->main_text_en = $request->main_text_en;
+        $about->main_text_ar = $request->main_text_ar;
+        $about->why_title_en = $request->why_title_en;
+        $about->why_title_ar = $request->why_title_ar;
+        $about->why_points_en = json_encode(array_filter($request->why_points_en));
+        $about->why_points_ar = json_encode(array_filter($request->why_points_ar));
 
         // الصور الحالية بعد الحذف
         $existingImages = json_decode($request->input('existing_images'), true) ?? [];
@@ -111,16 +113,22 @@ class AboutController extends Controller
     public function createAbout(Request $request)
     {
         $request->validate([
-            'main_text' => 'required|string|max:1000',
-            'why_title' => 'required|string|max:255',
-            'why_points' => 'required|string',
+            'main_text_en' => 'required|string|max:1000',
+            'main_text_ar' => 'required|string|max:1000',
+            'why_title_en' => 'required|string|max:255',
+            'why_title_ar' => 'required|string|max:255',
+            'why_points_en' => 'required|array',
+            'why_points_ar' => 'required|array',
             'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $about = new About();
-        $about->main_text = $request->main_text;
-        $about->why_title = $request->why_title;
-        $about->why_points = json_encode(array_filter($request->why_points));
+        $about->main_text_en = $request->main_text_en;
+        $about->main_text_ar = $request->main_text_ar;
+        $about->why_title_en = $request->why_title_en;
+        $about->why_title_ar = $request->why_title_ar;
+        $about->why_points_en = json_encode(array_filter($request->why_points_en));
+        $about->why_points_ar = json_encode(array_filter($request->why_points_ar));
 
         $images = [];
 

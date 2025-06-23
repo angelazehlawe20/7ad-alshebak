@@ -80,7 +80,7 @@
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary px-4 py-2">BOOK A TABLE</button>
                             </div>
-                        </form>
+                        </form> 
                     </div>
                 </div>
             </div>
