@@ -62,6 +62,10 @@
                                                 <h6 class="text-muted">Subject</h6>
                                                 <p class="mb-0">{{ Str::limit($contact->subject, 100) }}</p>
                                             </div>
+                                            <div class="mb-3">
+                                                <h6 class="text-muted">Message</h6>
+                                                <p class="mb-0">{{ Str::limit($contact->message, 150) }}</p>
+                                            </div>
                                             <div class="text-muted">
                                                 <i class="fas fa-clock"></i>
                                                 <small class="ms-2">{{ $contact->created_at ? $contact->created_at->format('Y-m-d H:i') : '' }}</small>
@@ -147,3 +151,4 @@
     });
 </script>
 @endpush
+

@@ -24,6 +24,13 @@ class MenuItemController extends Controller
         return view('admin.menu_items.create', compact('categories'));
     }
 
+    // Create item in specific category
+    public function createInCategory(Category $category)
+    {
+        $categories = Category::all();
+        return view('admin.menu_items.create', compact('categories', 'category'));
+    }
+
     // تخزين عنصر جديد
     public function store(Request $request)
     {
@@ -50,6 +57,7 @@ class MenuItemController extends Controller
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
     }
+
 
     // عرض صفحة تعديل عنصر معين
     public function edit(MenuItem $menuItem)

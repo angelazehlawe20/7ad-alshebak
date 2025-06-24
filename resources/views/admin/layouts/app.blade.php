@@ -70,6 +70,19 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        /* Notification badge styles */
+        .sidebar .nav-link .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            margin-left: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.5rem;
+            height: 1.5rem;
+        }
+
         .main-content {
             min-height: 100vh;
             background: var(--main-bg);
@@ -163,21 +176,29 @@
                     </button>
                     <div class="ms-auto">
                         <div class="dropdown">
-                            <button class="btn btn-link dropdown-toggle text-dark" type="button" id="userDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle me-2"></i> Admin
+                            <button
+                                class="btn btn-light rounded-pill shadow-sm dropdown-toggle d-flex align-items-center"
+                                type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle fs-5 me-2 text-secondary"></i>
+                                <span class="fw-medium">Admin</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>
-                                        Profile</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 py-2">
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item px-4 py-2 d-flex align-items-center" href="#">
+                                        <i class="fas fa-user-cog fs-5 me-3 text-secondary"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider mx-3 my-2">
                                 </li>
                                 <li>
                                     <form action="" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">
-                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        <button type="submit"
+                                            class="dropdown-item px-4 py-2 d-flex align-items-center text-danger">
+                                            <i class="fas fa-sign-out-alt fs-5 me-3"></i>
+                                            <span>Logout</span>
                                         </button>
                                     </form>
                                 </li>

@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Menu')
+@section('title',  __('navbar.menu') )
 
 @section('content')
 <section id="menu" class="menu section">
     <!-- Section Title -->
     <div id="menu-content"></div>
     <div class="container section-title" data-aos="fade-up">
-        <p><span>Had AlShebak</span> <span class="description-title">Menu</span></p>
+        @if(app()->getLocale() == 'ar')
+        <p><span>{{ __('menu.menu') }}</span> <span class="description-title">{{ __('menu.brand_name') }}</span></p>
+        @else
+        <p><span>{{ __('menu.brand_name') }}</span> <span class="description-title">{{ __('menu.menu') }}</span></p>
+        @endif
     </div>
 
     <div class="container">
@@ -17,29 +21,34 @@
             <li class="nav-item">
                 <a class="nav-link {{ $loop->first ? 'active show' : '' }}" data-bs-toggle="tab"
                     data-bs-target="#menu-{{ $category->id }}">
-                    <h4>{{ $category->name_ar }} - {{ $category->name_en }}</h4>
+                    <h4>{{ $category->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}</h4>
                 </a>
             </li>
             @endforeach
         </ul>
 
         <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+            @php
+                $hasItems = false;
+            @endphp
+
             @foreach($categories as $category)
             <div class="tab-pane fade {{ $loop->first ? 'active show' : '' }}" id="menu-{{ $category->id }}">
                 <div class="tab-header text-center">
-                    <p>Menu</p>
-                    <h3>{{ $category->name_en }} - {{ $category->name_ar }}</h3>
+                    <p>{{ __('menu.menu') }}</p>
+                    <h3>{{ $category->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}</h3>
                 </div>
 
                 <div class="row gy-5">
                     @forelse($category->menuItems as $item)
+                    @php $hasItems = true; @endphp
                     <div class="col-lg-4 menu-item">
                         <div class="menu-card h-100">
                             <div class="menu-image-wrapper">
                                 @if($item->image)
-                                <a href="{{ asset('storage/' . $item->image) }}" class="glightbox">
-                                    <img src="{{ asset('storage/' . $item->image) }}" class="menu-img img-fluid"
-                                        alt="{{ $item->name_en }} - {{ $item->name_ar }}">
+                                <a href="{{ asset( $item->image) }}" class="glightbox">
+                                    <img src="{{ asset( $item->image) }}" class="menu-img img-fluid"
+                                        alt="{{ $item->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}">
                                 </a>
                                 @else
                                 <div class="no-image-placeholder">
@@ -50,33 +59,24 @@
 
                             <div class="menu-content d-flex flex-column h-100">
                                 <div class="menu-header">
-                                    <h4 class="menu-title">{{ $item->name_ar }}</h4>
-                                    <small class="menu-subtitle">{{ $item->name_en }}</small>
-                                </div>
+                                    <h4 class="menu-title">
+                                        {{ $item->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}
+                                    </h4>
 
-                                <div class="flex-grow-1">
-                                    @if($item->description_ar)
-                                    <p class="menu-description">
-                                        {{ $item->description_ar }}
-                                    </p>
-                                    @endif
-
-                                    @if($item->description_en)
-                                    <p class="menu-description-en">
-                                        {{ $item->description_en }}
-                                    </p>
+                                    @if($item->{app()->getLocale() == 'ar' ? 'description_ar' : 'description_en'})
+                                        <p class="menu-description">{{ $item->{app()->getLocale() == 'ar' ? 'description_ar' : 'description_en'} }}</p>
                                     @endif
                                 </div>
 
-                                <div class="menu-footer mt-auto">
-                                    <span class="menu-price">{{ number_format($item->price, 2) }} $</span>
+                                <div class="card-price fw-bold fs-5 mt-auto">
+                                    <span class="menu-price">{{ number_format($item->price) }} $</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     @empty
                     <div class="col-12 text-center">
-                        <p class="no-items-message">No menu items in this category at the moment</p>
+                        <p class="no-items-message">{{ __('menu.no_items') }}</p>
                     </div>
                     @endforelse
                 </div>
@@ -90,16 +90,16 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const hash = window.location.hash;
+        const hash = window.location.hash;
 
-    if (hash) {
-        const triggerEl = document.querySelector(`a[data-bs-target="${hash}"]`);
-        if (triggerEl) {
-            const tab = new bootstrap.Tab(triggerEl);
-            tab.show();
+        if (hash) {
+            const triggerEl = document.querySelector(`a[data-bs-target="${hash}"]`);
+            if (triggerEl) {
+                const tab = new bootstrap.Tab(triggerEl);
+                tab.show();
+            }
         }
-    }
-});
+    });
 </script>
 @endpush
 
@@ -140,7 +140,6 @@
         position: relative;
         overflow: hidden;
         padding-top: 75%;
-        /* 4:3 Aspect Ratio */
     }
 
     .menu-image-wrapper img {
@@ -197,24 +196,11 @@
         color: #333;
     }
 
-    .menu-subtitle {
-        display: block;
-        color: #666;
-        margin-top: 0.3rem;
-    }
-
     .menu-description {
-        color: #555;
         font-size: 0.95rem;
         line-height: 1.6;
         margin-bottom: 0.5rem;
-    }
-
-    .menu-description-en {
-        color: #777;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin-bottom: 1rem;
+        color: #555;
     }
 
     .menu-footer {

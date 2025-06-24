@@ -30,30 +30,20 @@
                             <div class="card-body">
                                 @php $gallery = json_decode($about->gallery_images ?? '[]'); @endphp
 
-                                <div class="gallery-preview mb-3 row">
+                                <div class="gallery-preview mb-3 row" id="galleryPreview">
                                     @forelse($gallery as $image)
                                         @if(file_exists(public_path($image)))
-                                        <div class="gallery-item col-md-6 position-relative mb-2">
+                                        <div class="gallery-item col-md-6 position-relative mb-2" data-path="{{ $image }}">
                                             <a class="glightbox" data-gallery="images-gallery" href="{{ asset($image) }}">
                                                 <img src="{{ asset($image) }}"
-                                                    class="img-fluid rounded shadow gallery-image" alt="Gallery Image"
+                                                    class="img-fluid rounded shadow gallery-image"
                                                     style="width: 100%; height: 150px; object-fit: contain;">
                                             </a>
-
-                                            <button type="button"
-                                                class="btn btn-warning btn-sm position-absolute top-0 start-0 m-1 edit-image d-none"
-                                                data-image="{{ $image }}">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-
                                             <button type="button"
                                                 class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-image d-none"
                                                 data-image="{{ $image }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-
-                                            <input type="file" class="d-none replace-image-input" accept="image/*"
-                                                data-image="{{ $image }}">
                                         </div>
                                         @endif
                                     @empty
@@ -67,7 +57,7 @@
                                         <i class="fas fa-upload"></i>&nbsp;Add New Images
                                     </button>
                                     <input type="file" class="d-none" name="new_gallery_images[]" id="newGalleryImages"
-                                        multiple accept="image/*" onchange="previewImages(this)">
+                                        multiple accept="image/*">
                                     <input type="hidden" name="existing_images" id="existingImages"
                                         value="{{ $about->gallery_images ?? '[]' }}">
                                     <div class="row mt-2" id="imagePreviewContainer"></div>
@@ -83,40 +73,36 @@
                                 <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>Main Content</h3>
                             </div>
                             <div class="card-body">
-                                {{-- النص الرئيسي --}}
                                 <div class="form-group">
-                                    <label><i class="fas fa-paragraph mr-2"></i><strong>Main Text</strong></label>
-                                    <textarea class="form-control" name="main_text" rows="4" readonly>{{ $about->main_text ?? '' }}</textarea>
+                                    <label><strong>Main Text (EN)</strong></label>
+                                    <textarea class="form-control" name="main_text_en" rows="4" readonly>{{ $about->main_text_en ?? '' }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Main Text (AR)</strong></label>
+                                    <textarea class="form-control" name="main_text_ar" rows="4" readonly>{{ $about->main_text_ar ?? '' }}</textarea>
                                 </div>
 
-                                {{-- عنوان Why Choose Us --}}
                                 <div class="form-group">
-                                    <label><i class="fas fa-heading mr-2"></i><strong>Why Choose Us Title</strong></label>
-                                    <input type="text" class="form-control" name="why_title" value="{{ $about->why_title ?? 'Why Choose Us' }}" readonly>
+                                    <label><strong>Why Title (EN)</strong></label>
+                                    <input type="text" class="form-control" name="why_title_en" value="{{ $about->why_title_en ?? '' }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Why Title (AR)</strong></label>
+                                    <input type="text" class="form-control" name="why_title_ar" value="{{ $about->why_title_ar ?? '' }}" readonly>
                                 </div>
 
-                                {{-- النقاط --}}
                                 <div class="form-group">
-                                    <label><i class="fas fa-list-ul mr-2"></i><strong>Why Choose Us Points</strong></label>
-                                    <div id="why-points-container">
-                                        @forelse(json_decode($about->why_points ?? '[]') as $point)
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points[]" value="{{ $point }}" readonly>
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-danger remove-point d-none">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @empty
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points[]" readonly>
-                                            </div>
-                                        @endforelse
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-secondary d-none" id="addPointBtn">
-                                        <i class="fas fa-plus"></i> Add Point
-                                    </button>
+                                    <label><strong>Why Points (EN)</strong></label>
+                                    @foreach(json_decode($about->why_points_en ?? '[]') as $point)
+                                        <input type="text" class="form-control mb-2" name="why_points_en[]" value="{{ $point }}" readonly>
+                                    @endforeach
+                                </div>
+
+                                <div class="form-group">
+                                    <label><strong>Why Points (AR)</strong></label>
+                                    @foreach(json_decode($about->why_points_ar ?? '[]') as $point)
+                                        <input type="text" class="form-control mb-2" name="why_points_ar[]" value="{{ $point }}" readonly>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -147,26 +133,73 @@
 
 @section('scripts')
 <script>
-    window.routes = {
-        updateImage: "{{ route('admin.about.updateImage') }}",
-        deleteImage: "{{ route('admin.about.deleteImage') }}"
-    };
-</script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const uploadImagesBtn = document.getElementById('uploadImagesBtn');
+    const newGalleryImages = document.getElementById('newGalleryImages');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const existingImagesInput = document.getElementById('existingImages');
+    const galleryPreview = document.getElementById('galleryPreview');
 
-<script src="{{ asset('assets/js/aboutPage.js') }}"></script>
+    // تفعيل التعديل
+    editBtn.addEventListener('click', function () {
+        editBtn.classList.add('d-none');
+        saveBtn.classList.remove('d-none');
+        cancelBtn.classList.remove('d-none');
+        uploadImagesBtn.classList.remove('d-none');
+        document.querySelectorAll('.delete-image').forEach(btn => btn.classList.remove('d-none'));
+        document.querySelectorAll('input[readonly], textarea[readonly]').forEach(el => el.removeAttribute('readonly'));
+    });
+
+    // إلغاء التعديل
+    cancelBtn.addEventListener('click', function () {
+        location.reload();
+    });
+
+    // اختيار الصور
+    newGalleryImages.addEventListener('change', function () {
+        previewImages(this);
+    });
+
+    function previewImages(input) {
+        imagePreviewContainer.innerHTML = '';
+        if (input.files && input.files.length > 0) {
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.classList.add('col-md-4', 'mb-2');
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('img-fluid', 'rounded', 'shadow');
+                    img.style.height = '150px';
+                    img.style.objectFit = 'cover';
+                    div.appendChild(img);
+                    imagePreviewContainer.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+
+    // حذف الصور من المعاينة
+    galleryPreview.addEventListener('click', function (e) {
+        if (e.target.classList.contains('delete-image') || e.target.closest('.delete-image')) {
+            const button = e.target.closest('.delete-image');
+            const imagePath = button.getAttribute('data-image');
+
+            const item = button.closest('.gallery-item');
+            item.remove();
+
+            // تحديث حقل existing_images
+            const remaining = Array.from(galleryPreview.querySelectorAll('.gallery-item')).map(item =>
+                item.getAttribute('data-path')
+            );
+            existingImagesInput.value = JSON.stringify(remaining);
+        }
+    });
+});
+</script>
 @endsection
- <style>
-.glightbox-close {
-    display: block !important;
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 1050 !important;
-    width: 40px !important;
-    height: 40px !important;
-    background: rgba(0,0,0,0.5) url('https://cdn.jsdelivr.net/npm/glightbox/dist/images/close.svg') center center no-repeat !important;
-    background-size: 18px 18px !important;
-    border-radius: 50% !important;
-    cursor: pointer !important;
-}
-</style>

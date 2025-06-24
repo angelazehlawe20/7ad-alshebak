@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('hero_pages', function (Blueprint $table) {
             $table->id();
             $table->string('title_en')->nullable();
-            $table->string('العنوان')->nullable();
+            $table->string('title_ar')->nullable();
             $table->text('main_text_en')->nullable();
-            $table->text('النص الأساسي')->nullable();
+            $table->text('main_text_ar')->nullable();
             $table->string('image')->nullable();
-            $table->string('الصورة')->nullable();
             $table->timestamps();
         });
     }

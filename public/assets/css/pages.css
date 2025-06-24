@@ -153,7 +153,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: red;
+    color: var( --accent-color);
     /* غير اللون حسب التصميم */
     top: 50%;
     transform: translateY(-50%);
@@ -308,7 +308,7 @@
 # Contact Section
 --------------------------------------------------------------*/
 .contact .info-item {
-    background-color: var(--surface-color);
+    background-color: tr;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.07);
     padding: 20px 30px;
     border-radius: 12px;
@@ -326,7 +326,7 @@
     align-items: center;
     transition: all 0.3s ease-in-out;
     border-radius: 50%;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     box-shadow: 0 2px 8px rgba(172, 140, 100, 0.3);
 }
 

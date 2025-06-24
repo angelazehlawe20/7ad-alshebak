@@ -28,18 +28,36 @@
                                 <div class="table-responsive">
                                     <table class="table table-borderless mb-0">
                                         <tbody>
+                                            @if($contact->name_ar)
                                             <tr>
-                                                <th scope="row" width="200">Name</th>
-                                                <td>{{ $contact->name }}</td>
+                                                <th scope="row" width="200">Name (Arabic)</th>
+                                                <td>{{ $contact->name_ar }}</td>
                                             </tr>
+                                            @endif
+                                            @if($contact->name_en)
+                                            <tr>
+                                                <th scope="row">Name (English)</th>
+                                                <td>{{ $contact->name_en }}</td>
+                                            </tr>
+                                            @endif
+                                            @if($contact->email)
                                             <tr>
                                                 <th scope="row">Email</th>
                                                 <td>{{ $contact->email }}</td>
                                             </tr>
+                                            @endif
+                                            @if($contact->subject_ar)
                                             <tr>
-                                                <th scope="row">Subject</th>
-                                                <td>{{ $contact->subject }}</td>
+                                                <th scope="row">Subject (Arabic)</th>
+                                                <td>{{ $contact->subject_ar }}</td>
                                             </tr>
+                                            @endif
+                                            @if($contact->subject_en)
+                                            <tr>
+                                                <th scope="row">Subject (English)</th>
+                                                <td>{{ $contact->subject_en }}</td>
+                                            </tr>
+                                            @endif
                                             <tr>
                                                 <th scope="row">Status</th>
                                                 <td>
@@ -50,7 +68,6 @@
                                                     @endif
                                                 </td>
                                             </tr>
-
                                             <tr>
                                                 <th scope="row">Sent At</th>
                                                 <td>{{ $contact->created_at }}</td>
@@ -64,9 +81,18 @@
                         <div class="row mt-4">
                             <div class="col-12">
                                 <h5 class="mb-3">Message Content</h5>
-                                <div class="border rounded p-3 bg-light">
-                                    {{ $contact->message }}
+                                @if($contact->message_ar)
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <h6>Arabic Message:</h6>
+                                    {{ $contact->message_ar }}
                                 </div>
+                                @endif
+                                @if($contact->message_en)
+                                <div class="border rounded p-3 bg-light">
+                                    <h6>English Message:</h6>
+                                    {{ $contact->message_en }}
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

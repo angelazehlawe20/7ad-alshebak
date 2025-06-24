@@ -17,18 +17,17 @@ class ContactController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            "name_ar" => "required|string|max:255",
-            "name_en" => "required|string|max:255",
+            "name_ar" => "nullable|string|max:255",
+            "name_en" => "nullable|string|max:255",
             "email" => "nullable|email|max:255",
-            "subject_ar" => "required|string|max:255",
-            "subject_en" => "required|string|max:255", 
-            "message_ar" => "required|string|max:1000",
-            "message_en" => "required|string|max:1000",
+            "subject_ar" => "nullable|string|max:255",
+            "subject_en" => "nullable|string|max:255",
+            "message_ar" => "nullable|string|max:1000",
+            "message_en" => "nullable|string|max:1000",
         ]);
- 
-        // Add is_read and sent_at manually
+
+        // Add is_read flag
         $validatedData['is_read'] = false;
-        $validatedData['sent_at'] = Carbon::now();
 
         // Save contact
         Contact::create($validatedData);

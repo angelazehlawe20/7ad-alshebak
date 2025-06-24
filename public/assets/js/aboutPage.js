@@ -218,13 +218,13 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function () {
     const swiper = new Swiper(".gallery-swiper", {
         loop: true,
-        loopAdditionalSlides: 4,
         speed: 800,
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
+            waitForTransition: false,
         },
-        slidesPerView: "auto",
+        slidesPerView: 50,  // رقم ثابت بدلاً من "auto" للتجربة
         centeredSlides: true,
         pagination: {
             el: ".swiper-pagination",
@@ -242,6 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
             1200: { slidesPerView: 4, spaceBetween: 40 },
         },
     });
+
     const lightbox = GLightbox({
         selector: '.glightbox',
         closeButton: true

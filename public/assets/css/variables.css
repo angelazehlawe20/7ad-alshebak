@@ -31,7 +31,7 @@
     /* Color for headings, subheadings and title throughout the website */
     --accent-color: #AC8C64;
     /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-    --surface-color: #e8c095;
+    --surface-color: #dbba97;
     /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
     --contrast-color: #ffffff;
     /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */

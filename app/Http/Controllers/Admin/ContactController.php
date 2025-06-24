@@ -21,7 +21,6 @@ class ContactController extends Controller
                 'subject_' . $locale . ' as subject',
                 'message_' . $locale . ' as message',
                 'is_read',
-                'sent_at',
                 'created_at'
             ]);
 
@@ -39,7 +38,7 @@ class ContactController extends Controller
     public function show(Contact $contact)
     {
         $locale = app()->getLocale();
-        
+
         // Mark the contact as read when viewed
         if (!$contact->is_read) {
             $contact->update(['is_read' => true]);
@@ -54,7 +53,6 @@ class ContactController extends Controller
                 'subject_' . $locale . ' as subject',
                 'message_' . $locale . ' as message',
                 'is_read',
-                'sent_at',
                 'created_at'
             ])
             ->orderBy('created_at', 'desc')

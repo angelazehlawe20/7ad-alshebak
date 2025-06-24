@@ -19,7 +19,7 @@
             </a>
             <a href="{{ route('admin.hero.indexForAdmin') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.hero.indexForAdmin') ? 'active' : 'inactive' }}">
-                <i class="fas fa-info-circle me-2"></i> Hero
+                <i class="fas fa-image me-2"></i> Hero
             </a>
             <a href="{{ route('admin.categories.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.categories.index') ? 'active' : 'inactive' }}">
@@ -36,10 +36,16 @@
             <a href="{{ route('admin.bookings.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.bookings.index') ? 'active' : 'inactive' }}">
                 <i class="fas fa-calendar-alt me-2"></i> Bookings
+                @if(isset($pendingBookingsCount) && $pendingBookingsCount > 0)
+                <span class="badge bg-warning rounded-pill ms-2">{{ $pendingBookingsCount }}</span>
+                @endif
             </a>
             <a href="{{ route('admin.contacts.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.contacts.index') ? 'active' : 'inactive' }}">
                 <i class="fas fa-envelope me-2"></i> Contact Messages
+                @if(isset($unreadMessagesCount) && $unreadMessagesCount > 0)
+                <span class="badge bg-danger rounded-pill ms-2">{{ $unreadMessagesCount }}</span>
+                @endif
             </a>
             <a href="{{ route('admin.settings.index') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.settings.index') ? 'active' : 'inactive' }}">

@@ -104,11 +104,6 @@ class AboutController extends Controller
         ]);
     }
 
-    // إنشاء about لأول مرة
-    public function create()
-    {
-        return view('admin.about.create');
-    }
 
     public function createAbout(Request $request)
     {

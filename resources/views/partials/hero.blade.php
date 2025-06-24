@@ -1,25 +1,25 @@
 <!-- Hero Section -->
 <section id="hero" class="hero section light-background">
     <div class="container">
-        <div class="row gy-4 justify-content-center justify-content-lg-between align-items-center">
-            <div class="col-lg-6 col-md-12 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-                <h1 class="display-4 fw-bold mb-4" data-aos="fade-up" data-aos-once="true" style="font-size: calc(1.8rem + 1.5vw);">
-                    {{ $heroPage->title_en }} - {{ $heroPage->title_ar }}
+        <div class="row gy-3 justify-content-lg-between align-items-center">
+            <div class="col-lg-6 col-md-12 order-2 order-lg-1 d-flex flex-column justify-content-start">
+                <h1 class="display-4 fw-bold mb-3" data-aos="fade-up" data-aos-once="true">
+                    {{ app()->getLocale() === 'ar' ? $heroPage->title_ar : $heroPage->title_en }}
                 </h1>
-                <p class="lead mb-4" data-aos="fade-up" data-aos-delay="100" data-aos-once="true" style="font-size: calc(1rem + 0.5vw);">
-                    {{ $heroPage->main_text_en }} <br><br> {{ $heroPage->main_text_ar }}
+                <p class="lead mb-3" data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
+                    {{ app()->getLocale() === 'ar' ? $heroPage->main_text_ar : $heroPage->main_text_en }}
                 </p>
 
-                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start" data-aos="zoom-out" data-aos-once="true">
-                    <a href="{{route('book')}}" class="btn btn-get-started btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
-                        <i class="fas fa-calendar-check me-2"></i>Book a Table
+                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-start mt-2" data-aos="zoom-out" data-aos-once="true">
+                    <a href="{{route('book')}}" class="btn btn-get-started" data-aos="zoom-out">
+                        <i class="fas fa-calendar-check me-2"></i>{{ __('navbar.book') }}
                     </a>
-                    <a href="{{route('menu')}}" class="btn btn-get-startedy btn-lg btn-get-started border-0 shadow-lg animated w-100 w-sm-auto" style="border-radius: 30px; font-size: calc(0.9rem + 0.3vw);">
-                        <i class="fas fa-utensils me-2"></i>View Menu
+                    <a href="{{route('menu')}}" class="btn btn-get-started" data-aos="zoom-out">
+                        <i class="fas fa-utensils me-2"></i>{{ __('navbar.view_menu') }}
                     </a>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-12 order-1 order-lg-2 hero-img text-center" data-aos="zoom-out" data-aos-once="true">
+            <div class="col-lg-5 col-md-12 order-1 order-lg-2 hero-img mt-4 mt-lg-0" data-aos="zoom-out" data-aos-once="true">
                 <img
                     src="{{ asset( $heroPage->image) }}"
                     class="img-fluid shadow-lg animated"

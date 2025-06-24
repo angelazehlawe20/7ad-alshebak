@@ -1,12 +1,22 @@
 @extends('layouts.app')
 
-@section('title', 'All Offers')
+@section('title', __('navbar.offers'))
 
 @section('content')
-<section id="offers" class="offers section">
-    <div id="offers-content"></div>
+<section id="offers" class="offers section light-background py-5">
+    <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <p><span>Had AlShebak</span> <span class="description-title">Offers</span></p>
+        @if(app()->getLocale() == 'ar')
+        <p>
+            <span>{{ __('offers.offers') }}</span>
+            <span class="description-title">{{ __('offers.brand_name') }}</span>
+        </p>
+        @else
+        <p>
+            <span>{{ __('offers.brand_name') }}</span>
+            <span class="description-title">{{ __('offers.offers') }}</span>
+        </p>
+        @endif
     </div>
 
     <div class="container">
@@ -14,7 +24,7 @@
         <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
             <div class="col-md-6 mx-auto">
                 <select class="form-select" id="categoryFilter">
-                    <option value=""> -- All Categories -- </option>
+                    <option value="">{{ __('offers.all_categories') }}</option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : '' }}>
                         {{ $category->name_ar }} - {{ $category->name_en }}
@@ -24,38 +34,48 @@
             </div>
         </div>
 
+        <!-- Offers Grid -->
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
             @forelse($offers as $offer)
-            <div class="col-lg-4 col-md-6">
-                <div class="menu-card h-100">
-                    <div class="menu-image-wrapper" style="height: 250px; overflow: hidden;">
-                        <a href="{{ asset($offer->image ? 'storage/' . $offer->image : 'assets/img/placeholder.jpg') }}" class="glightbox">
-                            <img src="{{ asset($offer->image ? 'storage/' . $offer->image : 'assets/img/placeholder.jpg') }}"
-                                class="menu-img img-fluid w-100 h-100"
-                                style="object-fit: contain;"
-                                alt="{{ $offer->title }}">
-                        </a>
-                    </div>
-                    <div class="menu-content d-flex flex-column h-100">
-                        <div class="menu-header">
-                            <h4 class="menu-title">{{ $offer->title }}</h4>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="menu-description">{{ $offer->description }}</p>
-                        </div>
-                        <div class="menu-footer mt-auto">
-                            <span class="menu-price">{{ number_format($offer->price, 2) }} $</span>
-                            <small class="text-muted d-block mt-2">
-                                Category: {{ $offer->category->name_ar }} - {{ $offer->category->name_en }}
-                            </small>
-                        </div>
+            <div class="col-lg-4 col-md-6 col-6">
+                <div class="card h-100 shadow">
+                    <img src="{{ asset($offer->image ? $offer->image : 'assets/img/placeholder.jpg') }}"
+                         class="card-img-top offer-img img-fluid"
+                         alt="{{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title_en }}">
+
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title h5 mb-2">
+                            {{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title_en }}
+                        </h3>
+
+                        <p class="card-text mb-2">
+                            {{ app()->getLocale() == 'ar' ? $offer->description_ar : $offer->description_en }}
+                        </p>
+
+                        @if($offer->valid_until)
+                        <p class="text-muted mb-1">
+                            <i class="far fa-calendar-alt me-2"></i>
+                            {{ __('offers.valid_until') }}: {{ $offer->valid_until->format('Y-m-d h:i A') }}
+                        </p>
+                        @endif
+
+                        <p class="text-muted mb-1">
+                            <i class="fas fa-tag me-2"></i>
+                            {{ __('offers.category') }}:
+                            {{ app()->getLocale() == 'ar' ? $offer->category->name_ar : $offer->category->name_en }}
+                        </p>
+
+                        <p class="card-price fw-bold fs-5 mt-auto" style="color: #AC8C64;">
+                            {{ number_format($offer->price) }} $
+                        </p>
                     </div>
                 </div>
             </div>
             @empty
             <div class="col-12">
-                <div class="no-items-message text-center">
-                    No offers available at the moment.
+                <div class="text-center py-5">
+                    <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
+                    <h4 class="text-secondary">{{ __('offers.no_offers') }}</h4>
                 </div>
             </div>
             @endforelse
@@ -77,4 +97,5 @@
     });
 </script>
 @endpush
+
 @endsection

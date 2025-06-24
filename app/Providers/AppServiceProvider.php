@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Booking;
+use App\Models\Contact;
 use App\Models\Hero_Page;
 use App\Models\Setting;
-use App\Models\Social_link;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,11 +27,24 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $view->with('footer', Setting::first());
         });
+
         View::composer('*', function ($view) {
             $view->with('settings', Setting::first());
         });
+
         View::composer('*', function ($view) {
             $view->with('heroPage', Hero_Page::first());
+        });
+
+        // Share notification counts with all admin views
+        View::composer('admin.*', function ($view) {
+            $unreadMessages = Contact::where('is_read', false)->count();
+            $pendingBookings = Booking::where('status', 'pending')->count();
+
+            $view->with([
+                'unreadMessagesCount' => $unreadMessages,
+                'pendingBookingsCount' => $pendingBookings,
+            ]);
         });
     }
 }
