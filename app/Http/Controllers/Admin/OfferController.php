@@ -52,7 +52,7 @@ class OfferController extends Controller
 
         Offer::create($validated);
 
-        return redirect()->route('admin.offers.index')->with('success', 'Offer created successfully.');
+        return redirect()->route('admin.offers.index')->with('success', __('offers.created_message'));
     }
 
     public function filterByCategory(Request $request)
@@ -115,7 +115,7 @@ class OfferController extends Controller
 
         $offer->update($validated);
 
-        return redirect()->route('admin.offers.index')->with('success', 'Offer updated successfully.');
+        return redirect()->route('admin.offers.index')->with('success', __('category.updated_message'));
     }
 
     public function destroy(Offer $offer)
@@ -127,6 +127,6 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return redirect()->route('admin.offers.index')->with('success', 'Offer deleted successfully.');
+        return redirect()->route('admin.offers.index')->with('success', __('offers.deleted_message'));
     }
 }

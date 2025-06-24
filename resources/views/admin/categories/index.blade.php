@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Manage Categories')
+@section('title', __('category.categories_management'))
 
 @section('content')
     <div class="container-fluid">
@@ -8,10 +8,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3 class="card-title m-0">Categories Management</h3>
+                        <h3 class="card-title m-0">{{ __('category.categories_management') }}</h3>
                         <div class="card-tools">
                             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Add New Category
+                                <i class="fas fa-plus"></i> {{ __('category.add_new_category') }}
                             </a>
                         </div>
                     </div>
@@ -25,28 +25,28 @@
                                             <h6 class="text-muted">{{ $category->name_ar }}</h6>
                                             <div class="d-flex align-items-center mt-3">
                                                 <i class="fas fa-tag text-secondary me-2"></i>
-                                                <small class="text-muted">Category {{ $loop->iteration }}</small>
+                                                <small class="text-muted">{{ __('category.category_number', ['number' => $loop->iteration]) }}</small>
                                             </div>
                                         </div>
                                         <div class="card-footer bg-transparent border-top-0">
                                             <div class="d-flex gap-2">
                                                 <a href="{{ route('admin.categories.show', $category->id) }}"
                                                    class="btn btn-outline-secondary flex-grow-1">
-                                                    <i class="fas fa-eye"></i> View
+                                                    <i class="fas fa-eye"></i> {{ __('category.view') }}
                                                 </a>
                                                 <a href="{{ route('admin.categories.edit', $category->id) }}"
                                                    class="btn btn-outline-primary flex-grow-1">
-                                                    <i class="fas fa-edit"></i> Edit
+                                                    <i class="fas fa-edit"></i> {{ __('category.edit') }}
                                                 </a>
                                                 <form action="{{ route('admin.categories.destroy', $category->id) }}"
                                                       method="POST"
                                                       class="flex-grow-1"
-                                                      onsubmit="return confirm('Are you sure you want to delete this category?')">
+                                                      onsubmit="return confirm('{{ __('category.confirm_delete') }}')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
                                                             class="btn btn-outline-danger w-100">
-                                                        <i class="fas fa-trash"></i> Delete
+                                                        <i class="fas fa-trash"></i> {{ __('category.delete') }}
                                                     </button>
                                                 </form>
                                             </div>
@@ -57,8 +57,8 @@
                                 <div class="col-12">
                                     <div class="text-center py-5">
                                         <i class="fas fa-list-alt fa-4x text-secondary mb-3"></i>
-                                        <h4 class="text-secondary">No categories found</h4>
-                                        <p class="text-muted">Add new categories to get started.</p>
+                                        <h4 class="text-secondary">{{ __('category.no_categories_found') }}</h4>
+                                        <p class="text-muted">{{ __('category.add_to_get_started') }}</p>
                                     </div>
                                 </div>
                             @endforelse

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Admin Panel Dashboard">
-    <meta name="author" content="Admin">
+    <meta name="description" content="{{ __('messages.admin_panel_description') }}">
+    <meta name="author" content="{{ __('messages.admin') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - Admin Panel</title>
+    <title>@yield('title') - {{ __('messages.admin_panel') }}</title>
+
     @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
     <link href="{{ asset($settings->favicon) }}" rel="icon">
     <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
@@ -16,48 +17,68 @@
     <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
     @endif
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{-- Bootstrap --}}
+    @if(app()->getLocale() === 'ar')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    @else
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    @endif
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
-
+    {{-- Custom Styles --}}
     <style>
         :root {
-            --sidebar-bg: #4C3A1B;
-            /* بني داكن دافئ */
-            --sidebar-hover: rgba(172, 140, 100, 0.15);
-            /* ظل ذهبي شفاف */
-            --sidebar-active: #AC8C64;
-            /* لون الaccent الموجود */
-            --main-bg: #f8f9fa;
-            /* يمكنك إبقاؤه كما هو */
+            --sidebar-bg: #8B7355;
+            --sidebar-hover: rgba(139, 115, 85, 0.15);
+            --sidebar-active: #6B4423;
+            --main-bg: #F5F5DC;
+            --text-color: #2F1810;
+            --btn-primary: #8B4513;
+            --btn-hover: #654321;
+            --nav-bg: #F5F5DC;
         }
 
         body {
             overflow-x: hidden;
+            color: var(--text-color);
+        }
+
+        body.no-scroll {
+            overflow: hidden !important;
+        }
+
+        body.ltr {
+            direction: ltr;
+            text-align: left;
+        }
+
+        body.rtl {
+            direction: rtl;
+            text-align: right;
         }
 
         .sidebar {
             position: sticky;
             top: 0;
             height: 100vh;
-            overflow-y: auto;
             background: var(--sidebar-bg);
             color: #fff;
-            transition: all 0.3s ease;
             width: 250px;
+            transition: all 0.3s ease;
         }
-
 
         .sidebar .nav-link {
             color: #fff;
             padding: 12px 15px;
-            border-radius: 5px;
             margin: 3px 10px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            transition: all 0.3s ease;
         }
 
         .sidebar .nav-link:hover {
@@ -67,36 +88,48 @@
 
         .sidebar .nav-link.active {
             background: var(--sidebar-active);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        /* Notification badge styles */
-        .sidebar .nav-link .badge {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            margin-left: 0.5rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 1.5rem;
-            height: 1.5rem;
+        body.ltr .sidebar .nav-link i {
+            margin-right: 8px;
+            margin-left: 0;
+        }
+
+        body.rtl .sidebar .nav-link i {
+            margin-left: 8px;
+            margin-right: 0;
+        }
+
+        body.ltr .badge {
+            margin-left: 8px;
+        }
+
+        body.rtl .badge {
+            margin-right: 8px;
         }
 
         .main-content {
-            min-height: 100vh;
             background: var(--main-bg);
             width: calc(100% - 250px);
         }
 
         .navbar {
-            background: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
+            background-color: var(--nav-bg);
         }
 
-        .dropdown-item {
-            padding: 0.5rem 1rem;
+        .btn-outline-secondary {
+            border-color: var(--btn-primary);
+            color: var(--btn-primary);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--btn-primary);
+            border-color: var(--btn-primary);
+            color: #fff;
+        }
+
+        .btn-light {
+            border-color: var(--btn-primary);
         }
 
         .dropdown-item:hover {
@@ -106,11 +139,8 @@
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
-                z-index: 1050;
                 left: -250px;
-                top: 0;
-                height: 100%;
-                overflow-y: auto;
+                z-index: 1050;
             }
 
             .sidebar.show {
@@ -128,77 +158,60 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(47, 24, 16, 0.5);
                 z-index: 1040;
             }
 
             .overlay.show {
                 display: block;
             }
-
-            .container-fluid {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            .navbar {
-                padding: 0.5rem;
-            }
-
-            .dropdown-menu {
-                position: fixed !important;
-                top: auto !important;
-                right: 10px !important;
-                left: 10px !important;
-                transform: none !important;
-                margin-top: 10px;
-            }
         }
     </style>
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-    <!-- GLightbox CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-
+    @stack('styles')
 </head>
 
-<body class="bg-light">
+<body class="bg-light {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
     <div class="overlay" id="sidebarOverlay"></div>
+
     <div class="d-flex">
         @include('admin.layouts.sidebar')
 
         <div class="main-content">
-            <nav class="navbar navbar-expand-lg sticky-top">
+            {{-- Navbar --}}
+            <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
                 <div class="container-fluid">
-                    <button class="btn btn-link d-md-none" type="button" id="sidebarToggle">
+                    <button class="btn btn-link d-md-none text-dark" id="sidebarToggle">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <div class="ms-auto">
+
+                    <div class="d-flex align-items-center ms-auto gap-2">
+                        <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                            class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-language me-1"></i>
+                            {{ app()->getLocale() === 'ar' ? 'English' : 'Arabic' }}
+                        </a>
+
                         <div class="dropdown">
-                            <button
-                                class="btn btn-light rounded-pill shadow-sm dropdown-toggle d-flex align-items-center"
-                                type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle fs-5 me-2 text-secondary"></i>
-                                <span class="fw-medium">Admin</span>
+                            <button class="btn btn-light rounded-pill dropdown-toggle" type="button" id="userDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-2"></i>
+                                <span>{{ __('messages.admin') }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 py-2">
+                            <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item px-4 py-2 d-flex align-items-center" href="#">
-                                        <i class="fas fa-user-cog fs-5 me-3 text-secondary"></i>
-                                        <span>Profile</span>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <hr class="dropdown-divider mx-3 my-2">
+                                    <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <form action="" method="POST" class="d-inline">
+                                    <form action="#" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit"
-                                            class="dropdown-item px-4 py-2 d-flex align-items-center text-danger">
-                                            <i class="fas fa-sign-out-alt fs-5 me-3"></i>
-                                            <span>Logout</span>
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
                                         </button>
                                     </form>
                                 </li>
@@ -208,6 +221,7 @@
                 </div>
             </nav>
 
+            {{-- Main Content --}}
             <div class="container-fluid p-4">
                 @include('admin.partials.alerts')
                 @yield('content')
@@ -215,71 +229,43 @@
         </div>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
+    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script>
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('sidebarOverlay');
 
-        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show');
-        });
+        document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
 
-        overlay.addEventListener('click', function() {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
+    if (sidebar.classList.contains('show')) {
+        document.body.classList.add('no-scroll');
+    } else {
+        document.body.classList.remove('no-scroll');
+    }
+});
 
-        // Close sidebar on window resize if screen becomes larger
-        window.addEventListener('resize', function() {
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+    document.body.classList.remove('no-scroll');
+});
+
+
+        window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
                 sidebar.classList.remove('show');
                 overlay.classList.remove('show');
             }
         });
-
-        // Handle touch events for better mobile experience
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const swipeLength = touchEndX - touchStartX;
-
-            if (Math.abs(swipeLength) > swipeThreshold) {
-                if (swipeLength > 0 && touchStartX < 30) {
-                    // Swipe right from left edge
-                    sidebar.classList.add('show');
-                    overlay.classList.add('show');
-                } else if (swipeLength < 0 && sidebar.classList.contains('show')) {
-                    // Swipe left when sidebar is open
-                    sidebar.classList.remove('show');
-                    overlay.classList.remove('show');
-                }
-            }
-        }
-
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="{{ asset('assets/js/aboutPage.js') }}"></script>
-
-    <!-- GLightbox JS -->
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
     @stack('scripts')
     @yield('scripts')
-
 </body>
+{{-- --}}
 
 </html>

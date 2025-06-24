@@ -55,7 +55,7 @@ class MenuItemController extends Controller
 
         MenuItem::create($data);
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item created successfully.');
+        return redirect()->route('admin.menu.index')->with('success', __('menu.created_message'));
     }
 
 
@@ -94,7 +94,7 @@ class MenuItemController extends Controller
 
         $menuItem->update($data);
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item updated successfully.');
+        return redirect()->route('admin.menu.index')->with('success', __('menu.updated_message'));
     }
 
     // حذف عنصر معين
@@ -106,6 +106,6 @@ class MenuItemController extends Controller
 
         $menuItem->delete();
 
-        return redirect()->route('admin.menu.index')->with('success', 'Menu item deleted successfully.');
+        return redirect()->route('admin.menu.index')->with('success', __('menu.deleted_message'));
     }
 }

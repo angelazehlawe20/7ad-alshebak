@@ -59,7 +59,7 @@ class AboutController extends Controller
         $about->gallery_images = json_encode($existingImages);
         $about->save();
 
-        return redirect()->back()->with('success', 'About section updated successfully');
+        return redirect()->back()->with('success', __('about.updated_message'));
     }
 
     // تحديث صورة واحدة (عند تعديلها مباشرة في الواجهة)
@@ -74,7 +74,7 @@ class AboutController extends Controller
         $about = About::first();
 
         if (!$about || !$oldImage) {
-            return response()->json(['success' => false, 'message' => 'Invalid data']);
+            return response()->json(['success' => false, 'message' => __('about.invalid')]);
         }
 
         // حذف الصورة القديمة
@@ -138,7 +138,7 @@ class AboutController extends Controller
         $about->gallery_images = json_encode($images);
         $about->save();
 
-        return redirect()->back()->with('success', 'About section created successfully');
+        return redirect()->back()->with('success', __('about.created_message'));
     }
 
     // حذف صورة من المعرض

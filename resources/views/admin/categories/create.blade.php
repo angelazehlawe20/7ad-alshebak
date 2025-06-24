@@ -1,17 +1,17 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Add New Category')
+@section('title', __('category.add_new_category'))
 
 @section('content')
 <div class="container-fluid px-4">
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-                <i class="fas fa-plus me-1"></i> Add New Category
+                <i class="fas fa-plus me-1"></i> {{ __('category.add_new_category') }}
             </div>
             <div>
                 <a href="{{ route('admin.categories.index') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-list me-1"></i> Back to List
+                    <i class="fas fa-list me-1"></i> {{ __('category.back_to_list') }}
                 </a>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="name_ar" class="form-label required">
-                            <i class="fas fa-language"></i> Name (Arabic)
+                            <i class="fas fa-language"></i> {{ __('category.name_arabic') }}
                         </label>
                         <input type="text"
                                name="name_ar"
@@ -36,7 +36,7 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="name_en" class="form-label required">
-                            <i class="fas fa-language"></i> Name (English)
+                            <i class="fas fa-language"></i> {{ __('category.name_english') }}
                         </label>
                         <input type="text"
                                name="name_en"
@@ -52,10 +52,10 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save me-1"></i> Create Category
+                        <i class="fas fa-save me-1"></i> {{ __('category.create_category') }}
                     </button>
                     <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-times me-1"></i> Cancel
+                        <i class="fas fa-times me-1"></i> {{ __('category.cancel') }}
                     </a>
                 </div>
             </form>

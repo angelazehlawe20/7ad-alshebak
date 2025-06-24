@@ -11,5 +11,6 @@ return [
     'message_optional' => 'رسالة (اختياري)',
     'book_a_table' => 'حجز الطاولة',
     'phone_error' => 'يرجى إدخال رقم صحيح مثل 9XXXXXXXX.',
-    'booking_success' => ''
+    'booking_success' => 'تم حجزك بنجاح! سنتواصل معك قريباً.',
+    'update_message' => 'تم تحديث حالة الحجز بنجاح.',
 ];

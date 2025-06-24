@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Hero')
+@section('title', __('hero.hero_section'))
 
 @section('content')
 <div class="content-wrapper">
@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-home"></i> Hero Section</h1>
+                    <h1 class="m-0"><i class="fas fa-home"></i> {{ __('hero.hero_section') }}</h1>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <div class="col-md-6">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-image mr-2"></i>Hero Images</h3>
+                                <h3 class="card-title"><i class="fas fa-image mr-2"></i>{{ __('hero.hero_images') }}</h3>
                             </div>
                             <div class="card-body">
                                 <div class="gallery-preview mb-3">
@@ -37,7 +37,7 @@
 
                                 <div class="form-group">
                                     <button type="button" class="btn btn-sm btn-secondary d-none" id="uploadImagesBtn">
-                                        <i class="fas fa-edit"></i>&nbsp;Edit Image
+                                        <i class="fas fa-edit"></i>&nbsp;{{ __('hero.edit_image') }}
                                     </button>
                                     <input type="file" class="d-none" name="image" id="newHeroImage" accept="image/*"
                                         onchange="previewImage(this)">
@@ -50,29 +50,29 @@
                     <div class="col-md-6">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>Hero Content</h3>
+                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>{{ __('hero.hero_content') }}</h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label><strong>English Title</strong></label>
+                                    <label><strong>{{ __('hero.english_title') }}</strong></label>
                                     <input type="text" class="form-control" name="title_en"
                                         value="{{ $heroPage->title_en ?? '' }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>Arabic Title</strong></label>
+                                    <label><strong>{{ __('hero.arabic_title') }}</strong></label>
                                     <input type="text" class="form-control" name="title_ar"
                                         value="{{ $heroPage->title_ar ?? '' }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>English Main Text</strong></label>
+                                    <label><strong>{{ __('hero.english_text') }}</strong></label>
                                     <textarea class="form-control" name="main_text_en"
                                         rows="3">{{ $heroPage->main_text_en ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>Arabic Main Text</strong></label>
+                                    <label><strong>{{ __('hero.arabic_text') }}</strong></label>
                                     <textarea class="form-control" name="main_text_ar"
                                         rows="3">{{ $heroPage->main_text_ar ?? '' }}</textarea>
                                 </div>
@@ -84,15 +84,15 @@
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="button" id="editBtn" class="btn btn-primary btn-lg">
-                            <i class="fas fa-edit mr-2"></i> Edit Hero
+                            <i class="fas fa-edit mr-2"></i> {{ __('hero.edit_hero') }}
                         </button>
 
                         <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none">
-                            <i class="fas fa-save mr-2"></i> Save Changes
+                            <i class="fas fa-save mr-2"></i> {{ __('hero.save_changes') }}
                         </button>
 
                         <button type="button" id="cancelBtn" class="btn btn-secondary btn-lg d-none">
-                            <i class="fas fa-times mr-2"></i> Cancel
+                            <i class="fas fa-times mr-2"></i> {{ __('hero.cancel') }}
                         </button>
                     </div>
                 </div>
@@ -103,7 +103,6 @@
 @endsection
 
 @section('scripts')
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const editBtn = document.getElementById('editBtn');
@@ -124,37 +123,35 @@
         }
 
         editBtn.addEventListener('click', enableEditMode);
-
         uploadBtn.addEventListener('click', () => fileInput.click());
 
         window.previewImage = function(input) {
-    const container = document.getElementById('imagePreviewContainer');
-    container.innerHTML = '';
+            const container = document.getElementById('imagePreviewContainer');
+            container.innerHTML = '';
 
-    // إخفاء الصورة القديمة
-    const galleryPreview = document.querySelector('.gallery-preview');
-    if (galleryPreview) {
-        galleryPreview.style.display = 'none';
-    }
+            const galleryPreview = document.querySelector('.gallery-preview');
+            if (galleryPreview) {
+                galleryPreview.style.display = 'none';
+            }
 
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            container.innerHTML = `
-                <div class="card">
-                    <img src="${e.target.result}" class="card-img-top" alt="Preview"
-                        style="height: 200px; object-fit: contain;">
-                    <div class="card-body p-2">
-                        <p class="card-text small text-muted mb-0">${input.files[0].name}</p>
-                    </div>
-                </div>
-            `;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.innerHTML = `
+                        <div class="card">
+                            <img src="${e.target.result}" class="card-img-top" alt="Preview"
+                                style="height: 200px; object-fit: contain;">
+                            <div class="card-body p-2">
+                                <p class="card-text small text-muted mb-0">${input.files[0].name}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
         }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+
         cancelBtn.addEventListener('click', () => window.location.reload());
     });
 </script>
-
 @endsection

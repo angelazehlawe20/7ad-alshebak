@@ -14,4 +14,7 @@ return [
     'loading' => 'Loading',
     'error_message' => 'Error',
     'sent_message' => 'Your message has been sent. Thank you!',
+    'message_as_read' => 'Message marked as read.',
+    'message_deleted' => 'Message deleted successfully.',
+
 ];

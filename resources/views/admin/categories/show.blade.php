@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Category Details')
+@section('title', __('category.category_details'))
 
 @section('content')
 <div class="container-fluid">
@@ -8,10 +8,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title m-0">Category: {{ $category->name_en }} ({{ $category->name_ar }})</h3>
+                    <h3 class="card-title m-0">
+                        {{ __('category.category') }}: {{ $category->name_en }} ({{ $category->name_ar }})
+                    </h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.menu.createItemInCategory', ['id' => $category->id]) }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add New Menu Item
+                            <i class="fas fa-plus"></i> {{ __('category.add_new_menu_item') }}
                         </a>
                     </div>
                 </div>
@@ -30,7 +32,7 @@
                                     @else
                                     <div class="bg-light text-center p-4" style="height: 300px;">
                                         <i class="fas fa-image fa-3x text-secondary" style="margin-top: 100px;"></i>
-                                        <p class="mt-2 text-secondary">No image available</p>
+                                        <p class="mt-2 text-secondary">{{ __('category.no_image_available') }}</p>
                                     </div>
                                     @endif
                                     <div class="position-absolute top-0 end-0 m-2">
@@ -51,16 +53,16 @@
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('admin.menu.edit', $item->id) }}"
                                            class="btn btn-outline-primary flex-grow-1">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i> {{ __('category.edit') }}
                                         </a>
                                         <form action="{{ route('admin.menu.destroy', $item->id) }}"
                                               method="POST"
                                               class="flex-grow-1"
-                                              onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                              onsubmit="return confirm('{{ __('category.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger w-100">
-                                                <i class="fas fa-trash"></i> Delete
+                                                <i class="fas fa-trash"></i> {{ __('category.delete') }}
                                             </button>
                                         </form>
                                     </div>
@@ -71,7 +73,7 @@
                         <div class="col-12">
                             <div class="text-center py-5">
                                 <i class="fas fa-utensils fa-4x text-secondary mb-3"></i>
-                                <h4 class="text-secondary">No menu items found in this category</h4>
+                                <h4 class="text-secondary">{{ __('category.no_menu_items') }}</h4>
                             </div>
                         </div>
                         @endforelse
@@ -84,7 +86,7 @@
 
 @push('scripts')
 <script>
-    document.getElementById('categoryFilter').addEventListener('change', function() {
+    document.getElementById('categoryFilter')?.addEventListener('change', function () {
         const categoryId = this.value;
         if (categoryId) {
             window.location.href = "{{ route('admin.categories.show', '') }}/" + categoryId;

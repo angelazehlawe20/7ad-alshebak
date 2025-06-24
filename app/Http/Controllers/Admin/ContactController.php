@@ -70,12 +70,12 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         $contact->update(['is_read' => true]);
 
-        return redirect()->back()->with('success', 'Message marked as read.');
+        return redirect()->back()->with('success', __('contact.message_as_read'));
     }
 
     public function destroy(Contact $contact)
     {
         $contact->delete();
-        return redirect()->back()->with('success', 'Message deleted successfully.');
+        return redirect()->back()->with('success', __('contact.message_deleted'));
     }
 }

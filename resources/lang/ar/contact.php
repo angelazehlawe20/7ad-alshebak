@@ -14,4 +14,6 @@ return [
     'loading' => 'جاري التحميل',
     'error_message' => 'حدث خطأ',
     'sent_message' => 'تم إرسال رسالتك. شكرًا لك!',
+    'message_as_read' => 'تمت قراءة الرسالة.',
+    'message_deleted' => 'تم حذف الرسالة بنجاح'
 ];

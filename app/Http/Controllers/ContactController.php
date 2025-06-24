@@ -33,6 +33,6 @@ class ContactController extends Controller
         Contact::create($validatedData);
 
         // Return success response
-        return redirect()->route('contact')->with("success", "Your message has been sent. Thank you!");
+        return redirect()->route('contact')->with("success", __('contact.sent_message'));
     }
 }

@@ -1,0 +1,15 @@
+<?php
+
+return [
+    'dashboard' => 'لوحة التحكم',
+    'total_menu_items' => 'عدد عناصر القائمة',
+    'total_offers' => 'عدد العروض',
+    'total_bookings' => 'عدد الحجوزات',
+    'confirmed' => 'الحجوزات المؤكدة',
+    'pending' => 'حجوزات قيد الانتظار',
+    'cancelled' => 'حجوزات مرفوضة',
+    'total_messages' => 'عدد الرسائل',
+    'unread_messages' => 'الرسائل غير المقروءة',
+    'read_messages' => 'الرسائل المقروءة',
+    'welcome_dashboard' => 'مرحباً بك في لوحة التحكم. استخدم الشريط الجانبي للتنقل بين الأقسام.',
+];

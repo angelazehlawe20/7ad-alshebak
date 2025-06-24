@@ -39,7 +39,7 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'The category was created successfully.');
+            ->with('success', __('category.created_message'));
     }
 
     public function show(Category $category)
@@ -57,8 +57,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name_ar' => 'required|string|max:255|unique:categories,name_ar',
-            'name_en' => 'required|string|max:255|unique:categories,name_ar',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
         ]);
 
         $category->update([
@@ -66,12 +66,12 @@ class CategoryController extends Controller
             'name_en' => $request->name_en,
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
+        return redirect()->route('admin.categories.index')->with('success', __('category.updated_message'));
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->route('admin.categories.index')->with('success', __('category.deleted_message'));
     }
 }

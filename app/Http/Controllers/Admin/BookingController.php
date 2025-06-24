@@ -55,6 +55,6 @@ class BookingController extends Controller
 
         $booking->update($request->all());
 
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking updated successfully.');
+        return redirect()->route('admin.bookings.index')->with('success',__('book.update_message'));
     }
 }

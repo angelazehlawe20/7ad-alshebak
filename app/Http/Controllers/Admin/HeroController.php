@@ -47,7 +47,7 @@ class HeroController extends Controller
 
         Hero_Page::create($data);
 
-        return redirect()->route('admin.hero.indexForAdmin')->with('success', 'Hero page created successfully.');
+        return redirect()->route('admin.hero.indexForAdmin')->with('success', __('hero.created_succes_message'));
     }
 
     public function edit($id)
@@ -57,34 +57,39 @@ class HeroController extends Controller
     }
 
     public function update(Request $request)
-    {
-        $hero = Hero_Page::first();
-        
-        $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_ar' => 'required|string|max:255',
-            'main_text_en' => 'required|string',
-            'main_text_ar' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
+{
+    $hero = Hero_Page::first();
 
-        $data = $validated;
+    $validated = $request->validate([
+        'title_en' => 'required|string|max:255',
+        'title_ar' => 'required|string|max:255',
+        'main_text_en' => 'required|string',
+        'main_text_ar' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        if ($request->hasFile('image')) {
-            if ($hero->image && File::exists(public_path($hero->image))) {
-                File::delete(public_path($hero->image));
-            }
+    $data = $validated;
 
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/hero'), $imageName);
-            $data['image'] = 'images/hero/' . $imageName;
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/hero'), $imageName);
+        $data['image'] = 'images/hero/' . $imageName;
+
+        if ($hero && $hero->image && File::exists(public_path($hero->image))) {
+            File::delete(public_path($hero->image));
         }
-
-        $hero->update($data);
-
-        return redirect()->back()->with('success', 'Hero updated successfully.');
     }
+
+    if ($hero) {
+        $hero->update($data);
+    } else {
+        Hero_Page::create($data);
+    }
+
+    return redirect()->back()->with('success', __('hero.updated_succes_message'));
+}
+
 
     public function updateImage(Request $request)
     {
@@ -137,6 +142,6 @@ class HeroController extends Controller
         }
 
         $heroPage->delete();
-        return redirect()->route('admin.hero.indexForAdmin')->with('success', 'Hero page deleted successfully.');
+        return redirect()->route('admin.hero.indexForAdmin')->with('success', __('hero.deleted_success_message'));
     }
 }
