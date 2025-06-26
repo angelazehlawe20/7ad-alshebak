@@ -1,4 +1,20 @@
 <?php
 return [
+    'site_settings' => 'إعدادات الموقع',
+    'contact_information' => 'معلومات الاتصال',
+    'address_ar' => 'العنوان (عربي)',
+    'address_en' => 'العنوان (إنكليزي)',
+    'email' => 'البريد الإلكتروني',
+    'phone' => 'الهاتف',
+    'opening_hours' => 'ساعات العمل',
+    'social_media_logo' => 'وسائل التواصل الاجتماعي والشعار',
+    'facebook_url' => 'رابط فيسبوك',
+    'instagram_url' => 'رابط انستغرام',
+    'whatsapp' => 'واتساب',
+    'logo' => 'الشعار',
+    'favicon' => 'الأيقونة',
+    'edit_settings' => 'تعديل الإعدادات',
+    'save_changes' => 'حفظ التغييرات',
+    'cancel' => 'إلغاء',
     'updated_message' => 'تم تحديث الإعدادات بنجاح.',
 ];

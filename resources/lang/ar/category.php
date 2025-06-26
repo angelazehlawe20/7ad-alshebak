@@ -11,18 +11,17 @@ return [
     'no_categories_found' => 'لم يتم العثور على فئات.',
     'add_to_get_started' => 'أضف فئات للبدء.',
 
-    'category_number' => 'رقم الفئة',
     'categories_management' => 'إدارة الفئات',
     'add_new_category' => 'إضافة فئة جديدة',
 
     'name_arabic' => 'الاسم (بالعربية)',
-    'name_english' => 'الاسم (بالإنجليزية)',
+    'name_english' => 'الاسم (بالإنكليزية)',
 
     'create_category' => 'إنشاء فئة',
     'cancel' => 'إلغاء',
     'back_to_list' => 'العودة للقائمة',
 
-     'edit_category' => 'تعديل الفئة',
+    'edit_category' => 'تعديل الفئة',
     'update_category' => 'تحديث الفئة',
     'back' => 'عودة',
 

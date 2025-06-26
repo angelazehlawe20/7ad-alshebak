@@ -23,10 +23,6 @@
                                         <div class="card-body">
                                             <h5 class="card-title text-primary">{{ $category->name_en }}</h5>
                                             <h6 class="text-muted">{{ $category->name_ar }}</h6>
-                                            <div class="d-flex align-items-center mt-3">
-                                                <i class="fas fa-tag text-secondary me-2"></i>
-                                                <small class="text-muted">{{ __('category.category_number', ['number' => $loop->iteration]) }}</small>
-                                            </div>
                                         </div>
                                         <div class="card-footer bg-transparent border-top-0">
                                             <div class="d-flex gap-2">

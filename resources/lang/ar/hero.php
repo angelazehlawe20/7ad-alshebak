@@ -13,9 +13,9 @@ return [
     'cancel' => 'إلغاء',
     'hero_images' => 'صورة القسم',
     'hero_content' => 'محتوى القسم',
-    'english_title' => 'العنوان بالإنجليزية',
+    'english_title' => 'العنوان بالإنكليزية',
     'arabic_title' => 'العنوان بالعربية',
-    'english_text' => 'النص الرئيسي بالإنجليزية',
+    'english_text' => 'النص الرئيسي بالإنكليزية',
     'arabic_text' => 'النص الرئيسي بالعربية',
     'edit_image' => 'تعديل الصورة',
 ];

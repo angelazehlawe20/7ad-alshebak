@@ -13,5 +13,19 @@ return [
     'bookings' => 'Bookings',
     'contact_messages' => 'Contact Messages',
     'settings' => 'Settings',
-];
+    'admin_management' => 'Admin Management',
 
+    'logout' => 'Logout',
+    'profile' => 'Profile',
+    'admin_panel' => 'Admin Panel',
+    'admin' => 'Admin',
+    'home_page' => 'Home Page',
+    'english' => 'ُEnglish',
+    'arabic' => 'Arabic',
+
+    'close' => 'Close',
+    'validation_errors' => 'There are input errors:',
+    'success' => 'The process was completed successfully.',
+    'error' => 'Something went wrong, please try again later.',
+
+];

@@ -87,7 +87,7 @@ class HeroController extends Controller
         Hero_Page::create($data);
     }
 
-    return redirect()->back()->with('success', __('hero.updated_succes_message'));
+    return redirect()->back()->with('success', __('hero.updated_success_message'));
 }
 
 

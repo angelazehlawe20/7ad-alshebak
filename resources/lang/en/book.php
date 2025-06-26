@@ -14,5 +14,22 @@ return [
     'booking_success' => 'Your booking has been successfully created! We will contact you soon.',
     'update_message' => 'Booking updated successfully.',
 
+    'bookings_management' => 'Bookings Management',
+    'filter_by_status' => 'Filter by Status:',
+    'all_statuses' => '-- All Statuses --',
+    'status_pending' => 'Pending',
+    'status_confirmed' => 'Confirmed',
+    'status_cancelled' => 'Cancelled',
+    'clear_filter' => 'Clear Filter',
+    'guest_information' => 'Guest Information',
+    'arabic_name' => 'Name',
+    'english_name' => 'Name',
+    'contact_details' => 'Contact Details',
+    'booking_information' => 'Booking Information',
+    'guests' => 'guests',
+    'message' => 'Message',
+    'confirm' => 'Confirm',
+    'reject' => 'Reject',
+    'no_bookings_found' => 'No bookings found',
 
 ];

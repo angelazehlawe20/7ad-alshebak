@@ -27,7 +27,7 @@
                     <option value="">{{ __('offers.all_categories') }}</option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : '' }}>
-                        {{ $category->name_ar }} - {{ $category->name_en }}
+                        {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
                     </option>
                     @endforeach
                 </select>
@@ -82,20 +82,9 @@
         </div>
     </div>
 </section>
+@endsection
 
 @push('scripts')
-<script>
-    document.getElementById('categoryFilter').addEventListener('change', function () {
-        const selectedCategory = this.value;
-        const url = new URL("{{ route('all_offers') }}", window.location.origin);
-
-        if (selectedCategory) {
-            url.searchParams.set('category', selectedCategory);
-        }
-
-        window.location.href = url.toString();
-    });
-</script>
+<script src="{{ asset('assets/js/offerPage.js') }}"></script>
 @endpush
 
-@endsection

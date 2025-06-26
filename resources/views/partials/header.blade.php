@@ -7,21 +7,21 @@
                 <div class="logo d-flex align-items-center gap-2">
                     {{-- عرض الشعار مع صورة افتراضية في حال عدم وجوده --}}
                     @if(isset($settings->logo) && file_exists(public_path($settings->logo)))
-    <img src="{{ asset($settings->logo) }}" alt="Logo" style="width: 80px; height: auto;">
-@else
-    <img src="{{ asset('assets/img/logos/web-app-manifest-512x512.png') }}" alt="Default Logo"
-        style="width: 80px; height: auto;">
-@endif
+                    <img src="{{ asset($settings->logo) }}" alt="Logo" style="width: 80px; height: auto;">
+                    @else
+                    <img src="{{ asset('assets/img/logos/web-app-manifest-512x512.png') }}" alt="Default Logo"
+                        style="width: 80px; height: auto;">
+                    @endif
 
-                  <a href="{{ route('hero') }}" class="text-decoration-none">
-    <h1 class="sitename" style="font-size: 1.5rem;">
-        @if(app()->getLocale() == 'ar')
-            {{ $heroPage?->title_ar ?? 'حد الشباك' }}
-        @else
-            {{ $heroPage?->title_en ?? 'Had AlShebak' }}
-        @endif
-    </h1>
-</a>
+                    <a href="{{ route('hero') }}" class="text-decoration-none">
+                        <h1 class="sitename" style="font-size: 1.5rem;">
+                            @if(app()->getLocale() == 'ar')
+                            {{ $heroPage?->title_ar ?? 'حد الشباك' }}
+                            @else
+                            {{ $heroPage?->title_en ?? 'Had AlShebak' }}
+                            @endif
+                        </h1>
+                    </a>
 
                 </div>
             </div>
@@ -75,11 +75,11 @@
     <ul class="mobile-nav-links">
         <li class="mt-3 d-flex justify-content-center">
             @if(app()->getLocale() == 'en')
-            <a href="?lang=ar" class="btn btn-light language-btn">
+            <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn">
                 <img src="{{ asset('assets/img/flags/ar.png') }}" alt="Arabic" class="flag-icon" width="20"> AR
             </a>
             @else
-            <a href="?lang=en" class="btn btn-light language-btn">
+            <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn">
                 <img src="{{ asset('assets/img/flags/en.png') }}" alt="English" class="flag-icon" width="20"> EN
             </a>
             @endif
@@ -93,90 +93,4 @@
     </ul>
 </nav>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-      const mobileNavSidebar = document.querySelector('.mobile-nav-sidebar');
-      const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
-      const toggleIcon = mobileNavToggle?.querySelector('i');
-      const closeSidebarBtn = document.getElementById("closeSidebarBtn");
-      const body = document.body;
-      const navLinks = document.querySelectorAll(".nav-link");
-      const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
-      const header = document.getElementById('header');
-
-      function restoreScroll() {
-        body.style.overflow = '';
-        body.style.position = '';
-        body.style.height = '';
-        body.style.touchAction = '';
-      }
-
-      function disableScroll() {
-        body.style.overflow = 'hidden';
-        body.style.position = 'fixed';
-        body.style.height = '100%';
-        body.style.touchAction = 'none';
-      }
-
-      function closeSidebar() {
-        mobileNavSidebar.classList.remove("active");
-        body.classList.remove("mobile-nav-active");
-        restoreScroll();
-        toggleIcon?.classList.remove("bi-x");
-        toggleIcon?.classList.add("bi-list");
-      }
-
-      mobileNavToggle?.addEventListener('click', () => {
-        const isActive = mobileNavSidebar.classList.toggle('active');
-        body.classList.toggle('mobile-nav-active', isActive);
-
-        if (isActive) {
-          toggleIcon?.classList.remove('bi-list');
-          toggleIcon?.classList.add('bi-x');
-          disableScroll();
-        } else {
-          closeSidebar();
-        }
-      });
-
-      mobileNavOverlay?.addEventListener('click', closeSidebar);
-
-      mobileNavLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
-          const linkPath = new URL(link.href).pathname;
-          const currentPath = window.location.pathname;
-          if (linkPath === currentPath) {
-            e.preventDefault();
-          }
-          closeSidebar();
-        });
-      });
-
-      closeSidebarBtn?.addEventListener("click", () => {
-        closeSidebar();
-        setTimeout(() => {
-          location.reload();
-        }, 80);
-      });
-
-      function updateActiveLinkByPath() {
-        const currentPath = window.location.pathname;
-        navLinks.forEach(link => {
-          const linkPath = new URL(link.href).pathname;
-          link.classList.toggle("active", linkPath === currentPath);
-        });
-        mobileNavLinks.forEach(link => {
-          const linkPath = new URL(link.href).pathname;
-          link.classList.toggle("active", linkPath === currentPath);
-        });
-      }
-
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        header.classList.toggle('header-fixed', scrollTop > 50);
-      });
-
-      updateActiveLinkByPath();
-    });
-</script>
+<script src="{{ asset('assets/js/headerPage.js') }}"></script>

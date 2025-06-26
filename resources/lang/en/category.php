@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'created_message' => 'The category was created successfully.',
+    'created_message' => 'Category created successfully.',
     'updated_message' => 'Category updated successfully.',
     'deleted_message' => 'Category deleted successfully.',
     // Actions
@@ -13,7 +13,6 @@ return [
     'add_to_get_started' => 'Add categories to get started.',
 
     // Titles & Headings
-    'category_number' => 'Category Number',
     'categories_management' => 'Categories Management',
     'add_new_category' => 'Add New Category',
 

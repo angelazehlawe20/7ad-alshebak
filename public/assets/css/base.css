@@ -63,6 +63,18 @@ section,
     position: relative;
 }
 
+@media (max-width: 767px) {
+    .section-title {
+        padding-bottom: 40px;
+    }
+}
+
+@media (max-width: 575px) {
+    .section-title {
+        padding-bottom: 30px;
+    }
+}
+
 /* صورة على اليسار */
 .section-title p::before {
     content: "";
@@ -91,6 +103,24 @@ section,
     background-repeat: no-repeat;
 }
 
+@media (max-width: 767px) {
+
+    .section-title p::before,
+    .section-title p::after {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .section-title p::before,
+    .section-title p::after {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 .section-title h2 {
     font-size: 13px;
     letter-spacing: 1px;
@@ -111,6 +141,33 @@ section,
     font-size: 48px;
     font-weight: 500;
     font-family: var(--heading-font);
+}
+
+@media (max-width: 991px) {
+    .section-title p {
+        font-size: 42px;
+        padding: 0 60px;
+    }
+}
+
+@media (max-width: 767px) {
+    .section-title p {
+        font-size: 36px;
+        padding: 0 50px;
+    }
+}
+
+@media (max-width: 575px) {
+    .section-title p {
+        font-size: 28px;
+        padding: 0 40px;
+    }
+
+    .section-title p::before,
+    .section-title p::after {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 .section-title p .description-title {

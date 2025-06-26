@@ -1,10 +1,11 @@
 <?php
 
 return [
-    
+
+    // dashboard
     'admin_dashboard' => 'لوحة التحكم',
     'profile' => 'الملف الشخصي',
-    'dashboard' => 'الرئيسية',
+    'dashboard' => 'لوحة التحكم',
     'about' => 'من نحن',
     'hero' => 'القسم الرئيسي',
     'categories' => 'التصنيفات',
@@ -13,4 +14,21 @@ return [
     'bookings' => 'الحجوزات',
     'contact_messages' => 'رسائل التواصل',
     'settings' => 'الإعدادات',
+    'admin_management' => 'إدارة المشرفين',
+
+    'logout' => 'تسجيل الخروج',
+    'profile' => 'الملف الشخصي',
+    'admin_panel' => 'لوحة تحكم المشرف',
+    'admin' => 'المشرف',
+    'home_page' => 'الصفحة الرئيسية',
+    'english' => 'اللغة الإنكليزية',
+    'arabic' => 'اللغة العربية',
+
+
+    // alerts
+    'close' => 'إغلاق',
+    'validation_errors' => 'هناك أخطاء في الإدخال:',
+    'success' => 'تمت العملية بنجاح',
+    'error' => 'حدث خطأ ما، يرجى المحاولة لاحقًا',
+
 ];

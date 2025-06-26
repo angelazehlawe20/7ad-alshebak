@@ -2,9 +2,9 @@
 
 return[
     // Messages
-    'created_succes_message' => 'The page was created successfully.',
-    'updated_succes_message'=> 'Hero updated successfully.',
-    'deleted_succes_message'=>'Hero page deleted successfully.',
+    'created_success_message' => 'The page was created successfully.',
+    'updated_success_message'=> 'Hero updated successfully.',
+    'deleted_success_message'=>'Hero page deleted successfully.',
 
       // Hero Section
       'hero_section' => 'Hero Section',

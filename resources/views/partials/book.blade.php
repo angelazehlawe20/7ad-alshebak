@@ -96,34 +96,9 @@
     </div>
 
 </section>
-
-<script>
-    const phoneInput = document.getElementById('phone');
-    const phoneError = document.getElementById('phone-error');
-    const currentLocale = '{{ app()->getLocale() }}';
-
-    function validatePhone() {
-        const value = phoneInput.value.replace(/\D/g, '');
-        phoneInput.value = value;
-
-        if (value.length !== 9 || !value.startsWith('9')) {
-            phoneError.textContent = currentLocale === 'ar'
-                ? "الرجاء إدخال رقم صالح مثل 9XXXXXXXX"
-                : "Please enter a valid number like 9XXXXXXXX.";
-            return false;
-        } else {
-            phoneError.textContent = "";
-            return true;
-        }
-    }
-
-    phoneInput.addEventListener('input', validatePhone);
-
-    document.querySelector('form').addEventListener('submit', function (e) {
-        if (!validatePhone()) {
-            e.preventDefault();
-        }
-    });
-</script>
-
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/bookPage.js') }}"></script>
+@endpush
+

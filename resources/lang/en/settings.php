@@ -1,5 +1,20 @@
 <?php
-
-return[
+return [
+    'site_settings' => 'Site Settings',
+    'contact_information' => 'Contact Information',
+    'address_ar' => 'Address (Arabic)',
+    'address_en' => 'Address (English)',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'opening_hours' => 'Opening Hours',
+    'social_media_logo' => 'Social Media & Logo',
+    'facebook_url' => 'Facebook URL',
+    'instagram_url' => 'Instagram URL',
+    'whatsapp' => 'WhatsApp',
+    'logo' => 'Logo',
+    'favicon' => 'Favicon',
+    'edit_settings' => 'Edit Settings',
+    'save_changes' => 'Save Changes',
+    'cancel' => 'Cancel',
     'updated_message' => 'Settings updated successfully.',
 ];

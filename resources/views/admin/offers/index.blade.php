@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Offers')
+@section('title', __('offers.offers'))
 
 @section('content')
 <div class="container-fluid">
@@ -7,10 +7,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title m-0">Offers Management</h3>
+                    <h3 class="card-title m-0">{{ __('offers.management') }}</h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.offers.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add New Offer
+                            <i class="fas fa-plus"></i> {{ __('offers.add_offer') }}
                         </a>
                     </div>
                 </div>
@@ -19,24 +19,21 @@
                     <div class="mb-4">
                         <form id="filterForm" action="{{ route('admin.offers.filter.category') }}" method="GET">
                             <div class="row">
-                                <div class="row">
-                                    <!-- نموذج فلترة حسب الفئة -->
-                                    <div class="col-md-6">
-                                        <form action="{{ route('admin.offers.filter.category') }}" method="GET">
-                                            <div class="form-group">
-                                                <label for="category" class="form-label">Filter by Category:</label>
-                                                <select name="category" id="category" class="form-select"
-                                                    onchange="this.form.submit()">
-                                                    <option value="">-- All Categories --</option>
-                                                    @foreach($categories ?? [] as $category)
-                                                    <option value="{{ $category->id }}" {{
-                                                        request('category')==$category->id ? 'selected' : '' }}>
-                                                        {{ $category->name_en }} - {{ $category->name_ar }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="category" class="form-label">{{ __('offers.filter_by_category')
+                                            }}:</label>
+                                        <select name="category" id="category" class="form-select"
+                                            onchange="this.form.submit()">
+                                            <option value="">{{ __('offers.all_categories') }}</option>
+                                            @foreach($categories ?? [] as $category)
+                                            <option value="{{ $category->id }}" {{ request('category')==$category->id ?
+                                                'selected' : '' }}>
+                                                {{ app()->getLocale() == 'en' ? $category->name_en :
+                                                $category->name_ar}}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -48,10 +45,10 @@
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="card h-100 shadow-sm">
                                 <div class="position-relative">
-                                    <div style="height: 300px; background-color: #f8f9fa; padding: 10px;">
+                                    <div class="img-container">
                                         @if($offer->image)
-                                        <img src="{{ asset($offer->image) }}" class="card-img-top h-100"
-                                            alt="{{ $offer->title_en }}" loading="lazy" style="object-fit: contain;">
+                                        <img src="{{ asset('storage/' . $offer->image) }}" class="w-100 h-100"
+                                            alt="{{ $offer->title_en }}" loading="lazy">
                                         @else
                                         <div class="d-flex h-100 align-items-center justify-content-center">
                                             <i class="fas fa-image fa-3x text-secondary"></i>
@@ -63,9 +60,9 @@
                                     </div>
                                     <div class="position-absolute top-0 start-0 m-2">
                                         @if($offer->active)
-                                        <span class="badge bg-success">Active</span>
+                                        <span class="badge bg-success">{{ __('offers.active') }}</span>
                                         @else
-                                        <span class="badge bg-secondary">Inactive</span>
+                                        <span class="badge bg-secondary">{{ __('offers.inactive') }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -77,13 +74,15 @@
                                         <div class="d-flex align-items-center mb-2">
                                             <i class="fas fa-tag text-secondary me-2"></i>
                                             <small class="text-muted">
-                                                {{ $offer->category->name_en }} - {{ $offer->category->name_ar }}
+                                                {{ app()->getLocale() == 'en' ? $category->name_en :
+                                                $category->name_ar}}
                                             </small>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-calendar-alt text-secondary me-2"></i>
                                             <small class="text-muted">
-                                                Valid until: {{ $offer->valid_until->format('M d, Y h:i A') }}
+                                                {{ __('offers.valid_until') }}: {{ $offer->valid_until->format('M d, Y
+                                                h:i A') }}
                                             </small>
                                         </div>
                                     </div>
@@ -92,16 +91,16 @@
                                     <div class="d-flex gap-2">
                                         <a href="{{ route('admin.offers.edit', $offer->id) }}"
                                             class="btn btn-outline-primary flex-grow-1">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i> {{ __('offers.edit') }}
                                         </a>
                                         <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST"
                                             class="flex-grow-1"
-                                            onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                            onsubmit="return confirm('{{ __('offers.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger w-100"
                                                 data-id="{{ $offer->id }}">
-                                                <i class="fas fa-trash"></i> Delete
+                                                <i class="fas fa-trash"></i> {{ __('offers.delete') }}
                                             </button>
                                         </form>
                                     </div>
@@ -112,7 +111,7 @@
                         <div class="col-12">
                             <div class="text-center py-5">
                                 <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
-                                <h4 class="text-secondary">No offers found</h4>
+                                <h4 class="text-secondary">{{ __('offers.no_offers') }}</h4>
                             </div>
                         </div>
                         @endforelse

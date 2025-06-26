@@ -14,6 +14,21 @@ return [
     'loading' => 'جاري التحميل',
     'error_message' => 'حدث خطأ',
     'sent_message' => 'تم إرسال رسالتك. شكرًا لك!',
-    'message_as_read' => 'تمت قراءة الرسالة.',
-    'message_deleted' => 'تم حذف الرسالة بنجاح'
+    'message_as_read' => 'تعيين كمقروءة',
+    'message_deleted' => 'تم حذف الرسالة بنجاح',
+
+    'messages' => 'الرسائل',
+    'messages_list' => 'قائمة رسائل التواصل',
+    'all_messages' => 'كل الرسائل',
+    'read' => 'مقروءة',
+    'unread' => 'غير مقروءة',
+    'delete' => 'حذف',
+    'view' => 'عرض',
+    'view_message_details' => 'عرض تفاصيل الرسالة',
+    'no_messages_found' => 'لا توجد رسائل',
+    'delete_confirm_title' => 'هل أنت متأكد؟',
+    'delete_confirm_text' => 'لا يمكنك التراجع عن هذا!',
+    'delete_confirm_yes' => 'نعم، احذفها!',
+    'status' => 'حالة الرسالة',
+    'sent_at' => 'أرسلت في:',
 ];

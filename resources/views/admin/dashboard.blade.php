@@ -105,37 +105,5 @@
     </div>
 </div>
 
-<style>
-:root {
-    --default-color: #4C4C4C;
-    --accent-color: #AC8C64;
-    --surface-color: #e8c095;
-    --contrast-color: #ffffff;
-}
 
-.card-primary {
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
-}
-
-.card-success {
-    background-color: var(--surface-color);
-    color: var(--default-color);
-}
-
-.card-warning {
-    background-color: #f0c36d;
-    color: var(--default-color);
-}
-
-.card-info {
-    background-color: #a3c4bc;
-    color: var(--default-color);
-}
-
-.card-danger {
-    background-color: #d66a6a;
-    color: var(--contrast-color);
-}
-</style>
 @endsection

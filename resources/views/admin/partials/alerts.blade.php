@@ -3,7 +3,7 @@
         <div class="alert-body">
             <i class="fas fa-check-circle me-2"></i>
             <span>{{ session('success') }}</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('messages.close') }}"></button>
         </div>
     </div>
 @endif
@@ -13,7 +13,7 @@
         <div class="alert-body">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span>{{ session('error') }}</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('messages.close') }}"></button>
         </div>
     </div>
 @endif
@@ -23,14 +23,14 @@
         <div class="alert-body">
             <div class="alert-title">
                 <i class="fas fa-times-circle me-2"></i>
-                <strong>There are errors :</strong>
+                <strong>{{ __('messages.validation_errors') }}</strong>
             </div>
             <ul class="mb-0 mt-2 ps-3">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('messages.close') }}"></button>
         </div>
     </div>
 @endif

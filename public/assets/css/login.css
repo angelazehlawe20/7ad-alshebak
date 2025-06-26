@@ -1,0 +1,75 @@
+body {
+    background-color: var(--main-bg);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+.logo {
+    max-width: 200px;
+    height: auto;
+    margin: 0 auto 15px auto;
+    display: block;
+}
+.sitename {
+    margin-top: 10px;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--btn-primary);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
+    letter-spacing: 1px;
+}
+.login-container {
+    max-width: 450px;
+    width: 100%;
+    padding: 2.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    margin-top: 2rem;
+    text-align: start; /* لجعل النص داخل الفورم محاذي لليسار في LTR ولليمين في RTL */
+}
+.form-control:focus {
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 0.25rem rgba(139, 69, 19, 0.25);
+}
+.form-check-input {
+    box-shadow: none;
+}
+.form-check-input:checked {
+    box-shadow: none;
+    background-color: var(--btn-primary);
+    border-color: var(--btn-primary);
+}
+.btn-primary {
+    background-color: rgba(139, 69, 19, 0.25);
+    border-color: rgba(139, 69, 19, 0.25);
+}
+.btn-primary:hover {
+    background-color: var(--btn-hover);
+    border-color: var(--btn-hover);
+}
+body {
+    background-color: var(--main-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+@media (max-width: 576px) {
+    body {
+        padding: 15px;
+    }
+}

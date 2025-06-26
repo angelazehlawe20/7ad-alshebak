@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     HeroController,
     SettingsController,
     AdminController,
+    AdminManagementController,
     MenuItemController as AdminMenuItemController,
     OfferController as AdminOfferController,
     BookingController as AdminBookingController,
@@ -46,30 +47,36 @@ Route::get('/', function () {
 })->name('hero');
 
 // Public Feature Routes
-Route::controller(OfferController::class)->group(function() {
+Route::controller(OfferController::class)->group(function () {
     Route::get('/all-offers', 'index')->name('all_offers');
 });
 
-Route::controller(MenuItemController::class)->group(function() {
+Route::controller(MenuItemController::class)->group(function () {
     Route::get('/menu', 'index')->name('menu');
 });
 
-Route::controller(BookingController::class)->group(function() {
+Route::controller(BookingController::class)->group(function () {
     Route::get('/book', 'index')->name('book');
     Route::post('/book/table', 'store')->name('book.store');
 });
 
-Route::controller(ContactController::class)->group(function() {
+Route::controller(ContactController::class)->group(function () {
     Route::get('/contact', 'index')->name('contact');
     Route::post('/contact/sent', 'store')->name('contact.store');
 });
 
-Route::controller(AboutController::class)->group(function() {
+Route::controller(AboutController::class)->group(function () {
     Route::get('/about', 'index')->name('about');
 });
 
+// Admin Authentication Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login.form')->middleware('guest:admin');
+    Route::post('/login', [AdminController::class, 'login'])->name('login')->middleware('guest:admin');
+});
+
 // Admin Routes
-Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -82,7 +89,7 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
         'update' => 'menu.update',
         'destroy' => 'menu.destroy',
     ]);
-    Route::controller(AdminMenuItemController::class)->group(function() {
+    Route::controller(AdminMenuItemController::class)->group(function () {
         Route::get('/menu/filter', 'filterByCategory')->name('menu.filter');
         Route::get('/menu/createItemInCategory', 'createItemInCategory')->name('menu.createItemInCategory');
     });
@@ -96,7 +103,7 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
         'update' => 'offers.update',
         'destroy' => 'offers.destroy'
     ]);
-    Route::controller(AdminOfferController::class)->group(function() {
+    Route::controller(AdminOfferController::class)->group(function () {
         Route::get('/offers/filter_by_category', 'filterByCategory')->name('offers.filter.category');
         Route::get('/offers/filter_by_status', 'filterByStatus')->name('offers.filter.status');
     });
@@ -112,7 +119,7 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
     ]);
 
     // Settings Management
-    Route::controller(SettingsController::class)->group(function() {
+    Route::controller(SettingsController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
         Route::put('/settings/update', 'update')->name('settings.update');
     });
@@ -128,7 +135,7 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
     ]);
 
     // Contacts Management
-    Route::controller(AdminContactController::class)->group(function() {
+    Route::controller(AdminContactController::class)->group(function () {
         Route::get('/contacts', 'index')->name('contacts.index');
         Route::get('/contacts/{contact}', 'show')->name('contacts.show');
         Route::post('/contacts/mark-as-read', 'markAsRead')->name('contacts.markAsRead');
@@ -146,7 +153,7 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
     });
 
     // Hero Management
-    Route::controller(HeroController::class)->group(function() {
+    Route::controller(HeroController::class)->group(function () {
         Route::get('/hero/index', 'indexForAdmin')->name('hero.indexForAdmin');
         Route::get('/hero/create', 'create')->name('hero.create');
         Route::post('/hero/create', 'store')->name('hero.store');
@@ -157,11 +164,12 @@ Route::prefix('admin')->name('admin.')/*->middleware('auth:admin')*/->group(func
 
 
     // Admin Authentication
-    Route::controller(AdminController::class)->group(function() {
-        /*Route::post('/login', 'login')->name('login');
-        Route::post('/logout', 'logout')->name('logout');*/
+    Route::controller(AdminController::class)->group(function () {
+        Route::post('/logout', 'logout')->name('logout');
         Route::get('/profile', 'index')->name('profile.index');
         Route::put('/profile/update', 'update')->name('profile.update');
     });
 
+    // Admin Management (Owner Only)
+    Route::resource('admins', AdminManagementController::class)->except(['show'])->middleware('owner');
 });

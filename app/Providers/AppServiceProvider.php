@@ -8,6 +8,8 @@ use App\Models\Hero_Page;
 use App\Models\Setting;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,9 +43,13 @@ class AppServiceProvider extends ServiceProvider
             $unreadMessages = Contact::where('is_read', false)->count();
             $pendingBookings = Booking::where('status', 'pending')->count();
 
+             // الحصول على الأدمن الحالي
+        $admin = Auth::guard('admin')->user();
+
             $view->with([
                 'unreadMessagesCount' => $unreadMessages,
                 'pendingBookingsCount' => $pendingBookings,
+                'admin' => $admin,
             ]);
         });
     }

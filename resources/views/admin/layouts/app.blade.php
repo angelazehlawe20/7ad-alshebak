@@ -29,144 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
     {{-- Custom Styles --}}
-    <style>
-        :root {
-            --sidebar-bg: #8B7355;
-            --sidebar-hover: rgba(139, 115, 85, 0.15);
-            --sidebar-active: #6B4423;
-            --main-bg: #F5F5DC;
-            --text-color: #2F1810;
-            --btn-primary: #8B4513;
-            --btn-hover: #654321;
-            --nav-bg: #F5F5DC;
-        }
-
-        body {
-            overflow-x: hidden;
-            color: var(--text-color);
-        }
-
-        body.no-scroll {
-            overflow: hidden !important;
-        }
-
-        body.ltr {
-            direction: ltr;
-            text-align: left;
-        }
-
-        body.rtl {
-            direction: rtl;
-            text-align: right;
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            background: var(--sidebar-bg);
-            color: #fff;
-            width: 250px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar .nav-link {
-            color: #fff;
-            padding: 12px 15px;
-            margin: 3px 10px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: start;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar .nav-link:hover {
-            background: var(--sidebar-hover);
-            transform: translateX(5px);
-        }
-
-        .sidebar .nav-link.active {
-            background: var(--sidebar-active);
-        }
-
-        body.ltr .sidebar .nav-link i {
-            margin-right: 8px;
-            margin-left: 0;
-        }
-
-        body.rtl .sidebar .nav-link i {
-            margin-left: 8px;
-            margin-right: 0;
-        }
-
-        body.ltr .badge {
-            margin-left: 8px;
-        }
-
-        body.rtl .badge {
-            margin-right: 8px;
-        }
-
-        .main-content {
-            background: var(--main-bg);
-            width: calc(100% - 250px);
-        }
-
-        .navbar {
-            background-color: var(--nav-bg);
-        }
-
-        .btn-outline-secondary {
-            border-color: var(--btn-primary);
-            color: var(--btn-primary);
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: var(--btn-primary);
-            border-color: var(--btn-primary);
-            color: #fff;
-        }
-
-        .btn-light {
-            border-color: var(--btn-primary);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--sidebar-hover);
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: -250px;
-                z-index: 1050;
-            }
-
-            .sidebar.show {
-                left: 0;
-            }
-
-            .main-content {
-                width: 100%;
-            }
-
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(47, 24, 16, 0.5);
-                z-index: 1040;
-            }
-
-            .overlay.show {
-                display: block;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
 
     @stack('styles')
 </head>
@@ -189,7 +52,7 @@
                         <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
                             class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-language me-1"></i>
-                            {{ app()->getLocale() === 'ar' ? 'English' : 'Arabic' }}
+                            {{ app()->getLocale() === 'ar' ? __('messages.english') : __('messages.arabic') }}
                         </a>
 
                         <div class="dropdown">
@@ -200,7 +63,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
                                         <i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}
                                     </a>
                                 </li>
@@ -208,7 +71,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <form action="#" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
                                         @csrf
                                         <button type="submit" class="dropdown-item text-danger">
                                             <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
@@ -238,22 +101,21 @@
         const overlay = document.getElementById('sidebarOverlay');
 
         document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-    sidebar.classList.toggle('show');
-    overlay.classList.toggle('show');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
 
-    if (sidebar.classList.contains('show')) {
-        document.body.classList.add('no-scroll');
-    } else {
-        document.body.classList.remove('no-scroll');
-    }
-});
+            if (sidebar.classList.contains('show')) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
+        });
 
-overlay.addEventListener('click', () => {
-    sidebar.classList.remove('show');
-    overlay.classList.remove('show');
-    document.body.classList.remove('no-scroll');
-});
-
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+        });
 
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
@@ -266,6 +128,5 @@ overlay.addEventListener('click', () => {
     @stack('scripts')
     @yield('scripts')
 </body>
-{{-- --}}
 
 </html>

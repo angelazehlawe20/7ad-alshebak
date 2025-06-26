@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  __('navbar.menu') )
+@section('title', __('navbar.menu') )
 
 @section('content')
 <section id="menu" class="menu section">
@@ -29,7 +29,7 @@
 
         <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
             @php
-                $hasItems = false;
+            $hasItems = false;
             @endphp
 
             @foreach($categories as $category)
@@ -39,10 +39,10 @@
                     <h3>{{ $category->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}</h3>
                 </div>
 
-                <div class="row gy-5">
+                <div class="row gy-4">
                     @forelse($category->menuItems as $item)
                     @php $hasItems = true; @endphp
-                    <div class="col-lg-4 menu-item">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 menu-item">
                         <div class="menu-card h-100">
                             <div class="menu-image-wrapper">
                                 @if($item->image)
@@ -64,7 +64,8 @@
                                     </h4>
 
                                     @if($item->{app()->getLocale() == 'ar' ? 'description_ar' : 'description_en'})
-                                        <p class="menu-description">{{ $item->{app()->getLocale() == 'ar' ? 'description_ar' : 'description_en'} }}</p>
+                                    <p class="menu-description">{{ $item->{app()->getLocale() == 'ar' ? 'description_ar'
+                                        : 'description_en'} }}</p>
                                     @endif
                                 </div>
 
@@ -86,134 +87,3 @@
     </div>
 </section>
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const hash = window.location.hash;
-
-        if (hash) {
-            const triggerEl = document.querySelector(`a[data-bs-target="${hash}"]`);
-            if (triggerEl) {
-                const tab = new bootstrap.Tab(triggerEl);
-                tab.show();
-            }
-        }
-    });
-</script>
-@endpush
-
-<style>
-    .menu-btn {
-        padding: 8px 16px;
-        border: 2px solid #ccc;
-        background: white;
-        border-radius: 20px;
-        transition: all 0.3s;
-    }
-
-    .menu-btn.active {
-        background: #ff6b6b;
-        color: white;
-        border-color: #ff6b6b;
-    }
-
-    .menu-category {
-        transition: all 0.3s ease;
-    }
-
-    .menu-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .menu-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .menu-image-wrapper {
-        position: relative;
-        overflow: hidden;
-        padding-top: 75%;
-    }
-
-    .menu-image-wrapper img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: transform 0.3s ease;
-    }
-
-    .menu-image-wrapper:hover img {
-        transform: scale(1.05);
-    }
-
-    .no-image-placeholder {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .no-image-placeholder i {
-        font-size: 3rem;
-        color: #ccc;
-    }
-
-    .no-items-message {
-        font-size: 1.2rem;
-        color: #666;
-        margin: 2rem 0;
-        padding: 2rem;
-        background: #f8f9fa;
-        border-radius: 10px;
-    }
-
-    .menu-content {
-        padding: 1.5rem;
-    }
-
-    .menu-header {
-        margin-bottom: 1rem;
-    }
-
-    .menu-title {
-        font-size: 1.4rem;
-        margin: 0;
-        color: #333;
-    }
-
-    .menu-description {
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 0.5rem;
-        color: #555;
-    }
-
-    .menu-footer {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding-top: 1rem;
-        border-top: 1px solid #eee;
-    }
-
-    .menu-price {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: #AC8C64;
-    }
-</style>
