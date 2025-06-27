@@ -7,7 +7,7 @@ return [
     'deleted_success_message' => 'تم حذف الصفحة بنجاح.',
 
     // Hero Section
-    'hero_section' => 'القسم الرئيسي',
+    'hero_section' => 'مطعمنا',
     'edit_hero' => 'تعديل القسم ',
     'save_changes' => 'حفظ التعديلات',
     'cancel' => 'إلغاء',

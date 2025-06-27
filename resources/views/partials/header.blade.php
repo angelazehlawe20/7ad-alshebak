@@ -14,7 +14,8 @@
                     @endif
 
                     <a href="{{ route('hero') }}" class="text-decoration-none">
-                        <h1 class="sitename" style="font-size: 1.5rem;">
+                        <h1 class="sitename"
+                            style="font-size: 1.5rem; font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
                             @if(app()->getLocale() == 'ar')
                             {{ $heroPage?->title_ar ?? 'حد الشباك' }}
                             @else
@@ -22,19 +23,27 @@
                             @endif
                         </h1>
                     </a>
-
                 </div>
             </div>
 
             <!-- Desktop Navigation -->
             <div class="col-md-6 d-none d-md-flex justify-content-center">
                 <nav class="d-flex gap-3">
-                    <a href="{{ route('hero') }}" class="nav-link">{{ __('navbar.home') }}</a>
-                    <a href="{{ route('all_offers') }}" class="nav-link">{{ __('navbar.offers') }}</a>
-                    <a href="{{ route('menu') }}" class="nav-link">{{ __('navbar.menu') }}</a>
-                    <a href="{{ route('book') }}" class="nav-link">{{ __('navbar.book') }}</a>
-                    <a href="{{ route('contact') }}" class="nav-link">{{ __('navbar.contact') }}</a>
-
+                    <a href="{{ route('hero') }}" class="nav-link"
+                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                        __('navbar.home') }}</a>
+                    <a href="{{ route('all_offers') }}" class="nav-link"
+                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                        __('navbar.offers') }}</a>
+                    <a href="{{ route('menu') }}" class="nav-link"
+                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                        __('navbar.menu') }}</a>
+                    <a href="{{ route('book') }}" class="nav-link"
+                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                        __('navbar.book') }}</a>
+                    <a href="{{ route('contact') }}" class="nav-link"
+                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                        __('navbar.contact') }}</a>
                 </nav>
             </div>
 
@@ -48,11 +57,13 @@
             <!-- Language Toggle -->
             <div class="col-6 col-md-3 d-none d-md-flex justify-content-end">
                 @if(app()->getLocale() == 'en')
-                <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn">
+                <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn"
+                    style="font-family: var(--arabic-font)">
                     <img src="{{ asset('assets/img/flags/ar.png') }}" alt="Arabic" class="flag-icon" width="20"> AR
                 </a>
                 @else
-                <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn">
+                <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn"
+                    style="font-family: var(--english-font)">
                     <img src="{{ asset('assets/img/flags/en.png') }}" alt="English" class="flag-icon" width="20"> EN
                 </a>
                 @endif
@@ -75,21 +86,30 @@
     <ul class="mobile-nav-links">
         <li class="mt-3 d-flex justify-content-center">
             @if(app()->getLocale() == 'en')
-            <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn">
+            <a href="{{ route('lang.switch', 'ar') }}" class="btn btn-light language-btn"
+                style="font-family: var(--arabic-font)">
                 <img src="{{ asset('assets/img/flags/ar.png') }}" alt="Arabic" class="flag-icon" width="20"> AR
             </a>
             @else
-            <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn">
+            <a href="{{ route('lang.switch', 'en') }}" class="btn btn-light language-btn"
+                style="font-family: var(--english-font)">
                 <img src="{{ asset('assets/img/flags/en.png') }}" alt="English" class="flag-icon" width="20"> EN
             </a>
             @endif
         </li>
-        <li><a href="{{ route('hero') }}" class="nav-link">{{ __('navbar.home') }}</a></li>
-        <li><a href="{{ route('all_offers') }}" class="nav-link">{{ __('navbar.offers') }}</a></li>
-        <li><a href="{{ route('menu') }}" class="nav-link">{{ __('navbar.menu') }}</a></li>
-        <li><a href="{{ route('book') }}" class="nav-link">{{ __('navbar.book') }}</a></li>
-        <li><a href="{{ route('contact') }}" class="nav-link">{{ __('navbar.contact') }}</a></li>
-
+        <li><a href="{{ route('hero') }}" class="nav-link"
+                style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                __('navbar.home') }}</a></li>
+        <li><a href="{{ route('all_offers') }}" class="nav-link"
+                style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                __('navbar.offers') }}</a></li>
+        <li><a href="{{ route('menu') }}" class="nav-link"
+                style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                __('navbar.menu') }}</a></li>
+        <li><a href="{{ route('book') }}" class="nav-link"
+                style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                __('navbar.book') }}</a></li>
+        <li><a href="{{ route('contact') }}" class="nav-link" style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{ __('navbar.contact') }}</a></li>
     </ul>
 </nav>
 

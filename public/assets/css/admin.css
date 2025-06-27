@@ -11,6 +11,23 @@
     --accent-color: #AC8C64;
     --surface-color: #e8c095;
     --contrast-color: #ffffff;
+    --arabic-font: 'Shekari-Font', Arial, sans-serif;
+    --english-font: 'Timeburner', Arial, sans-serif;
+}
+
+/* Font Declarations */
+@font-face {
+    font-family: 'Shekari-Font';
+    src: url('/fonts/Shekari-Font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Timeburner';
+    src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* Body Styles */
@@ -26,11 +43,13 @@ body.no-scroll {
 body.ltr {
     direction: ltr;
     text-align: left;
+    font-family: var(--english-font);
 }
 
 body.rtl {
     direction: rtl;
     text-align: right;
+    font-family: var(--arabic-font);
 }
 
 /* Sidebar Styles */

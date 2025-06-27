@@ -72,6 +72,6 @@ class AdminController extends Controller
         $admin->email = $request->email;
         $admin->save();
 
-        return redirect()->route('admin.profile.index')->with('success', 'تم تحديث البيانات بنجاح.');
+        return redirect()->route('admin.profile.index')->with('success', __('admins.updated_message'));
     }
 }

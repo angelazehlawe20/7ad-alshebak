@@ -6,7 +6,7 @@ return [
     'profile' => 'Profile',
     'dashboard' => 'Dashboard',
     'about' => 'About',
-    'hero' => 'Hero',
+    'hero' => 'Our Cafe',
     'categories' => 'Categories',
     'menu_items' => 'Menu Items',
     'offers' => 'Offers',

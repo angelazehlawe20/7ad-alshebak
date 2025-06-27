@@ -16,20 +16,20 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
                                 <h3 class="card-title m-0">{{ __('contact.messages_list') }}</h3>
-                                <div class="btn-group" role="group" aria-label="Filter messages">
+                                <div class="btn-group flex-wrap" role="group" aria-label="Filter messages">
                                     <a href="{{ request()->url() }}"
                                         class="btn {{ !request('filter') ? 'btn-primary' : 'btn-outline-primary' }}">
-                                        <i class="fas fa-list"></i> {{ __('contact.all_messages') }}
+                                        <i class="fas fa-list"></i> <span class="d-none d-sm-inline">{{ __('contact.all_messages') }}</span>
                                     </a>
                                     <a href="{{ request()->url() }}?filter=read"
                                         class="btn {{ request('filter') === 'read' ? 'btn-primary' : 'btn-outline-primary' }}">
-                                        <i class="fas fa-check-double"></i> {{ __('contact.read') }}
+                                        <i class="fas fa-check-double"></i> <span class="d-none d-sm-inline">{{ __('contact.read') }}</span>
                                     </a>
                                     <a href="{{ request()->url() }}?filter=unread"
                                         class="btn {{ request('filter') === 'unread' ? 'btn-primary' : 'btn-outline-primary' }}">
-                                        <i class="fas fa-envelope"></i> {{ __('contact.unread') }}
+                                        <i class="fas fa-envelope"></i> <span class="d-none d-sm-inline">{{ __('contact.unread') }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -38,11 +38,11 @@
                         <div class="card-body">
                             <div class="row g-4">
                                 @forelse ($contacts as $contact)
-                                <div class="col-md-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4">
                                     <div class="card h-100">
                                         <div class="card-header bg-transparent">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h5 class="card-title text-primary mb-0">{{ $contact->name }}</h5>
+                                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                                <h5 class="card-title text-primary mb-0 text-break">{{ $contact->name }}</h5>
                                                 @if($contact->is_read)
                                                 <span class="badge bg-success">{{ __('contact.read') }}</span>
                                                 @else
@@ -53,15 +53,15 @@
                                         <div class="card-body">
                                             <div class="mb-3">
                                                 <i class="fas fa-envelope text-secondary"></i>
-                                                <span class="ms-2">{{ $contact->email }}</span>
+                                                <span class="ms-2 text-break">{{ $contact->email }}</span>
                                             </div>
                                             <div class="mb-3">
                                                 <h6 class="text-muted">{{ __('contact.subject') }}</h6>
-                                                <p class="mb-0">{{ Str::limit($contact->subject, 100) }}</p>
+                                                <p class="mb-0 text-break">{{ Str::limit($contact->subject, 100) }}</p>
                                             </div>
                                             <div class="mb-3">
                                                 <h6 class="text-muted">{{ __('contact.message') }}</h6>
-                                                <p class="mb-0">{{ Str::limit($contact->message, 150) }}</p>
+                                                <p class="mb-0 text-break">{{ Str::limit($contact->message, 150) }}</p>
                                             </div>
                                             <div class="text-muted">
                                                 <i class="fas fa-clock"></i>
@@ -69,32 +69,30 @@
                                             </div>
                                         </div>
                                         <div class="card-footer bg-transparent">
-                                            <div class="btn-group w-100">
-                                                <div class="d-flex gap-2">
-                                                    <a href="{{ route('admin.contacts.show', $contact->id) }}"
-                                                        class="btn btn-primary" title="{{ __('contact.view_message_details') }}">
-                                                        <i class="fas fa-eye me-1"></i>{{ __('contact.view') }}
-                                                    </a>
+                                            <div class="d-flex flex-wrap gap-2 w-100">
+                                                <a href="{{ route('admin.contacts.show', $contact->id) }}"
+                                                    class="btn btn-primary flex-grow-1" title="{{ __('contact.view_message_details') }}">
+                                                    <i class="fas fa-eye me-1"></i><span class="d-none d-sm-inline">{{ __('contact.view') }}</span>
+                                                </a>
 
-                                                    @if(!$contact->is_read)
-                                                    <form action="{{ route('admin.contacts.markAsRead') }}" method="POST" class="d-inline">
-                                                        @csrf
-                                                        <input type="hidden" name="contact_id" value="{{ $contact->id }}">
-                                                        <button type="submit" class="btn btn-success" title="{{ __('contact.message_as_read') }}">
-                                                            <i class="fas fa-check-double me-1"></i>{{ __('contact.message_as_read') }}
-                                                        </button>
-                                                    </form>
-                                                    @endif
+                                                @if(!$contact->is_read)
+                                                <form action="{{ route('admin.contacts.markAsRead') }}" method="POST" class="flex-grow-1">
+                                                    @csrf
+                                                    <input type="hidden" name="contact_id" value="{{ $contact->id }}">
+                                                    <button type="submit" class="btn btn-success w-100" title="{{ __('contact.message_as_read') }}">
+                                                        <i class="fas fa-check-double me-1"></i><span class="d-none d-sm-inline">{{ __('contact.message_as_read') }}</span>
+                                                    </button>
+                                                </form>
+                                                @endif
 
-                                                    <form action="{{ route('admin.contacts.destroy', $contact->id) }}"
-                                                        method="POST" class="delete-form d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" title="{{ __('contact.delete') }}">
-                                                            <i class="fas fa-trash me-1"></i>{{ __('contact.delete') }}
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                <form action="{{ route('admin.contacts.destroy', $contact->id) }}"
+                                                    method="POST" class="delete-form flex-grow-1">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger w-100" title="{{ __('contact.delete') }}">
+                                                        <i class="fas fa-trash me-1"></i><span class="d-none d-sm-inline">{{ __('contact.delete') }}</span>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

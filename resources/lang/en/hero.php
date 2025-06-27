@@ -7,7 +7,7 @@ return[
     'deleted_success_message'=>'Hero page deleted successfully.',
 
       // Hero Section
-      'hero_section' => 'Hero Section',
+      'hero_section' => 'Our cafe',
       'edit_hero' => 'Edit Hero',
       'save_changes' => 'Save Changes',
       'cancel' => 'Cancel',

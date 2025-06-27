@@ -36,32 +36,17 @@
     <!-- زر تبديل اللغة -->
     <div class="language-switcher">
         <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-            class="btn btn-outline-secondary btn-sm">
+            class="btn btn-outline-brown btn-sm"
+            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--english-font)' : 'var(--arabic-font)' }}">
             <i class="fas fa-language"></i>
             {{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}
         </a>
     </div>
+
     <div class="text-center mb-4">
-        <div class="logo d-flex align-items-center justify-content-center gap-2">
-            {{-- عرض الشعار مع صورة افتراضية في حال عدم وجوده --}}
-            @if(isset($settings->logo) && file_exists(public_path($settings->logo)))
-            <img src="{{ asset($settings->logo) }}" alt="Logo" style="width: 80px; height: auto;">
-            @else
-            <img src="{{ asset('assets/img/logos/web-app-manifest-512x512.png') }}" alt="Default Logo"
-                style="width: 80px; height: auto;">
-            @endif
-        </div>
-        <div class="mt-2">
-            <a href="" class="text-decoration-none">
-                <h1 class="sitename" style="font-size: 1.5rem;">
-                    @if(app()->getLocale() == 'ar')
-                    {{ $heroPage?->title_ar ?? 'حد الشباك' }}
-                    @else
-                    {{ $heroPage?->title_en ?? 'Had AlShebak' }}
-                    @endif
-                </h1>
-            </a>
-        </div>
+        <p class="sitename"
+            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};">
+            {{__('admins.welcome')}}</p>
     </div>
 
     {{-- نموذج تسجيل الدخول --}}
@@ -70,48 +55,60 @@
             <div class="col-lg-5 col-md-7 col-sm-10 col-12">
                 <div class="login-container">
                     <div class="login-header">
-                        <h1>{{ __('admins.admin_login') }}</h1>
+                        <h1
+                            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};">
+                            {{ __('admins.admin_login') }}</h1>
                     </div>
-
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
 
                     <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('admins.email_address') }}</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                name="email" value="{{ old('email') }}" required autofocus />
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-medium"
+                                style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};">{{
+                                __('admins.email_address') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                    name="email" value="{{ old('email') }}" required autofocus
+                                    placeholder="{{__('admins.enter_your_email')}}"
+                                    style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}; font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};" />
+                            </div>
                             @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('admins.password') }}</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="password" name="password" required />
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-medium"
+                                style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};">{{
+                                __('admins.password') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" name="password" required
+                                    placeholder="{{__('admins.enter_your_password')}}"
+                                    style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}; font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};" />
+                            </div>
                             @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember" name="remember" {{
-                                old('remember') ? 'checked' : '' }} />
-                            <label class="form-check-label" for="remember">{{ __('admins.remember_me') }}</label>
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember" {{
+                                    old('remember') ? 'checked' : '' }} />
+                                <label class="form-check-label" for="remember"
+                                    style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }};">{{
+                                    __('admins.remember_me') }}</label>
+                            </div>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn custom-login-btn">{{ __('admins.login') }}</button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn custom-login-btn"
+                                style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                                <i class="fas fa-sign-in-alt me-2"></i>{{ __('admins.login') }}
+                            </button>
                         </div>
                     </form>
                 </div>

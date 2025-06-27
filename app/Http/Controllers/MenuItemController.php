@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
 class MenuItemController extends Controller
@@ -16,5 +15,5 @@ class MenuItemController extends Controller
         return view('partials.menu', compact('categories'));
     }
 
-    
+
 }

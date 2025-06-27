@@ -1,6 +1,6 @@
 body {
     background-color: var(--main-bg);
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -8,68 +8,186 @@ body {
     align-items: center;
     text-align: center;
     position: relative;
+    overflow-x: hidden;
+    padding: 20px;
+    box-sizing: border-box;
 }
+
+body.ltr {
+    font-family: var(--english-font);
+}
+
+body.rtl {
+    font-family: var(--arabic-font);
+}
+
 .language-switcher {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1000;
 }
-.logo {
-    max-width: 200px;
-    height: auto;
-    margin: 0 auto 15px auto;
-    display: block;
-}
+
 .sitename {
-    margin-top: 10px;
+    margin: 10px auto;
     font-weight: 800;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     color: var(--btn-primary);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    /* ظل خفيف للنص */
     letter-spacing: 1px;
 }
+
 .login-container {
+    width: 90%;
     max-width: 450px;
-    width: 100%;
     padding: 2.5rem;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-    margin-top: 2rem;
-    text-align: start; /* لجعل النص داخل الفورم محاذي لليسار في LTR ولليمين في RTL */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    margin: 2rem auto;
+    text-align: start;
+    /* لجعل النص داخل الفورم محاذي لليسار في LTR ولليمين في RTL */
+    position: relative;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
 }
+
 .form-control:focus {
     border-color: var(--btn-primary);
     box-shadow: 0 0 0 0.25rem rgba(139, 69, 19, 0.25);
 }
+
 .form-check-input {
     box-shadow: none;
 }
+
 .form-check-input:checked {
     box-shadow: none;
     background-color: var(--btn-primary);
     border-color: var(--btn-primary);
 }
+
 .btn-primary {
     background-color: rgba(139, 69, 19, 0.25);
     border-color: rgba(139, 69, 19, 0.25);
+    width: 100%;
+    margin: 1rem auto;
 }
+
 .btn-primary:hover {
     background-color: var(--btn-hover);
     border-color: var(--btn-hover);
 }
-body {
-    background-color: var(--main-bg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+
 @media (max-width: 576px) {
     body {
         padding: 15px;
     }
+
+    .login-container {
+        padding: 1.5rem;
+    }
+}
+body {
+    background-image:
+        url('/assets/img/hexagons/background.png');
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    background-repeat: no-repeat;
+}
+
+.language-switcher {
+    position: absolute;
+    top: 20px;
+}
+
+body.rtl .language-switcher {
+    right: 20px;
+}
+
+body.ltr .language-switcher {
+    left: 20px;
+}
+
+.language-switcher .btn-outline-brown {
+    color: #6B4423;
+    border-color: #6B4423;
+}
+
+.language-switcher .btn-outline-brown:hover {
+    color: #FFF8DC;
+    background-color: #6B4423;
+}
+
+.login-container {
+    background: transparent;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(139, 115, 85, 0.2);
+    width: 100%;
+}
+
+.login-header h1 {
+    font-size: 1.8rem;
+    color: #654321;
+    /* Dark brown */
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #A0522D;
+    /* Sienna */
+    background-color: #FFF8DC;
+    /* Cornsilk */
+}
+
+.form-control:focus {
+    border-color: #8B4513;
+    /* Saddle Brown */
+    box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.custom-login-btn {
+    background: #6B4423;
+    /* Brown */
+    color: #FFF8DC;
+    /* Cornsilk */
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.custom-login-btn:hover {
+    background: #8B4513;
+    /* Saddle Brown */
+    transform: translateY(-2px);
+}
+
+.sitename {
+    color: #654321;
+    /* Dark brown */
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.form-check-input:checked {
+    background-color: #8B4513;
+    /* Saddle Brown */
+    border-color: #6B4423;
+    /* Brown */
+}
+
+/* Remove focus outline from checkbox */
+.form-check-input:focus {
+    box-shadow: none;
+    border-color: #6B4423;
 }

@@ -19,7 +19,7 @@
                 <ul class="dropdown-menu" aria-labelledby="homeDropdown">
                     <li>
                         <a class="dropdown-item" href="{{ route('admin.hero.indexForAdmin') }}">
-                            <i class="fas fa-image {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i>
+                            <i class="fas fa-store {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i>
                             {{ __('messages.hero') }}
                         </a>
                     </li>
@@ -34,7 +34,7 @@
 
             <a href="{{ route('admin.dashboard') }}"
                 class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                <i class="fas fa-home {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i> {{
+                <i class="fas fa-chart-line {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i> {{
                 __('messages.dashboard') }}
             </a>
 

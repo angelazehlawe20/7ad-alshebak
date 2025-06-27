@@ -45,4 +45,14 @@ return [
     'password'        => 'Password',
     'remember_me'     => 'Remember Me',
     'login'           =>  'Login',
+    'welcome' => 'Welcome to HAD AL SHEBAK',
+    'enter_your_email' => 'Enter your email',
+    'enter_your_password' => 'Enter your password',
+
+    'updated_message' => 'Data updated successfully.',
+    'added_admin_message' => 'A new admin has been added successfully.',
+    'admin_updated_message' => 'Admin data updated successfully.',
+    'error_deleted_message' => 'You cannot delete your own account.',
+    'Admin_deleted_message' => 'Admin deleted successfully.',
+
 ];

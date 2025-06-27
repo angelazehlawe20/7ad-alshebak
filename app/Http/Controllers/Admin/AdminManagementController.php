@@ -47,7 +47,7 @@ class AdminManagementController extends Controller
         ]);
 
         return redirect()->route('admin.admins.index')
-            ->with('success', 'Admin created successfully.');
+            ->with('success', __('admins.added_admin_message'));
     }
 
     /**
@@ -86,7 +86,7 @@ class AdminManagementController extends Controller
         $admin->save();
 
         return redirect()->route('admin.admins.index')
-            ->with('success', 'Admin updated successfully.');
+            ->with('success', __('admins.admin_updated_message'));
     }
 
     /**
@@ -98,12 +98,12 @@ class AdminManagementController extends Controller
         // Prevent deleting self
         if ($admin->id === auth()->guard('admin')->id()) {
             return redirect()->route('admin.admins.index')
-                ->with('error', 'You cannot delete your own account.');
+                ->with('error',__('admins.error_deleted_message'));
         }
 
         $admin->delete();
 
         return redirect()->route('admin.admins.index')
-            ->with('success', 'Admin deleted successfully.');
+            ->with('success', __('admins.Admin_deleted_message'));
     }
 }

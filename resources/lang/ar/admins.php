@@ -43,5 +43,15 @@ return [
     'password'        => 'كلمة المرور',
     'remember_me'     => 'تذكرني',
     'login'           => 'تسجيل الدخول',
+    'welcome' => 'أهلاً بكم في حد الشباك',
+    'enter_your_email' => 'ادخل بريدك الإلكتروني',
+    'enter_your_password' => 'ادخل كلمة المرور',
+
+    'updated_message' => 'تم تحديث البيانات بنجاح.',
+    'created_admin_message' => 'تم إضافة مشرف جديد بنجاح.',
+    'admin_updated_message' => 'تم تحديث بيانات المشرف بنجاح.',
+    'error_deleted_message' => 'لا يمكنك حذف حسابك الخاص.',
+    'Admin_deleted_message' => 'تم حذف المشرف بنجاح.',
+
 
 ];

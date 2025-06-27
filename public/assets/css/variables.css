@@ -1,12 +1,12 @@
-/* === Shekari Font === */
+/* === Shekari Font (Arabic) === */
 @font-face {
     font-family: 'Shekari';
-    src: url('/fonts/Shekari_Font.ttf') format('truetype');
+    src: url('/fonts/Shekari-Font.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
-/* === TimeBurner Font === */
+/* === TimeBurner Font (English) === */
 @font-face {
     font-family: 'TimeBurner';
     src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
@@ -14,11 +14,23 @@
     font-style: normal;
 }
 
-
+/* Define language-specific font variables */
 :root {
-    --default-font: "Shekari", sans-serif;
-    --heading-font: "TimeBurner", sans-serif;
-    --nav-font: "Shekari", sans-serif;
+    --arabic-font: "Shekari", sans-serif;
+    --english-font: "TimeBurner", sans-serif;
+}
+
+/* Apply fonts based on language direction */
+body.rtl {
+    --default-font: var(--arabic-font);
+    --heading-font: var(--arabic-font);
+    --nav-font: var(--arabic-font);
+}
+
+body.ltr {
+    --default-font: var(--english-font);
+    --heading-font: var(--english-font);
+    --nav-font: var(--english-font);
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
