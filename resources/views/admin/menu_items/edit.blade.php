@@ -99,7 +99,7 @@
                                     <input type="file" name="image" class="form-control" accept="image/*">
                                     <div class="mt-2" id="imagePreview"
                                         style="display: {{ $menuItem->image ? 'block' : 'none' }};">
-                                        <img src="{{ $menuItem->image ? asset('storage/' . $menuItem->image) : '' }}"
+                                        <img src="{{ $menuItem->image ? asset( $menuItem->image) : '' }}"
                                             alt="Menu Item Image" class="img-thumbnail">
                                     </div>
                                 </div>
@@ -116,23 +116,7 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector('input[name="image"]').addEventListener('change', function(e) {
-        const preview = document.getElementById('imagePreview');
-        const img = preview.querySelector('img');
-
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        } else {
-            preview.style.display = 'none';
-        }
-    });
-</script>
-
 @endsection
+@push('scripts')
+<script src="{{ asset('assets/js/editMenuItemPage.js') }}"></script>
+@endpush

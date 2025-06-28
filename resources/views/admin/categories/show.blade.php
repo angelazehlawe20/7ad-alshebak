@@ -24,7 +24,7 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="position-relative">
                                     @if($item->image)
-                                    <img src="{{ asset('storage/' . $item->image) }}"
+                                    <img src="{{ asset( $item->image) }}"
                                          class="card-img-top"
                                          alt="{{ $item->name_en }}"
                                          loading="lazy"
@@ -84,16 +84,4 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-    document.getElementById('categoryFilter')?.addEventListener('change', function () {
-        const categoryId = this.value;
-        if (categoryId) {
-            window.location.href = "{{ route('admin.categories.show', '') }}/" + categoryId;
-        } else {
-            window.location.href = "{{ route('admin.categories.index') }}";
-        }
-    });
-</script>
-@endpush
 @endsection

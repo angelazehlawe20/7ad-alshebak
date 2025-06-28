@@ -48,7 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mobileNavLinks.forEach(link => {
         link.addEventListener("click", (e) => {
-            const linkPath = new URL(link.href).pathname;
+            // تحقق أن href موجودة وصحيحة
+            if (!link.href) return;
+            const linkPath = new URL(link.href, window.location.origin).pathname;
             const currentPath = window.location.pathname;
             if (linkPath === currentPath) {
                 e.preventDefault();
@@ -67,11 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateActiveLinkByPath() {
         const currentPath = window.location.pathname;
         navLinks.forEach(link => {
-            const linkPath = new URL(link.href).pathname;
+            if (!link.href) return;
+            const linkPath = new URL(link.href, window.location.origin).pathname;
             link.classList.toggle("active", linkPath === currentPath);
         });
         mobileNavLinks.forEach(link => {
-            const linkPath = new URL(link.href).pathname;
+            if (!link.href) return;
+            const linkPath = new URL(link.href, window.location.origin).pathname;
             link.classList.toggle("active", linkPath === currentPath);
         });
     }

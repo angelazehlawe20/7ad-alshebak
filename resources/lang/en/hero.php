@@ -5,7 +5,7 @@ return[
     'created_success_message' => 'The page was created successfully.',
     'updated_success_message'=> 'Hero updated successfully.',
     'deleted_success_message'=>'Hero page deleted successfully.',
-
+ 
       // Hero Section
       'hero_section' => 'Our cafe',
       'edit_hero' => 'Edit Hero',

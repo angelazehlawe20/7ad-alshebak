@@ -28,7 +28,7 @@ class AdminController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'البيانات المدخلة غير صحيحة.',
+            'email' => __('validation.invalid_data'),
         ])->onlyInput('email');
     }
 
@@ -47,22 +47,24 @@ class AdminController extends Controller
 
     public function update(Request $request, Admin $admin)
     {
-        // Ensure the admin can only update their own profile unless they are an owner
+        // السماح فقط بتعديل الحساب الشخصي أو في حال كان المستخدم مالكًا للنظام
         if ($admin->id !== auth()->guard('admin')->id() && !auth()->guard('admin')->user()->is_owner) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('errors.unauthorized'));
         }
 
         $request->validate([
-            'name' => 'required|string|max:255|unique:admins,name,' . $admin->id,
-            'email' => 'required|email|max:255|unique:admins,email,' . $admin->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255' . $admin->id,
             'old_password' => 'nullable|string',
             'password' => 'nullable|string|confirmed|min:6'
         ]);
 
-        // تحقق من كلمة المرور القديمة إن وُجدت كلمة مرور جديدة
+        // تحقق من كلمة المرور القديمة إذا كان هناك طلب تغيير كلمة المرور
         if ($request->filled('password')) {
             if (!Hash::check($request->old_password, $admin->password)) {
-                return back()->withErrors(['old_password' => 'كلمة المرور القديمة غير صحيحة.']);
+                return back()->withErrors([
+                    'old_password' => __('validation.custom.old_password')
+                ])->withInput();
             }
 
             $admin->password = Hash::make($request->password);
@@ -72,6 +74,7 @@ class AdminController extends Controller
         $admin->email = $request->email;
         $admin->save();
 
-        return redirect()->route('admin.profile.index')->with('success', __('admins.updated_message'));
+        return redirect()->route('admin.profile.index')
+                         ->with('success', __('admins.updated_message'));
     }
 }

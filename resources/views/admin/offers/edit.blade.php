@@ -100,7 +100,7 @@
                                     <input type="file" name="image" class="form-control" accept="image/*">
                                     <div class="mt-2" id="imagePreview"
                                         style="display: {{ $offer->image ? 'block' : 'none' }};">
-                                        <img src="{{ $offer->image ? asset('storage/' . $offer->image) : '' }}"
+                                        <img src="{{ $offer->image ? asset( $offer->image) : '' }}"
                                             alt="Offer Image" class="img-thumbnail">
                                     </div>
                                 </div>
@@ -122,41 +122,7 @@
     </div>
 </div>
 
-<script>
-    // Bootstrap validation script
-    (function () {
-        'use strict'
-
-        var forms = document.querySelectorAll('.needs-validation')
-
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })();
-
-    // Image preview script
-    document.querySelector('input[name="image"]').addEventListener('change', function(e) {
-        const preview = document.getElementById('imagePreview');
-        const img = preview.querySelector('img');
-
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        } else {
-            preview.style.display = 'none';
-        }
-    });
-</script>
+@section('scripts')
+    <script src="{{ asset('assets/js/admin/editOfferPage.js') }}"></script>
 @endsection
+

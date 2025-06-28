@@ -10,22 +10,37 @@
         @method('PUT')
 
         <div class="mb-3">
-            <label>{{ __('admins.name') }}</label>
+            <label style="direction: {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">{{ __('admins.name') }}</label>
             <input type="text" name="name" value="{{ old('name', $admin->name) }}" class="form-control" required>
         </div>
 
         <div class="mb-3">
-            <label>{{ __('admins.email') }}</label>
-            <input type="email" name="email" value="{{ old('email', $admin->email) }}" class="form-control" required>
+            <label style="direction: {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">{{ __('admins.email') }}</label>
+            <input type="email" name="email" value="{{ old('email', $admin->email) }}" class="form-control" required
+                style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">
         </div>
 
         <div class="mb-3">
-            <label>{{ __('admins.new_password') }}</label>
+            <label style="direction: {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">{{ __('admins.current_password')
+                }}</label>
+            <input type="password" name="old_password" class="form-control">
+            @error('old_password')
+            <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label style="direction: {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">{{ __('admins.new_password')
+                }}</label>
             <input type="password" name="password" class="form-control">
+            @error('password')
+            <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="mb-3">
-            <label>{{ __('admins.confirm_password') }}</label>
+            <label style="direction: {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">{{ __('admins.confirm_password')
+                }}</label>
             <input type="password" name="password_confirmation" class="form-control">
         </div>
 

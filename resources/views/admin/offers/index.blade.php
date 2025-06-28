@@ -47,7 +47,7 @@
                                 <div class="position-relative">
                                     <div class="img-container">
                                         @if($offer->image)
-                                        <img src="{{ asset('storage/' . $offer->image) }}" class="w-100 h-100"
+                                        <img src="{{ asset( $offer->image) }}" class="w-100 h-100"
                                             alt="{{ $offer->title_en }}" loading="lazy">
                                         @else
                                         <div class="d-flex h-100 align-items-center justify-content-center">

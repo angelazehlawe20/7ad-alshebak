@@ -1,6 +1,8 @@
 <section id="about" class="about section">
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <p><span>{{ __('about.who') }}</span> <span class="description-title">{{ __('about.we_are') }}</span></p>
+        <p style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+            <span>{{ __('about.who') }}</span> <span class="description-title">{{ __('about.we_are') }}</span>
+        </p>
     </div>
 
     {{-- Prepare Images --}}
@@ -9,14 +11,9 @@
     $count = count($images);
     $minSlides = 4;
 
-    if ($count > 0 && $count < $minSlides) {
-        $repeatFactor = ceil($minSlides / $count);
-        $images = array_merge(...array_fill(0, $repeatFactor, $images));
-    }
-    @endphp
-
-    {{-- Gallery Slider --}}
-    <div class="mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+    if ($count > 0 && $count < $minSlides) { $repeatFactor=ceil($minSlides / $count);
+        $images=array_merge(...array_fill(0, $repeatFactor, $images)); } @endphp {{-- Gallery Slider --}} <div
+        class="mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
         <div class="swiper init-swiper gallery-swiper">
             <div class="swiper-wrapper align-items-center">
                 @foreach($images as $image)
@@ -42,43 +39,46 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </div>
-    </div>
+        </div>
 
-    {{-- Main Content --}}
-    <div class="container mt-5">
-        <div class="row gy-4 align-items-center">
-            {{-- About Text --}}
-            <div class="col-lg-6">
-                <div class="content ps-0 ps-lg-5">
-                    <p class="text-center lead">
-                        {{ app()->getLocale() === 'ar' ? ($about->main_text_ar ?? __('about.no_about')) : ($about->main_text_en ?? __('about.no_about')) }}
-                    </p>
+        {{-- Main Content --}}
+        <div class="container mt-5">
+            <div class="row gy-4 align-items-center">
+                {{-- About Text --}}
+                <div class="col-lg-6">
+                    <div class="content ps-0 ps-lg-5">
+                        <p class="text-center lead"
+                            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                            {{ app()->getLocale() === 'ar' ? ($about->main_text_ar ?? __('about.no_about')) :
+                            ($about->main_text_en ?? __('about.no_about')) }}
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            {{-- Why Choose Us --}}
-            <div class="col-lg-6">
-                <div class="why-box bg-dark text-white rounded p-4">
-                    <h3 class="section-title mb-4">
-                        {{ app()->getLocale() === 'ar' ? ($about->why_title_ar ?? __('about.why_choose_us')) : ($about->why_title_en ?? __('about.why_choose_us')) }}
-                    </h3>
-                    <ul class="list-unstyled why-list">
-                        @php
+                {{-- Why Choose Us --}}
+                <div class="col-lg-6">
+                    <div class="why-box bg-dark text-white rounded p-4">
+                        <h3 class="section-title mb-4"
+                            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                            {{ app()->getLocale() === 'ar' ? ($about->why_title_ar ?? __('about.why_choose_us')) :
+                            ($about->why_title_en ?? __('about.why_choose_us')) }}
+                        </h3>
+                        <ul class="list-unstyled why-list">
+                            @php
                             $points = app()->getLocale() === 'ar' ?
-                                json_decode($about->why_points_ar ?? '[]') :
-                                json_decode($about->why_points_en ?? '[]');
-                        @endphp
-                        @forelse($points as $point)
-                        <li class="mb-3"><i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
-                        @empty
-                        <li class="text-muted">{{__('about.no_points')}}.</li>
-                        @endforelse
-                    </ul>
+                            json_decode($about->why_points_ar ?? '[]') :
+                            json_decode($about->why_points_en ?? '[]');
+                            @endphp
+                            @forelse($points as $point)
+                            <li class="mb-3"
+                                style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                                <i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
+                            @empty
+                            <li class="text-muted" style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{__('about.no_points')}}.</li>
+                            @endforelse
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
-
-{{-- Load Swiper Configuration --}}
-<script src="{{ asset('assets/js/aboutPage.js') }}"></script>

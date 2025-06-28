@@ -117,24 +117,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(function() {
-        $('.delete-form').on('submit', function(e) {
-            e.preventDefault();
-            Swal.fire({
-                title: '{{ __("contact.delete_confirm_title") }}',
-                text: '{{ __("contact.delete_confirm_text") }}',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '{{ __("contact.delete_confirm_yes") }}'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            });
-        });
-    });
-</script>
+<script src="{{ asset('assets/js/contactAdminPage.js') }}"></script>
 @endpush

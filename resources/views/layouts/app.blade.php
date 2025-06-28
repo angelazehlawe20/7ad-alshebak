@@ -32,10 +32,70 @@
     <link href="{{ asset('assets/css/language-toggle.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/menu.css') }}" rel="stylesheet">
 
+    <style>
+        @font-face {
+            font-family: 'Shekari';
+            src: url('/fonts/Shekari-Font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'TimeBurner';
+            src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* === 2. تعيين الخطوط للغات === */
+        :root {
+            --font-arabic: 'Shekari', sans-serif;
+            --font-english: 'TimeBurner', sans-serif;
+        }
+
+        body[dir="rtl"] {
+    font-family: var(--font-arabic);
+    font-size: 22px;          /* حجم أكبر للنص العادي */
+    line-height: 1.9;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+body[dir="ltr"] {
+    font-family: var(--font-english);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* تكبير العناوين والنصوص المهمة بشكل متدرج */
+body[dir="rtl"] h1 {
+    font-size: 3.2rem !important;  /* عنوان رئيسي كبير */
+    font-weight: 700;
+}
+
+body[dir="rtl"] h2 {
+    font-size: 2.8rem !important;  /* عنوان فرعي */
+    font-weight: 700;
+}
+
+body[dir="rtl"] h3 {
+    font-size: 2.4rem !important;  /* عنوان ثالث */
+    font-weight: 600;
+}
+
+body[dir="rtl"] p,
+body[dir="rtl"] button,
+body[dir="rtl"] input,
+body[dir="rtl"] select,
+body[dir="rtl"] textarea {
+    font-size: 20px !important;  /* نصوص وزرار ونماذج */
+}
+    </style>
+
     @stack('styles')
 </head>
 
-<body>
+<body dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
     @include('partials.header')
 

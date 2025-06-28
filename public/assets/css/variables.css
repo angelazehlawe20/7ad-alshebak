@@ -20,6 +20,44 @@
     --english-font: "TimeBurner", sans-serif;
 }
 
+/* Apply font sizes based on language */
+body.rtl [style*="font-family: var(--arabic-font)"] {
+    font-size: 2.2em;
+    /* Increase font size for Arabic text */
+    font-weight: 700;
+    /* Make Arabic text bolder */
+    letter-spacing: 0.8px;
+    /* Improve letter spacing for better readability */
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+    /* Add subtle shadow for better contrast */
+}
+
+/* Specific adjustments for different text elements in Arabic */
+body.rtl h1[style*="font-family: var(--arabic-font)"],
+body.rtl h2[style*="font-family: var(--arabic-font)"],
+body.rtl h3[style*="font-family: var(--arabic-font)"] {
+    font-size: 2.4em;
+    /* Larger size for headings */
+}
+
+body.rtl p[style*="font-family: var(--arabic-font)"] {
+    font-size: 2.2em;
+    /* Standard size for paragraphs */
+}
+
+body.rtl .section-title p[style*="font-family: var(--arabic-font)"] {
+    font-size: 2.6em;
+    /* Larger size for section titles */
+}
+
+body.rtl button[style*="font-family: var(--arabic-font)"],
+body.rtl input[style*="font-family: var(--arabic-font)"],
+body.rtl select[style*="font-family: var(--arabic-font)"],
+body.rtl textarea[style*="font-family: var(--arabic-font)"] {
+    font-size: 2em;
+    /* Adjusted size for form elements */
+}
+
 /* Apply fonts based on language direction */
 body.rtl {
     --default-font: var(--arabic-font);

@@ -140,7 +140,5 @@
 @endsection
 
 @section('scripts')
-<script>
-src="{{ asset('assets/js/aboutPage.js') }}">
-</script>
+<script src="{{ asset('assets/js/aboutPage.js') }}"></script>
 @endsection

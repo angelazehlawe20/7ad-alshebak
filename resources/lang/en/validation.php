@@ -105,12 +105,15 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
+    'invalid_data' => 'The entered data is incorrect',
+
+
 
     'custom' => [
-        // Custom validation messages by attribute name
-        // 'email' => [
-        //     'required' => 'Please enter your email address.',
-        // ],
+        'old_password' => [
+            'required' => 'Old password required',
+            'old_password' => 'The old password is incorrect',
+        ],
     ],
 
     'attributes' => [

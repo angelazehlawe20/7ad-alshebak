@@ -20,6 +20,7 @@ return [
     'edit_title' => 'Edit Admin Data',
     'edit_heading' => 'Edit Admin: :name',
     'back_to_list' => 'Back to list',
+    'current_password' => 'Current Password',
     'new_password' => 'New Password (leave empty if you don\'t want to change it)',
     'password_confirmation' => 'Confirm New Password',
     'save_changes' => 'Save Changes',
@@ -54,5 +55,6 @@ return [
     'admin_updated_message' => 'Admin data updated successfully.',
     'error_deleted_message' => 'You cannot delete your own account.',
     'Admin_deleted_message' => 'Admin deleted successfully.',
+
 
 ];

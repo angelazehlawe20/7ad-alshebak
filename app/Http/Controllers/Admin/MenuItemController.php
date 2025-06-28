@@ -24,13 +24,6 @@ class MenuItemController extends Controller
         return view('admin.menu_items.create', compact('categories'));
     }
 
-    // Create item in specific category
-    public function createInCategory(Category $category)
-    {
-        $categories = Category::all();
-        return view('admin.menu_items.create', compact('categories', 'category'));
-    }
-
     // تخزين عنصر جديد
     public function store(Request $request)
     {
@@ -64,6 +57,25 @@ class MenuItemController extends Controller
     {
         $categories = Category::all();
         return view('admin.menu_items.edit', compact('menuItem', 'categories'));
+    }
+
+    public function createItemInCategory(Request $request)
+    {
+        $id = $request->input('id');
+        $category = Category::findOrFail($id);
+        $categories = Category::all(); // لازم لإعادة استخدام نفس الـ Blade
+        return view('admin.menu_items.create', compact('category', 'categories'));
+    }
+
+    public function filterByCategory(Request $request)
+    {
+        $id = $request->input('category_id');
+        $categories = Category::all();
+        $items = $id
+            ? MenuItem::where('category_id', $id)->with('category')->get()
+            : MenuItem::with('category')->get();
+
+        return view('admin.menu_items.index', compact('items', 'categories'));
     }
 
     // تحديث عنصر معين
