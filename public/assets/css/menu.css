@@ -14,6 +14,19 @@
     /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
+
+.img-container {
+    height: 200px;
+    overflow: hidden;
+}
+.theme-color {
+    color: #8B7355;
+}
+.theme-bg {
+    background-color: #8B7355;
+}
+
+
     /* Desktop Navigation */
     @media (min-width: 1200px) {
         .navmenu {

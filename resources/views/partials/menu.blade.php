@@ -8,10 +8,10 @@
     <div id="menu-content"></div>
     <div class="container section-title" data-aos="fade-up">
         @if(app()->getLocale() == 'ar')
-        <p style="font-family: var(--arabic-font)"><span>{{ __('menu.menu') }}</span> <span class="description-title">{{
+        <p><span>{{ __('menu.menu') }}</span> <span class="description-title">{{
                 __('menu.brand_name') }}</span></p>
         @else
-        <p style="font-family: var(--english-font)"><span>{{ __('menu.brand_name') }}</span> <span
+        <p><span>{{ __('menu.brand_name') }}</span> <span
                 class="description-title">{{ __('menu.menu') }}</span></p>
         @endif
     </div>
@@ -23,8 +23,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ $loop->first ? 'active show' : '' }}" data-bs-toggle="tab"
                     data-bs-target="#menu-{{ $category->id }}">
-                    <h4
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h4>
                         {{ $category->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}</h4>
                 </a>
             </li>
@@ -39,11 +38,9 @@
             @foreach($categories as $category)
             <div class="tab-pane fade {{ $loop->first ? 'active show' : '' }}" id="menu-{{ $category->id }}">
                 <div class="tab-header text-center">
-                    <p
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <p>
                         {{ __('menu.menu') }}</p>
-                    <h3
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h3>
                         {{ $category->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}</h3>
                 </div>
 
@@ -67,31 +64,27 @@
 
                             <div class="menu-content d-flex flex-column h-100">
                                 <div class="menu-header">
-                                    <h4 class="menu-title"
-                                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                                    <h4 class="menu-title">
                                         {{ $item->{app()->getLocale() == 'ar' ? 'name_ar' : 'name_en'} }}
                                     </h4>
 
                                     @if($item->{app()->getLocale() == 'ar' ? 'description_ar' : 'description_en'})
-                                    <p class="menu-description"
-                                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                                    <p class="menu-description">
                                         {{ $item->{app()->getLocale() == 'ar' ? 'description_ar'
                                         : 'description_en'} }}</p>
                                     @endif
                                 </div>
 
                                 <div class="card-price fw-bold fs-5 mt-auto">
-                                    <span class="menu-price"
-                                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
-                                        number_format($item->price) }} $</span>
+                                    <span class="menu-price">
+                                        {{number_format($item->price) }} $</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     @empty
                     <div class="col-12 text-center">
-                        <p class="no-items-message"
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p class="no-items-message">
                             {{ __('menu.no_items') }}</p>
                     </div>
                     @endforelse

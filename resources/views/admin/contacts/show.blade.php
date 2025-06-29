@@ -2,13 +2,15 @@
 @section('title', __('contact.view_message_details'))
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="mb-0">{{ __('contact.view_message_details') }}</h4>
-                <div class="page-title-right">
-                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary waves-effect waves-light pb-2" onclick="window.location.reload();">
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"><i class="fas fa-envelope"></i> {{ __('contact.view_message_details') }}</h1>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> {{ __('contact.messages') }}
                     </a>
                 </div>
@@ -16,15 +18,15 @@
         </div>
     </div>
 
-    <div class="row pt-4">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header bg-transparent border-bottom">
-                    <h3 class="card-title m-0">{{ __('contact.contact') }} {{ __('contact.us') }}</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xl-6">
+    <section class="content">
+        <div class="container-fluid px-0">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card bg-beige card-outline">
+                        <div class="card-header bg-light">
+                            <h3 class="card-title"><i class="fas fa-user mr-2"></i>{{ __('contact.contact_details') }}</h3>
+                        </div>
+                        <div class="card-body" style="background-color: #f5f5dc;">
                             <div class="table-responsive">
                                 <table class="table table-borderless mb-0">
                                     <tbody>
@@ -77,19 +79,23 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h5 class="mb-3">{{ __('contact.message') }}</h5>
+                <div class="col-md-6">
+                    <div class="card bg-beige card-outline">
+                        <div class="card-header bg-light">
+                            <h3 class="card-title"><i class="fas fa-comment mr-2"></i>{{ __('contact.message') }}</h3>
+                        </div>
+                        <div class="card-body" style="background-color: #f5f5dc;">
                             @if($contact->message_ar)
                             <div class="border rounded p-3 bg-light mb-3">
-                                <h6>{{ __('contact.message') }}</h6>
+                                <h6>{{ __('contact.message') }} (AR)</h6>
                                 {{ $contact->message_ar }}
                             </div>
                             @endif
                             @if($contact->message_en)
                             <div class="border rounded p-3 bg-light">
-                                <h6>{{ __('contact.message') }}</h6>
+                                <h6>{{ __('contact.message') }} (EN)</h6>
                                 {{ $contact->message_en }}
                             </div>
                             @endif
@@ -98,6 +104,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 @endsection

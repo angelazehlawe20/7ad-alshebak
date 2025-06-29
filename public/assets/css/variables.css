@@ -16,59 +16,73 @@
 
 /* Define language-specific font variables */
 :root {
-    --arabic-font: "Shekari", sans-serif;
-    --english-font: "TimeBurner", sans-serif;
+    --arabic-font: 'Shekari', sans-serif;
+    --english-font: 'TimeBurner', sans-serif;
 }
 
-/* Apply font sizes based on language */
-body.rtl [style*="font-family: var(--arabic-font)"] {
-    font-size: 2.2em;
-    /* Increase font size for Arabic text */
-    font-weight: 700;
-    /* Make Arabic text bolder */
-    letter-spacing: 0.8px;
-    /* Improve letter spacing for better readability */
-    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
-    /* Add subtle shadow for better contrast */
-}
-
-/* Specific adjustments for different text elements in Arabic */
-body.rtl h1[style*="font-family: var(--arabic-font)"],
-body.rtl h2[style*="font-family: var(--arabic-font)"],
-body.rtl h3[style*="font-family: var(--arabic-font)"] {
-    font-size: 2.4em;
-    /* Larger size for headings */
-}
-
-body.rtl p[style*="font-family: var(--arabic-font)"] {
-    font-size: 2.2em;
-    /* Standard size for paragraphs */
-}
-
-body.rtl .section-title p[style*="font-family: var(--arabic-font)"] {
-    font-size: 2.6em;
-    /* Larger size for section titles */
-}
-
-body.rtl button[style*="font-family: var(--arabic-font)"],
-body.rtl input[style*="font-family: var(--arabic-font)"],
-body.rtl select[style*="font-family: var(--arabic-font)"],
-body.rtl textarea[style*="font-family: var(--arabic-font)"] {
-    font-size: 2em;
-    /* Adjusted size for form elements */
-}
-
-/* Apply fonts based on language direction */
+/* Apply fonts globally based on language direction */
 body.rtl {
+    font-family: var(--arabic-font);
     --default-font: var(--arabic-font);
     --heading-font: var(--arabic-font);
     --nav-font: var(--arabic-font);
 }
 
 body.ltr {
+    font-family: var(--english-font);
     --default-font: var(--english-font);
     --heading-font: var(--english-font);
     --nav-font: var(--english-font);
+}
+
+/* Apply fonts to all text elements */
+body.rtl *,
+body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4, body.rtl h5, body.rtl h6,
+body.rtl p, body.rtl span, body.rtl div, body.rtl a, body.rtl button,
+body.rtl input, body.rtl select, body.rtl textarea, body.rtl label {
+    font-family: var(--arabic-font) !important;
+}
+
+body.ltr *,
+body.ltr h1, body.ltr h2, body.ltr h3, body.ltr h4, body.ltr h5, body.ltr h6,
+body.ltr p, body.ltr span, body.ltr div, body.ltr a, body.ltr button,
+body.ltr input, body.ltr select, body.ltr textarea, body.ltr label {
+    font-family: var(--english-font) !important;
+}
+
+/* Arabic text styling improvements */
+body.rtl {
+    font-size: 1.1em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+/* Specific size adjustments for Arabic headings */
+body.rtl h1 { font-size: 2.5rem; }
+body.rtl h2 { font-size: 2.2rem; }
+body.rtl h3 { font-size: 1.9rem; }
+body.rtl h4 { font-size: 1.6rem; }
+body.rtl h5 { font-size: 1.3rem; }
+body.rtl h6 { font-size: 1.1rem; }
+
+/* Section title specific styling */
+body.rtl .section-title p {
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+/* Form elements specific styling */
+body.rtl button, body.rtl input, body.rtl select, body.rtl textarea {
+    font-size: 1.1rem;
+}
+
+/* English text styling */
+body.ltr {
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    line-height: 1.5;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
@@ -99,11 +113,11 @@ body.ltr {
     /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
     --nav-dropdown-color: #737373;
     /* Used for navigation links of the dropdown items in the navigation menu. */
-    --nav-dropdown-hover-color: #AC8C64
-        /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+    --nav-dropdown-hover-color: #AC8C64;
+    /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the same color scheme. */
 
 .light-background {
     --background-color: #E6E6E6;

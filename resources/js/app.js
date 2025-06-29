@@ -3,7 +3,7 @@ import './bootstrap';
 
 (function() {
     "use strict";
-  
+
     /**
      * Apply .scrolled class to the body as the page is scrolled down
      */
@@ -13,22 +13,21 @@ import './bootstrap';
       if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
       window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
     }
-  
+
     document.addEventListener('scroll', toggleScrolled);
     window.addEventListener('load', toggleScrolled);
-  
+
     /**
      * Mobile nav toggle
      */
     const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-  
+
     function mobileNavToogle() {
       document.querySelector('body').classList.toggle('mobile-nav-active');
-      mobileNavToggleBtn.classList.toggle('bi-list');
-      mobileNavToggleBtn.classList.toggle('bi-x');
+
     }
     mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
-  
+
     /**
      * Hide mobile nav on same-page/hash links
      */
@@ -38,9 +37,9 @@ import './bootstrap';
           mobileNavToogle();
         }
       });
-  
+
     });
-  
+
     /**
      * Toggle mobile nav dropdowns
      */
@@ -52,7 +51,7 @@ import './bootstrap';
         e.stopImmediatePropagation();
       });
     });
-  
+
     /**
      * Preloader
      */
@@ -62,12 +61,12 @@ import './bootstrap';
         preloader.remove();
       });
     }
-  
+
     /**
      * Scroll top button
      */
     let scrollTop = document.querySelector('.scroll-top');
-  
+
     function toggleScrollTop() {
       if (scrollTop) {
         window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
@@ -80,10 +79,10 @@ import './bootstrap';
         behavior: 'smooth'
       });
     });
-  
+
     window.addEventListener('load', toggleScrollTop);
     document.addEventListener('scroll', toggleScrollTop);
-  
+
     /**
      * Animation on scroll function and init
      */
@@ -96,19 +95,19 @@ import './bootstrap';
       });
     }
     window.addEventListener('load', aosInit);
-  
+
     /**
      * Initiate glightbox
      */
     const glightbox = GLightbox({
       selector: '.glightbox'
     });
-  
+
     /**
      * Initiate Pure Counter
      */
     new PureCounter();
-  
+
     /**
      * Init swiper sliders
      */
@@ -117,7 +116,7 @@ import './bootstrap';
         let config = JSON.parse(
           swiperElement.querySelector(".swiper-config").innerHTML.trim()
         );
-  
+
         if (swiperElement.classList.contains("swiper-tab")) {
           initSwiperWithCustomPagination(swiperElement, config);
         } else {
@@ -125,9 +124,9 @@ import './bootstrap';
         }
       });
     }
-  
+
     window.addEventListener("load", initSwiper);
-  
+
     /**
      * Correct scrolling position upon page load for URLs containing hash links.
      */
@@ -145,12 +144,12 @@ import './bootstrap';
         }
       }
     });
-  
+
     /**
      * Navmenu Scrollspy
      */
     let navmenulinks = document.querySelectorAll('.navmenu a');
-  
+
     function navmenuScrollspy() {
       navmenulinks.forEach(navmenulink => {
         if (!navmenulink.hash) return;
@@ -167,5 +166,5 @@ import './bootstrap';
     }
     window.addEventListener('load', navmenuScrollspy);
     document.addEventListener('scroll', navmenuScrollspy);
-  
+
   })();

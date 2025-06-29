@@ -8,7 +8,7 @@
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <p style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}"><span>{{
+        <p><span>{{
                 __('contact.contact')}}</span> <span class="description-title">{{ __('contact.us')}}</span></p>
     </div><!-- End Section Title -->
     <div class="container px-4">
@@ -22,11 +22,9 @@
                 <div class="info-item d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
                     <i class="icon bi bi-geo-alt flex-shrink-0"></i>
                     <div>
-                        <h3
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <h3>
                             {{ __('contact.address') }}</h3>
-                        <p
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p>
                             {{$footer?->address}}</p>
                     </div>
                 </div>
@@ -36,11 +34,9 @@
                 <div class="info-item d-flex align-items-center" data-aos="fade-up" data-aos-delay="300">
                     <i class="icon bi bi-telephone flex-shrink-0"></i>
                     <div>
-                        <h3
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <h3>
                             {{ __('contact.call_us') }}</h3>
-                        <p
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p>
                             {{$footer?->phone}}</p>
                     </div>
                 </div>
@@ -50,11 +46,9 @@
                 <div class="info-item d-flex align-items-center" data-aos="fade-up" data-aos-delay="400">
                     <i class="icon bi bi-envelope flex-shrink-0"></i>
                     <div>
-                        <h3
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <h3>
                             {{ __('contact.email_us') }}</h3>
-                        <p
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p>
                             {{$footer?->email}}</p>
                     </div>
                 </div>
@@ -64,11 +58,9 @@
                 <div class="info-item d-flex align-items-center" data-aos="fade-up" data-aos-delay="500">
                     <i class="icon bi bi-clock flex-shrink-0"></i>
                     <div>
-                        <h3
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <h3>
                             {{ __('contact.opening_hours') }}<br></h3>
-                        <p
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p>
                             {{$footer?->opening_hours}}</p>
                     </div>
                 </div>
@@ -82,41 +74,33 @@
 
                 <div class="col-md-6">
                     <input type="text" name="name_{{ app()->getLocale() }}" class="form-control ps-3"
-                        placeholder="{{ __('contact.your_name') }}" required=""
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        placeholder="{{ __('contact.your_name') }}" required="">
                 </div>
 
                 <div class="col-md-6 ">
                     <input type="email" class="form-control ps-3" name="email"
-                        placeholder="{{ __('contact.your_email') }}"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        placeholder="{{ __('contact.your_email') }}">
                 </div>
 
                 <div class="col-md-12">
                     <input type="text" class="form-control ps-3" name="subject_{{ app()->getLocale() }}"
-                        placeholder="{{ __('contact.subject') }}" required=""
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        placeholder="{{ __('contact.subject') }}" required="">
                 </div>
 
                 <div class="col-md-12">
                     <textarea class="form-control ps-3" name="message_{{ app()->getLocale() }}" rows="6"
-                        placeholder="{{ __('contact.message') }}" required=""
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}"></textarea>
+                        placeholder="{{ __('contact.message') }}" required="">
                 </div>
 
                 <div class="col-md-12 text-center">
-                    <div class="loading"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <div class="loading">
                         {{ __('contact.loading') }}</div>
-                    <div class="error-message"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <div class="error-message">
                         {{ __('contact.error_message') }}</div>
-                    <div class="sent-message"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <div class="sent-message">
                         {{ __('contact.sent_message') }}</div>
 
-                    <button type="submit"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{
+                    <button type="submit">
                         __('contact.send_message') }}</button>
                 </div>
 

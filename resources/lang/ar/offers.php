@@ -26,5 +26,10 @@ return [
     'image' => 'الصورة',
     'update_offer' => 'تحديث العرض',
     'cancel' => 'إلغاء',
-    'category' => 'الفئة'
+    'category' => 'الفئة',
+    'content' => 'محتوى',
+    'settings' => 'إعدادات',
+    'basic_info' => 'معلومات اساسية',
+    'offer_content' => 'محتويات العرض'
+
 ];

@@ -34,5 +34,7 @@ return [
     'add_new_menu_item' => 'Add New Menu Item',
     'no_image_available' => 'No image available',
     'no_menu_items' => 'No menu items found in this category',
+    'menu_items' => 'Menu Items in this category'
+
 ];
 

@@ -27,4 +27,7 @@ return [
     'about_section' => 'About Section',
     'no_gallery_images' => 'No gallery images available.',
 
+    'add_point_ar' => 'Add point (Arabic)',
+    'add_point_en' => 'Add point (English)',
+
 ];

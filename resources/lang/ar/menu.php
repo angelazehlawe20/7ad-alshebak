@@ -31,4 +31,9 @@ return [
     'edit_menu_item' => 'تعديل عنصر في قائمة الطعام',
     'update_item' => 'تحديث',
 
+    'basic_info' => 'معلومات اساسية',
+    'description_and_image' => 'الوصف والصورة',
+    'item_image' => 'صورة العنصر',
+    'category_and_price' => 'التصنيف والسعر',
+    'item_content' => 'محتوى العنصر',
 ];

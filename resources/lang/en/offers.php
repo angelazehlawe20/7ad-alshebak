@@ -27,4 +27,9 @@ return [
     'update_offer' => 'Update Offer',
     'cancel' => 'Cancel',
     'category' => 'Category',
+    'content' => 'Content',
+    'settings' => 'Settings',
+    'basic_info' => 'Basic Info',
+    'offer_content' => 'Offer Content'
+
 ];

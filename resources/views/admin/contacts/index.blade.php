@@ -6,18 +6,22 @@
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2"></div>
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"><i class="fas fa-envelope"></i> {{ __('contact.messages_list') }}</h1>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="content">
-        <div class="container-fluid">
+    <section class="content">
+        <div class="container-fluid px-0">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card bg-beige card-outline">
+                        <div class="card-header bg-light">
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                                <h3 class="card-title m-0">{{ __('contact.messages_list') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-inbox mr-2"></i>{{ __('contact.messages_list') }}</h3>
                                 <div class="btn-group flex-wrap" role="group" aria-label="Filter messages">
                                     <a href="{{ request()->url() }}"
                                         class="btn {{ !request('filter') ? 'btn-primary' : 'btn-outline-primary' }}">
@@ -35,7 +39,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" style="background-color: #f5f5dc;">
                             <div class="row g-4">
                                 @forelse ($contacts as $contact)
                                 <div class="col-12 col-sm-6 col-lg-4">
@@ -111,11 +115,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script src="{{ asset('assets/js/contactAdminPage.js') }}"></script>
-@endpush
+@endsection

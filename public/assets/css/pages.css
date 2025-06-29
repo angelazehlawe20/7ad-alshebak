@@ -122,12 +122,6 @@
     margin-bottom: 0;
 }
 
-.about .pulsating-play-btn {
-    position: absolute;
-    left: calc(50% - 47px);
-    top: calc(50% - 47px);
-}
-
 /*--------------------------------------------------------------
 # offers Section
 --------------------------------------------------------------*/

@@ -31,8 +31,9 @@ class AboutController extends Controller
         $about->main_text_ar = $request->main_text_ar;
         $about->why_title_en = $request->why_title_en;
         $about->why_title_ar = $request->why_title_ar;
-        $about->why_points_en = json_encode(array_filter($request->why_points_en));
-        $about->why_points_ar = json_encode(array_filter($request->why_points_ar));
+        $about->why_points_en = json_encode(array_filter((array) $request->why_points_en));
+        $about->why_points_ar = json_encode(array_filter((array) $request->why_points_ar));
+
 
         // الصور الحالية بعد الحذف
         $existingImages = json_decode($request->input('existing_images'), true) ?? [];

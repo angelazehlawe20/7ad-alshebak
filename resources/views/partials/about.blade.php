@@ -1,6 +1,6 @@
 <section id="about" class="about section">
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <p style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+        <p>
             <span>{{ __('about.who') }}</span> <span class="description-title">{{ __('about.we_are') }}</span>
         </p>
     </div>
@@ -47,19 +47,17 @@
                 {{-- About Text --}}
                 <div class="col-lg-6">
                     <div class="content ps-0 ps-lg-5">
-                        <p class="text-center lead"
-                            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
-                            {{ app()->getLocale() === 'ar' ? ($about->main_text_ar ?? __('about.no_about')) :
-                            ($about->main_text_en ?? __('about.no_about')) }}
+                        <p class="text-center lead">
+                            {!! app()->getLocale() === 'ar' ? nl2br(e($about->main_text_ar ?? __('about.no_about'))) :
+                            nl2br(e($about->main_text_en ?? __('about.no_about'))) !!}
                         </p>
                     </div>
                 </div>
 
                 {{-- Why Choose Us --}}
                 <div class="col-lg-6">
-                    <div class="why-box bg-dark text-white rounded p-4">
-                        <h3 class="section-title mb-4"
-                            style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <div class="why-box p-4" style="border-radius: 90px 0 90px 0; background-color: #F5F5DC; color: #333;">
+                        <h3 class="section-title mb-4" style="color: #4a4a4a;">
                             {{ app()->getLocale() === 'ar' ? ($about->why_title_ar ?? __('about.why_choose_us')) :
                             ($about->why_title_en ?? __('about.why_choose_us')) }}
                         </h3>
@@ -70,11 +68,10 @@
                             json_decode($about->why_points_en ?? '[]');
                             @endphp
                             @forelse($points as $point)
-                            <li class="mb-3"
-                                style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                            <li class="mb-3">
                                 <i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
                             @empty
-                            <li class="text-muted" style="font-family: {{ app()->getLocale() === 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">{{__('about.no_points')}}.</li>
+                            <li class="text-muted">{{__('about.no_points')}}</li>
                             @endforelse
                         </ul>
                     </div>

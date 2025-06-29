@@ -7,12 +7,12 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         @if(app()->getLocale() == 'ar')
-        <p style="font-family: var(--arabic-font)">
+        <p>
             <span>{{ __('offers.offers') }}</span>
             <span class="description-title">{{ __('offers.brand_name') }}</span>
         </p>
         @else
-        <p style="font-family: var(--english-font)">
+        <p>
             <span>{{ __('offers.brand_name') }}</span>
             <span class="description-title">{{ __('offers.offers') }}</span>
         </p>
@@ -23,15 +23,11 @@
         <!-- Category Filter -->
         <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
             <div class="col-md-6 mx-auto">
-                <select class="form-select" id="categoryFilter"
-                    style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
-                    <option value=""
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                <select class="form-select" id="categoryFilter">
+                    <option value="">
                         {{ __('offers.all_categories') }}</option>
                     @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : '' }}
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)'
-                        }}">
+                    <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : '' }}>
                         {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
                     </option>
                     @endforeach
@@ -49,33 +45,33 @@
                         alt="{{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title_en }}">
 
                     <div class="card-body d-flex flex-column">
-                        <h3 class="card-title h5 mb-2"
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <h3 class="card-title h5 mb-2">
                             {{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title_en }}
                         </h3>
 
-                        <p class="card-text mb-2"
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p class="card-text mb-2">
                             {{ app()->getLocale() == 'ar' ? $offer->description_ar : $offer->description_en }}
                         </p>
 
                         @if($offer->valid_until)
-                        <p class="text-muted mb-1"
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
-                            <i class="far fa-calendar-alt me-2"></i>
-                            {{ __('offers.valid_until') }}: {{ $offer->valid_until->format('Y-m-d h:i A') }}
-                        </p>
+                        <div class="text-muted mb-1">
+                            <p class="mb-0">
+                                <i class="far fa-calendar-alt me-2"></i>
+                                {{ __('offers.valid_until') }}:<br> {{ $offer->valid_until->format('Y-m-d') }}
+                            </p>
+                            <p class="mb-1 ms-4">
+                                {{ $offer->valid_until->format('h:i:s A') }}
+                            </p>
+                        </div>
                         @endif
 
-                        <p class="text-muted mb-1"
-                            style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p class="text-muted mb-1">
                             <i class="fas fa-tag me-2"></i>
                             {{ __('offers.category') }}:
                             {{ app()->getLocale() == 'ar' ? $offer->category->name_ar : $offer->category->name_en }}
                         </p>
 
-                        <p class="card-price fw-bold fs-5 mt-auto"
-                            style="color: #AC8C64; font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                        <p class="card-price fw-bold fs-5 mt-auto" style="color: #AC8C64;">
                             {{ number_format($offer->price) }} $
                         </p>
                     </div>
@@ -85,8 +81,7 @@
             <div class="col-12">
                 <div class="text-center py-5">
                     <i class="fas fa-tag fa-4x text-secondary mb-3"></i>
-                    <h4 class="text-secondary"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h4 class="text-secondary">
                         {{ __('offers.no_offers') }}</h4>
                 </div>
             </div>

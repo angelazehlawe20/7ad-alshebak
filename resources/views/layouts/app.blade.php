@@ -69,8 +69,8 @@ body[dir="ltr"] {
 
 /* تكبير العناوين والنصوص المهمة بشكل متدرج */
 body[dir="rtl"] h1 {
-    font-size: 3.2rem !important;  /* عنوان رئيسي كبير */
-    font-weight: 700;
+    font-size: 2.2rem !important;  /* عنوان رئيسي كبير */
+    font-weight: 600;
 }
 
 body[dir="rtl"] h2 {

@@ -32,4 +32,13 @@ return [
     'edit_menu_item' => 'Edit Menu Item',
     'update_item' => 'Update Item',
 
+    'basic_info' => 'Basic Info',
+    'description_and_image' => 'Description And Image',
+    'item_image' => 'Item Image',
+    'category_and_price' => 'Category And Price',
+    'item_content' => 'Item Content',
+
+
+
+
 ];

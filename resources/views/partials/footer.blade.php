@@ -4,11 +4,9 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-geo-alt icon"></i>
                 <div class="address">
-                    <h4 class="mb-2"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h4 class="mb-2">
                         {{ __('footer.address') }}</h4>
-                    <p
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <p>
                         {!! nl2br($footer?->address) !!}</p>
                 </div>
             </div>
@@ -16,11 +14,9 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-telephone icon"></i>
                 <div>
-                    <h4 class="mb-2"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h4 class="mb-2">
                         {{ __('footer.contact') }}</h4>
-                    <p
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <p>
                         <strong>{{ __('footer.phone') }}:</strong> <span>{{ $footer?->phone }}</span><br>
                         <strong>{{ __('footer.email') }}:</strong> <span>{{ $footer?->email }}</span><br>
                     </p>
@@ -30,18 +26,15 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-clock icon"></i>
                 <div>
-                    <h4 class="mb-2"
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <h4 class="mb-2">
                         {{ __('footer.opening_hours') }}</h4>
-                    <p
-                        style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                    <p>
                         {!! $footer?->opening_hours !!}</p>
                 </div>
             </div>
 
             <div class="col-lg-3 col-md-6">
-                <h4 class="mb-3"
-                    style="font-family: {{ app()->getLocale() == 'ar' ? 'var(--arabic-font)' : 'var(--english-font)' }}">
+                <h4 class="mb-3">
                     {{ __('footer.follow_us') }}</h4>
                 <div class="social-links d-flex gap-2">
                     <a href="{{ $footer?->facebook_url }}" class="facebook 1"
