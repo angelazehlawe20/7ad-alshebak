@@ -44,6 +44,21 @@
     animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
 
+.background-swiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.bg-cover {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+
 @media (max-width: 640px) {
     .hero h1 {
         font-size: 28px;
@@ -147,7 +162,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: var( --accent-color);
+    color: var(--accent-color);
     /* غير اللون حسب التصميم */
     top: 50%;
     transform: translateY(-50%);
@@ -272,6 +287,7 @@
         transition: none;
     }
 }
+
 /* ضبط شكل الصور داخل السلايدر */
 .about .swiper-slide {
     width: auto;
@@ -301,6 +317,8 @@
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
+
+
 .contact .info-item {
     background-color: tr;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.07);
@@ -401,4 +419,5 @@
 .contact .php-email-form button[type=submit]:hover {
     background: #9c7a52;
 }
+
 /*--------------------------------------------------------------

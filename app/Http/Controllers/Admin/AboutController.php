@@ -25,6 +25,16 @@ class AboutController extends Controller
     // تحديث بيانات about
     public function update(Request $request)
     {
+        $request->validate([
+            'main_text_en' => 'nullable|string|max:1000',
+            'main_text_ar' => 'nullable|string|max:1000',
+            'why_title_en' => 'nullable|string|max:255',
+            'why_title_ar' => 'nullable|string|max:255',
+            'why_points_en' => 'nullable|array',
+            'why_points_ar' => 'nullable|array',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
         $about = About::first() ?? new About();
 
         $about->main_text_en = $request->main_text_en;
@@ -33,7 +43,6 @@ class AboutController extends Controller
         $about->why_title_ar = $request->why_title_ar;
         $about->why_points_en = json_encode(array_filter((array) $request->why_points_en));
         $about->why_points_ar = json_encode(array_filter((array) $request->why_points_ar));
-
 
         // الصور الحالية بعد الحذف
         $existingImages = json_decode($request->input('existing_images'), true) ?? [];
@@ -49,15 +58,15 @@ class AboutController extends Controller
         }
 
         // إضافة الصور الجديدة
-        if ($request->hasFile('new_gallery_images')) {
-            foreach ($request->file('new_gallery_images') as $file) {
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $file) {
                 $filename = uniqid() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('images/gallery'), $filename);
                 $existingImages[] = 'images/gallery/' . $filename;
             }
         }
 
-        $about->gallery_images = json_encode($existingImages);
+        $about->gallery_images = json_encode(array_values($existingImages)); // ترتيب جديد
         $about->save();
 
         return redirect()->back()->with('success', __('about.updated_message'));
@@ -67,8 +76,8 @@ class AboutController extends Controller
     public function updateImage(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'original_image' => 'required|string'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'original_image' => 'nullable|string'
         ]);
 
         $oldImage = $request->original_image;
@@ -105,16 +114,15 @@ class AboutController extends Controller
         ]);
     }
 
-
     public function createAbout(Request $request)
     {
         $request->validate([
-            'main_text_en' => 'required|string|max:1000',
-            'main_text_ar' => 'required|string|max:1000',
-            'why_title_en' => 'required|string|max:255',
-            'why_title_ar' => 'required|string|max:255',
-            'why_points_en' => 'required|array',
-            'why_points_ar' => 'required|array',
+            'main_text_en' => 'nullable|string|max:1000',
+            'main_text_ar' => 'nullable|string|max:1000',
+            'why_title_en' => 'nullable|string|max:255',
+            'why_title_ar' => 'nullable|string|max:255',
+            'why_points_en' => 'nullable|array',
+            'why_points_ar' => 'nullable|array',
             'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 

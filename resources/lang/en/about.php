@@ -29,5 +29,6 @@ return [
 
     'add_point_ar' => 'Add point (Arabic)',
     'add_point_en' => 'Add point (English)',
+    'about_content' => 'Who we are Content',
 
 ];

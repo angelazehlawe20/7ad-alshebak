@@ -50,39 +50,70 @@ body.ltr input, body.ltr select, body.ltr textarea, body.ltr label {
     font-family: var(--english-font) !important;
 }
 
-/* Arabic text styling improvements */
+/* Arabic text styling improvements - INCREASED SIZES */
 body.rtl {
-    font-size: 1.1em;
+    font-size: 1.3em;  /* Increased from 1.1em */
     font-weight: 600;
     letter-spacing: 0.5px;
     line-height: 1.6;
 }
 
-/* Specific size adjustments for Arabic headings */
-body.rtl h1 { font-size: 2.5rem; }
-body.rtl h2 { font-size: 2.2rem; }
-body.rtl h3 { font-size: 1.9rem; }
-body.rtl h4 { font-size: 1.6rem; }
-body.rtl h5 { font-size: 1.3rem; }
-body.rtl h6 { font-size: 1.1rem; }
+/* Specific size adjustments for Arabic headings - INCREASED SIZES */
+body.rtl h1 { font-size: 2.8rem; }  /* Increased from 2.5rem */
+body.rtl h2 { font-size: 2.5rem; }  /* Increased from 2.2rem */
+body.rtl h3 { font-size: 2.2rem; }  /* Increased from 1.9rem */
+body.rtl h4 { font-size: 1.9rem; }  /* Increased from 1.6rem */
+body.rtl h5 { font-size: 1.6rem; }  /* Increased from 1.3rem */
+body.rtl h6 { font-size: 1.3rem; }  /* Increased from 1.1rem */
 
-/* Section title specific styling */
+/* Section title specific styling - INCREASED SIZE */
 body.rtl .section-title p {
-    font-size: 2.4rem;
+    font-size: 2.7rem;  /* Increased from 2.4rem */
     font-weight: 700;
 }
 
-/* Form elements specific styling */
+/* Form elements specific styling - INCREASED SIZE */
 body.rtl button, body.rtl input, body.rtl select, body.rtl textarea {
-    font-size: 1.1rem;
+    font-size: 1.3rem;  /* Increased from 1.1rem */
 }
 
-/* English text styling */
+/* English text styling - INCREASED SIZE */
 body.ltr {
-    font-size: 1rem;
+    font-size: 1.2rem;  /* Increased from 1rem */
     font-weight: 400;
     letter-spacing: 0.2px;
     line-height: 1.5;
+}
+
+/* English heading sizes - NEW ADDITION */
+body.ltr h1 { font-size: 2.2rem; }
+body.ltr h2 { font-size: 1.8rem; }
+body.ltr h3 { font-size: 1.5rem; }
+body.ltr h4 { font-size: 1.3rem; }
+body.ltr h5 { font-size: 1.1rem; }
+body.ltr h6 { font-size: 1rem; }
+
+/* Form elements for English - NEW ADDITION */
+body.ltr button, body.ltr input, body.ltr select, body.ltr textarea {
+    font-size: 1.1rem;
+}
+
+/* Small text elements - NEW ADDITION */
+.small, small, .text-muted {
+    font-size: 90% !important;
+}
+
+/* Responsive adjustments - NEW ADDITION */
+@media (max-width: 768px) {
+    body.rtl {
+        font-size: 1.2em;
+    }
+    body.ltr {
+        font-size: 1.1rem;
+    }
+    body.rtl h1 { font-size: 2.5rem; }
+    body.rtl h2 { font-size: 2.2rem; }
+    body.rtl h3 { font-size: 1.9rem; }
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */

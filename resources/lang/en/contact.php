@@ -31,5 +31,7 @@ return [
     'delete_confirm_yes' => 'Yes, delete it.!',
     'status' => 'Message Status',
     'sent_at' => 'Sent At:',
+    'contact_details' => 'Contact Details'
+
 
 ];

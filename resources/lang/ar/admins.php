@@ -54,5 +54,10 @@ return [
     'error_deleted_message' => 'لا يمكنك حذف حسابك الخاص.',
     'Admin_deleted_message' => 'تم حذف المشرف بنجاح.',
 
+    'personal_info' => 'المعلومات الشخصية',
+    'password_section' => 'كلمة المرور',
+    'profile_details' => 'تفاصيل الملف الشخصي',
+
+
 
 ];

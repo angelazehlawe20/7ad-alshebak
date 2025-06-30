@@ -7,6 +7,8 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+
 
 class AdminController extends Controller
 {
@@ -45,36 +47,32 @@ class AdminController extends Controller
         return view("admin.admin_profile.index");
     }
 
-    public function update(Request $request, Admin $admin)
-    {
-        // السماح فقط بتعديل الحساب الشخصي أو في حال كان المستخدم مالكًا للنظام
-        if ($admin->id !== auth()->guard('admin')->id() && !auth()->guard('admin')->user()->is_owner) {
-            abort(403, __('errors.unauthorized'));
-        }
+    public function update(Request $request)
+{
+     /** @var \App\Models\Admin $admin */
+    $admin = auth()->guard('admin')->user(); // جلب المشرف الحالي
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255' . $admin->id,
-            'old_password' => 'nullable|string',
-            'password' => 'nullable|string|confirmed|min:6'
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('admins', 'email')->ignore($admin->id),
+        ],
+        'password' => 'nullable|string|confirmed|min:6',
+    ]);
 
-        // تحقق من كلمة المرور القديمة إذا كان هناك طلب تغيير كلمة المرور
-        if ($request->filled('password')) {
-            if (!Hash::check($request->old_password, $admin->password)) {
-                return back()->withErrors([
-                    'old_password' => __('validation.custom.old_password')
-                ])->withInput();
-            }
+    $admin->name = $request->name;
+    $admin->email = $request->email;
 
-            $admin->password = Hash::make($request->password);
-        }
-
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-        $admin->save();
-
-        return redirect()->route('admin.profile.index')
-                         ->with('success', __('admins.updated_message'));
+    if ($request->filled('password')) {
+        $admin->password = Hash::make($request->password);
     }
+
+    $admin->save();
+
+    return redirect()->route('admin.profile.index')->with('success', __('admins.updated_message'));
+}
+
 }

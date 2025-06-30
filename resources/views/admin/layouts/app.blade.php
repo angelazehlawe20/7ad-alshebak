@@ -98,6 +98,91 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <style>
+        /* === INCREASED FONT SIZES FOR ADMIN PANEL === */
+        body.rtl {
+            font-size: 22px;
+            line-height: 1.8;
+        }
+
+        body.ltr {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Sidebar navigation links */
+        .sidebar .nav-link {
+            font-size: 18px !important;
+        }
+
+        /* Table content */
+        table th, table td {
+            font-size: 16px !important;
+        }
+
+        /* Form elements */
+        .form-control, .form-select, .btn, label {
+            font-size: 16px !important;
+        }
+
+        /* Headings */
+        h1, .h1 {
+            font-size: 2.2rem !important;
+        }
+
+        h2, .h2 {
+            font-size: 1.8rem !important;
+        }
+
+        h3, .h3 {
+            font-size: 1.5rem !important;
+        }
+
+        /* Arabic specific adjustments */
+        body.rtl .sidebar .nav-link {
+            font-size: 20px !important;
+        }
+
+        body.rtl table th, body.rtl table td {
+            font-size: 18px !important;
+        }
+
+        body.rtl .form-control, body.rtl .form-select, body.rtl .btn, body.rtl label {
+            font-size: 18px !important;
+        }
+
+        body.rtl h1, body.rtl .h1 {
+            font-size: 2.5rem !important;
+        }
+
+        body.rtl h2, body.rtl .h2 {
+            font-size: 2.2rem !important;
+        }
+
+        body.rtl h3, body.rtl .h3 {
+            font-size: 1.8rem !important;
+        }
+
+        /* Small text elements */
+        .small, small, .text-muted {
+            font-size: 90% !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body.rtl {
+                font-size: 20px;
+            }
+
+            body.rtl .sidebar .nav-link,
+            body.rtl .form-control,
+            body.rtl .form-select,
+            body.rtl .btn,
+            body.rtl label {
+                font-size: 16px !important;
+            }
+        }
+    </style>
     <script>
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('sidebarOverlay');

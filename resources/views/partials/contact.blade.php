@@ -25,7 +25,8 @@
                         <h3>
                             {{ __('contact.address') }}</h3>
                         <p>
-                            {{$footer?->address}}</p>
+                            {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
+                        </p>
                     </div>
                 </div>
             </div><!-- End Info Item -->
@@ -86,12 +87,10 @@
                     <input type="text" class="form-control ps-3" name="subject_{{ app()->getLocale() }}"
                         placeholder="{{ __('contact.subject') }}" required="">
                 </div>
-
                 <div class="col-md-12">
                     <textarea class="form-control ps-3" name="message_{{ app()->getLocale() }}" rows="6"
-                        placeholder="{{ __('contact.message') }}" required="">
+                        placeholder="{{ __('contact.message') }}" required="" style="white-space: pre-wrap;"></textarea>
                 </div>
-
                 <div class="col-md-12 text-center">
                     <div class="loading">
                         {{ __('contact.loading') }}</div>
@@ -101,7 +100,7 @@
                         {{ __('contact.sent_message') }}</div>
 
                     <button type="submit">
-                        __('contact.send_message') }}</button>
+                        {{__('contact.send_message') }}</button>
                 </div>
 
             </div>

@@ -81,7 +81,7 @@ body {
 /* توسيط العنوان بجانب اللوغو */
 .header .sitename {
     line-height: 1;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .header .logo h1 {

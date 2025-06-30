@@ -7,6 +7,7 @@ use App\Models\Hero_Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+
 class HeroController extends Controller
 {
     public function index()
@@ -29,11 +30,11 @@ class HeroController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_ar' => 'required|string|max:255',
-            'main_text_en' => 'required|string',
-            'main_text_ar' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'title_en' => 'nullable|string|max:255',
+            'title_ar' => 'nullable|string|max:255',
+            'main_text_en' => 'nullable|string',
+            'main_text_ar' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $data = $validated;
@@ -57,38 +58,38 @@ class HeroController extends Controller
     }
 
     public function update(Request $request)
-{
-    $hero = Hero_Page::first();
+    {
+        $hero = Hero_Page::first();
 
-    $validated = $request->validate([
-        'title_en' => 'required|string|max:255',
-        'title_ar' => 'required|string|max:255',
-        'main_text_en' => 'required|string',
-        'main_text_ar' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ]);
+        $validated = $request->validate([
+            'title_en' => 'nullable|string|max:255',
+            'title_ar' => 'nullable|string|max:255',
+            'main_text_en' => 'nullable|string',
+            'main_text_ar' => 'nullable|string',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-    $data = $validated;
+        $data = $validated;
 
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/hero'), $imageName);
-        $data['image'] = 'images/hero/' . $imageName;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/hero'), $imageName);
+            $data['image'] = 'images/hero/' . $imageName;
 
-        if ($hero && $hero->image && File::exists(public_path($hero->image))) {
-            File::delete(public_path($hero->image));
+            if ($hero && $hero->image && File::exists(public_path($hero->image))) {
+                File::delete(public_path($hero->image));
+            }
         }
-    }
 
-    if ($hero) {
-        $hero->update($data);
-    } else {
-        Hero_Page::create($data);
-    }
+        if ($hero) {
+            $hero->update($data);
+        } else {
+            Hero_Page::create($data);
+        }
 
-    return redirect()->back()->with('success', __('hero.updated_success_message'));
-}
+        return redirect()->back()->with('success', __('hero.updated_success_message'));
+    }
 
 
     public function updateImage(Request $request)

@@ -3,7 +3,7 @@
         <!-- Header -->
         <div class="p-4 fw-bold text-center border-bottom">
             <h4 class="mb-1">
-                {{ app()->getLocale() == 'en' ? $heroPage->title_en : $heroPage->title_ar }}
+                {{ app()->getLocale() == 'en' ? ($heroPage->title_en ?? 'Had alshebak') : ($heroPage->title_ar ?? 'حد الشباك') }}
             </h4>
             <p class="text-muted small mb-0">{{ __('messages.admin_dashboard') }}</p>
         </div>

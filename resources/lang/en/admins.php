@@ -56,5 +56,9 @@ return [
     'error_deleted_message' => 'You cannot delete your own account.',
     'Admin_deleted_message' => 'Admin deleted successfully.',
 
+    'personal_info' => 'Personal Info',
+    'password_section' => 'Password',
+    'profile_details' => 'Profile Details',
+
 
 ];

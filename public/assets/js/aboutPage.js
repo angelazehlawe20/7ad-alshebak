@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    
     const { updateUrl, csrfToken } = window.aboutPageConfig || {};
 
     const editBtn = document.getElementById('editBtn');

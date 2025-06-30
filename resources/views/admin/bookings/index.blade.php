@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-calendar-check"></i> {{ __('book.bookings_management') }}</h1>
+                    <h1 class="m-0"><i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}</h1>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             {{-- Status Filter --}}
             <div class="card bg-beige card-outline mb-4">
                 <div class="card-header bg-light">
-                    <h3 class="card-title"><i class="fas fa-filter mr-2"></i>{{ __('book.filter_by_status') }}</h3>
+                    <h3 class="card-title"><i class="fas fa-filter me-2"></i>{{ __('book.filter_by_status') }}</h3>
                 </div>
                 <div class="card-body" style="background-color: #f5f5dc;">
                     <form method="GET" action="{{ route('admin.bookings.index') }}"
@@ -46,7 +46,6 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card bg-beige card-outline h-100">
                         <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                            <span class="fw-bold">#{{ $loop->iteration }}</span>
                             @php
                             $statusColors = [
                                 'pending' => 'warning',
@@ -101,7 +100,7 @@
                                     @method('PUT')
                                     <input type="hidden" name="status" value="confirmed">
                                     <button type="submit" class="btn btn-outline-success btn-sm w-100">
-                                        <i class="fas fa-check"></i> {{ __('book.confirm') ?? 'Confirm' }}
+                                        <i class="fas fa-check me-1"></i>{{ __('book.confirm') ?? 'Confirm' }}
                                     </button>
                                 </form>
 
@@ -110,7 +109,7 @@
                                     @method('PUT')
                                     <input type="hidden" name="status" value="cancelled">
                                     <button type="submit" class="btn btn-outline-danger btn-sm w-100">
-                                        <i class="fas fa-times"></i> {{ __('book.reject') ?? 'Reject' }}
+                                        <i class="fas fa-times me-1"></i>{{ __('book.reject') ?? 'Reject' }}
                                     </button>
                                 </form>
                             </div>

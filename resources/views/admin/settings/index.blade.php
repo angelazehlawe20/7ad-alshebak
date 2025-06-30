@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-cogs"></i> {{ __('settings.site_settings') }}</h1>
+                    <h1 class="m-0"><i class="fas fa-cogs me-2"></i> {{ __('settings.site_settings') }}</h1>
                 </div>
             </div>
         </div>
@@ -20,11 +20,11 @@
                 @csrf
                 @method('PUT')
 
-                <div class="row">
+                <div class="row gy-4"> <!-- Added gy-4 class for vertical spacing -->
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-address-card mr-2"></i>{{ __('settings.contact_information') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-address-card me-2"></i> {{ __('settings.contact_information') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -73,7 +73,7 @@
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-share-alt mr-2"></i>{{ __('settings.social_media_logo') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-share-alt me-2"></i> {{ __('settings.social_media_logo') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -130,14 +130,14 @@
 
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" id="editBtn" class="btn btn-primary btn-lg">
-                            <i class="fas fa-edit mr-2"></i> {{ __('settings.edit_settings') }}
+                        <button type="button" id="editBtn" class="btn btn-lg" style="background-color: #8B7355; color: white;">
+                            <i class="fas fa-edit me-2"></i> {{ __('settings.edit_settings') }}
                         </button>
                         <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none">
-                            <i class="fas fa-save mr-2"></i> {{ __('settings.save_changes') }}
+                            <i class="fas fa-save me-2"></i> {{ __('settings.save_changes') }}
                         </button>
                         <button type="button" id="cancelBtn" class="btn btn-secondary btn-lg d-none">
-                            <i class="fas fa-times mr-2"></i> {{ __('settings.cancel') }}
+                            <i class="fas fa-times me-2"></i> {{ __('settings.cancel') }}
                         </button>
                     </div>
                 </div>

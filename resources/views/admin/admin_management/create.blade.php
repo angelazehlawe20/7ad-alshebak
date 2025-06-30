@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-user-plus"></i> {{ __('admins.add_heading') }}</h1>
+                    <h1 class="m-0"><i class="fas fa-user-plus"></i>&nbsp; {{ __('admins.add_heading') }}</h1>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="col-12">
                     <div class="card bg-beige card-outline">
                         <div class="card-header bg-light">
-                            <h3 class="card-title"><i class="fas fa-user-shield mr-2"></i>{{ __('admins.add_heading') }}</h3>
+                            <h3 class="card-title"><i class="fas fa-user-shield"></i>&nbsp; {{ __('admins.add_heading') }}</h3>
                         </div>
                         <div class="card-body" style="background-color: #f5f5dc;">
                             <form action="{{ route('admin.admins.store') }}" method="POST">
@@ -62,10 +62,10 @@
                                 <div class="row mt-4">
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-success btn-lg">
-                                            <i class="fas fa-save mr-2"></i> {{ __('admins.save') }}
+                                            <i class="fas fa-save"></i>&nbsp; {{ __('admins.save') }}
                                         </button>
                                         <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary btn-lg">
-                                            <i class="fas fa-times mr-2"></i> {{ __('admins.cancel') }}
+                                            <i class="fas fa-times"></i>&nbsp; {{ __('admins.cancel') }}
                                         </a>
                                     </div>
                                 </div>

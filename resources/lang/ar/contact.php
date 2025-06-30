@@ -31,4 +31,5 @@ return [
     'delete_confirm_yes' => 'نعم، احذفها!',
     'status' => 'حالة الرسالة',
     'sent_at' => 'أرسلت في:',
+    'contact_details' => 'تفاصيل الرسالة'
 ];

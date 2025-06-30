@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('is_owner')->default(false);
+            $table->boolean('is_owner')->default(false); // <-- مدمج هنا
+            $table->rememberToken(); 
             $table->timestamps();
         });
     }

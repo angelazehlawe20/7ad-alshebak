@@ -167,7 +167,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::controller(AdminController::class)->group(function () {
         Route::post('/logout', 'logout')->name('logout');
         Route::get('/profile', 'index')->name('profile.index');
-        Route::put('/profile/update', 'update')->name('profile.update');
+        Route::put('/profile', 'update')->name('profile.update');
     });
 
     // Admin Management (Owner Only)

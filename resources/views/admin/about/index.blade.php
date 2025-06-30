@@ -16,39 +16,43 @@
 
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.about.update') }}" method="POST" id="aboutForm" enctype="multipart/form-data">
+            <form action="{{ route('admin.about.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
+                <!-- حقل مخفي يحتوي الصور الموجودة -->
+                <input type="hidden" name="existing_images" id="existingImagesInput" value="{{ $about->gallery_images }}">
+
                 <div class="row gy-4">
+                    <!-- معرض الصور -->
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
                                 <h3 class="card-title"><i class="fas fa-images mr-2"></i>&nbsp;{{ __('about.gallery_images') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
-                                <div class="gallery-preview mb-3">
+                                <div class="gallery-preview mb-3 row" id="existingGallery">
                                     @forelse(json_decode($about->gallery_images ?? '[]') as $image)
-                                        <div class="col-md-6 mb-2">
+                                        <div class="col-md-6 mb-2 existing-image-wrapper">
                                             <img src="{{ asset($image) }}" class="img-fluid rounded shadow gallery-image"
                                                 style="width: 100%; height: 150px; object-fit: cover;">
+                                            <button type="button" class="btn btn-sm btn-danger mt-1 remove-image-btn" data-path="{{ $image }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     @empty
                                         <p class="text-muted">{{ __('about.no_gallery_images') }}</p>
                                     @endforelse
                                 </div>
+
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-sm btn-secondary d-none" id="uploadImagesBtn">
-                                        <i class="fas fa-edit"></i>&nbsp;{{ __('about.edit') }}
-                                    </button>
-                                    <input type="file" class="d-none" name="gallery_images[]" id="newGalleryImages"
-                                        multiple accept="image/*">
-                                    <div id="imagePreviewContainer" class="mt-2"></div>
+                                    <input type="file" name="gallery_images[]" class="form-control" multiple accept="image/*">
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- النصوص -->
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
@@ -57,23 +61,23 @@
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('about.main_text_en') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_en" disabled rows="3">{{ $about->main_text_en ?? '' }}</textarea>
+                                    <textarea class="form-control" name="main_text_en" rows="3">{{ $about->main_text_en ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('about.main_text_ar') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_ar" disabled rows="3">{{ $about->main_text_ar ?? '' }}</textarea>
+                                    <textarea class="form-control" name="main_text_ar" rows="3">{{ $about->main_text_ar ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('about.why_title_en') }}</strong></label>
-                                    <input type="text" class="form-control" name="why_title_en" disabled
+                                    <input type="text" class="form-control" name="why_title_en"
                                         value="{{ $about->why_title_en ?? '' }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('about.why_title_ar') }}</strong></label>
-                                    <input type="text" class="form-control" name="why_title_ar" disabled
+                                    <input type="text" class="form-control" name="why_title_ar"
                                         value="{{ $about->why_title_ar ?? '' }}">
                                 </div>
 
@@ -82,9 +86,9 @@
                                     <div id="why-points-container-en">
                                         @forelse(json_decode($about->why_points_en ?? '[]') as $point)
                                             <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points_en[]" disabled value="{{ $point }}">
+                                                <input type="text" class="form-control" name="why_points_en[]" value="{{ $point }}">
                                                 <div class="input-group-append">
-                                                    <button type="button" class="btn btn-danger remove-point d-none">
+                                                    <button type="button" class="btn btn-danger remove-point">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -93,7 +97,7 @@
                                             <p class="text-muted">{{ __('about.no_points') }}</p>
                                         @endforelse
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-secondary d-none add-point-btn" data-language="en">
+                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" data-language="en">
                                         <i class="fas fa-plus"></i> {{ __('about.add_point_en') }}
                                     </button>
                                 </div>
@@ -103,9 +107,9 @@
                                     <div id="why-points-container-ar">
                                         @forelse(json_decode($about->why_points_ar ?? '[]') as $point)
                                             <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points_ar[]" disabled value="{{ $point }}">
+                                                <input type="text" class="form-control" name="why_points_ar[]" value="{{ $point }}">
                                                 <div class="input-group-append">
-                                                    <button type="button" class="btn btn-danger remove-point d-none">
+                                                    <button type="button" class="btn btn-danger remove-point">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -114,7 +118,7 @@
                                             <p class="text-muted">{{ __('about.no_points') }}</p>
                                         @endforelse
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-secondary d-none add-point-btn" data-language="ar">
+                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" data-language="ar">
                                         <i class="fas fa-plus"></i> {{ __('about.add_point_ar') }}
                                     </button>
                                 </div>
@@ -123,18 +127,11 @@
                     </div>
                 </div>
 
+                <!-- أزرار الحفظ -->
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" id="editBtn" class="btn btn-secondary btn-lg" style="background-color: #8B7355;">
-                            <i class="fas fa-edit mr-2"></i> {{ __('about.edit_about') }}
-                        </button>
-
-                        <button type="submit" id="saveBtn" class="btn btn-success btn-lg d-none">
+                        <button type="submit" class="btn btn-success btn-lg">
                             <i class="fas fa-save mr-2"></i> {{ __('about.save_changes') }}
-                        </button>
-
-                        <button type="button" id="cancelBtn" class="btn btn-secondary btn-lg d-none">
-                            <i class="fas fa-times mr-2"></i> {{ __('about.cancel') }}
                         </button>
                     </div>
                 </div>

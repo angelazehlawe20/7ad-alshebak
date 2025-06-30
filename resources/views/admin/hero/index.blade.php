@@ -83,7 +83,7 @@
 
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" id="editBtn" class="btn btn-secondary btn-lg" style="background-color: #8B7355;">
+                        <button type="button" id="editBtn" class="btn btn-secondary btn-lg" style="background-color: #8B7355; outline: none; border: none;">
                             <i class="fas fa-edit mr-2"></i> {{ __('hero.edit_hero') }}
                         </button>
 

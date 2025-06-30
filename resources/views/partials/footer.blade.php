@@ -7,7 +7,9 @@
                     <h4 class="mb-2">
                         {{ __('footer.address') }}</h4>
                     <p>
-                        {!! nl2br($footer?->address) !!}</p>
+
+                        {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
+                        ></p>
                 </div>
             </div>
 
