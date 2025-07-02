@@ -20,6 +20,8 @@
     <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
 
     <!-- Main CSS File -->
@@ -57,7 +59,8 @@
         /* === INCREASED FONT SIZES FOR ARABIC === */
         body[dir="rtl"] {
             font-family: var(--font-arabic);
-            font-size: 24px;          /* Increased from 22px */
+            font-size: 24px;
+            /* Increased from 22px */
             line-height: 1.9;
             font-weight: 600;
             letter-spacing: 0.4px;
@@ -66,23 +69,27 @@
         /* === INCREASED FONT SIZES FOR ENGLISH === */
         body[dir="ltr"] {
             font-family: var(--font-english);
-            font-size: 18px;          /* Increased from 16px */
+            font-size: 18px;
+            /* Increased from 16px */
             line-height: 1.6;
         }
 
         /* === INCREASED HEADING SIZES FOR ARABIC === */
         body[dir="rtl"] h1 {
-            font-size: 2.5rem !important;  /* Increased from 2.2rem */
+            font-size: 2.5rem !important;
+            /* Increased from 2.2rem */
             font-weight: 600;
         }
 
         body[dir="rtl"] h2 {
-            font-size: 3.2rem !important;  /* Increased from 2.8rem */
+            font-size: 3.2rem !important;
+            /* Increased from 2.8rem */
             font-weight: 700;
         }
 
         body[dir="rtl"] h3 {
-            font-size: 2.8rem !important;  /* Increased from 2.4rem */
+            font-size: 2.8rem !important;
+            /* Increased from 2.4rem */
             font-weight: 600;
         }
 
@@ -92,7 +99,8 @@
         body[dir="rtl"] input,
         body[dir="rtl"] select,
         body[dir="rtl"] textarea {
-            font-size: 24px !important;  /* Increased from 20px */
+            font-size: 24px !important;
+            /* Increased from 20px */
         }
 
         /* === INCREASED FONT SIZES FOR ENGLISH HEADINGS === */
@@ -103,23 +111,28 @@
 
         /* === INCREASED SECTION TITLE SIZES === */
         .section-title p {
-            font-size: 56px !important;  /* Increased from 48px */
+            font-size: 56px !important;
+            /* Increased from 48px */
         }
 
         body[dir="rtl"] .section-title p {
-            font-size: 3.2rem !important;  /* Increased from 2.7rem */
+            font-size: 3.2rem !important;
+            /* Increased from 2.7rem */
         }
 
         .section-title p .description-title {
-            font-size: 1.1em !important;  /* Make description title 10% larger than the rest of the title */
-            font-weight: 700;
+            font-size: 1.5em !important;
+            /* Make description title 10% larger than the rest of the title */
+            font-weight: 600;
         }
 
         /* Responsive adjustments for section titles */
         @media (max-width: 991px) {
             .section-title p {
-                font-size: 50px !important;  /* Increased from 42px */
+                font-size: 50px !important;
+                /* Increased from 42px */
             }
+
             body[dir="rtl"] .section-title p {
                 font-size: 2.9rem !important;
             }
@@ -127,8 +140,10 @@
 
         @media (max-width: 767px) {
             .section-title p {
-                font-size: 44px !important;  /* Increased from 36px */
+                font-size: 44px !important;
+                /* Increased from 36px */
             }
+
             body[dir="rtl"] .section-title p {
                 font-size: 2.6rem !important;
             }
@@ -136,8 +151,10 @@
 
         @media (max-width: 575px) {
             .section-title p {
-                font-size: 36px !important;  /* Increased from 28px */
+                font-size: 36px !important;
+                /* Increased from 28px */
             }
+
             body[dir="rtl"] .section-title p {
                 font-size: 2.3rem !important;
             }
@@ -168,12 +185,16 @@
         }
 
         /* === FOOTER ELEMENTS === */
-        footer p, footer a, footer span {
+        footer p,
+        footer a,
+        footer span {
             font-size: 18px !important;
         }
 
         /* === SMALL TEXT ELEMENTS === */
-        .small, small, .text-muted {
+        .small,
+        small,
+        .text-muted {
             font-size: 90% !important;
         }
 
@@ -182,9 +203,11 @@
             body[dir="rtl"] {
                 font-size: 22px;
             }
+
             body[dir="ltr"] {
                 font-size: 16px;
             }
+
             body[dir="rtl"] p,
             body[dir="rtl"] button,
             body[dir="rtl"] input,
@@ -192,6 +215,7 @@
             body[dir="rtl"] textarea {
                 font-size: 22px !important;
             }
+
             body[dir="ltr"] p,
             body[dir="ltr"] button,
             body[dir="ltr"] input,
@@ -224,10 +248,26 @@
     <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    @if(app()->getLocale() == 'ar')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+    @endif
+
+    <script>
+        flatpickr("#booking_date",  {
+        dateFormat: "Y-m-d",
+        minDate: new Date().fp_incr(1), // لا يمكن اختيار تاريخ اليوم
+        locale: "{{ app()->getLocale() == 'ar' ? 'ar' : 'default' }}",
+        disableMobile: true // لتوحيد الشكل بين الموبايل والكمبيوتر
+    });
+    </script>
 
     @stack('scripts')
 </body>

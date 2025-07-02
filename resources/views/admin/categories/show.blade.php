@@ -6,7 +6,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-list"></i>&nbsp;{{ __('category.category') }}: {{ $category->name_en }} - {{ $category->name_ar }}</h1>
+                    <h1 class="m-0"><i class="fas fa-list"></i>&nbsp;{{ __('category.category') }}: {{
+                        $category->name_en }} - {{ $category->name_ar }}</h1>
                 </div>
             </div>
         </div>
@@ -21,7 +22,8 @@
                                 <i class="fas fa-utensils mr-2"></i>&nbsp;{{ __('category.menu_items') }}
                             </h3>
                             <div class="card-tools">
-                                <a href="{{ route('admin.menu.createItemInCategory', ['id' => $category->id]) }}" class="btn" style="background-color: #8B7355; color: white;">
+                                <a href="{{ route('admin.menu.createItemInCategory', ['id' => $category->id]) }}"
+                                    class="btn" style="background-color: #8B7355; color: white;">
                                     <i class="fas fa-plus"></i>&nbsp;{{ __('category.add_new_menu_item') }}
                                 </a>
                             </div>
@@ -33,41 +35,48 @@
                                     <div class="card h-100 shadow">
                                         <div class="position-relative">
                                             @if($item->image)
-                                            <img src="{{ asset($item->image) }}"
-                                                class="card-img-top"
-                                                alt="{{ $item->name_en }}"
-                                                loading="lazy"
+                                            <img src="{{ asset($item->image) }}" class="card-img-top"
+                                                alt="{{ $item->name_en }}" loading="lazy"
                                                 style="height: 300px; object-fit: contain; background-color: #fff; padding: 10px;">
                                             @else
                                             <div class="bg-light text-center p-4" style="height: 300px;">
-                                                <i class="fas fa-image fa-3x text-secondary" style="margin-top: 100px;"></i>
-                                                <p class="mt-2 text-secondary">{{ __('category.no_image_available') }}</p>
+                                                <i class="fas fa-image fa-3x text-secondary"
+                                                    style="margin-top: 100px;"></i>
+                                                <p class="mt-2 text-secondary">{{ __('category.no_image_available') }}
+                                                </p>
                                             </div>
                                             @endif
                                             <div class="position-absolute top-0 end-0 m-2">
-                                                <span class="badge fs-6" style="background-color: #8B7355;">${{ number_format($item->price) }}</span>
+                                                <span class="badge fs-6" style="background-color: #8B7355;">${{
+                                                    number_format($item->price) }}</span>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $item->name_en }}</h5>
-                                            <h6 class="text-muted">{{ $item->name_ar }}</h6>
-                                            <p class="card-text small text-truncate" title="{{ $item->description_en }}">
-                                                {{ $item->description_en }}
-                                            </p>
-                                            <p class="card-text small text-truncate" title="{{ $item->description_ar }}">
-                                                {{ $item->description_ar }}
-                                            </p>
+                                            <div class="border rounded p-3 bg-light mb-3">
+                                                <h5 class="card-title">{{ $item->name_en }}</h5>
+                                                {!! nl2br(e($item->name_ar)) !!}
+                                            </div>
+
+                                            <div class="border rounded p-3 bg-light mb-3">
+                                                <h6>{{ __('category.description_en') }}</h6>
+                                                {!! nl2br(e($item->description_en)) !!}
+                                            </div>
+
+                                            <div class="border rounded p-3 bg-light mb-3">
+                                                <h6>{{ __('category.description_ar') }}</h6>
+                                                {!! nl2br(e($item->description_ar)) !!}
+                                            </div>
                                         </div>
                                         <div class="card-footer bg-transparent border-top-0">
                                             <div class="d-flex gap-2">
                                                 <a href="{{ route('admin.menu.edit', $item->id) }}"
-                                                   class="btn flex-grow-1" style="border: 1px solid #8B7355; color: #8B7355;">
+                                                    class="btn flex-grow-1"
+                                                    style="border: 1px solid #8B7355; color: #8B7355;">
                                                     <i class="fas fa-edit"></i>&nbsp;{{ __('category.edit') }}
                                                 </a>
                                                 <form action="{{ route('admin.menu.destroy', $item->id) }}"
-                                                      method="POST"
-                                                      class="flex-grow-1"
-                                                      onsubmit="return confirm('{{ __('category.confirm_delete') }}')">
+                                                    method="POST" class="flex-grow-1"
+                                                    onsubmit="return confirm('{{ __('category.confirm_delete') }}')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger w-100">

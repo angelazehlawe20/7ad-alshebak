@@ -17,38 +17,36 @@
                     </a>
                     @endif
                     <a href="{{ route('hero') }}" class="text-decoration-none">
-                        <h1 class="sitename mb-0 text-nowrap">
+                        <span class="sitename mb-0 text-nowrap">
                             {{ app()->getLocale() == 'ar' ? ($heroPage?->title_ar ?? 'حد الشباك') :
                             ($heroPage?->title_en ?? 'Had AlShebak') }}
-                        </h1>
+                        </span>
                     </a>
                 </div>
             </div>
 
             <!-- Desktop Navigation -->
-            <div class="col-md-6 d-none d-md-flex justify-content-center">
-                <nav class="d-flex flex-wrap gap-3">
-                    <a href="{{ route('hero') }}" class="nav-link">
+            <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
+                <nav class="d-flex flex-wrap gap-5 justify-content-center w-100">
+                    <a href="{{ route('hero') }}" class="nav-link px-2 text-center">
                         {{ __('navbar.home')}}</a>
-                    <a href="{{ route('all_offers') }}" class="nav-link">
+                    <a href="{{ route('all_offers') }}" class="nav-link px-2 text-center">
                         {{__('navbar.offers')}}</a>
-                    <a href="{{ route('menu') }}" class="nav-link">
+                    <a href="{{ route('menu') }}" class="nav-link px-2 text-center">
                         {{__('navbar.menu')}}</a>
-                    <a href="{{ route('book') }}" class="nav-link">
+                    <a href="{{ route('book') }}" class="nav-link px-2 text-center">
                         {{__('navbar.book')}}</a>
-                    <a href="{{ route('contact') }}" class="nav-link">
+                    <a href="{{ route('contact') }}" class="nav-link px-2 text-center">
                         {{__('navbar.contact')}}</a>
                 </nav>
             </div>
 
             <!-- Mobile Menu Toggle Button -->
-
             <div class="col-6 col-sm-8 d-md-none d-flex justify-content-end">
-                <button class="btn mobile-nav-toggle" type="button" aria-label="Toggle Navigation">
+                <button class="btn mobile-nav-toggle bg-white" type="button" aria-label="Toggle Navigation">
                     <i class="bi bi-list fs-4"></i>
                 </button>
             </div>
-
             <!-- Language Toggle -->
             <div class="col-3 col-sm-4 col-md-3 d-none d-md-flex justify-content-end">
                 @if(app()->getLocale() == 'en')
@@ -81,7 +79,7 @@
 
             <a href="{{ route('lang.switch', $targetLocale) }}" class="btn btn-light language-btn hover-scale"
                 aria-label="Switch to {{ $targetLocale === 'ar' ? 'Arabic' : 'English' }}">
-                <img src="{{ asset(" assets/img/flags/{$targetLocale}.png") }}"
+                <img src="{{ asset("assets/img/flags/{$targetLocale}.png") }}"
                     alt="{{ $targetLocale === 'ar' ? 'Arabic' : 'English' }} flag" class="flag-icon rounded-circle"
                     width="24">
                 <span class="ms-2 fw-medium">{{ $targetLabel }}</span>

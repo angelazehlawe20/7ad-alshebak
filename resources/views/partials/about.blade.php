@@ -1,7 +1,7 @@
 <section id="about" class="about section">
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
         <p>
-            <span>{{ __('about.who') }}</span> <span class="description-title">{{ __('about.we_are') }}</span>
+            <span class="description-title">{{ __('about.who_we_are') }}</span>
         </p>
     </div>
 
@@ -10,7 +10,7 @@
     $images = json_decode($about->gallery_images ?? '[]');
     $count = count($images);
     $minSlides = 4;
-
+    
     if ($count > 0 && $count < $minSlides) { $repeatFactor=ceil($minSlides / $count);
         $images=array_merge(...array_fill(0, $repeatFactor, $images)); } @endphp {{-- Gallery Slider --}} <div
         class="mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">

@@ -59,7 +59,7 @@ body.rtl {
 }
 
 /* Specific size adjustments for Arabic headings - INCREASED SIZES */
-body.rtl h1 { font-size: 2.8rem; }  /* Increased from 2.5rem */
+body.rtl h1 { font-size: 2.2rem; }  /* Increased from 2.5rem */
 body.rtl h2 { font-size: 2.5rem; }  /* Increased from 2.2rem */
 body.rtl h3 { font-size: 2.2rem; }  /* Increased from 1.9rem */
 body.rtl h4 { font-size: 1.9rem; }  /* Increased from 1.6rem */
@@ -68,8 +68,8 @@ body.rtl h6 { font-size: 1.3rem; }  /* Increased from 1.1rem */
 
 /* Section title specific styling - INCREASED SIZE */
 body.rtl .section-title p {
-    font-size: 2.7rem;  /* Increased from 2.4rem */
-    font-weight: 700;
+    font-size: 1.5rem;  /* Increased from 2.4rem */
+    font-weight: 200;
 }
 
 /* Form elements specific styling - INCREASED SIZE */
@@ -86,7 +86,7 @@ body.ltr {
 }
 
 /* English heading sizes - NEW ADDITION */
-body.ltr h1 { font-size: 2.2rem; }
+body.ltr h1 { font-size: 2.8rem; }
 body.ltr h2 { font-size: 1.8rem; }
 body.ltr h3 { font-size: 1.5rem; }
 body.ltr h4 { font-size: 1.3rem; }

@@ -84,13 +84,7 @@
                                                         {{ $offer->category ? (app()->getLocale() == 'en' ? $offer->category->name_en : $offer->category->name_ar) : '' }}
                                                     </small>
                                                 </div>
-                                                <div class="d-flex align-items-center">
-                                                    <i class="fas fa-calendar-alt text-secondary me-2"></i>
-                                                    <small class="text-muted">
-                                                        {{ __('offers.valid_until') }}: {{ $offer->valid_until->format('M d, Y h:i A') }}
-                                                    </small>
-                                                </div>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                         <div class="card-footer bg-transparent border-top-0">
                                             <div class="d-flex gap-2">

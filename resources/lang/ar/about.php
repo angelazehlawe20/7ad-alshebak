@@ -2,8 +2,7 @@
 
 return [
     // Basic information
-    'who' => 'من',
-    'we_are' => 'نحن',
+    'who_we_are' => 'من نحن',
     'about_section' => 'قسم من نحن',
 
     // Status messages

@@ -1,13 +1,12 @@
 <?php
 return [
-    'contact' => 'Contact',
-    'us' => 'Us',
+    'contact_us' => 'Contact Us',
     'address' => 'Address',
     'call_us' => 'Call Us',
     'email_us' => 'Email Us',
     'opening_hours' => 'Opening Hours',
-    'your_name' => 'Your Name',
-    'your_email' => 'Your Email',
+    'your_name' => 'Name',
+    'your_email' => 'Email',
     'subject' => 'Subject',
     'message' => 'Message',
     'send_message' => 'Send Message',

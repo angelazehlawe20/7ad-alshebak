@@ -170,9 +170,6 @@ section,
     }
 }
 
-.section-title p .description-title {
-    color: var(--accent-color);
-}
 
 /*--------------------------------------------------------------
 # Global Page Titles & Breadcrumbs

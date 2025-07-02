@@ -15,14 +15,9 @@ class Offer extends Model
         'description_ar',
         'description_en',
         'active',
-        'valid_until',
         'image',
         'price',
         'category_id'
-    ];
-
-    protected $casts = [
-        'valid_until' => 'datetime',
     ];
 
     public function category()

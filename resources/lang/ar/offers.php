@@ -2,12 +2,11 @@
 
 return [
     'offers' => 'عروض',
-    'brand_name' => 'حد الشبك',
+    'brand_name_ofeers' => 'عروض حد الشبك',
     'management' => 'إدارة العروض',
     'add_offer' => 'إضافة عرض جديد',
     'filter_by_category' => 'تصفية حسب التصنيف',
-    'all_categories' => '-- كل التصنيفات --',
-    'valid_until' => 'صالح حتى',
+    'all_categories' => 'كل التصنيفات',
     'active' => 'مفعل',
     'inactive' => 'غير مفعل',
     'edit' => 'تعديل',
@@ -26,7 +25,7 @@ return [
     'image' => 'الصورة',
     'update_offer' => 'تحديث العرض',
     'cancel' => 'إلغاء',
-    'category' => 'الفئة',
+    'category' => 'التصنيف',
     'content' => 'محتوى',
     'settings' => 'إعدادات',
     'basic_info' => 'معلومات اساسية',

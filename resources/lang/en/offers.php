@@ -2,12 +2,11 @@
 
 return [
     'offers' => 'Offers',
-    'brand_name' => 'Had AlShebak',
+    'brand_name_offers' => 'Had AlShebak Offers',
     'management' => 'Offers Management',
     'add_offer' => 'Add New Offer',
     'filter_by_category' => 'Filter by Category',
-    'all_categories' => '-- All Categories --',
-    'valid_until' => 'Valid until',
+    'all_categories' => 'All Categories',
     'active' => 'Active',
     'inactive' => 'Inactive',
     'edit' => 'Edit',

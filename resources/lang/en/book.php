@@ -1,14 +1,13 @@
 <?php
 return [
-    'book_your_table' => 'Book your table',
-    'now' => 'Now',
-    'your_name' => 'Your Name',
-    'your_email' => 'Your Email',
-    'phone' => 'Phone',
+    'book_your_table_now' => 'Book your table Now',
+    'your_name' => 'Name',
+    'your_email' => 'Email',
+    'phone' => '9XXXXXXXX',
     'booking_date' => 'Booking Date',
     'booking_time' => 'Booking Time',
     'guests_count' => '# of people',
-    'message_optional' => 'Message (optional)',
+    'message_optional' => 'Special Notes for Booking (optional)',
     'book_a_table' => 'BOOK A TABLE',
     'phone_error' => 'Please enter a valid number like 9XXXXXXXX.',
     'booking_success' => 'Your booking has been successfully created! We will contact you soon.',
@@ -16,7 +15,7 @@ return [
 
     'bookings_management' => 'Bookings Management',
     'filter_by_status' => 'Filter by Status:',
-    'all_statuses' => '-- All Statuses --',
+    'all_statuses' => 'All Statuses',
     'status_pending' => 'Pending',
     'status_confirmed' => 'Confirmed',
     'status_cancelled' => 'Cancelled',

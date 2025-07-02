@@ -1,14 +1,13 @@
 <?php
 return [
-    'book_your_table' => 'احجز طاولتك',
-    'now' => 'الآن',
-    'your_name' => 'اسمك',
-    'your_email' => 'بريدك الإلكتروني',
-    'phone' => 'رقم الهاتف',
+    'book_your_table_now' => 'احجز طاولتك الآن',
+    'your_name' => 'الاسم',
+    'your_email' => 'البريد الإلكتروني',
+    'phone' => '9XXXXXXXX',
     'booking_date' => 'تاريخ الحجز',
     'booking_time' => 'وقت الحجز',
     'guests_count' => 'عدد الأشخاص',
-    'message_optional' => 'رسالة (اختياري)',
+    'message_optional' => 'ملاحظات خاصة للحجز (اختياري)',
     'book_a_table' => 'حجز الطاولة',
     'phone_error' => 'يرجى إدخال رقم صحيح مثل 9XXXXXXXX.',
     'booking_success' => 'تم حجزك بنجاح! سنتواصل معك قريباً.',
@@ -16,7 +15,7 @@ return [
 
     'bookings_management' => 'إدارة الحجوزات',
     'filter_by_status' => 'تصفية حسب الحالة:',
-    'all_statuses' => '-- كل الحالات --',
+    'all_statuses' => 'كل الحالات',
     'status_pending' => 'قيد الانتظار',
     'status_confirmed' => 'تم التأكيد',
     'status_cancelled' => 'تم الإلغاء',

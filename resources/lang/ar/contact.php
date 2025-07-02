@@ -1,12 +1,11 @@
 <?php
 return [
-    'contact' => 'اتصل',
-    'us' =>'بنا',
+    'contact_us' => 'اتصل بنا',
     'address' => 'العنوان',
     'call_us' => 'اتصل بنا',
     'email_us' => 'البريد الإلكتروني',
     'opening_hours' => 'ساعات العمل',
-    'your_name' => 'اسمك',
+    'your_name' => 'الاسم',
     'your_email' => 'بريدك الإلكتروني',
     'subject' => 'الموضوع',
     'message' => 'الرسالة',

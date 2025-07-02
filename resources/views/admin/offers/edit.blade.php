@@ -55,10 +55,7 @@
                                         <input type="number" name="price" step="1" class="form-control" value="{{ old('price', (int)$offer->price) }}" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><strong>{{ __('offers.valid_until') }}</strong></label>
-                                    <input type="datetime-local" name="valid_until" class="form-control" value="{{ old('valid_until', $offer->valid_until ? $offer->valid_until->format('Y-m-d\TH:i') : '') }}" required>
-                                </div>
+
                             </div>
                         </div>
                     </div>

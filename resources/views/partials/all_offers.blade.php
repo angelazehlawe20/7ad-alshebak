@@ -6,17 +6,9 @@
 <section id="offers" class="offers section light-background py-5">
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        @if(app()->getLocale() == 'ar')
         <p>
-            <span>{{ __('offers.offers') }}</span>
-            <span class="description-title">{{ __('offers.brand_name') }}</span>
+            <span class="description-title">{{ __('offers.brand_name_offers') }}</span>
         </p>
-        @else
-        <p>
-            <span>{{ __('offers.brand_name') }}</span>
-            <span class="description-title">{{ __('offers.offers') }}</span>
-        </p>
-        @endif
     </div>
 
     <div class="container">
@@ -49,22 +41,11 @@
                             {{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title_en }}
                         </h3>
 
-                        <p class="card-text mb-2">
-                            {{ app()->getLocale() == 'ar' ? $offer->description_ar : $offer->description_en }}
-                        </p>
-
-                        @if($offer->valid_until)
-                        <div class="text-muted mb-1">
-                            <p class="mb-0">
-                                <i class="far fa-calendar-alt me-2"></i>
-                                {{ __('offers.valid_until') }}:<br> {{ $offer->valid_until->format('Y-m-d') }}
-                            </p>
-                            <p class="mb-1 ms-4">
-                                {{ $offer->valid_until->format('h:i:s A') }}
-                            </p>
-                        </div>
+                        @if(app()->getLocale() == 'ar' ? $offer->description_ar : $offer->description_en)
+                            <div class="border rounded p-3 bg-light mb-3">
+                                {!! nl2br(e(app()->getLocale() == 'ar' ? $offer->description_ar : $offer->description_en)) !!}
+                            </div>
                         @endif
-
                         <p class="text-muted mb-1">
                             <i class="fas fa-tag me-2"></i>
                             {{ __('offers.category') }}:

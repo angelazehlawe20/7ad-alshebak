@@ -53,12 +53,6 @@
                                         <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>{{ __('offers.inactive') }}</option>
                                     </select>
                                 </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('offers.valid_until') }}</strong></label>
-                                    <input type="datetime-local" name="valid_until" class="form-control"
-                                        value="{{ old('valid_until') ? \Carbon\Carbon::parse(old('valid_until'))->format('Y-m-d\TH:i') : '' }}">
-                                </div>
                             </div>
                         </div>
                     </div>

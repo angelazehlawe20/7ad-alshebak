@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'brand_name' => 'Had AlShebak',
     'menu' => 'Menu',
+    'brand_name_menu' => 'Had AlShebak Menu',
     'no_items' => 'No menu items in this category at the moment',
     'created_message' => 'Menu item created successfully.',
     'updated_message' => 'Menu item updated successfully.',
     'deleted_message' => 'Menu item deleted successfully.',
     'add_menu_item' => 'Add New Menu Item',
     'filter_by_category' => 'Filter by Category',
-    'all_categories' => '-- All Categories --',
+    'all_categories' => 'All Categories',
     'clear_filter' => 'Clear Filter',
     'edit' => 'Edit',
     'delete' => 'Delete',

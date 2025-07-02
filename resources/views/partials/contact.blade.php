@@ -8,8 +8,9 @@
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <p><span>{{
-                __('contact.contact')}}</span> <span class="description-title">{{ __('contact.us')}}</span></p>
+        <p>
+            <span class="description-title">{{ __('contact.contact_us')}}</span>
+        </p>
     </div><!-- End Section Title -->
     <div class="container px-4">
         <div class="row gy-4">

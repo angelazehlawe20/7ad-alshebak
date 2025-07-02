@@ -9,8 +9,7 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <p>
-            <span>{{ __('book.book_your_table') }}</span>
-            <span class="description-title">{{ __('book.now') }}</span>
+            <span class="description-title">{{ __('book.book_your_table_now') }}</span>
         </p>
     </div>
     <div class="container">
@@ -51,14 +50,17 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <input type="date" name="booking_date"
-                                        class="form-control @error('booking_date') is-invalid @enderror"
-                                        id="booking_date" value="{{ old('booking_date') }}" required
-                                        min="{{ date('Y-m-d', strtotime('+1 day')) }}">
-                                    @error('booking_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+    <input type="text" name="booking_date"
+        class="form-control @error('booking_date') is-invalid @enderror"
+        id="booking_date"
+        value="{{ old('booking_date') }}"
+        placeholder="{{ __('book.booking_date') }}"
+        required>
+    @error('booking_date')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
                                 <div class="col-md-6">
                                     <input type="time" name="booking_time"
                                         class="form-control @error('booking_time') is-invalid @enderror"
@@ -99,6 +101,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/bookPage.js') }}"></script>
+<script src="{{ asset('assets/js/bookPage.js') }}"></script>
 @endpush
-

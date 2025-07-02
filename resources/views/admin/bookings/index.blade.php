@@ -26,7 +26,7 @@
                         class="d-flex align-items-center gap-2">
                         <div class="form-group flex-grow-1 mb-0">
                             <select name="status" id="status" class="form-select" onchange="this.form.submit()">
-                                <option value="">{{ __('book.all_statuses') ?? '-- All Statuses --' }}</option>
+                                <option value="">{{ __('book.all_statuses') ?? 'All Statuses' }}</option>
                                 @foreach(['pending', 'confirmed', 'cancelled'] as $status)
                                 <option value="{{ $status }}" {{ request('status')==$status ? 'selected' : '' }}>
                                     {{ __('book.status_' . $status) }}

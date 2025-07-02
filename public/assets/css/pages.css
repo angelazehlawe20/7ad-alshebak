@@ -173,6 +173,7 @@
 /*--------------------------------------------------------------
 # Book A Table Section
 --------------------------------------------------------------*/
+
 .book-a-table .reservation-img {
     min-height: 500px;
     background-size: cover;
@@ -318,6 +319,13 @@
 # Contact Section
 --------------------------------------------------------------*/
 
+.flatpickr-input {
+    background-image: url('https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/calendar-event.svg');
+    background-repeat: no-repeat;
+    background-position: left 0.75rem center;
+    background-size: 1rem;
+    padding-left: 2rem !important;
+}
 
 .contact .info-item {
     background-color: tr;

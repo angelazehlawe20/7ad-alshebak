@@ -89,15 +89,13 @@
                                                 <h5 class="card-title theme-color mb-2">{{ $item->name_en }}</h5>
                                                 <h6 class="text-muted mb-3">{{ $item->name_ar }}</h6>
 
-                                                <div class="description-container mb-3">
-                                                    <p class="card-text small text-truncate mb-1"
-                                                       title="{{ $item->description_en }}">
-                                                        {{ $item->description_en }}
-                                                    </p>
-                                                    <p class="card-text small text-truncate"
-                                                       title="{{ $item->description_ar }}">
-                                                        {{ $item->description_ar }}
-                                                    </p>
+                                                <div class="border rounded p-3 bg-light mb-3">
+                                                    <h6>{{ __('menu.description_en') }}</h6>
+                                                    {!! nl2br(e($item->description_en)) !!}
+                                                </div>
+                                                <div class="border rounded p-3 bg-light mb-3">
+                                                    <h6>{{ __('menu.description_ar') }}</h6>
+                                                    {!! nl2br(e($item->description_ar)) !!}
                                                 </div>
 
                                                 <div class="d-flex align-items-center">
@@ -116,7 +114,7 @@
                                                     </a>
                                                     <form action="{{ route('admin.menu.destroy', $item->id) }}"
                                                           method="POST"
-                                                          class="flex-grow-1" 
+                                                          class="flex-grow-1"
                                                           onsubmit="return confirm('{{ __('menu.confirm_delete') }}')">
                                                         @csrf
                                                         @method('DELETE')
