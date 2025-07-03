@@ -15,13 +15,17 @@
 
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.offers.store') }}" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <form action="{{ route('admin.offers.store') }}" method="POST" class="needs-validation"
+                enctype="multipart/form-data" novalidate>
                 @csrf
-                <div class="row gy-4"> <!-- Added gy-4 class for vertical spacing -->
+                <div class="row gy-4">
+                    <!-- Added gy-4 class for vertical spacing -->
                     <div class="col-md-6">
-                        <div class="card bg-beige card-outline h-100"> <!-- Added h-100 to match heights -->
+                        <div class="card bg-beige card-outline h-100">
+                            <!-- Added h-100 to match heights -->
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;{{ __('offers.basic_info') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;{{
+                                    __('offers.basic_info') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -29,7 +33,8 @@
                                     <select name="category_id" class="form-select" required>
                                         <option value="">{{ __('offers.all_categories') }}</option>
                                         @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ old('category_id')==$category->id ? 'selected' : '' }}>
+                                        <option value="{{ $category->id }}" {{ old('category_id')==$category->id ?
+                                            'selected' : '' }}>
                                             {{ $category->name_en }} - {{ $category->name_ar }}
                                         </option>
                                         @endforeach
@@ -40,17 +45,20 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" name="price" step="0.01" class="form-control" value="{{ old('price') }}" required>
+                                        <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
+                                        <input type="number" name="price" step="0.01" class="form-control fw-bold"
+                                            value="{{ old('price') }}" required>
                                     </div>
-                                    <div class="invalid-feedback">Please enter the price.</div>
+                                    <div class="invalid-feedback">{{__('errors.enter_the_price')}}</div>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.status') }}</strong></label>
                                     <select name="active" class="form-select" required>
-                                        <option value="1" {{ old('active', '1')=="1" ? 'selected' : '' }}>{{ __('offers.active') }}</option>
-                                        <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>{{ __('offers.inactive') }}</option>
+                                        <option value="1" {{ old('active', '1' )=="1" ? 'selected' : '' }}>{{
+                                            __('offers.active') }}</option>
+                                        <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>{{
+                                            __('offers.inactive') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -58,30 +66,36 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="card bg-beige card-outline h-100"> <!-- Added h-100 to match heights -->
+                        <div class="card bg-beige card-outline h-100">
+                            <!-- Added h-100 to match heights -->
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ __('offers.offer_content') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-image"></i>&nbsp;&nbsp;{{
+                                    __('offers.offer_content') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.title_en') }}</strong></label>
-                                    <input type="text" name="title_en" class="form-control" value="{{ old('title_en') }}" required>
+                                    <input type="text" name="title_en" class="form-control"
+                                        value="{{ old('title_en') }}" required>
                                     <div class="invalid-feedback">Please enter the English title.</div>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.title_ar') }}</strong></label>
-                                    <input type="text" name="title_ar" class="form-control" value="{{ old('title_ar') }}">
+                                    <input type="text" name="title_ar" class="form-control"
+                                        value="{{ old('title_ar') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.description_en') }}</strong></label>
-                                    <textarea name="description_en" class="form-control" rows="3">{{ old('description_en') }}</textarea>
+                                    <textarea name="description_en" class="form-control"
+                                        rows="3">{{ old('description_en') }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.description_ar') }}</strong></label>
-                                    <textarea name="description_ar" class="form-control" rows="3">{{ old('description_ar') }}</textarea>
+                                    <textarea name="description_ar" class="form-control"
+                                        rows="3">{{ old('description_ar') }}</textarea>
                                 </div>
 
                                 <div class="form-group">

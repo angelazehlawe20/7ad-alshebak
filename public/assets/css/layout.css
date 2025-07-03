@@ -140,10 +140,25 @@ body.mobile-nav-active .mobile-nav-sidebar {
     -webkit-overflow-scrolling: touch;
 }
 
-/* RTL Support */
-html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
-    right: auto;
+html[dir="ltr"] .mobile-nav-sidebar {
+    right: 0;
+    left: auto;
+    transform: translateX(100%);
+}
+
+html[dir="ltr"] body.mobile-nav-active .mobile-nav-sidebar {
+    transform: translateX(0);
+}
+
+/* الوضع العربي: يظهر من اليسار */
+html[dir="rtl"] .mobile-nav-sidebar {
     left: 0;
+    right: auto;
+    transform: translateX(-100%);
+}
+
+html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
+    transform: translateX(0);
 }
 
 .mobile-nav-active .mobile-nav-toggle {

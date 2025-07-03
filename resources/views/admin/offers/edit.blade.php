@@ -51,8 +51,8 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" name="price" step="1" class="form-control" value="{{ old('price', (int)$offer->price) }}" required>
+                                        <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
+                                        <input type="number" name="price" step="1" class="form-control fw-bold" value="{{ old('price', (int)$offer->price) }}" required>
                                     </div>
                                 </div>
 

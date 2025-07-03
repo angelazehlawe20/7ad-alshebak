@@ -80,7 +80,7 @@
                                                 @endif
                                                 <div class="position-absolute top-0 end-0 m-2">
                                                     <span class="badge theme-bg">
-                                                        {{ number_format($item->price) }} $
+                                                        <strong>{{ number_format($item->price) }} {{__('admins.syr')}}</strong>
                                                     </span>
                                                 </div>
                                             </div>

@@ -34,7 +34,7 @@
 
                         <p class="card-price fw-bold fs-4 mt-auto"
                             style="color: #AC8C64;">
-                            {{ number_format($offer->price, 0) }}$</p>
+                            {{ number_format($offer->price, 0) }}{{__('admins.syr')}}</p>
                     </div>
                 </div>
             </div>

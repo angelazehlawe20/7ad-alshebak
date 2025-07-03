@@ -67,10 +67,10 @@
 <!-- BACKDROP OVERLAY -->
 <div class="mobile-nav-overlay backdrop-blur"></div>
 <!-- MOBILE SIDEBAR -->
-<nav class="mobile-nav-sidebar rounded-end shadow-lg">
+<nav class="mobile-nav-sidebar rounded-{{ app()->getLocale() == 'ar' ? 'start' : 'end' }} shadow-lg">
     <div class="mobile-nav-links p-0">
         {{-- Language Switcher --}}
-        <div class="pt-4 px-4 d-flex justify-content-end">
+        <div class="pt-4 px-4 d-flex {{ app()->getLocale() == 'ar' ? 'justify-content-start' : 'justify-content-end' }}">
             @php
             $currentLocale = app()->getLocale();
             $targetLocale = $currentLocale === 'en' ? 'ar' : 'en';
@@ -102,7 +102,7 @@
                 <a href="{{ route($item['route']) }}"
                     class="nav-link d-flex align-items-center rounded-pill p-2 {{ request()->routeIs($item['route']) ? 'active px-4' : 'px-3' }}"
                     aria-current="{{ request()->routeIs($item['route']) ? 'page' : 'false' }}">
-                    <i class="bi bi-{{ $item['icon'] }} me-3" aria-hidden="true"></i>
+                    <i class="bi bi-{{ $item['icon'] }} {{ app()->getLocale() == 'ar' ? 'ms-4' : 'me-4' }}" aria-hidden="true"></i>
                     <span>{{ __("navbar.{$item['text']}") }}</span>
                 </a>
             </div>

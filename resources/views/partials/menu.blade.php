@@ -76,8 +76,8 @@
                                     </div>
 
                                     <div class="card-price fw-bold fs-5 mt-auto pt-2 border-top">
-                                        <span class="menu-price">
-                                            {{number_format($item->price) }} $</span>
+                                        <span class="menu-price fw-bolder">
+                                            {{number_format($item->price) }} {{__('admins.syr')}}</span>
                                     </div>
                                 </div>
                             </div>

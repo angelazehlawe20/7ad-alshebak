@@ -47,8 +47,8 @@
                                             </div>
                                             @endif
                                             <div class="position-absolute top-0 end-0 m-2">
-                                                <span class="badge fs-6" style="background-color: #8B7355;">${{
-                                                    number_format($item->price) }}</span>
+                                                <span class="badge fs-6 fw-bold" style="background-color: #8B7355;">
+                                                    {{ number_format($item->price) }} {{__('admins.syr')}}</span>
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -58,12 +58,12 @@
                                             </div>
 
                                             <div class="border rounded p-3 bg-light mb-3">
-                                                <h6>{{ __('category.description_en') }}</h6>
+                                                <h6>{{ __('menu.description_en') }}</h6>
                                                 {!! nl2br(e($item->description_en)) !!}
                                             </div>
 
                                             <div class="border rounded p-3 bg-light mb-3">
-                                                <h6>{{ __('category.description_ar') }}</h6>
+                                                <h6>{{ __('menu.description_ar') }}</h6>
                                                 {!! nl2br(e($item->description_ar)) !!}
                                             </div>
                                         </div>

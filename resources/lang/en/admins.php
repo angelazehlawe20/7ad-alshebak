@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'syr' => 'SYR',
     'title' => 'Admin Management',
     'list_title' => 'Admins List',
     'add_admin' => 'Add New Admin',

@@ -52,8 +52,8 @@
                             {{ app()->getLocale() == 'ar' ? $offer->category->name_ar : $offer->category->name_en }}
                         </p>
 
-                        <p class="card-price fw-bold fs-5 mt-auto" style="color: #AC8C64;">
-                            {{ number_format($offer->price) }} $
+                        <p class="card-price fw-bolder fs-4 mt-auto" style="color: #AC8C64;">
+                            <strong>{{ number_format($offer->price) }} {{__('admins.syr')}}</strong>
                         </p>
                     </div>
                 </div>
