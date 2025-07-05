@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', __('book.book_your_table'))
+@section('title', __('book.book_your_table_now'))
 
 @section('content')
 <div class="content-wrapper">

@@ -18,6 +18,7 @@ return [
     'logout' => 'Logout',
     'profile' => 'Profile',
     'admin_panel' => 'Admin Panel',
+    'admin_panel_description' => 'Control panel for managing the website content.',
     'admin' => 'Admin',
     'home_page' => 'Home Page',
     'english' => 'ُEnglish',

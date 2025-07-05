@@ -1,115 +1,228 @@
 <section id="about" class="about section">
+    <!-- عنوان القسم -->
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <p>
-            <span class="description-title">{{ __('about.who_we_are') }}</span>
-        </p>
+        <p><span class="description-title">{{ __('about.who_we_are') }}</span></p>
     </div>
 
-    {{-- Prepare Images --}}
     @php
-    $images = json_decode($about->gallery_images ?? '[]');
-    $count = count($images);
-    $minSlides = 4;
-    
-    if ($count > 0 && $count < $minSlides) { $repeatFactor=ceil($minSlides / $count);
-        $images=array_merge(...array_fill(0, $repeatFactor, $images)); } @endphp {{-- Gallery Slider --}} <div
-        class="mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+        $mediaItems = json_decode($about->gallery_images ?? '[]');
+        $count = count($mediaItems);
+        $minSlides = 4;
+        if ($count > 0 && $count < $minSlides) {
+            $repeatFactor = ceil($minSlides / $count);
+            $mediaItems = array_merge(...array_fill(0, $repeatFactor, $mediaItems));
+        }
+    @endphp
+
+    <!-- السلايدر -->
+    <div class="mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
         <div class="swiper init-swiper gallery-swiper">
             <div class="swiper-wrapper align-items-center">
-                @foreach($images as $image)
-                <div class="swiper-slide d-flex justify-content-center align-items-center">
-                    <div class="image-wrapper overflow-hidden rounded shadow" style="width: 300px; height: 300px;">
-                        <a class="glightbox d-block w-100 h-100" data-gallery="images-gallery"
-                            href="{{ asset($image) }}">
-                            <img src="{{ asset($image) }}" alt="Gallery Image" loading="lazy"
-                                style="width: 100%; height: 100%; object-fit: contain;">
-                        </a>
+                @forelse($mediaItems as $media)
+                    <div class="swiper-slide d-flex justify-content-center align-items-center">
+                        <div class="media-wrapper overflow-hidden rounded shadow" style="width: 300px; height: 300px; position: relative;">
+                            @php $ext = pathinfo($media, PATHINFO_EXTENSION); @endphp
+                            @if(in_array(strtolower($ext), ['mp4', 'webm', 'ogg']))
+                                <div class="video-thumbnail" style="cursor:pointer; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:#000;">
+                                    <video muted playsinline preload="metadata" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                        <source src="{{ asset($media) }}" type="video/{{ strtolower($ext) }}">
+                                        {{ __('about.video_not_supported') }}
+                                    </video>
+                                    <div class="play-button" style="position:absolute; font-size: 3rem; color: rgba(255,255,255,0.8); pointer-events:none;">
+                                        &#9658;
+                                    </div>
+                                </div>
+                            @else
+                                <a class="glightbox d-block w-100 h-100" data-gallery="images-gallery" href="{{ asset($media) }}">
+                                    <img src="{{ asset($media) }}" alt="Gallery Media" loading="lazy" style="width: 100%; height: 100%; object-fit: contain;">
+                                </a>
+                            @endif
+                        </div>
                     </div>
-                </div>
-                @endforeach
-
-                @if($count === 0)
-                <div class="swiper-slide">
-                    <p class="text-center text-muted">{{ __('about.no_images') }}</p>
-                </div>
-                @endif
+                @empty
+                    <div class="swiper-slide">
+                        <p class="text-center text-muted">{{ __('about.no_images') }}</p>
+                    </div>
+                @endforelse
             </div>
 
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </div>
-        </div>
+    </div>
 
-        {{-- Main Content --}}
-        <div class="container mt-5">
-            <div class="row gy-4 align-items-center">
-                {{-- About Text --}}
-                <div class="col-lg-6">
-                    <div class="content ps-0 ps-lg-5">
-                        <p class="text-center lead">
-                            {!! app()->getLocale() === 'ar' ? nl2br(e($about->main_text_ar ?? __('about.no_about'))) :
-                            nl2br(e($about->main_text_en ?? __('about.no_about'))) !!}
-                        </p>
-                    </div>
-                </div>
+    <!-- مودال الفيديو -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body p-0 position-relative">
+                    <!-- زر إغلاق -->
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
 
-                {{-- Why Choose Us --}}
-                <div class="col-lg-6">
-                    <div class="why-box p-4" style="border-radius: 90px 0 90px 0; background-color: #F5F5DC; color: #333;">
-                        <h3 class="section-title mb-4" style="color: #4a4a4a;">
-                            {{ app()->getLocale() === 'ar' ? ($about->why_title_ar ?? __('about.why_choose_us')) :
-                            ($about->why_title_en ?? __('about.why_choose_us')) }}
-                        </h3>
-                        <ul class="list-unstyled why-list">
-                            @php
-                            $points = app()->getLocale() === 'ar' ?
-                            json_decode($about->why_points_ar ?? '[]') :
-                            json_decode($about->why_points_en ?? '[]');
-                            @endphp
-                            @forelse($points as $point)
-                            <li class="mb-3">
-                                <i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
-                            @empty
-                            <li class="text-muted">{{__('about.no_points')}}</li>
-                            @endforelse
-                        </ul>
+                    <!-- Loader -->
+                    <div id="videoLoader" class="position-absolute top-50 start-50 translate-middle text-white d-none">
+                        <div class="spinner-border" role="status"></div>
                     </div>
+
+                    <!-- الفيديو -->
+                    <video id="modalVideo" controls muted playsinline
+                           style="width: 100%; height: auto; max-height: 80vh; background: #000; position: relative; z-index: 1;">
+                        <source src="" type="">
+                        {{ __('about.video_not_supported') }}
+                    </video>
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const gallerySwiper = new Swiper('.gallery-swiper', {
-                    loop: true,
-                    centeredSlides: true,
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    },
-                    breakpoints: {
-                        576: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 3,
-                        },
-                        992: {
-                            slidesPerView: 4,
-                        },
-                    }
+    </div>
+
+    <!-- محتوى التعريف -->
+    <div class="container mt-5">
+        <div class="row gy-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="content ps-0 ps-lg-5">
+                    <p class="text-center lead">
+                        {!! app()->getLocale() === 'ar'
+                            ? nl2br(e($about->main_text_ar ?? __('about.no_about')))
+                            : nl2br(e($about->main_text_en ?? __('about.no_about'))) !!}
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="why-box p-4" style="border-radius: 90px 0 90px 0; background-color: #F5F5DC; color: #333;">
+                    <h3 class="section-title mb-4" style="color: #4a4a4a;">
+                        {{ app()->getLocale() === 'ar'
+                            ? ($about->why_title_ar ?? __('about.why_choose_us'))
+                            : ($about->why_title_en ?? __('about.why_choose_us')) }}
+                    </h3>
+                    <ul class="list-unstyled why-list">
+                        @php
+                            $points = app()->getLocale() === 'ar'
+                                ? json_decode($about->why_points_ar ?? '[]')
+                                : json_decode($about->why_points_en ?? '[]');
+                        @endphp
+                        @forelse($points as $point)
+                            <li class="mb-3"><i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
+                        @empty
+                            <li class="text-muted">{{ __('about.no_points') }}</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- سكريبتات -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallerySwiper = new Swiper('.gallery-swiper', {
+                loop: true,
+                centeredSlides: true,
+                slidesPerView: 1,
+                spaceBetween: 20,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                breakpoints: {
+                    576: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    992: { slidesPerView: 4 },
+                }
+            });
+
+            const videos = document.querySelectorAll('.gallery-swiper video');
+            function pauseAllVideos() {
+                videos.forEach(video => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            }
+
+            videos.forEach(video => {
+                video.addEventListener('play', () => gallerySwiper.autoplay.stop());
+                video.addEventListener('pause', () => gallerySwiper.autoplay.start());
+                video.addEventListener('ended', () => gallerySwiper.autoplay.start());
+            });
+
+            gallerySwiper.on('slideChangeTransitionEnd', () => {
+                pauseAllVideos();
+                const activeSlide = gallerySwiper.slides[gallerySwiper.activeIndex];
+                const video = activeSlide.querySelector('video');
+                if (video) {
+                    video.muted = true;
+                    video.play().catch(() => {});
+                }
+            });
+
+            gallerySwiper.init();
+
+            // المودال
+            const modalElement = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const videoLoader = document.getElementById('videoLoader');
+            const videoModal = new bootstrap.Modal(modalElement);
+
+            document.querySelectorAll('.video-thumbnail').forEach(thumbnail => {
+                thumbnail.addEventListener('click', function () {
+                    const source = this.querySelector('source');
+                    modalVideo.src = source.src;
+                    modalVideo.type = source.type;
+                    modalVideo.muted = false;
+                    videoLoader.classList.remove('d-none');
+                    videoModal.show();
+
+                    // تشغيل الفيديو بعد فتح المودال
+                    setTimeout(() => {
+                        modalVideo.play().catch(e => console.log('Autoplay failed:', e));
+                    }, 300);
                 });
             });
-        </script>
 
+            modalVideo.addEventListener('waiting', () => {
+                videoLoader.classList.remove('d-none');
+            });
+
+            modalVideo.addEventListener('playing', () => {
+                videoLoader.classList.add('d-none');
+            });
+
+            modalElement.addEventListener('hidden.bs.modal', () => {
+                modalVideo.pause();
+                modalVideo.currentTime = 0;
+                modalVideo.src = '';
+                videoLoader.classList.add('d-none');
+                gallerySwiper.autoplay.start();
+            });
+        });
+    </script>
+
+
+    <!-- تضمين Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ستايل خاص -->
+    <style>
+        .modal .btn-close {
+            z-index: 10;
+            pointer-events: auto;
+        }
+        #modalVideo {
+            z-index: 1;
+            position: relative;
+        }
+        #videoLoader {
+            z-index: 5;
+        }
+    </style>
 </section>

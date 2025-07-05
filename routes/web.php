@@ -147,7 +147,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::get('/about/index', 'indexForAdmin')->name('about.indexForAdmin');
         Route::put('/about/update', 'update')->name('about.update');
         Route::post('/about/update-image', 'updateImage')->name('about.updateImage');
-        Route::post('/about/delete-image', 'deleteImage')->name('about.deleteImage');
+        Route::post('/about/delete-media', 'deleteMedia')->name('about.deleteMedia');
         Route::get('/about/create', 'create')->name('about.create');
         Route::post('/about/create', 'createAbout')->name('about.store');
     });

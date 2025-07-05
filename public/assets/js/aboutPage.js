@@ -1,46 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
-    const { updateUrl, csrfToken } = window.aboutPageConfig || {};
-
-    const editBtn = document.getElementById('editBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const uploadBtn = document.getElementById('uploadImagesBtn');
-    const fileInput = document.getElementById('newGalleryImages');
-
-    function enableEditMode() {
-        document.querySelectorAll('#aboutForm input:not([type="hidden"]), #aboutForm textarea').forEach(input => {
-            input.removeAttribute('readonly');
-            input.removeAttribute('disabled');
-        });
-        document.querySelectorAll('.remove-point, .add-point-btn').forEach(btn => btn.classList.remove('d-none'));
-        saveBtn.classList.remove('d-none');
-        cancelBtn.classList.remove('d-none');
-        editBtn.classList.add('d-none');
-        uploadBtn.classList.remove('d-none');
-    }
-
-    editBtn?.addEventListener('click', enableEditMode);
-
-    uploadBtn?.addEventListener('click', () => fileInput?.click());
-
-    fileInput?.addEventListener('change', function () {
-        const container = document.getElementById('imagePreviewContainer');
-        container.innerHTML = '';
-        Array.from(fileInput.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const col = document.createElement('div');
-                col.classList.add('col-md-6', 'mb-2');
-                col.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded shadow" style="height: 150px; object-fit: cover;">`;
-                container.appendChild(col);
-            };
-            reader.readAsDataURL(file);
-        });
+    // حذف نقاط النصوص
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.remove-point')) {
+            e.target.closest('.input-group').remove();
+        }
     });
 
-    cancelBtn?.addEventListener('click', () => window.location.reload());
-
+    // إضافة نقاط جديدة للنصوص
     document.querySelectorAll('.add-point-btn').forEach(button => {
         button.addEventListener('click', function () {
             const language = this.dataset.language;
@@ -57,9 +23,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // حذف الصور والفيديوهات من الصور القديمة
     document.addEventListener('click', function (e) {
-        if (e.target.closest('.remove-point')) {
-            e.target.closest('.input-group').remove();
+        if (e.target.closest('.remove-image-btn')) {
+            const btn = e.target.closest('.remove-image-btn');
+            const pathToRemove = btn.dataset.path;
+            const wrapper = btn.closest('.existing-image-wrapper');
+
+            // حذف العنصر من DOM
+            wrapper.remove();
+
+            // تحديث الحقل المخفي بقائمة الصور بعد الحذف
+            const existingImagesInput = document.getElementById('existingImagesInput');
+            if (existingImagesInput) {
+                let images = [];
+                try {
+                    images = JSON.parse(existingImagesInput.value || '[]');
+                } catch {
+                    images = [];
+                }
+                images = images.filter(img => img !== pathToRemove);
+                existingImagesInput.value = JSON.stringify(images);
+            }
         }
+    });
+
+    // معاينة الصور والفيديوهات الجديدة المختارة للرفع
+    const fileInput = document.getElementById('newGalleryImages');
+    fileInput?.addEventListener('change', function () {
+        const container = document.getElementById('newImagesPreview');
+        if (!container) return;
+        container.innerHTML = ''; // تفريغ المعاينة القديمة
+
+        Array.from(fileInput.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const col = document.createElement('div');
+                col.classList.add('col-md-6', 'mb-2');
+
+                if (file.type.startsWith('video/')) {
+                    col.innerHTML = `
+                        <video controls class="img-fluid rounded shadow" style="height: 150px; object-fit: cover;">
+                            <source src="${e.target.result}" type="${file.type}">
+                            الفيديو غير مدعوم
+                        </video>
+                    `;
+                } else if (file.type.startsWith('image/')) {
+                    col.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded shadow" style="height: 150px; object-fit: cover;">`;
+                }
+
+                container.appendChild(col);
+            };
+            reader.readAsDataURL(file);
+        });
     });
 });

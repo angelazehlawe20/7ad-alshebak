@@ -1,12 +1,19 @@
 <?php
 
 return [
+
+
+    'confirm_delete_point' => 'Are you sure you want to delete this point?',
+    'delete_file_failed' => 'File deletion failed. Try again.',
+    'delete_file_error' => 'An error occurred while deleting the file.',
+    'confirm_delete_file' => 'Are you sure you want to delete this file?',
+
     'who_we_are' => 'Who We Are',
     'no_images' => 'No images available.',
     'no_about' => 'No about text available.',
     'why_choose_us' => 'Why Choose Us',
     'no_points' => 'No points available.',
-    'updated_message' =>'About section updated successfully.',
+    'updated_message' => 'About section updated successfully.',
     'created_message' => 'About section created successfully.',
     'invalid' => 'Invalid data.',
 

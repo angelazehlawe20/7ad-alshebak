@@ -53,16 +53,18 @@ class AdminManagementController extends Controller
     /**
      * Show the form for editing the specified admin.
      */
-    public function edit(Admin $admin)
+    public function edit($id)
     {
+        $admin = Admin::findOrFail($id);
         return view('admin.admin_management.edit', compact('admin'));
     }
 
     /**
      * Update the specified admin in storage.
      */
-    public function update(Request $request, Admin $admin)
+    public function update(Request $request, $id)
     {
+        $admin = Admin::findOrFail($id);
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -98,7 +100,7 @@ class AdminManagementController extends Controller
         // Prevent deleting self
         if ($admin->id === auth()->guard('admin')->id()) {
             return redirect()->route('admin.admins.index')
-                ->with('error',__('admins.error_deleted_message'));
+                ->with('error', __('admins.error_deleted_message'));
         }
 
         $admin->delete();

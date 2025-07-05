@@ -16,7 +16,7 @@
 
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.admins.update', $admin) }}" method="POST">
+            <form action="{{ route('admin.admins.update',  $admin->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.name') }}</strong></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name', $admin->name) }}" required>
+                                        name="name" value="{{ old('name', $admin->name ) }}" required>
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

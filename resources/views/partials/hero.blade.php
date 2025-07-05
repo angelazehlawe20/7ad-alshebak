@@ -5,7 +5,7 @@
             <div class="col-lg-6 col-md-12 order-2 order-lg-1 d-flex flex-column justify-content-start">
                 <h1 class="display-4 fw-bold mb-2 mt-4 mt-lg-0" data-aos="fade-up" data-aos-once="true">
                     {{ app()->getLocale() == 'en' ? ($heroPage->title_en ?? 'Had alshebak') : ($heroPage->title_ar ??
-                    'حد الشباك') }}
+                    'حدّ الشباك') }}
                 </h1>
                 <p class="lead mb-2" data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
                     {!! nl2br(e(app()->getLocale() === 'ar' ? ($heroPage->main_text_ar ?? '') :

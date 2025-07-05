@@ -16,37 +16,53 @@
 
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.about.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.about.update') }}" method="POST" enctype="multipart/form-data" id="aboutForm">
                 @csrf
                 @method('PUT')
 
-                <!-- حقل مخفي يحتوي الصور الموجودة -->
-                <input type="hidden" name="existing_images" id="existingImagesInput" value="{{ $about->gallery_images }}">
+                <!-- حقل مخفي يحتوي الصور والفيديوهات الموجودة -->
+                <input type="hidden" name="existing_images" id="existingImagesInput"
+                    value="{{ $about->gallery_images }}">
 
                 <div class="row gy-4">
-                    <!-- معرض الصور -->
+                    <!-- معرض الصور والفيديوهات -->
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-images mr-2"></i>&nbsp;{{ __('about.gallery_images') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-images mr-2"></i>&nbsp;{{
+                                    __('about.gallery_images') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="gallery-preview mb-3 row" id="existingGallery">
-                                    @forelse(json_decode($about->gallery_images ?? '[]') as $image)
-                                        <div class="col-md-6 mb-2 existing-image-wrapper">
-                                            <img src="{{ asset($image) }}" class="img-fluid rounded shadow gallery-image"
-                                                style="width: 100%; height: 150px; object-fit: cover;">
-                                            <button type="button" class="btn btn-sm btn-danger mt-1 remove-image-btn" data-path="{{ $image }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                                    @php use Illuminate\Support\Str; @endphp
+                                    @forelse(json_decode($about->gallery_images ?? '[]') as $media)
+                                    <div class="col-md-6 mb-2 existing-image-wrapper">
+                                        @if(Str::endsWith($media, ['.mp4', '.webm', '.ogg']))
+                                        <video class="img-fluid rounded shadow gallery-image"
+                                            style="width: 100%; height: 150px; object-fit: cover;" controls>
+                                            <source src="{{ asset($media) }}">
+                                            {{ __('about.video_not_supported') }}
+                                        </video>
+                                        @else
+                                        <img src="{{ asset($media) }}" class="img-fluid rounded shadow gallery-image"
+                                            style="width: 100%; height: 150px; object-fit: cover;">
+                                        @endif
+                                        <button type="button" class="btn btn-sm btn-danger mt-1 remove-image-btn"
+                                            data-path="{{ $media }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                     @empty
-                                        <p class="text-muted">{{ __('about.no_gallery_images') }}</p>
+                                    <p class="text-muted">{{ __('about.no_gallery_images') }}</p>
                                     @endforelse
                                 </div>
 
-                                <div class="form-group">
-                                    <input type="file" name="gallery_images[]" class="form-control" multiple accept="image/*">
+                                <!-- مكان عرض معاينة الصور والفيديوهات الجديدة -->
+                                <div class="gallery-preview row mt-3" id="newImagesPreview"></div>
+
+                                <div class="form-group mt-3">
+                                    <input type="file" name="gallery_images[]" class="form-control" id="newGalleryImages" multiple
+                                        accept="image/*,video/*">
                                 </div>
                             </div>
                         </div>
@@ -56,17 +72,20 @@
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>&nbsp;{{ __('about.about_content') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>&nbsp;{{
+                                    __('about.about_content') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('about.main_text_en') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_en" rows="3">{{ $about->main_text_en ?? '' }}</textarea>
+                                    <textarea class="form-control" name="main_text_en"
+                                        rows="3">{{ $about->main_text_en ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('about.main_text_ar') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_ar" rows="3">{{ $about->main_text_ar ?? '' }}</textarea>
+                                    <textarea class="form-control" name="main_text_ar"
+                                        rows="3">{{ $about->main_text_ar ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -85,19 +104,21 @@
                                     <label><strong>{{ __('about.why_points_en') }}</strong></label>
                                     <div id="why-points-container-en">
                                         @forelse(json_decode($about->why_points_en ?? '[]') as $point)
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points_en[]" value="{{ $point }}">
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-danger remove-point">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
+                                        <div class="input-group mb-2">
+                                            <input type="text" class="form-control" name="why_points_en[]"
+                                                value="{{ $point }}">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-danger remove-point">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
+                                        </div>
                                         @empty
-                                            <p class="text-muted">{{ __('about.no_points') }}</p>
+                                        <p class="text-muted">{{ __('about.no_points') }}</p>
                                         @endforelse
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" data-language="en">
+                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn"
+                                        data-language="en">
                                         <i class="fas fa-plus"></i> {{ __('about.add_point_en') }}
                                     </button>
                                 </div>
@@ -106,19 +127,21 @@
                                     <label><strong>{{ __('about.why_points_ar') }}</strong></label>
                                     <div id="why-points-container-ar">
                                         @forelse(json_decode($about->why_points_ar ?? '[]') as $point)
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="why_points_ar[]" value="{{ $point }}">
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-danger remove-point">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
+                                        <div class="input-group mb-2">
+                                            <input type="text" class="form-control" name="why_points_ar[]"
+                                                value="{{ $point }}">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-danger remove-point">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
+                                        </div>
                                         @empty
-                                            <p class="text-muted">{{ __('about.no_points') }}</p>
+                                        <p class="text-muted">{{ __('about.no_points') }}</p>
                                         @endforelse
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" data-language="ar">
+                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn"
+                                        data-language="ar">
                                         <i class="fas fa-plus"></i> {{ __('about.add_point_ar') }}
                                     </button>
                                 </div>
@@ -142,5 +165,13 @@
 @endsection
 
 @section('scripts')
+
+<script>
+    const messages = {
+        confirmDeleteFile: "{{ __('about.confirm_delete_file') }}",
+        deleteFileFailed: "{{ __('about.delete_file_failed') }}",
+        deleteFileError: "{{ __('about.delete_file_error') }}",
+    };
+</script>
 <script src="{{ asset('assets/js/aboutPage.js') }}"></script>
 @endsection

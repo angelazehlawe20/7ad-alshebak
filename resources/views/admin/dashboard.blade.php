@@ -3,6 +3,7 @@
 @section('title', __('dashboard.dashboard'))
 
 @section('content')
+@if(auth()->user()->is_owner)
 <div class="container-fluid px-3">
     <div class="d-flex align-items-center mb-4">
         <h1 class="h2 mb-0 text-start">{{ __('dashboard.dashboard') }}</h1>
@@ -104,6 +105,15 @@
         @include('admin.layouts.sidebar')
     </div>
 </div>
-
+@else
+<div class="container-fluid px-3">
+    <div class="text-center py-5">
+        <div class="alert alert-info mb-4">
+            <h4 class="alert-heading">{{ __('dashboard.welcome') }}</h4>
+            <p class="mb-0">{{ __('dashboard.access_message') }}</p>
+        </div>
+    </div>
+</div>
+@endif
 
 @endsection

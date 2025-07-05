@@ -50,7 +50,7 @@
                         </div>
                         <div class="card-footer bg-white">
                             <div class="d-flex gap-2 justify-content-between">
-                                <a href="{{ route('admin.admins.edit', $admin) }}" class="btn flex-grow-1" style="background-color: #8B7355; color: white;">
+                                <a href="{{ route('admin.admins.edit', $admin->id) }}" class="btn flex-grow-1" style="background-color: #8B7355; color: white;">
                                     <i class="fas fa-edit me-2"></i> {{ __('admins.edit') }}
                                 </a>
                                 <form action="{{ route('admin.admins.destroy', $admin) }}" method="POST" class="flex-grow-1">
