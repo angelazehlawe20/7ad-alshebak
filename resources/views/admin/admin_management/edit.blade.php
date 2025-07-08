@@ -8,7 +8,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;{{ __('admins.edit_heading', ['name' => $admin->name]) }}</h1>
+                    <h1 class="m-0"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;{{ __('admins.edit_heading', ['name' =>
+                        $useradmin->name]) }}</h1>
                 </div>
             </div>
         </div>
@@ -16,20 +17,21 @@
 
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.admins.update',  $admin->id) }}" method="POST">
+            <form action="{{ route('admin.admins.update',  $useradmin->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-user mr-2"></i>&nbsp;{{ __('admins.personal_info') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-user mr-2"></i>&nbsp;{{
+                                    __('admins.personal_info') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.name') }}</strong></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name', $admin->name ) }}" required>
+                                        name="name" value="{{ old('name', $useradmin->name ) }}" required>
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -38,7 +40,8 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.email') }}</strong></label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ old('email', $admin->email) }}" required style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">
+                                        name="email" value="{{ old('email', $useradmin->email) }}" required
+                                        style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">
                                     @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -50,7 +53,8 @@
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-key mr-2"></i>&nbsp;{{ __('admins.password_section') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-key mr-2"></i>&nbsp;{{
+                                    __('admins.password_section') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">

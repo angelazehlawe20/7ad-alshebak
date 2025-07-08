@@ -37,10 +37,11 @@
 
     <style>
         @font-face {
-            font-family: 'Shekari';
-            src: url('/fonts/Shekari-Font.ttf') format('truetype');
+            font-family: 'Sukar';
+            src: url('/fonts/SukarRegular.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: block;
         }
 
         @font-face {
@@ -48,11 +49,12 @@
             src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: block;
         }
 
         /* === 2. تعيين الخطوط للغات === */
         :root {
-            --font-arabic: 'Shekari', sans-serif;
+            --font-arabic: 'Sukar', sans-serif;
             --font-english: 'TimeBurner', sans-serif;
         }
 
@@ -76,7 +78,7 @@
 
         /* === INCREASED HEADING SIZES FOR ARABIC === */
         body[dir="rtl"] h1 {
-            font-size: 2.5rem !important;
+            font-size: 4rem !important;
             /* Increased from 2.2rem */
             font-weight: 600;
         }
@@ -105,7 +107,13 @@
 
         /* === INCREASED FONT SIZES FOR ENGLISH HEADINGS === */
         body[dir="ltr"] h1 {
-            font-size: 2.2rem !important;
+            font-size: 4rem !important;
+            font-weight: 600;
+        }
+
+        body[dir="ltr"] .section-title p .description-title {
+            font-size: 2em !important;
+            /* Make description title 10% larger than the rest of the title */
             font-weight: 600;
         }
 
@@ -120,8 +128,8 @@
             /* Increased from 2.7rem */
         }
 
-        .section-title p .description-title {
-            font-size: 1.5em !important;
+        body[dir="rtl"] .section-title p .description-title {
+            font-size: 1em !important;
             /* Make description title 10% larger than the rest of the title */
             font-weight: 600;
         }
@@ -229,7 +237,7 @@
     @stack('styles')
 </head>
 
-<body dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<body class="lang-{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
     @include('partials.header')
 
@@ -263,9 +271,9 @@
     <script>
         flatpickr("#booking_date",  {
         dateFormat: "Y-m-d",
-        minDate: new Date().fp_incr(1), // لا يمكن اختيار تاريخ اليوم
+        minDate: new Date().fp_incr(1),
         locale: "{{ app()->getLocale() == 'ar' ? 'ar' : 'default' }}",
-        disableMobile: true // لتوحيد الشكل بين الموبايل والكمبيوتر
+        disableMobile: true
     });
     </script>
 

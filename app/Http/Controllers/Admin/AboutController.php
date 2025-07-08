@@ -149,19 +149,19 @@ class AboutController extends Controller
     }
 
     public function deleteMedia(Request $request)
-{
-    $path = $request->input('path');
+    {
+        $path = $request->input('path');
 
-    // تحقق من أن المسار يبدأ بمجلد 'images/' لتفادي حذف ملفات غير مرغوب فيها
-    if ($path && str_starts_with($path, 'images/')) {
-        $fullPath = public_path($path);
+        // تحقق من أن المسار يبدأ بمجلد 'images/' لتفادي حذف ملفات غير مرغوب فيها
+        if ($path && str_starts_with($path, 'images/')) {
+            $fullPath = public_path($path);
 
-        if (File::exists($fullPath)) {
-            File::delete($fullPath);
-            return response()->json(['success' => true]);
+            if (File::exists($fullPath)) {
+                File::delete($fullPath);
+                return response()->json(['success' => true]);
+            }
         }
-    }
 
-    return response()->json(['success' => false], 400);
-}
+        return response()->json(['success' => false], 400);
+    }
 }

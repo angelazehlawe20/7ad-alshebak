@@ -11,14 +11,14 @@
     --accent-color: #AC8C64;
     --surface-color: #e8c095;
     --contrast-color: #ffffff;
-    --arabic-font: 'Shekari-Font', Arial, sans-serif;
+    --arabic-font: 'Sukar-Font', Arial, sans-serif;
     --english-font: 'Timeburner', Arial, sans-serif;
 }
 
 /* Font Declarations */
 @font-face {
-    font-family: 'Shekari-Font';
-    src: url('/fonts/Shekari-Font.ttf') format('truetype');
+    font-family: 'Sukar-Font';
+    src: url('/fonts/SukarRegular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -60,7 +60,8 @@ body.rtl {
     height: 100vh;
     background: var(--sidebar-bg);
     color: #fff;
-    min-width: 180px; /* Reduced from 220px */
+    min-width: 180px;
+    /* Reduced from 220px */
     max-width: 80%;
     transition: all 0.3s ease;
     overflow-x: hidden;
@@ -71,8 +72,10 @@ body.rtl {
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
-    padding-left: 8px; /* Reduced from 12px */
-    padding-right: 8px; /* Reduced from 12px */
+    padding-left: 8px;
+    /* Reduced from 12px */
+    padding-right: 8px;
+    /* Reduced from 12px */
 }
 
 body.rtl .sidebar {
@@ -85,8 +88,10 @@ body.ltr .sidebar {
 
 .sidebar .nav-link {
     color: #fff;
-    padding: 8px 10px; /* Reduced from 12px 15px */
-    margin: 2px 8px; /* Reduced from 3px 10px */
+    padding: 8px 10px;
+    /* Reduced from 12px 15px */
+    margin: 2px 8px;
+    /* Reduced from 3px 10px */
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -104,27 +109,32 @@ body.ltr .sidebar {
 }
 
 body.ltr .sidebar .nav-link i {
-    margin-right: 6px; /* Reduced from 8px */
+    margin-right: 6px;
+    /* Reduced from 8px */
     margin-left: 0;
 }
 
 body.rtl .sidebar .nav-link i {
-    margin-left: 6px; /* Reduced from 8px */
+    margin-left: 6px;
+    /* Reduced from 8px */
     margin-right: 0;
 }
 
 body.ltr .badge {
-    margin-left: 6px; /* Reduced from 8px */
+    margin-left: 6px;
+    /* Reduced from 8px */
 }
 
 body.rtl .badge {
-    margin-right: 6px; /* Reduced from 8px */
+    margin-right: 6px;
+    /* Reduced from 8px */
 }
 
 /* Main Content Styles */
 .main-content {
     background: var(--main-bg);
-    width: calc(100% - 180px); /* Adjusted to match new sidebar width */
+    width: calc(100% - 180px);
+    /* Adjusted to match new sidebar width */
 }
 
 .navbar {
@@ -255,11 +265,13 @@ textarea.resize-vertical {
     }
 
     body.ltr .sidebar {
-        left: -180px; /* Adjusted to match new sidebar width */
+        left: -180px;
+        /* Adjusted to match new sidebar width */
     }
 
     body.rtl .sidebar {
-        right: -180px; /* Adjusted to match new sidebar width */
+        right: -180px;
+        /* Adjusted to match new sidebar width */
     }
 
     body.ltr .sidebar.show {

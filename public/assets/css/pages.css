@@ -162,7 +162,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: var(--accent-color);
+    color: white;
     /* غير اللون حسب التصميم */
     top: 50%;
     transform: translateY(-50%);

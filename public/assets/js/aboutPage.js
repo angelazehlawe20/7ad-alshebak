@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // حذف نقاط النصوص
     document.addEventListener('click', function (e) {
         if (e.target.closest('.remove-point')) {
-            e.target.closest('.input-group').remove();
+            if (confirm('Are you sure you want to delete this point?')) {
+                e.target.closest('.input-group').remove();
+            }
         }
     });
 
@@ -30,20 +32,22 @@ document.addEventListener('DOMContentLoaded', function () {
             const pathToRemove = btn.dataset.path;
             const wrapper = btn.closest('.existing-image-wrapper');
 
-            // حذف العنصر من DOM
-            wrapper.remove();
+            if (confirm('Are you sure you want to delete this media?')) {
+                // حذف العنصر من DOM
+                wrapper.remove();
 
-            // تحديث الحقل المخفي بقائمة الصور بعد الحذف
-            const existingImagesInput = document.getElementById('existingImagesInput');
-            if (existingImagesInput) {
-                let images = [];
-                try {
-                    images = JSON.parse(existingImagesInput.value || '[]');
-                } catch {
-                    images = [];
+                // تحديث الحقل المخفي بقائمة الصور بعد الحذف
+                const existingImagesInput = document.getElementById('existingImagesInput');
+                if (existingImagesInput) {
+                    let images = [];
+                    try {
+                        images = JSON.parse(existingImagesInput.value || '[]');
+                    } catch {
+                        images = [];
+                    }
+                    images = images.filter(img => img !== pathToRemove);
+                    existingImagesInput.value = JSON.stringify(images);
                 }
-                images = images.filter(img => img !== pathToRemove);
-                existingImagesInput.value = JSON.stringify(images);
             }
         }
     });

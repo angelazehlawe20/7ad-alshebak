@@ -2,7 +2,7 @@
 
 return [
     'offers' => 'عروض',
-    'brand_name_ofeers' => 'عروض حدّ الشباك',
+    'brand_name_offers' => 'عروض حدّ الشباك',
     'management' => 'إدارة العروض',
     'add_offer' => 'إضافة عرض جديد',
     'filter_by_category' => 'تصفية حسب التصنيف',
