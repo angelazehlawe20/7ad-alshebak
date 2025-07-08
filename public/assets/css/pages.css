@@ -9,10 +9,44 @@
     align-items: center;
 }
 
-.hero h1 {
+html[dir="rtl"] .hero h1 {
     margin: 0;
-    font-size: 64px;
-    font-weight: 700;
+    font-size: 80px;
+    font-weight: 500;
+}
+
+html[dir="ltr"] .hero h1 {
+    margin: 0;
+    font-size: 80px;
+    font-weight: 500;
+}
+
+@media (max-width: 767px) {
+    html[dir="rtl"] .hero h1 {
+        margin: 0;
+        font-size: 80px;
+        font-weight: 500;
+    }
+
+    html[dir="ltr"] .hero h1 {
+        margin: 0;
+        font-size: 80px;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 575px) {
+    html[dir="rtl"] .hero h1 {
+        margin: 0;
+        font-size: 80px;
+        font-weight: 500;
+    }
+
+    html[dir="ltr"] .hero h1 {
+        margin: 0;
+        font-size: 80px;
+        font-weight: 500;
+    }
 }
 
 .hero p {
@@ -43,21 +77,6 @@
 .hero .animated {
     animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
-
-.background-swiper {
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-}
-
-.bg-cover {
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-}
-
 
 @media (max-width: 640px) {
     .hero h1 {

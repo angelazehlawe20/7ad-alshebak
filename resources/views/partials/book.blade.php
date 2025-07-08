@@ -50,16 +50,14 @@
                                 </div>
 
                                 <div class="col-md-6">
-    <input type="text" name="booking_date"
-        class="form-control @error('booking_date') is-invalid @enderror"
-        id="booking_date"
-        value="{{ old('booking_date') }}"
-        placeholder="{{ __('book.booking_date') }}"
-        required>
-    @error('booking_date')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
+                                    <input type="text" name="booking_date"
+                                        class="form-control @error('booking_date') is-invalid @enderror"
+                                        id="booking_date" value="{{ old('booking_date') }}"
+                                        placeholder="{{ __('book.booking_date') }}" required>
+                                    @error('booking_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
                                 <div class="col-md-6">
                                     <input type="time" name="booking_time"

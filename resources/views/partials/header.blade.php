@@ -30,12 +30,12 @@
                 <nav class="d-flex flex-wrap gap-5 justify-content-center w-100">
                     <a href="{{ route('hero') }}" class="nav-link text-center">
                         {{ __('navbar.home')}}</a>
-                    <a href="{{ route('all_offers') }}" class="nav-link text-center">
-                        {{__('navbar.offers')}}</a>
-                    <a href="{{ route('menu') }}" class="nav-link text-center">
-                        {{__('navbar.menu')}}</a>
                     <a href="{{ route('book') }}" class="nav-link text-center">
                         {{__('navbar.book')}}</a>
+                    <a href="{{ route('menu') }}" class="nav-link text-center">
+                        {{__('navbar.menu')}}</a>
+                    <a href="{{ route('all_offers') }}" class="nav-link text-center">
+                        {{__('navbar.offers')}}</a>
                     <a href="{{ route('contact') }}" class="nav-link text-center">
                         {{__('navbar.contact')}}</a>
                 </nav>
@@ -44,7 +44,7 @@
             <!-- Mobile Menu Toggle Button -->
             <div class="col-6 col-sm-8 d-md-none d-flex justify-content-end">
                 <button class="btn mobile-nav-toggle bg-white" type="button" aria-label="Toggle Navigation">
-                    <i class="bi bi-list fs-4"></i>
+                    <i class="bi bi-list fs-1"></i>
                 </button>
             </div>
             <!-- Language Toggle -->
@@ -80,7 +80,7 @@
 
             <a href="{{ route('lang.switch', $targetLocale) }}" class="btn btn-light language-btn hover-scale"
                 aria-label="Switch to {{ $targetLocale === 'ar' ? 'Arabic' : 'English' }}">
-                <img src="{{ asset(" assets/img/flags/{$targetLocale}.png") }}"
+                <img src="{{ asset("assets/img/flags/{$targetLocale}.png") }}"
                     alt="{{ $targetLocale === 'ar' ? 'Arabic' : 'English' }} flag" class="flag-icon rounded-circle"
                     width="24">
                 <span class="ms-2 fw-medium">{{ $targetLabel }}</span>
@@ -92,9 +92,9 @@
             @php
             $navItems = [
             ['route' => 'hero', 'icon' => 'house-door', 'text' => 'home'],
-            ['route' => 'all_offers', 'icon' => 'tag', 'text' => 'offers'],
-            ['route' => 'menu', 'icon' => 'journal-text', 'text' => 'menu'],
             ['route' => 'book', 'icon' => 'calendar-check', 'text' => 'book'],
+            ['route' => 'menu', 'icon' => 'journal-text', 'text' => 'menu'],
+            ['route' => 'all_offers', 'icon' => 'tag', 'text' => 'offers'],
             ['route' => 'contact', 'icon' => 'envelope', 'text' => 'contact']
             ];
             @endphp

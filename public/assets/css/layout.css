@@ -79,9 +79,46 @@ body {
 }
 
 /* توسيط العنوان بجانب اللوغو */
-.header .sitename {
+/* Site name font size based on language direction */
+html[dir="rtl"] .header .sitename {
     line-height: 1;
     font-weight: 500;
+    font-size: 35px;
+    margin: 0;
+    padding: 0 10px;
+}
+
+html[dir="ltr"] .header .sitename {
+    line-height: 1;
+    font-weight: 500;
+    font-size: 35px;
+    margin: 0;
+    padding: 0 10px;
+}
+
+@media (max-width: 767px) {
+    html[dir="rtl"] .header .sitename {
+        font-size: 40px;
+        padding: 0 8px;
+    }
+
+    html[dir="ltr"] .header .sitename {
+        font-size: 40px;
+        padding: 0 8px;
+    }
+}
+
+@media (max-width: 575px) {
+    html[dir="rtl"] .header .sitename {
+        font-size: 30px;
+        padding: 0 5px;
+    }
+
+    html[dir="ltr"] .header .sitename {
+        font-size: 30px;
+        font-weight: 300;
+        padding: 0 5px;
+    }
 }
 
 .header .logo h1 {
@@ -90,6 +127,16 @@ body {
     font-weight: 700;
     color: var(--heading-color);
     font-family: var(--default-font);
+}
+
+/* Arabic text size in navbar */
+html[dir="rtl"] .nav-link {
+    font-size: 16px;
+}
+
+/* English text size in navbar */
+html[dir="ltr"] .nav-link {
+    font-size: 20px;
 }
 
 .header .logo span {

@@ -2,6 +2,8 @@
 .mobile-nav-toggle i.bi-list,
 .mobile-nav-toggle i.bi-x {
     display: inline-block;
+    font-size: 1.5rem; /* Increased icon size */
+    padding: 4px; /* Added some padding around the icon */
 }
 
 /* Hide the X icon by default */
@@ -17,6 +19,7 @@ body.mobile-nav-active .mobile-nav-toggle i.bi-list {
 body.mobile-nav-active .mobile-nav-toggle i.bi-x {
     display: inline-block;
 }
+
 
 /* Ensure the toggle button has the correct z-index */
 .mobile-nav-toggle {
