@@ -115,8 +115,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'store' => 'bookings.store',
         'edit' => 'bookings.edit',
         'update' => 'bookings.update',
-        'destroy' => 'bookings.destroy'
+        'destroy' => 'bookings.destroy',
     ]);
+    Route::post('bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
+
 
     // Settings Management
     Route::controller(SettingsController::class)->group(function () {
@@ -141,6 +143,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::post('/contacts/mark-as-read', 'markAsRead')->name('contacts.markAsRead');
         Route::delete('/contacts/{contact}', 'destroy')->name('contacts.destroy');
     });
+    Route::post('/contacts/mark-as-notified', [AdminContactController::class, 'markAsNotified'])->name('contacts.markAsNotified');
+
 
     // About Management
     Route::controller(AboutController::class)->group(function () {

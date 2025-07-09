@@ -25,6 +25,8 @@ return [
     'english' => 'اللغة الإنكليزية',
     'arabic' => 'اللغة العربية',
     'no_new_notifications' => 'لا توجد اشعارات جديدة',
+    'new_bookings' => 'حجز جديد',
+    'new_messages' => 'رسائل جديدة',
 
 
     // alerts

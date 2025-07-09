@@ -61,7 +61,7 @@
 
                         {{-- Notifications Dropdown --}}
                         <div class="dropdown">
-                            <button class="btn btn-outline-primary btn-sm dropdown-toggle position-relative"
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative"
                                 type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="fas fa-bell"></i>
@@ -88,7 +88,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.contacts.index') }}"
                                         onclick="markMessagesAsNotified()">
                                         <i class="fas fa-envelope me-2"></i>
-                                        {{ $unreadMessages }} {{ __('messages.unread_messages') }}
+                                        {{ $unreadMessages }} {{ __('messages.new_messages') }}
                                     </a>
                                 </li>
                                 @endif

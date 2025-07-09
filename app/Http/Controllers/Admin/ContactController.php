@@ -35,6 +35,16 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('contacts'));
     }
 
+    public function markAsNotified()
+    {
+        Contact::where('is_read', false)
+            ->whereDate('created_at', now())
+            ->where('is_notified', false)
+            ->update(['is_notified' => true]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function show(Contact $contact)
     {
         $locale = app()->getLocale();

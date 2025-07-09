@@ -24,6 +24,8 @@ return [
     'english' => 'ُEnglish',
     'arabic' => 'Arabic',
     'no_new_notifications' => 'No new notification',
+    'new_bookings' => 'New Bookings',
+    'new_messages' => 'New Messages',
 
 
     'close' => 'Close',

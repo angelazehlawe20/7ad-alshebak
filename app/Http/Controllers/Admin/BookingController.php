@@ -21,11 +21,11 @@ class BookingController extends Controller
 
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name_ar', 'like', "%{$search}%")
-                  ->orWhere('name_en', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                    ->orWhere('name_en', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
             });
         }
 
@@ -36,6 +36,16 @@ class BookingController extends Controller
         $bookings = $query->latest()->paginate(10);
 
         return view('admin.bookings.index', compact('bookings'));
+    }
+
+    public function markAsNotified()
+    {
+        Booking::where('status', 'pending')
+            ->whereDate('created_at', now())
+            ->where('is_notified', false)
+            ->update(['is_notified' => true]);
+
+        return response()->json(['success' => true]);
     }
 
     public function update(Request $request, Booking $booking)
@@ -55,6 +65,6 @@ class BookingController extends Controller
 
         $booking->update($request->all());
 
-        return redirect()->route('admin.bookings.index')->with('success',__('book.update_message'));
+        return redirect()->route('admin.bookings.index')->with('success', __('book.update_message'));
     }
 }
