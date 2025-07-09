@@ -23,6 +23,8 @@ return [
     'home_page' => 'Home Page',
     'english' => 'ُEnglish',
     'arabic' => 'Arabic',
+    'no_new_notifications' => 'No new notification',
+
 
     'close' => 'Close',
     'validation_errors' => 'There are input errors:',

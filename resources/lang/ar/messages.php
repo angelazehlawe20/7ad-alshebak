@@ -24,6 +24,7 @@ return [
     'home_page' => 'الصفحة الرئيسية',
     'english' => 'اللغة الإنكليزية',
     'arabic' => 'اللغة العربية',
+    'no_new_notifications' => 'لا توجد اشعارات جديدة',
 
 
     // alerts

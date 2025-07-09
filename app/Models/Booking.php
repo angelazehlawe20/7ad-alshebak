@@ -19,6 +19,7 @@ class Booking extends Model
         'booking_time',
         'message_ar',
         'message_en',
-        'status'
-    ] ;
+        'status',
+        'is_notified'
+    ];
 }

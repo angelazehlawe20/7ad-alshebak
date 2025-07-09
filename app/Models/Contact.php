@@ -18,6 +18,7 @@ class Contact extends Model
         'message_ar',
         'message_en',
         'is_read',
+        'is_notified',
         'sent_at',
     ];
 }

@@ -2,6 +2,7 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
+    <!-- Same head section as before -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ __('messages.admin_panel_description') }}">
@@ -47,6 +48,60 @@
                     </button>
 
                     <div class="d-flex align-items-center ms-auto gap-2">
+                        @php
+                        $newBookings = \App\Models\Booking::where('status', 'pending')
+                        ->whereDate('created_at', \Carbon\Carbon::today())
+                        ->where('is_notified', false)
+                        ->count();
+                        $unreadMessages = \App\Models\Contact::where('is_read', false)
+                        ->whereDate('created_at', \Carbon\Carbon::today())
+                        ->where('is_notified', false)
+                        ->count();
+                        @endphp
+
+                        {{-- Notifications Dropdown --}}
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm dropdown-toggle position-relative"
+                                type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                @if($newBookings > 0 || $unreadMessages > 0)
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $newBookings + $unreadMessages }}
+                                </span>
+                                @endif
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                                @if($newBookings > 0 || $unreadMessages > 0)
+                                @if($newBookings > 0)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.bookings.index') }}"
+                                        onclick="markBookingsAsNotified()">
+                                        <i class="fas fa-calendar-check me-2"></i>
+                                        {{ $newBookings }} {{ __('messages.new_bookings') }}
+                                    </a>
+                                </li>
+                                @endif
+                                @if($unreadMessages > 0)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.contacts.index') }}"
+                                        onclick="markMessagesAsNotified()">
+                                        <i class="fas fa-envelope me-2"></i>
+                                        {{ $unreadMessages }} {{ __('messages.unread_messages') }}
+                                    </a>
+                                </li>
+                                @endif
+                                @else
+                                <li>
+                                    <span class="dropdown-item-text w-600 px-1 py-2">
+                                        {{ __('messages.no_new_notifications') }}
+                                    </span>
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+
                         <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
                             class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-language me-1"></i>
@@ -109,8 +164,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        /* Same styles as before */
         body.rtl {
             font-size: 22px;
             line-height: 1.8;
@@ -206,26 +263,36 @@
 
     <script>
         const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
+        const overlay = document.getElementById('sidebarOverlay');
 
-    document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-        document.body.classList.toggle('no-scroll', sidebar.classList.contains('show'));
-    });
+        document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.classList.toggle('no-scroll', sidebar.classList.contains('show'));
+        });
 
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('show');
-        overlay.classList.remove('show');
-        document.body.classList.remove('no-scroll');
-    });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('show');
             overlay.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        });
+
+        function markMessagesAsNotified() {
+            $.ajax({
+                url: '{{ route("admin.contacts.markAsNotified") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            });
         }
-    });
     </script>
 
     @stack('scripts')

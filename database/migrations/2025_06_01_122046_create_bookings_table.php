@@ -22,7 +22,8 @@ return new class extends Migration
             $table->time('booking_time');
             $table->string('message_ar')->nullable();
             $table->string('message_en')->nullable();
-            $table->enum('status', ['pending','confirmed','cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->boolean('is_notified')->default(false);
             $table->timestamps();
         });
     }

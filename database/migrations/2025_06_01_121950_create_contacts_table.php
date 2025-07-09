@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('message_ar')->nullable();
             $table->text('message_en')->nullable();
             $table->boolean('is_read')->default(false);
+            $table->boolean('is_notified')->default(false);
             $table->timestamps();
         });
     }
