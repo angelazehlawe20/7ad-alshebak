@@ -284,6 +284,16 @@
             }
         });
 
+        function markBookingsAsNotified() {
+            $.ajax({
+                url: '{{ route("admin.bookings.markAsNotified") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            });
+        }
+
         function markMessagesAsNotified() {
             $.ajax({
                 url: '{{ route("admin.contacts.markAsNotified") }}',
