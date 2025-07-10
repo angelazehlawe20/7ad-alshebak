@@ -17,6 +17,11 @@ class Hero_Page extends Model
         'title_ar',
         'main_text_en',
         'main_text_ar',
-        'image'
     ];
+
+    public function images()
+{
+    return $this->hasMany(Hero_image::class, 'hero_page_id'); 
+}
+
 }

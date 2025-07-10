@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
@@ -44,6 +46,11 @@ class BookingController extends Controller
             ->whereDate('created_at', now())
             ->where('is_notified', false)
             ->update(['is_notified' => true]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new BookingsExport, 'bookings.xlsx');
 
         return response()->json(['success' => true]);
     }

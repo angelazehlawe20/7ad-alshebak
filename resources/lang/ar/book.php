@@ -30,4 +30,5 @@ return [
     'confirm' => 'تأكيد',
     'reject' => 'رفض',
     'no_bookings_found' => 'لا توجد حجوزات',
+    'export_to_excel' => 'التصدير إلى إكسل'
 ];

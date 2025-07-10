@@ -118,6 +118,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'destroy' => 'bookings.destroy',
     ]);
     Route::post('bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
+    Route::get('bookings/export', [AdminBookingController::class, 'export'])->name('bookings.export');
 
 
     // Settings Management

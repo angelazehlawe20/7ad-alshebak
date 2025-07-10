@@ -1,7 +1,7 @@
 <!-- HEADER -->
-<header id="header" class="header w-100">
-    <div class="container-fluid px-3 px-md-5">
-        <div class="row align-items-center">
+<header id="header" class="header w-100 vw-100">
+    <div class="container-fluid px-3 px-md-5 w-100">
+        <div class="row align-items-center w-100 m-0">
             <!-- Logo -->
             <div class="col-6 col-sm-4 col-md-3">
                 <div class="logo d-flex align-items-center gap-2">

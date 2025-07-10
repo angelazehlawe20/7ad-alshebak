@@ -10,6 +10,11 @@
                 <div class="col-sm-6">
                     <h1 class="m-0"><i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}</h1>
                 </div>
+                <div class="col-sm-6 text-end">
+                    <a href="{{ route('admin.bookings.export') }}" class="btn btn-success">
+                        <i class="fas fa-file-excel me-2"></i>{{ __('book.export_to_excel') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -35,7 +40,8 @@
                             </select>
                         </div>
                         @if(request('status'))
-                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">{{ __('book.clear_filter') ?? 'Clear Filter' }}</a>
+                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">{{
+                            __('book.clear_filter') ?? 'Clear Filter' }}</a>
                         @endif
                     </form>
                 </div>
@@ -48,9 +54,9 @@
                         <div class="card-header bg-light d-flex justify-content-between align-items-center">
                             @php
                             $statusColors = [
-                                'pending' => 'warning',
-                                'confirmed' => 'success',
-                                'cancelled' => 'danger'
+                            'pending' => 'warning',
+                            'confirmed' => 'success',
+                            'cancelled' => 'danger'
                             ];
                             @endphp
                             <span class="badge bg-{{ $statusColors[$booking->status] }}">
@@ -61,24 +67,32 @@
                             <div class="mb-3">
                                 <h5 class="card-title">{{ __('book.guest_information') }}</h5>
                                 @if($booking->name_ar)
-                                <div><strong>{{ __('book.arabic_name') ?? 'Arabic Name' }}:</strong> {{ $booking->name_ar }}</div>
+                                <div><strong>{{ __('book.arabic_name') ?? 'Arabic Name' }}:</strong> {{
+                                    $booking->name_ar }}</div>
                                 @endif
                                 @if($booking->name_en)
-                                <div><strong>{{ __('book.english_name') ?? 'English Name' }}:</strong> {{ $booking->name_en }}</div>
+                                <div><strong>{{ __('book.english_name') ?? 'English Name' }}:</strong> {{
+                                    $booking->name_en }}</div>
                                 @endif
                             </div>
 
                             <div class="mb-3">
-                                <h6 class="card-subtitle mb-2">{{ __('book.contact_details') ?? 'Contact Details' }}</h6>
+                                <h6 class="card-subtitle mb-2">{{ __('book.contact_details') ?? 'Contact Details' }}
+                                </h6>
                                 <div><i class="fas fa-phone text-secondary me-2"></i>{{ $booking->phone }}</div>
                                 <div><i class="fas fa-envelope text-secondary me-2"></i>{{ $booking->email }}</div>
                             </div>
 
                             <div class="mb-3">
-                                <h6 class="card-subtitle mb-2">{{ __('book.booking_information') ?? 'Booking Information' }}</h6>
-                                <div><i class="fas fa-users text-secondary me-2"></i>{{ $booking->guests_count }} {{ __('book.guests') }}</div>
-                                <div><i class="fas fa-calendar text-secondary me-2"></i>{{ $booking->booking_date }}</div>
-                                <div><i class="fas fa-clock text-secondary me-2"></i>{{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->booking_time)->format('h:i A') }}</div>
+                                <h6 class="card-subtitle mb-2">{{ __('book.booking_information') ?? 'Booking
+                                    Information' }}</h6>
+                                <div><i class="fas fa-users text-secondary me-2"></i>{{ $booking->guests_count }} {{
+                                    __('book.guests') }}</div>
+                                <div><i class="fas fa-calendar text-secondary me-2"></i>{{ $booking->booking_date }}
+                                </div>
+                                <div><i class="fas fa-clock text-secondary me-2"></i>{{
+                                    \Carbon\Carbon::createFromFormat('H:i:s', $booking->booking_time)->format('h:i A')
+                                    }}</div>
                             </div>
 
                             @if($booking->message_ar || $booking->message_en)
@@ -95,7 +109,8 @@
                         </div>
                         <div class="card-footer" style="background-color: #f5f5dc;">
                             <div class="d-flex gap-2">
-                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST"
+                                    class="flex-grow-1">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status" value="confirmed">
@@ -104,7 +119,8 @@
                                     </button>
                                 </form>
 
-                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST"
+                                    class="flex-grow-1">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status" value="cancelled">

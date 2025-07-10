@@ -30,5 +30,6 @@ return [
     'confirm' => 'Confirm',
     'reject' => 'Reject',
     'no_bookings_found' => 'No bookings found',
+    'export_to_excel' => 'Export to excel',
 
 ];

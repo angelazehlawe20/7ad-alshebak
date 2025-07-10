@@ -11,7 +11,7 @@ return [
     'edit_hero' => 'تعديل القسم ',
     'save_changes' => 'حفظ التعديلات',
     'cancel' => 'إلغاء',
-    'hero_images' => 'صورة القسم',
+    'hero_images' => 'صور القسم',
     'hero_content' => 'محتوى القسم',
     'english_title' => 'العنوان بالإنكليزية',
     'arabic_title' => 'العنوان بالعربية',

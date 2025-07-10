@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Hero_image;
 use App\Models\Hero_Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -12,13 +13,13 @@ class HeroController extends Controller
 {
     public function index()
     {
-        $heroPage = Hero_Page::first();
+        $heroPage = Hero_Page::with('images')->first();
         return view('partials.hero', compact('heroPage'));
     }
 
     public function indexForAdmin()
     {
-        $heroPage = Hero_Page::latest()->first();
+        $heroPage = Hero_Page::with('images')->latest()->first();
         return view('admin.hero.index', compact('heroPage'));
     }
 
@@ -34,26 +35,29 @@ class HeroController extends Controller
             'title_ar' => 'nullable|string|max:255',
             'main_text_en' => 'nullable|string',
             'main_text_ar' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $validated;
+        $heroPage = Hero_Page::create($validated);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/hero'), $imageName);
-            $data['image'] = 'images/hero/' . $imageName;
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/hero'), $imageName);
+
+                Hero_image::create([
+                    'hero_page_id' => $heroPage->id,
+                    'image_path' => 'images/hero/' . $imageName,
+                ]);
+            }
         }
-
-        Hero_Page::create($data);
 
         return redirect()->route('admin.hero.indexForAdmin')->with('success', __('hero.created_succes_message'));
     }
 
     public function edit($id)
     {
-        $heroPage = Hero_Page::findOrFail($id);
+        $heroPage = Hero_Page::with('images')->findOrFail($id);
         return view('admin.hero.edit', compact('heroPage'));
     }
 
@@ -69,77 +73,47 @@ class HeroController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $data = $validated;
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/hero'), $imageName);
-            $data['image'] = 'images/hero/' . $imageName;
-
-            if ($hero && $hero->image && File::exists(public_path($hero->image))) {
-                File::delete(public_path($hero->image));
-            }
-        }
+        $heroData = $request->only(['title_en', 'title_ar', 'main_text_en', 'main_text_ar']);
 
         if ($hero) {
-            $hero->update($data);
+            $hero->update($heroData);
         } else {
-            Hero_Page::create($data);
+            $hero = Hero_Page::create($heroData);
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move(public_path('images/hero'), $imageName);
+                $hero->images()->create(['image_path' => 'images/hero/' . $imageName]);
+            }
         }
 
         return redirect()->back()->with('success', __('hero.updated_success_message'));
     }
 
 
-    public function updateImage(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'original_image' => 'required|string',
-        ]);
-
-        $originalImage = $request->input('original_image');
-        $imageFile = $request->file('image');
-
-        $newImageName = Str::random(20) . '.' . $imageFile->getClientOriginalExtension();
-        $destinationPath = public_path('images/hero');
-
-        $imageFile->move($destinationPath, $newImageName);
-
-        $oldImagePath = $destinationPath . '/' . basename($originalImage);
-        if (File::exists($oldImagePath)) {
-            File::delete($oldImagePath);
-        }
-
-        return response()->json([
-            'success' => true,
-            'newImage' => 'images/hero/' . $newImageName,
-        ]);
-    }
-
     public function deleteImage(Request $request)
     {
-        $image = $request->image;
-        $imagePath = public_path('images/hero/' . basename($image));
+        $image = Hero_image::findOrFail($request->image_id);
 
-        if (File::exists($imagePath)) {
-            File::delete($imagePath);
-            return response()->json(['success' => true]);
+        if (File::exists(public_path($image->image_path))) {
+            File::delete(public_path($image->image_path));
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => 'Image not found: ' . $imagePath
-        ]);
+        $image->delete();
+        return response()->json(['success' => true]);
     }
 
     public function destroy($id)
     {
-        $heroPage = Hero_Page::findOrFail($id);
+        $heroPage = Hero_Page::with('images')->findOrFail($id);
 
-        if ($heroPage->image && File::exists(public_path($heroPage->image))) {
-            File::delete(public_path($heroPage->image));
+        foreach ($heroPage->images as $image) {
+            if (File::exists(public_path($image->image_path))) {
+                File::delete(public_path($image->image_path));
+            }
+            $image->delete();
         }
 
         $heroPage->delete();
