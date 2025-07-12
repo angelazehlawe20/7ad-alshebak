@@ -48,7 +48,7 @@
                                             style="width: 100%; height: 150px; object-fit: cover;">
                                         @endif
                                         <button type="button" class="btn btn-sm btn-danger mt-1 remove-image-btn"
-                                            data-path="{{ $media }}">
+                                            data-path="{{ $media }}" disabled>
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -61,8 +61,8 @@
                                 <div class="gallery-preview row mt-3" id="newImagesPreview"></div>
 
                                 <div class="form-group mt-3">
-                                    <input type="file" name="gallery_images[]" class="form-control form-field" id="newGalleryImages" disabled multiple
-                                        accept="image/*,video/*">
+                                    <input type="file" name="gallery_images[]" class="form-control form-field"
+                                        id="newGalleryImages" disabled multiple accept="image/*,video/*">
                                 </div>
                             </div>
                         </div>
@@ -105,8 +105,8 @@
                                     <div id="why-points-container-en">
                                         @forelse(json_decode($about->why_points_en ?? '[]') as $point)
                                         <div class="input-group mb-2">
-                                            <input type="text" class="form-control form-field" name="why_points_en[]" readonly
-                                                value="{{ $point }}">
+                                            <input type="text" class="form-control form-field" name="why_points_en[]"
+                                                readonly value="{{ $point }}">
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-danger remove-point" disabled>
                                                     <i class="fas fa-trash"></i>
@@ -128,8 +128,8 @@
                                     <div id="why-points-container-ar">
                                         @forelse(json_decode($about->why_points_ar ?? '[]') as $point)
                                         <div class="input-group mb-2">
-                                            <input type="text" class="form-control form-field" name="why_points_ar[]" readonly
-                                                value="{{ $point }}">
+                                            <input type="text" class="form-control form-field" name="why_points_ar[]"
+                                                readonly value="{{ $point }}">
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-danger remove-point" disabled>
                                                     <i class="fas fa-trash"></i>
@@ -153,8 +153,9 @@
                 <!-- أزرار الحفظ -->
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" class="btn btn-primary btn-lg edit-mode-btn">
-                            <i class="fas fa-edit mr-2"></i> {{ __('about.edit') }}
+                        <button type="button" class="btn btn-secondary btn-lg"
+                            style="background-color: #8B7355; outline: none; border: none;">
+                            <i class="fas fa-edit mr-2"></i> {{ __('about.edit_about') }}
                         </button>
                         <button type="submit" class="btn btn-success btn-lg save-changes-btn d-none">
                             <i class="fas fa-save mr-2"></i> {{ __('about.save_changes') }}

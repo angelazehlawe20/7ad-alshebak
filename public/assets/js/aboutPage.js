@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Enable add/remove point buttons
         addPointBtns.forEach(btn => btn.disabled = false);
         removePointBtns.forEach(btn => btn.disabled = false);
+
+        // Enable remove image buttons
+        document.querySelectorAll('.remove-image-btn').forEach(btn => btn.disabled = false);
     });
 
     // حذف نقاط النصوص
@@ -55,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (e) {
         if (e.target.closest('.remove-image-btn')) {
             const btn = e.target.closest('.remove-image-btn');
+            if (btn.disabled) return;
             const pathToRemove = btn.dataset.path;
             const wrapper = btn.closest('.existing-image-wrapper');
 
