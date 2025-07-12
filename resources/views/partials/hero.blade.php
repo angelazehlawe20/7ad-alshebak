@@ -30,9 +30,9 @@
                     <div class="swiper background-swiper position-relative rounded-4 shadow overflow-hidden"
                         style="height: 400px;">
                         <div class="swiper-wrapper">
-                            @foreach (explode(',', $heroPage->images ?? $heroPage->image) as $image)
+                            @foreach ($heroPage->images as $image)
                             <div class="swiper-slide bg-cover"
-                                style="background-image: url('{{ asset($image) }}'); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                                style="background-image: url('{{ asset($image->image_path) }}'); background-size: cover; background-position: center; width: 100%; height: 100%;">
                             </div>
                             @endforeach
                         </div>

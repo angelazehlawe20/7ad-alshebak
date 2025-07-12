@@ -8,12 +8,12 @@
                     {{-- عرض الشعار مع صورة افتراضية في حال عدم وجوده --}}
                     <a href="{{ route('hero') }}">
                         @if(isset($settings->logo) && file_exists(public_path($settings->logo)))
-                        <img src="{{ asset($settings->logo) }}" alt="Logo" class="img-fluid" style="max-width: 60px;">
+                        <img src="{{ asset($settings->logo) }}" alt="Logo" class="img-fluid" style="max-width: 80px;">
                     </a>
                     @else
                     <a href="{{ route('hero') }}">
                         <img src="{{ asset('assets/img/logos/web-app-manifest-512x512.png') }}" alt="Default Logo"
-                            class="img-fluid" style="max-width: 60px;">
+                            class="img-fluid" style="max-width: 80px;">
                     </a>
                     @endif
                     <a href="{{ route('hero') }}" class="text-decoration-none">
@@ -42,7 +42,8 @@
             </div>
 
             <!-- Mobile Menu Toggle Button -->
-            <div class="col-6 col-sm-8 d-md-none d-flex justify-content-end">
+            <div
+                class="col-6 col-sm-8 d-md-none d-flex {{ app()->getLocale() == 'ar' ? 'justify-content-start' : 'justify-content-end' }}">
                 <button class="btn mobile-nav-toggle bg-white" type="button" aria-label="Toggle Navigation">
                     <i class="bi bi-list fs-1"></i>
                 </button>

@@ -104,6 +104,24 @@ body.ltr .sidebar {
     transform: translateX(5px);
 }
 
+/* Form Fields */
+.form-control[readonly],
+.form-control[disabled] {
+    background-color: #f8f9fa;
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.form-control[readonly]:focus,
+.form-control[disabled]:focus {
+    box-shadow: none;
+}
+
+button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .sidebar .nav-link.active {
     background: var(--sidebar-active);
 }

@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Handle edit mode toggle
+    const editModeBtn = document.querySelector('.edit-mode-btn');
+    const saveChangesBtn = document.querySelector('.save-changes-btn');
+    const formFields = document.querySelectorAll('.form-field');
+    const addPointBtns = document.querySelectorAll('.add-point-btn');
+    const removePointBtns = document.querySelectorAll('.remove-point');
+
+    editModeBtn?.addEventListener('click', function () {
+        // Show save button, hide edit button
+        editModeBtn.classList.add('d-none');
+        saveChangesBtn.classList.remove('d-none');
+
+        // Enable all form fields
+        formFields.forEach(field => {
+            if (field.type === 'file') {
+                field.disabled = false;
+            } else {
+                field.readOnly = false;
+            }
+        });
+
+        // Enable add/remove point buttons
+        addPointBtns.forEach(btn => btn.disabled = false);
+        removePointBtns.forEach(btn => btn.disabled = false);
+    });
+
     // حذف نقاط النصوص
     document.addEventListener('click', function (e) {
         if (e.target.closest('.remove-point')) {

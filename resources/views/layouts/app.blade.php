@@ -39,11 +39,13 @@
         @font-face {
             font-family: 'Sukar';
             src: url('/fonts/SukarRegular.ttf') format('truetype');
+            font-display: block;
         }
 
         @font-face {
             font-family: 'TimeBurner';
             src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
+            font-display: block;
         }
 
         :root {
