@@ -5,7 +5,9 @@ return [
     'confirm_delete_point' => 'هل أنت متأكد من حذف هذه النقطة؟',
     'delete_file_failed' => 'فشل حذف الملف. حاول مرة أخرى.',
     'delete_file_error' => 'حدث خطأ أثناء حذف الملف.',
-    'confirm_delete_file' => 'هل أنت متأكد من حذف هذا الملف؟',
+    'confirm_delete_media' => 'هل أنت متأكد من حذف هذا العنصر؟',
+    'video_not_supported' => 'الفيديو غير مدعوم',
+
     // Basic information
     'who_we_are' => 'من نحن',
     'about_section' => 'قسم من نحن',

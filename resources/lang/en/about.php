@@ -6,7 +6,9 @@ return [
     'confirm_delete_point' => 'Are you sure you want to delete this point?',
     'delete_file_failed' => 'File deletion failed. Try again.',
     'delete_file_error' => 'An error occurred while deleting the file.',
-    'confirm_delete_file' => 'Are you sure you want to delete this file?',
+    'confirm_delete_media' => 'Are you sure you want to delete this media?',
+    'video_not_supported' => 'Video not supported',
+
 
     'who_we_are' => 'Who We Are',
     'no_images' => 'No images available.',

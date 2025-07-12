@@ -153,10 +153,14 @@
                 <!-- أزرار الحفظ -->
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" class="btn btn-secondary btn-lg"
-                            style="background-color: #8B7355; outline: none; border: none;">
-                            <i class="fas fa-edit mr-2"></i> {{ __('about.edit_about') }}
+                        <button type="button" class="btn btn-secondary edit-mode-btn" style="background-color: #8B7355; border: none;"
+                            data-edit-text="{{ __('about.edit') }}" data-cancel-text="{{ __('about.cancel') }}"
+                            data-confirm-delete-point="{{ __('about.confirm_delete_point') }}"
+                            data-confirm-delete-media="{{ __('about.confirm_delete_media') }}"
+                            data-video-not-supported="{{ __('about.video_not_supported') }}">
+                            <i class="fas fa-edit mr-2"></i> {{ __('about.edit') }}
                         </button>
+
                         <button type="submit" class="btn btn-success btn-lg save-changes-btn d-none">
                             <i class="fas fa-save mr-2"></i> {{ __('about.save_changes') }}
                         </button>

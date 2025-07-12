@@ -21,6 +21,7 @@
     src: url('/fonts/SukarRegular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: block;
 }
 
 @font-face {
@@ -28,6 +29,7 @@
     src: url('/fonts/Timeburner-xJB8.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: block;
 }
 
 /* Body Styles */
