@@ -3,7 +3,7 @@ return [
     'book_your_table_now' => 'احجز طاولتك الآن',
     'your_name' => 'الاسم',
     'your_email' => 'البريد الإلكتروني',
-    'phone' => '9XXXXXXXX',
+    'phone' => 'رقم الهاتف : يجب أن يكون كالتالي (9XXXXXXXX)',
     'booking_date' => 'تاريخ الحجز',
     'booking_time' => 'وقت الحجز',
     'guests_count' => 'عدد الأشخاص',

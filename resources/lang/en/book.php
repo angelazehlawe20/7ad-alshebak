@@ -3,7 +3,7 @@ return [
     'book_your_table_now' => 'Book your table Now',
     'your_name' => 'Name',
     'your_email' => 'Email',
-    'phone' => '9XXXXXXXX',
+    'phone' => 'Phone number: It should be like this (9XXXXXXXX)',
     'booking_date' => 'Booking Date',
     'booking_time' => 'Booking Time',
     'guests_count' => '# of people',

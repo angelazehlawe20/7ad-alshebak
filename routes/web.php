@@ -46,6 +46,15 @@ Route::get('/', function () {
     ]);
 })->name('hero');
 
+Route::get('/csrf-token', function () {
+    return response()->json(csrf_token());
+});
+
+Route::get('/keep-alive', function () {
+    return response()->json(['status' => 'alive']);
+})->middleware('auth'); // فقط للمستخدمين المسجلين دخول
+
+
 // Public Feature Routes
 Route::controller(OfferController::class)->group(function () {
     Route::get('/all-offers', 'index')->name('all_offers');
@@ -109,7 +118,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // Bookings Management
-    Route::resource('bookings', AdminBookingController::class)->names([
+    Route::resource('bookings', AdminBookingController::class)->except(['show'])->names([
         'index' => 'bookings.index',
         'create' => 'bookings.create',
         'store' => 'bookings.store',

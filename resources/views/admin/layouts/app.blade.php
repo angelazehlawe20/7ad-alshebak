@@ -305,6 +305,49 @@
         }
     </script>
 
+    <script>
+        let keepAliveTimeout;
+
+    function keepSessionAlive() {
+        clearTimeout(keepAliveTimeout);
+
+        // بعد آخر نشاط، انتظر 2 دقيقة ثم أرسل طلب تجديد
+        keepAliveTimeout = setTimeout(function () {
+            fetch('/keep-alive', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    console.error('Failed to keep session alive.');
+                }
+            }).catch(error => {
+                console.error('Error while keeping session alive:', error);
+            });
+        }, 2 * 60 * 1000); // كل 2 دقيقة بعد نشاط المستخدم
+    }
+
+    // الأنشطة التي تُعتبر "نشاط مستخدم"
+    ['mousemove', 'keydown', 'click', 'scroll'].forEach(function(event) {
+        window.addEventListener(event, keepSessionAlive);
+    });
+
+    // أرسل أول طلب عند تحميل الصفحة
+    keepSessionAlive();
+    setInterval(function () {
+fetch('/csrf-token')
+    .then(response => response.text())
+    .then(data => {
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) {
+            meta.setAttribute('content', data);
+        }
+    });
+}, 30 * 60 * 1000); // كل 30 دقيقة
+
+    </script>
+
     @stack('scripts')
     @yield('scripts')
 </body>

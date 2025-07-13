@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,8 +10,8 @@
     <title>@yield('title', config('app.name', 'Had AlShebak'))</title>
     <!-- Favicon -->
     @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
-        <link rel="icon" type="image/x-icon" href="{{ asset($settings->favicon) }}">
-        <link rel="apple-touch-icon" href="{{ asset($settings->favicon) }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset($settings->favicon) }}">
+    <link rel="apple-touch-icon" href="{{ asset($settings->favicon) }}">
     @else
     @endif
 
@@ -22,6 +23,9 @@
     <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.6/dist/css/tempus-dominus.min.css" />
+
 
     <!-- Main CSS -->
     <link href="{{ asset('assets/css/base.css') }}" rel="stylesheet">
@@ -69,7 +73,8 @@
         }
 
         /* === Overflow Fix === */
-        html, body {
+        html,
+        body {
             overflow-x: hidden;
             max-width: 100vw;
         }
@@ -143,9 +148,54 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.6/dist/js/tempus-dominus.min.js"></script>
+
+    <script>
+        let keepAliveTimeout;
+
+        function keepSessionAlive() {
+            clearTimeout(keepAliveTimeout);
+
+            // بعد آخر نشاط، انتظر 2 دقيقة ثم أرسل طلب تجديد
+            keepAliveTimeout = setTimeout(function () {
+                fetch('/keep-alive', {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        console.error('Failed to keep session alive.');
+                    }
+                }).catch(error => {
+                    console.error('Error while keeping session alive:', error);
+                });
+            }, 2 * 60 * 1000); // كل 2 دقيقة بعد نشاط المستخدم
+        }
+
+        // الأنشطة التي تُعتبر "نشاط مستخدم"
+        ['mousemove', 'keydown', 'click', 'scroll'].forEach(function(event) {
+            window.addEventListener(event, keepSessionAlive);
+        });
+
+        // أرسل أول طلب عند تحميل الصفحة
+        keepSessionAlive();
+        setInterval(function () {
+    fetch('/csrf-token')
+        .then(response => response.text())
+        .then(data => {
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            if (meta) {
+                meta.setAttribute('content', data);
+            }
+        });
+}, 30 * 60 * 1000); // كل 30 دقيقة
+
+    </script>
+
 
     @if(app()->getLocale() == 'ar')
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
     @endif
 
     <script>
@@ -159,4 +209,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

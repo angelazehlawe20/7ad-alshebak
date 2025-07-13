@@ -26,31 +26,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->composer('*', function ($view) {
-            $view->with('footer', Setting::first());
-        });
-
-        View::composer('*', function ($view) {
-            $view->with('settings', Setting::first());
-        });
-
-        View::composer('*', function ($view) {
-            $view->with('heroPage', Hero_Page::first());
-        });
+        $settings = Setting::first();
+        View::share('footer', $settings);
+        View::share('settings', $settings);
+        View::share('heroPage', Hero_Page::first());
 
         // Share notification counts with all admin views
-        View::composer('admin.*', function ($view) {
-            $unreadMessages = Contact::where('is_read', false)->count();
-            $pendingBookings = Booking::where('status', 'pending')->count();
-
-             // الحصول على الأدمن الحالي
+        $unreadMessages = Contact::where('is_read', false)->count();
+        $pendingBookings = Booking::where('status', 'pending')->count();
         $admin = Auth::guard('admin')->user();
 
-            $view->with([
-                'unreadMessagesCount' => $unreadMessages,
-                'pendingBookingsCount' => $pendingBookings,
-                'admin' => $admin,
-            ]);
-        });
+        View::share([
+            'unreadMessagesCount' => $unreadMessages,
+            'pendingBookingsCount' => $pendingBookings,
+            'admin' => $admin,
+        ]);
     }
 }
