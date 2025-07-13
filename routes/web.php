@@ -17,7 +17,8 @@ use App\Http\Controllers\{
     MenuItemController,
     OfferController,
     BookingController,
-    ContactController
+    ContactController,
+    TelegramController
 };
 use App\Models\{About, Category, Offer, Hero_Page};
 use Illuminate\Support\Facades\Route;
@@ -188,3 +189,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     // Admin Management (Owner Only)
     Route::resource('/admins', AdminManagementController::class)->except(['show'])->middleware('owner');
 });
+
+Route::post('/telegram/webhook', [TelegramController::class, 'handleWebhook']);

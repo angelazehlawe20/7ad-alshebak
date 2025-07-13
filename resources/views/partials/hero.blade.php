@@ -31,25 +31,34 @@
             @endforeach
         </div>
         <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next" style="opacity: 0; transition: opacity 0.3s;"></div>
+        <div class="swiper-button-prev" style="opacity: 0; transition: opacity 0.3s;"></div>
+        <style>
+            .swiper-initialized .swiper-button-next,
+            .swiper-initialized .swiper-button-prev {
+                opacity: 1 !important;
+            }
+        </style>
     </div>
     <div class="container position-relative h-100 d-flex align-items-center" style="z-index: 2;">
         <div class="row w-100 justify-content-center align-items-center py-4">
-            <div class="col-12 col-lg-6 order-2 order-lg-1 text-center text-lg-start">
-                <h1 class="display-4 fw-bold mb-4 text-white" style="font-size: calc(2.5rem + 2vw);" data-aos="fade-up"
+            <div class="col-12 col-lg-6 order-2 order-lg-1 text-center text-lg-start px-4 px-lg-0">
+                <h1 class="display-4 fw-bold mb-4 text-white"
+                    style="font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2;" data-aos="fade-up"
                     data-aos-once="true">
                     {{ app()->getLocale() == 'en' ? ($heroPage->title_en ?? 'Had alshebak') : ($heroPage->title_ar ??
                     'حدّ الشباك') }}
                 </h1>
                 <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start"
-                    data-aos="zoom-out" data-aos-once="true">
-                    <a href="{{route('book')}}" class="btn btn-get-started text-black fw-bold px-4 py-2"
-                        style="font-size: calc(1rem + 0.3vw);" data-aos="zoom-out">
+                    style="margin-top: clamp(1.5rem, 4vw, 3rem);" data-aos="zoom-out" data-aos-once="true">
+                    <a href="{{route('book')}}" class="btn btn-get-started text-black fw-bold px-4 py-3 w-100 w-sm-auto"
+                        style="font-size: clamp(1rem, 2vw, 1.2rem); border-radius: 30px; transition: all 0.3s ease;"
+                        data-aos="zoom-out">
                         <i class="fas fa-calendar-check me-2"></i>{{ __('navbar.book') }}
                     </a>
-                    <a href="{{route('menu')}}" class="btn btn-get-started text-black fw-bold px-4 py-2"
-                        style="font-size: calc(1rem + 0.3vw);" data-aos="zoom-out">
+                    <a href="{{route('menu')}}" class="btn btn-get-started text-black fw-bold px-4 py-3 w-100 w-sm-auto"
+                        style="font-size: clamp(1rem, 2vw, 1.2rem); border-radius: 30px; transition: all 0.3s ease;"
+                        data-aos="zoom-out">
                         <i class="fas fa-utensils me-2"></i>{{ __('navbar.view_menu') }}
                     </a>
                 </div>
