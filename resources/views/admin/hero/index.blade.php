@@ -24,24 +24,40 @@
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-image mr-2"></i>&nbsp;{{ __('hero.hero_images') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-image mr-2"></i>&nbsp;{{ __('hero.hero_images')
+                                    }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="gallery-preview mb-3">
-                                    @if($heroPage && $heroPage->image && file_exists(public_path($heroPage->image)))
-                                    <img src="{{ asset($heroPage->image) }}"
-                                        class="img-fluid rounded shadow gallery-image" alt="Hero Image"
-                                        style="width: 100%; height: 100%; object-fit: contain;">
-                                    @endif
+                                    <div class="row g-3">
+                                        @forelse($heroPage->images as $image)
+                                        <div class="col-md-4">
+                                            <div class="position-relative" style="height: 200px;">
+                                                <img src="{{ asset($image->image_path) }}"
+                                                    class="img-fluid rounded shadow w-100 h-100" alt="Hero Image"
+                                                    style="object-fit: cover;">
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 d-none delete-btn"
+                                                    onclick="deleteImage({{ $image->id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @empty
+                                        <div class="col-12">
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                                style="height: 200px;">
+                                                <p class="text-muted">{{ __('hero.no_images_uploaded') }}</p>
+                                            </div>
+                                        </div>
+                                        @endforelse
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-sm btn-secondary d-none" id="uploadImagesBtn">
-                                        <i class="fas fa-edit"></i>&nbsp;{{ __('hero.edit_image') }}
-                                    </button>
-                                    <input type="file" class="d-none" name="image" id="newHeroImage" accept="image/*"
-                                        onchange="previewImage(this)">
-                                    <div id="imagePreviewContainer" class="mt-2"></div>
+                                    <input type="file" class="form-control d-none" name="images[]" id="newHeroImage"
+                                        accept="image/*" multiple onchange="previewImages(this)">
+                                    <div id="imagePreviewContainer" class="mt-2 row g-2"></div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +66,8 @@
                     <div class="col-md-6 mb-4">
                         <div class="card bg-beige card-outline h-100">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>&nbsp;{{ __('hero.hero_content') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>&nbsp;{{
+                                    __('hero.hero_content') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -83,7 +100,8 @@
 
                 <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <button type="button" id="editBtn" class="btn btn-secondary btn-lg" style="background-color: #8B7355; outline: none; border: none;">
+                        <button type="button" id="editBtn" class="btn btn-secondary btn-lg"
+                            style="background-color: #8B7355; outline: none; border: none;">
                             <i class="fas fa-edit mr-2"></i> {{ __('hero.edit_hero') }}
                         </button>
 

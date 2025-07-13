@@ -82,10 +82,19 @@ class HeroController extends Controller
         }
 
         if ($request->hasFile('images')) {
+            // Create the directory if it doesn't exist
+            $imagePath = public_path('images/hero');
+            if (!file_exists($imagePath)) {
+                mkdir($imagePath, 0777, true);
+            }
+
             foreach ($request->file('images') as $imageFile) {
                 $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
-                $imageFile->move(public_path('images/hero'), $imageName);
-                $hero->images()->create(['image_path' => 'images/hero/' . $imageName]);
+                $imageFile->move($imagePath, $imageName);
+
+                $hero->images()->create([
+                    'image_path' => 'images/hero/' . $imageName
+                ]);
             }
         }
 
