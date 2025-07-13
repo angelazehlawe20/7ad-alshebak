@@ -51,8 +51,6 @@ class BookingController extends Controller
     public function export()
     {
         return Excel::download(new BookingsExport, 'bookings.xlsx');
-
-        return response()->json(['success' => true]);
     }
 
     public function update(Request $request, Booking $booking)

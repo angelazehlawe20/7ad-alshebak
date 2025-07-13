@@ -14,6 +14,8 @@ return [
     'edit' => 'Edit',
     'delete' => 'Delete',
     'confirm_delete' => 'Are you sure you want to delete this item?',
+    'add_to_get_started' => 'Add items to menu to get started.',
+
 
 
     'create_menu_item' => 'Create Menu Item',

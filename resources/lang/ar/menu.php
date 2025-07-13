@@ -14,6 +14,7 @@ return [
     'edit' => 'تعديل',
     'delete' => 'حذف',
     'confirm_delete' => 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
+    'add_to_get_started' => 'أضف عناصر لقائمة الطعام للبدء',
 
     'create_menu_item' => 'إنشاء عنصر في القائمة',
     'add_new_menu_item' => 'إضافة عنصر جديد',

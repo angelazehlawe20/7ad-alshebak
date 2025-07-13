@@ -2,6 +2,17 @@
 @section('title', __('offers.offers'))
 
 @section('content')
+<style>
+    .btn-edit:hover {
+        background-color: #8B7355 !important;
+        color: white !important;
+    }
+    .btn-delete:hover {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+</style>
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -88,13 +99,13 @@
                                         </div>
                                         <div class="card-footer bg-transparent border-top-0">
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('admin.offers.edit', $offer->id) }}" class="btn btn-outline flex-grow-1" style="border-color: #8B7355; color: #8B7355">
+                                                <a href="{{ route('admin.offers.edit', $offer->id) }}" class="btn btn-edit btn-outline flex-grow-1" style="border-color: #8B7355; color: #8B7355; transition: all 0.3s">
                                                     <i class="fas fa-edit"></i>&nbsp; {{ __('offers.edit') }}
                                                 </a>
                                                 <form action="{{ route('admin.offers.destroy', $offer->id) }}" method="POST" class="flex-grow-1" onsubmit="return confirm('{{ __('offers.confirm_delete') }}')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger w-100" data-id="{{ $offer->id }}">
+                                                    <button type="submit" class="btn btn-delete btn-outline-danger w-100" style="transition: all 0.3s" data-id="{{ $offer->id }}">
                                                         <i class="fas fa-trash"></i>&nbsp; {{ __('offers.delete') }}
                                                     </button>
                                                 </form>
