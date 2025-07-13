@@ -90,7 +90,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Menu Items Management
-    Route::resource('menu_items', AdminMenuItemController::class)->names([
+    Route::resource('/menu_items', AdminMenuItemController::class)->names([
         'index' => 'menu.index',
         'create' => 'menu.create',
         'store' => 'menu.store',
@@ -104,7 +104,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // Offers Management
-    Route::resource('offers', AdminOfferController::class)->except(['show'])->names([
+    Route::resource('/offers', AdminOfferController::class)->except(['show'])->names([
         'index' => 'offers.index',
         'create' => 'offers.create',
         'store' => 'offers.store',
@@ -118,7 +118,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // Bookings Management
-    Route::resource('bookings', AdminBookingController::class)->except(['show'])->names([
+    Route::resource('/bookings', AdminBookingController::class)->except(['show'])->names([
         'index' => 'bookings.index',
         'create' => 'bookings.create',
         'store' => 'bookings.store',
@@ -126,8 +126,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'update' => 'bookings.update',
         'destroy' => 'bookings.destroy',
     ]);
-    Route::post('bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
-    Route::get('bookings/export', [AdminBookingController::class, 'export'])->name('bookings.export');
+    Route::post('/bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
+    Route::get('/bookings/export', [AdminBookingController::class, 'export'])->name('bookings.export');
+    Route::get('/bookings/export/frequent', [AdminBookingController::class, 'exportFrequentBookers'])->name('bookings.export.frequent');
 
 
     // Settings Management
@@ -137,7 +138,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // Categories Management
-    Route::resource('categories', CategoryController::class)->names([
+    Route::resource('/categories', CategoryController::class)->names([
         'index' => 'categories.index',
         'create' => 'categories.create',
         'store' => 'categories.store',
@@ -185,5 +186,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
 
     // Admin Management (Owner Only)
-    Route::resource('admins', AdminManagementController::class)->except(['show'])->middleware('owner');
+    Route::resource('/admins', AdminManagementController::class)->except(['show'])->middleware('owner');
 });

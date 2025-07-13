@@ -12,6 +12,7 @@ return [
     'phone_error' => 'يرجى إدخال رقم صحيح مثل 9XXXXXXXX.',
     'booking_success' => 'تم حجزك بنجاح! سنتواصل معك قريباً.',
     'update_message' => 'تم تحديث حالة الحجز بنجاح.',
+    'export_frequent_bookers_to_excel' => 'الحجز المتكرر أكثر من 5 حجوزات',
 
     'bookings_management' => 'إدارة الحجوزات',
     'filter_by_status' => 'تصفية حسب الحالة:',

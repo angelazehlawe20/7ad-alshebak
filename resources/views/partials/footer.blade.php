@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-geo-alt icon"></i>
                 <div class="address" data-bs-toggle="tooltip" data-bs-placement="top" title="{!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}">
-                    <p class="mb-0 text-truncate" style="max-width: 200px; cursor: pointer;">
+                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
                         {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
                     </p>
                 </div>
@@ -13,7 +13,7 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-envelope icon"></i>
                 <div class="email-container" style="position: relative; overflow: hidden;">
-                    <p class="mb-0 email-text" style="max-width: 200px; cursor: grab; user-select: text; overflow-x: auto; white-space: nowrap; scrollbar-width: none;">
+                    <p class="mb-0 email-text" style="max-width: 300px; cursor: grab; user-select: text; overflow-x: auto; white-space: nowrap; scrollbar-width: none;">
                         {{ $footer?->email }}
                     </p>
                 </div>
@@ -22,7 +22,7 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-telephone icon"></i>
                 <div data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $footer?->phone }}">
-                    <p class="mb-0 text-truncate" style="max-width: 200px; cursor: pointer;">
+                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
                         {{ $footer?->phone }}
                     </p>
                 </div>
@@ -31,7 +31,7 @@
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-clock icon"></i>
                 <div data-bs-toggle="tooltip" data-bs-placement="top" title="{!! $footer?->opening_hours !!}">
-                    <p class="mb-0 text-truncate" style="max-width: 200px; cursor: pointer;">
+                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
                         {!! $footer?->opening_hours !!}
                     </p>
                 </div>

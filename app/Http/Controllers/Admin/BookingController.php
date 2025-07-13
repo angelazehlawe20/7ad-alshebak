@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\BookingsExport;
+use App\Exports\FrequentBookersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
@@ -51,6 +52,11 @@ class BookingController extends Controller
     public function export()
     {
         return Excel::download(new BookingsExport, 'bookings.xlsx');
+    }
+
+    public function exportFrequentBookers()
+    {
+        return Excel::download(new FrequentBookersExport, 'frequent_bookers.xlsx');
     }
 
     public function update(Request $request, Booking $booking)

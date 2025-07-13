@@ -12,6 +12,8 @@ return [
     'phone_error' => 'Please enter a valid number like 9XXXXXXXX.',
     'booking_success' => 'Your booking has been successfully created! We will contact you soon.',
     'update_message' => 'Booking updated successfully.',
+    'export_frequent_bookers_to_excel' => 'More than 5 bookings',
+
 
     'bookings_management' => 'Bookings Management',
     'filter_by_status' => 'Filter by Status:',

@@ -11,9 +11,14 @@
                     <h1 class="m-0"><i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}</h1>
                 </div>
                 <div class="col-sm-6 text-end">
+                    @if(auth('admin')->user()->is_owner)
                     <a href="{{ route('admin.bookings.export') }}" class="btn btn-success">
                         <i class="fas fa-file-excel me-2"></i>{{ __('book.export_to_excel') }}
                     </a>
+                    <a href="{{ route('admin.bookings.export.frequent') }}" class="btn btn-success">
+                        <i class="fas fa-file-excel me-2"></i> {{ __('book.export_frequent_bookers_to_excel') }}
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>
