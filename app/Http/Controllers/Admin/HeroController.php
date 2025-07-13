@@ -33,8 +33,6 @@ class HeroController extends Controller
         $validated = $request->validate([
             'title_en' => 'nullable|string|max:255',
             'title_ar' => 'nullable|string|max:255',
-            'main_text_en' => 'nullable|string',
-            'main_text_ar' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -68,12 +66,10 @@ class HeroController extends Controller
         $validated = $request->validate([
             'title_en' => 'nullable|string|max:255',
             'title_ar' => 'nullable|string|max:255',
-            'main_text_en' => 'nullable|string',
-            'main_text_ar' => 'nullable|string',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $heroData = $request->only(['title_en', 'title_ar', 'main_text_en', 'main_text_ar']);
+        $heroData = $request->only(['title_en', 'title_ar']);
 
         if ($hero) {
             $hero->update($heroData);

@@ -15,13 +15,10 @@ class Hero_Page extends Model
     protected $fillable = [
         'title_en',
         'title_ar',
-        'main_text_en',
-        'main_text_ar',
     ];
 
     public function images()
-{
-    return $this->hasMany(Hero_image::class, 'hero_page_id'); 
-}
-
+    {
+        return $this->hasMany(Hero_image::class, 'hero_page_id');
+    }
 }

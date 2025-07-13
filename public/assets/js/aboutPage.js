@@ -5,18 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const addPointBtns = document.querySelectorAll('.add-point-btn');
     const removeImageBtns = document.querySelectorAll('.remove-image-btn');
     const fileInput = document.getElementById('newGalleryImages');
+    const previewContainer = document.getElementById('newImagesPreview');
 
-    // الرسائل من خصائص data-* في الزر
+    // رسائل مخصصة من data-*
     const confirmDeletePointMsg = editModeBtn?.dataset.confirmDeletePoint || 'Are you sure you want to delete this point?';
     const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || 'Are you sure you want to delete this media?';
+    const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || 'Video not supported';
 
     let editMode = false;
+    let selectedMediaFiles = [];
 
+    // تفعيل / إلغاء وضع التعديل
     editModeBtn?.addEventListener('click', function () {
         editMode = !editMode;
 
         if (editMode) {
-            // تغيير الزر إلى وضع "إلغاء"
             editModeBtn.innerHTML = `<i class="fas fa-times mr-2"></i> ${editModeBtn.dataset.cancelText}`;
             editModeBtn.classList.remove('btn-secondary');
             editModeBtn.classList.add('btn-danger');
@@ -34,21 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
             addPointBtns.forEach(btn => btn.disabled = false);
             removeImageBtns.forEach(btn => btn.disabled = false);
         } else {
-            // إعادة تحميل الصفحة لإلغاء التعديلات
             location.reload();
         }
     });
 
-    // حذف نقطة
-    document.addEventListener('click', function (e) {
-        if (e.target.closest('.remove-point')) {
-            if (confirm(confirmDeletePointMsg)) {
-                e.target.closest('.input-group').remove();
-            }
-        }
-    });
-
-    // إضافة نقطة
+    // إضافة نقطة جديدة
     addPointBtns.forEach(button => {
         button.addEventListener('click', function () {
             const language = this.dataset.language;
@@ -65,6 +58,15 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             container.appendChild(div);
         });
+    });
+
+    // حذف نقطة
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.remove-point')) {
+            if (confirm(confirmDeletePointMsg)) {
+                e.target.closest('.input-group').remove();
+            }
+        }
     });
 
     // حذف صورة/فيديو قديم
@@ -94,34 +96,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // معاينة الصور والفيديوهات الجديدة
+    // اختيار وسائط جديدة
     fileInput?.addEventListener('change', function () {
-        const container = document.getElementById('newImagesPreview');
-        if (!container) return;
-        container.innerHTML = '';
+        selectedMediaFiles = Array.from(fileInput.files);
+        renderMediaPreviews();
+    });
 
-        Array.from(fileInput.files).forEach(file => {
+    // عرض المعاينة
+    function renderMediaPreviews() {
+        previewContainer.innerHTML = '';
+
+        selectedMediaFiles.forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = function (e) {
                 const col = document.createElement('div');
-                col.classList.add('col-md-6', 'mb-2');
+                col.classList.add('col-md-6', 'mb-3');
+                col.id = `preview-${index}`;
 
-                if (file.type.startsWith('video/')) {
-                    col.innerHTML = `
-                        <video controls class="img-fluid rounded shadow" style="height: 150px; object-fit: cover;">
+                const isVideo = file.type.startsWith('video/');
+                const content = isVideo
+                    ? `
+                        <video controls class="img-fluid rounded shadow w-100" style="height: 150px; object-fit: cover;">
                             <source src="${e.target.result}" type="${file.type}">
-                            ${editModeBtn.dataset.videoNotSupported || 'Video not supported'}
+                            ${videoNotSupportedMsg}
                         </video>
-                    `;
-                } else if (file.type.startsWith('image/')) {
-                    col.innerHTML = `
-                        <img src="${e.target.result}" class="img-fluid rounded shadow" style="height: 150px; object-fit: cover;">
-                    `;
-                }
+                    `
+                    : `<img src="${e.target.result}" class="img-fluid rounded shadow w-100" style="height: 150px; object-fit: cover;">`;
 
-                container.appendChild(col);
+                col.innerHTML = `
+                    <div class="position-relative">
+                        ${content}
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                            onclick="removeTempMedia(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+
+                previewContainer.appendChild(col);
             };
             reader.readAsDataURL(file);
         });
-    });
+
+        updateFileInput();
+    }
+
+    // حذف ملف جديد قبل الإرسال
+    window.removeTempMedia = function (index) {
+        selectedMediaFiles.splice(index, 1);
+        renderMediaPreviews();
+    }
+
+    // تحديث الملفات داخل الـ input
+    function updateFileInput() {
+        const dataTransfer = new DataTransfer();
+        selectedMediaFiles.forEach(file => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
+    }
 });

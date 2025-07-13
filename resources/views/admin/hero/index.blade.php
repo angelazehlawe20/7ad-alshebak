@@ -81,18 +81,6 @@
                                     <input type="text" class="form-control" name="title_ar" disabled
                                         value="{{ $heroPage->title_ar ?? '' }}">
                                 </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('hero.english_text') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_en" disabled
-                                        rows="3">{{ $heroPage->main_text_en ?? '' }}</textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('hero.arabic_text') }}</strong></label>
-                                    <textarea class="form-control" name="main_text_ar" disabled
-                                        rows="3">{{ $heroPage->main_text_ar ?? '' }}</textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
