@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Booking;
+use App\Notifications\NewBookingNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -20,12 +22,6 @@ class BookingController extends Controller
         return view("partials.book");
     }
 
-    /**
-     * Store a new booking
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -63,25 +59,25 @@ class BookingController extends Controller
 
         $booking = Booking::create($dataToSave);
 
+        // Send push notification to all admins
+        $admins = Admin::all();
+        Notification::send($admins, new NewBookingNotification($booking));
+
         // Send Telegram notification after booking
         try {
             $telegramToken = config('services.telegram.bot_token');
-            $admins = Admin::whereNotNull('telegram_chat_id')
-                            ->pluck('telegram_chat_id');
+            $admins = Admin::whereNotNull('telegram_chat_id')->pluck('telegram_chat_id');
 
             if ($admins->isNotEmpty() && $telegramToken) {
-                $message = "📅 *New Booking Received*\n\n";
-                $message .= "👤 *Name:* " . $validatedData['name'] . "\n";
-                $message .= "📞 *Phone:* +963" . $validatedData['phone'] . "\n";
-                if (!empty($validatedData['email'])) {
-                    $message .= "📧 *Email:* " . $validatedData['email'] . "\n";
-                }
-                $message .= "📅 *Date:* " . $validatedData['booking_date'] . "\n";
-                $message .= "⏰ *Time:* " . $validatedData['booking_time'] . "\n";
-                $message .= "👥 *Number of Guests:* " . $validatedData['guests_count'] . "\n";
-                if (!empty($validatedData['message'])) {
-                    $message .= "💬 *Message:* " . $validatedData['message'] . "\n";
-                }
+                $message = __('book.telegram_message', [
+                    'name' => $validatedData['name'],
+                    'phone' => $validatedData['phone'],
+                    'email' => $validatedData['email'] ?? '-',
+                    'date' => $validatedData['booking_date'],
+                    'time' => $validatedData['booking_time'],
+                    'guests' => $validatedData['guests_count'],
+                    'message' => $validatedData['message'] ?? '-',
+                ]);
 
                 foreach ($admins as $chatId) {
                     Http::post("https://api.telegram.org/bot{$telegramToken}/sendMessage", [
@@ -92,9 +88,10 @@ class BookingController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            // Log the error but don't stop the booking process
             Log::error('Telegram notification failed: ' . $e->getMessage());
         }
+
         return redirect()->route('book')->with('success', __('book.booking_success'));
     }
 }
+

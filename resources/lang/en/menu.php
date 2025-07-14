@@ -3,7 +3,7 @@
 return [
     'menu' => 'Menu',
     'brand_name_menu' => 'Had AlShebak Menu',
-    'no_items' => 'No menu items in this category at the moment',
+    'no_items' => 'No menu items at the moment',
     'created_message' => 'Menu item created successfully.',
     'updated_message' => 'Menu item updated successfully.',
     'deleted_message' => 'Menu item deleted successfully.',

@@ -44,6 +44,7 @@ class AdminManagementController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_owner' => false, // Regular admin by default
+            'activation_code' => \Illuminate\Support\Str::random(8),
         ]);
 
         return redirect()->route('admin.admins.index')

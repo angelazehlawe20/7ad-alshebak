@@ -44,7 +44,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view("admin.admin_profile.index");
+        $admin = auth()->guard('admin')->user();
+        return view("admin.admin_profile.index",compact('admin'));
     }
 
     public function update(Request $request)

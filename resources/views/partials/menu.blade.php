@@ -13,6 +13,7 @@
             </p>
         </div>
 
+        @if(count($categories) > 0)
         <div class="menu-navigation w-100 d-flex flex-column align-items-center">
             <div class="overflow-auto w-100">
                 <ul class="nav nav-tabs d-flex justify-content-center position-sticky top-0 bg-white z-3"
@@ -93,6 +94,11 @@
                 @endforeach
             </div>
         </div>
+        @else
+        <div class="text-center py-5">
+            <p class="no-items-message text-muted">{{ __('menu.no_items') }}</p>
+        </div>
+        @endif
     </div>
 </section>
 @endsection

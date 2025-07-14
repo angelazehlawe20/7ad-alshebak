@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'telegram_activation_code' => 'Telegram Activation Code',
+    'telegram_note' => '(Send this code to the bot after /start)',
+    'telegram_linked' => 'Linked successfully',
     'syr' => 'SYR',
     'title' => 'Admin Management',
     'list_title' => 'Admins List',

@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Models\Booking;
 use Maatwebsite\Excel\Concerns\FromCollection;
-
-class FrequentBookersExport implements FromCollection
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+class FrequentBookersExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -15,7 +16,7 @@ class FrequentBookersExport implements FromCollection
         return Booking::select('phone', 'email', 'name_ar', 'name_en')
             ->selectRaw('COUNT(*) as bookings_count')
             ->groupBy('phone', 'email', 'name_ar', 'name_en')
-            ->having('bookings_count', '>', 5)
+            ->having('bookings_count', '>=', 5)
             ->get();
     }
 
@@ -23,11 +24,21 @@ class FrequentBookersExport implements FromCollection
     {
         return [
             'Phone',
-            'Email',
+            'Email', 
             'Arabic Name',
             'English Name',
             'Number of Bookings',
         ];
-    
+    }
+
+    public function map($booking): array
+    {
+        return [
+            $booking->phone,
+            $booking->email,
+            $booking->name_ar,
+            $booking->name_en,
+            $booking->bookings_count
+        ];
     }
 }

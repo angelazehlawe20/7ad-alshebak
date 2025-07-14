@@ -13,6 +13,10 @@ return [
     'booking_success' => 'Your booking has been successfully created! We will contact you soon.',
     'update_message' => 'Booking updated successfully.',
     'export_frequent_bookers_to_excel' => 'More than 5 bookings',
+    'select_time' => 'select the booking time',
+    'booking_success' => 'Booking submitted successfully!',
+    'telegram_message' => "📅 *New Booking Received*\n\n👤 *Name:* :name\n📞 *Phone:* +963:phone\n📧 *Email:* :email\n📅 *Date:* :date\n⏰ *Time:* :time\n👥 *Number of Guests:* :guests\n💬 *Message:* :message",
+
 
 
     'bookings_management' => 'Bookings Management',

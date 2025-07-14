@@ -35,7 +35,7 @@
                 <div class="swiper-slide"
                     style="background-image: url('{{ asset('/assets/img/hexagons/background.png') }}'); background-size: cover; background-position: center; border-radius: 10px;">
                     <div class="overlay position-absolute w-100 h-100"
-                        style="background: rgba(0, 0, 0, 0.2); top: 0; left: 0; border-radius: 10px;"></div>
+                        style="background: rgba(0, 0, 0, 0.1); top: 0; left: 0; border-radius: 10px;"></div>
                 </div>
             @endif
         </div>

@@ -94,9 +94,6 @@
                     {{ __('messages.admin_management') }}
                 </a>
             @endif
-            <a href="https://t.me/hadAlshebak_bot?start={{ auth()->user()->id }}" target="_blank" class="btn btn-primary">
-                ربط حساب التليجرام
-            </a>
         </nav>
     </div>
 </div>

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'telegram_activation_code' => 'رمز تفعيل تلغرام',
+    'telegram_note' => '(أرسل هذا الكود للبوت بعد /start)',
+    'telegram_linked' => 'تم الربط',
     'syr' => 'ل.س',
     'title' => 'إدارة المشرفين',
     'list_title' => 'قائمة المشرفين',

@@ -17,7 +17,8 @@ class Admin extends Authenticatable
         'email',
         'password',
         'is_owner',
-        'telegram_chat_id'
+        'telegram_chat_id',
+        'activation_code'
     ];
 
     protected $hidden = [

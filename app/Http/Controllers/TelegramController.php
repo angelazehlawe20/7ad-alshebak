@@ -13,37 +13,53 @@ class TelegramController extends Controller
     {
         $update = $request->all();
 
-        if (isset($update['message'])) {
-            $message = $update['message'];
-            $chat_id = $message['chat']['id'];
-            $text = $message['text'] ?? '';
-
-            if (str_starts_with($text, '/start')) {
-                $parts = explode(' ', $text);
-                $user_id = $parts[1] ?? null;
-
-                if ($user_id) {
-                    $admin = Admin::find($user_id);
-                    if ($admin) {
-                        $admin->telegram_chat_id = $chat_id;
-                        $admin->save();
-
-                        // إرسال رسالة تأكيد للإدمن
-                        $this->sendTelegramMessage($chat_id, "تم ربط حسابك بنجاح مع النظام.");
-                    }
-                }
-            }
+        // تأكد أن التحديث يحتوي على رسالة
+        if (!isset($update['message'])) {
+            return response()->json(['status' => 'no message']);
         }
 
-        return response()->json(['status' => 'ok']);
+        $message = $update['message'];
+        $chatId = $message['chat']['id'];
+        $text = $message['text'] ?? '';
+
+        // تعيين اللغة حسب اللغة القادمة من المستخدم
+        $lang = $message['from']['language_code'] ?? 'en';
+        $lang = in_array($lang, ['ar', 'en']) ? $lang : 'en';
+        app()->setLocale($lang);
+
+        if ($text === '/start') {
+            $this->sendTelegramMessage($chatId, __('telegram.start'));
+            return response()->json(['status' => 'start sent']);
+        }
+
+        // تحقق من رمز التفعيل
+        $admin = Admin::where('activation_code', $text)->first();
+
+        if ($admin) {
+            if (!$admin->telegram_chat_id) {
+                $admin->telegram_chat_id = $chatId;
+                $admin->save();
+
+                $this->sendTelegramMessage($chatId, __('telegram.linked'));
+            } else {
+                $this->sendTelegramMessage($chatId, __('telegram.already_linked'));
+            }
+        } else {
+            $this->sendTelegramMessage($chatId, __('telegram.invalid_code'));
+        }
+
+        return response()->json(['status' => 'processed']);
     }
 
-    private function sendTelegramMessage($chat_id, $text)
+    private function sendTelegramMessage($chatId, $message)
     {
         $botToken = env('TELEGRAM_BOT_TOKEN');
-        Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
-            'chat_id' => $chat_id,
-            'text' => $text,
+        $url = "https://api.telegram.org/bot$botToken/sendMessage";
+
+        Http::post($url, [
+            'chat_id' => $chatId,
+            'text' => $message,
+            'parse_mode' => 'HTML',
         ]);
     }
 }
