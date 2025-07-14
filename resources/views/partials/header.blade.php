@@ -1,9 +1,9 @@
 <!-- HEADER -->
 <header id="header" class="header w-100 vw-100">
-    <div class="container-fluid px-1 px-md-3 w-100">
+    <div class="container-fluid px-0 w-100">
         <div class="row align-items-center w-100 m-0">
             <!-- Logo -->
-            <div class="col-6 col-sm-4 col-md-3">
+            <div class="col-6 col-sm-4 col-md-3 mb-3 mb-md-0">
                 <div class="logo d-flex align-items-center gap-2">
                     {{-- عرض الشعار مع صورة افتراضية في حال عدم وجوده --}}
                     <a href="{{ route('hero') }}">
@@ -24,10 +24,9 @@
                     </a>
                 </div>
             </div>
-
             <!-- Desktop Navigation -->
             <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
-                <nav class="d-flex flex-wrap gap-5 justify-content-center w-100">
+                <nav class="d-flex flex-wrap gap-3 justify-content-center w-100">
                     <a href="{{ route('hero') }}" class="nav-link text-center">
                         {{ __('navbar.home')}}</a>
                     <a href="{{ route('book') }}" class="nav-link text-center">
@@ -40,7 +39,6 @@
                         {{__('navbar.contact')}}</a>
                 </nav>
             </div>
-
             <!-- Mobile Menu Toggle Button -->
             <div
                 class="col-6 col-sm-8 d-md-none d-flex {{ app()->getLocale() == 'ar' ? 'justify-content-start' : 'justify-content-end' }}">
@@ -72,13 +70,12 @@
     <div class="mobile-nav-links p-0">
         {{-- Language Switcher --}}
         <div
-            class="pt-4 px-3 d-flex {{ app()->getLocale() == 'ar' ? 'justify-content-start' : 'justify-content-end' }}">
+            class="pt-4 px-2 d-flex {{ app()->getLocale() == 'ar' ? 'justify-content-start' : 'justify-content-end' }}">
             @php
             $currentLocale = app()->getLocale();
             $targetLocale = $currentLocale === 'en' ? 'ar' : 'en';
             $targetLabel = strtoupper($targetLocale);
             @endphp
-
             <a href="{{ route('lang.switch', $targetLocale) }}" class="btn btn-light language-btn hover-scale"
                 aria-label="Switch to {{ $targetLocale === 'ar' ? 'Arabic' : 'English' }}">
                 <img src="{{ asset("assets/img/flags/{$targetLocale}.png") }}"
@@ -87,9 +84,8 @@
                 <span class="ms-2 fw-medium">{{ $targetLabel }}</span>
             </a>
         </div>
-
         {{-- Navigation Links Container --}}
-        <div class="nav-links-container px-3 mt-4">
+        <div class="nav-links-container px-2 mt-4">
             @php
             $navItems = [
             ['route' => 'hero', 'icon' => 'house-door', 'text' => 'home'],
@@ -102,9 +98,9 @@
             @foreach($navItems as $item)
             <div class="nav-item py-2">
                 <a href="{{ route($item['route']) }}"
-                    class="nav-link d-flex align-items-center rounded-pill p-2 {{ request()->routeIs($item['route']) ? 'active px-3' : 'px-2' }}"
+                    class="nav-link d-flex align-items-center rounded-pill p-2 {{ request()->routeIs($item['route']) ? 'active px-2' : 'px-1' }}"
                     aria-current="{{ request()->routeIs($item['route']) ? 'page' : 'false' }}">
-                    <i class="bi bi-{{ $item['icon'] }} {{ app()->getLocale() == 'ar' ? 'ms-3' : 'me-3' }}"
+                    <i class="bi bi-{{ $item['icon'] }} {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"
                         aria-hidden="true"></i>
                     <span>{{ __("navbar.{$item['text']}") }}</span>
                 </a>

@@ -13,6 +13,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset($settings->favicon) }}">
     <link rel="apple-touch-icon" href="{{ asset($settings->favicon) }}">
     @else
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
     @endif
 
     <!-- Vendor CSS Files -->

@@ -67,43 +67,45 @@
 
                                 <label for="booking_time" class="form-label">{{ __('book.booking_time') }}</label>
                                 <div class="input-group" id="timepicker" data-td-target-input="nearest">
-                                    <input type="text" name="booking_time" class="form-control" id="booking_time" data-td-target="#timepicker" required>
-                                    <span class="input-group-text" data-td-target="#timepicker" data-td-toggle="datetimepicker">
+                                    <input type="text" name="booking_time" class="form-control" id="booking_time"
+                                        data-td-target="#timepicker" required>
+                                    <span class="input-group-text" data-td-target="#timepicker"
+                                        data-td-toggle="datetimepicker">
                                         <i class="fa fa-clock"></i>
                                     </span>
                                 </div>
                             </div>
 
-                                <div class="col-md-6">
-                                    <label for="guests_count" class="form-label">{{ __('book.guests_count') }}</label>
-                                    <input type="number" name="guests_count"
-                                        class="form-control @error('guests_count') is-invalid @enderror"
-                                        id="guests_count" value="{{ old('guests_count') }}" required min="1" max="50">
-                                    @error('guests_count')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-12">
-                                    <label for="message" class="form-label">{{ __('book.message_optional') }}</label>
-                                    <textarea name="message" class="form-control @error('message') is-invalid @enderror"
-                                        id="message" rows="4" maxlength="1000">{{ old('message') }}</textarea>
-                                    @error('message')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary px-4 py-2">
-                                        {{__('book.book_a_table')}}
-                                    </button>
-                                </div>
+                            <div class="col-md-6">
+                                <label for="guests_count" class="form-label">{{ __('book.guests_count') }}</label>
+                                <input type="number" name="guests_count"
+                                    class="form-control @error('guests_count') is-invalid @enderror" id="guests_count"
+                                    value="{{ old('guests_count') }}" required min="1" max="50">
+                                @error('guests_count')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
-                        </form>
+
+                            <div class="col-12">
+                                <label for="message" class="form-label">{{ __('book.message_optional') }}</label>
+                                <textarea name="message" class="form-control @error('message') is-invalid @enderror"
+                                    id="message" rows="4" maxlength="1000">{{ old('message') }}</textarea>
+                                @error('message')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary px-4 py-2">
+                                    {{__('book.book_a_table')}}
+                                </button>
+                            </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 @endsection
@@ -114,6 +116,12 @@
     .phone-group>.form-control,
     .phone-group>.input-group-text {
         border-radius: 0.375rem !important;
+    }
+
+    /* Fix timepicker dropdown positioning */
+    .tempus-dominus-widget {
+        z-index: 9999 !important;
+        position: fixed !important;
     }
 </style>
 @endpush
