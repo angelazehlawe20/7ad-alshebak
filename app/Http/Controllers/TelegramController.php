@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Log;
 
 class TelegramController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+        Log::info('TELEGRAM WEBHOOK DATA:', $request->all()); // ⭐⭐ هذه السطر مهم جداً ⭐⭐
+
         $update = $request->all();
 
         // تأكد أن التحديث يحتوي على رسالة

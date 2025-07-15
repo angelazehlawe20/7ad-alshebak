@@ -21,6 +21,7 @@ use App\Http\Controllers\{
     TelegramController
 };
 use App\Models\{About, Category, Offer, Hero_Page};
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -191,3 +192,4 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 });
 
 Route::post('/telegram/webhook', [TelegramController::class, 'handleWebhook']);
+

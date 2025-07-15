@@ -56,7 +56,7 @@
             <div class="col-12">
                 <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.1);">
                 <p class="text-center text-white-50 mb-0">
-                    {{__('footer.designed_by')}}: <a href="#" class="text-white-50 text-decoration-none">  </a>
+                    {{__('footer.designed_by')}} : <a href="https://wa.me/963932296001" class="text-white-50 text-decoration-none"><i class="bi bi-whatsapp"></i></a>
                 </p>
             </div>
         </div>
