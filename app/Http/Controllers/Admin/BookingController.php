@@ -25,7 +25,7 @@ class BookingController extends Controller
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name_ar', 'like', "%{$search}%")
+                $q->where('name', 'like', "%{$search}%")
                     ->orWhere('name_en', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%");
@@ -62,15 +62,13 @@ class BookingController extends Controller
     public function update(Request $request, Booking $booking)
     {
         $request->validate([
-            'name_ar' => 'sometimes|required|string|max:255',
-            'name_en' => 'sometimes|required|string|max:255',
+            'name' => 'sometimes|required|string|max:255',
             'phone' => 'sometimes|required|string|max:20',
             'email' => 'sometimes|required|email|max:255',
             'guests_count' => 'sometimes|required|integer|min:1',
             'booking_date' => 'sometimes|required|date',
             'booking_time' => 'sometimes|required|date_format:h:i a',
-            'message_ar' => 'sometimes|nullable|string',
-            'message_en' => 'sometimes|nullable|string',
+            'message' => 'sometimes|nullable|string',
             'status' => 'sometimes|required|in:pending,confirmed,cancelled',
         ]);
 

@@ -141,6 +141,9 @@
 </div>
 @endsection
 @section('scripts')
+<script src="//js.pusher.com/7.2/pusher.min.js"></script>
+@vite(['js/app.js'])
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -148,6 +151,77 @@
             new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
+
+    window.Echo.private('admin.contacts')
+        .listen('.new.contact', (e) => {
+            console.log("📢 New message:", e.contact);
+
+            let contact = e.contact;
+            let cardHtml = `
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header bg-transparent">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <h5 class="card-title mb-0 text-break" style="color: #8B7355;">${contact.name}</h5>
+                            <span class="badge bg-warning">{{ __('contact.unread') }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-envelope text-secondary me-2"></i>&nbsp;
+                            <span class="text-break">${contact.email}</span>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="text-muted">{{ __('contact.subject') }}</h6>
+                            <p class="mb-0 text-break">${contact.subject}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="text-muted">{{ __('contact.message') }}</h6>
+                            <p class="mb-0 text-break" style="white-space: pre-line">${contact.message}</p>
+                        </div>
+                        <div class="text-muted">
+                            <i class="fas fa-clock me-2"></i>&nbsp;
+                            <small>${new Date().toLocaleString()}</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex flex-wrap gap-2 w-100">
+                            <a href="/admin/contacts/${contact.id}" class="btn btn-outline-primary flex-grow-1"
+                                style="border-color: #8B7355; color: #8B7355; background-color: transparent !important;"
+                                title="{{ __('contact.view_message_details') }}">
+                                <i class="fas fa-eye"></i>&nbsp;<span class="d-none d-sm-inline">{{ __('contact.view') }}</span>
+                            </a>
+                            <form action="/admin/contacts/markAsRead" method="POST" class="flex-grow-1">
+                                @csrf
+                                <input type="hidden" name="contact_id" value="${contact.id}">
+                                <button type="submit" class="btn btn-outline-success w-100"
+                                    style="border-color: #28a745; color: #28a745; background-color: transparent !important;"
+                                    title="{{ __('contact.message_as_read') }}">
+                                    <i class="fas fa-check-double"></i>&nbsp;<span class="d-none d-sm-inline">{{ __('contact.message_as_read') }}</span>
+                                </button>
+                            </form>
+                            <form action="/admin/contacts/${contact.id}" method="POST" class="delete-form flex-grow-1">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger w-100"
+                                    style="border-color: #dc3545; color: #dc3545; background-color: transparent !important;"
+                                    title="{{ __('contact.delete') }}">
+                                    <i class="fas fa-trash"></i>&nbsp;<span class="d-none d-sm-inline">{{ __('contact.delete') }}</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            document.querySelector('.row.g-4').insertAdjacentHTML('afterbegin', cardHtml);
+
+            // Remove the "no messages" placeholder if it exists
+            let noMessages = document.querySelector('.text-center.py-5');
+            if (noMessages) {
+                noMessages.parentElement.remove();
+            }
+        });
 </script>
 
 <script src="{{ asset('assets/js/contactAdminPage.js') }}"></script>

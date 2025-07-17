@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
     @stack('styles')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-light {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
@@ -165,6 +166,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
 
     <style>
         /* Same styles as before */
@@ -304,7 +307,16 @@
             });
         }
     </script>
-
+<script>
+    window.Echo.channel('admin.contacts')
+        .listen('ContactMessageReceived', (e) => {
+            const badge = document.querySelector('#contact-unread-badge');
+            if (badge) {
+                badge.textContent = e.unreadCount;
+                badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
+            }
+        });
+</script>
     <script>
         let keepAliveTimeout;
 

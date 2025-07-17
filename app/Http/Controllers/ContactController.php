@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactMessageReceived;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -25,11 +26,12 @@ class ContactController extends Controller
             "message_en" => "nullable|string|max:1000",
         ]);
 
-        // Add is_read flag
         $validatedData['is_read'] = false;
 
         // Save contact
-        Contact::create($validatedData);
+        $contact = Contact::create($validatedData);
+
+        event(new ContactMessageReceived($contact));
 
         // Return success response
         return redirect()->route('contact')->with("success", __('contact.sent_message'));

@@ -65,21 +65,21 @@
             <a href="{{ route('admin.bookings.index') }}" class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
                 <i class="fas fa-calendar-alt {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i>
                 {{ __('messages.bookings') }}
-                @if(isset($pendingBookingsCount) && $pendingBookingsCount > 0)
-                    <span class="badge bg-warning rounded-pill {{ app()->getLocale() == 'ar' ? 'me-2' : 'ms-2' }}">
-                        {{ $pendingBookingsCount }}
-                    </span>
-                @endif
+                <span id="booking-pending-badge" 
+                      class="badge bg-warning rounded-pill {{ app()->getLocale() == 'ar' ? 'me-2' : 'ms-2' }}"
+                      style="{{ isset($pendingBookingsCount) && $pendingBookingsCount > 0 ? '' : 'display: none;' }}">
+                    {{ $pendingBookingsCount ?? 0 }}
+                </span>
             </a>
 
             <a href="{{ route('admin.contacts.index') }}" class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.contacts.index') ? 'active' : '' }}">
                 <i class="fas fa-envelope {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i>
                 {{ __('messages.contact_messages') }}
-                @if(isset($unreadMessagesCount) && $unreadMessagesCount > 0)
-                    <span class="badge bg-danger rounded-pill {{ app()->getLocale() == 'ar' ? 'me-2' : 'ms-2' }}">
-                        {{ $unreadMessagesCount }}
-                    </span>
-                @endif
+                <span id="contact-unread-badge"
+                      class="badge bg-danger rounded-pill {{ app()->getLocale() == 'ar' ? 'me-2' : 'ms-2' }}"
+                      style="{{ $unreadMessagesCount > 0 ? '' : 'display: none;' }}">
+                    {{ $unreadMessagesCount }}
+                </span>
             </a>
 
             {{-- == رابط إدارة المدراء فقط للمالك == --}}

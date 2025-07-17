@@ -54,7 +54,7 @@ Route::get('/csrf-token', function () {
 
 Route::get('/keep-alive', function () {
     return response()->json(['status' => 'alive']);
-})->middleware('auth'); // فقط للمستخدمين المسجلين دخول
+});
 
 
 // Public Feature Routes

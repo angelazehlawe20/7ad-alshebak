@@ -35,31 +35,18 @@ class BookingController extends Controller
             'message' => 'nullable|string|max:1000',
         ]);
 
-        $locale = app()->getLocale();
-
         $dataToSave = [
+            'name' => $validatedData['name'],
             'email' => $validatedData['email'] ?? null,
             'phone' => $validatedData['phone'],
             'guests_count' => $validatedData['guests_count'],
             'booking_date' => $validatedData['booking_date'],
             'booking_time' => $validatedData['booking_time'],
+            'message' => $validatedData['message'] ?? null,
             'status' => 'pending',
         ];
 
-        if ($locale === 'ar') {
-            $dataToSave['name_ar'] = $validatedData['name'];
-            $dataToSave['message_ar'] = $validatedData['message'] ?? null;
-            $dataToSave['name_en'] = null;
-            $dataToSave['message_en'] = null;
-        } else {
-            $dataToSave['name_en'] = $validatedData['name'];
-            $dataToSave['message_en'] = $validatedData['message'] ?? null;
-            $dataToSave['name_ar'] = null;
-            $dataToSave['message_ar'] = null;
-        }
-
         $booking = Booking::create($dataToSave);
-
         // Broadcast the new booking event
         broadcast(new NewBookingEvent($booking))->toOthers();
 
@@ -92,10 +79,10 @@ class BookingController extends Controller
                 'guests' => $validatedData['guests_count'],
                 'message' => $validatedData['message'] ?? '-',
             ]);
-            
+
             // Send to channel first
             $this->sendTelegramMessage($telegramToken, $channel, $message);
-            
+
             // Then send to individual admins if available
             if ($admins->isNotEmpty()) {
                 foreach ($admins as $chatId) {

@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('name_ar')->nullable();
-            $table->string('name_en')->nullable();
+            $table->string('name')->nullable();
             $table->string('phone');
             $table->text('email')->nullable();
             $table->integer('guests_count');
             $table->date('booking_date');
             $table->time('booking_time');
-            $table->string('message_ar')->nullable();
-            $table->string('message_en')->nullable();
+            $table->string('message')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
             $table->boolean('is_notified')->default(false);
             $table->timestamps();

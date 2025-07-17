@@ -21,3 +21,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('admin.bookings', function ($user) {
     return $user instanceof Admin;
 });
+
+Broadcast::channel('admin.contacts', function ($user) {
+    return $user instanceof Admin;
+});

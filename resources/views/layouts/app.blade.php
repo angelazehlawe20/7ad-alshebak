@@ -60,6 +60,13 @@
         }
 
         /* === Body Font === */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
         body[dir="rtl"] {
             font-family: var(--font-arabic);
             font-size: 24px;
