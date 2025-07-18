@@ -34,7 +34,8 @@
                     <h3 class="card-title"><i class="fas fa-filter me-2"></i>{{ __('book.filter_by_status') }}</h3>
                 </div>
                 <div class="card-body" style="background-color: #f5f5dc;">
-                    <form method="GET" action="{{ route('admin.bookings.index') }}" class="d-flex align-items-center gap-2">
+                    <form method="GET" action="{{ route('admin.bookings.index') }}"
+                        class="d-flex align-items-center gap-2">
                         <div class="form-group flex-grow-1 mb-0">
                             <select name="status" id="status" class="form-select" onchange="this.form.submit()">
                                 <option value="">{{ __('book.all_statuses') }}</option>
@@ -46,22 +47,23 @@
                             </select>
                         </div>
                         @if(request('status'))
-                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">{{ __('book.clear_filter') }}</a>
+                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">{{
+                            __('book.clear_filter') }}</a>
                         @endif
                     </form>
                 </div>
             </div>
 
             <div class="row g-4" id="booking-list">
-                @forelse ($bookings as $booking)
+                @forelse ($bookings->items() as $booking)
                 <div class="col-12 col-md-6 col-lg-4 booking-card" data-id="{{ $booking->id }}">
                     <div class="card bg-beige card-outline h-100">
                         <div class="card-header bg-light d-flex justify-content-between align-items-center">
                             @php
                             $statusColors = [
-                                'pending' => 'warning',
-                                'confirmed' => 'success',
-                                'cancelled' => 'danger'
+                            'pending' => 'warning',
+                            'confirmed' => 'success',
+                            'cancelled' => 'danger'
                             ];
                             @endphp
                             <span class="badge bg-{{ $statusColors[$booking->status] }}">
@@ -76,13 +78,17 @@
                             <div class="mb-3">
                                 <h6 class="card-subtitle mb-2">{{ __('book.contact_details') }}</h6>
                                 <div><i class="fas fa-phone text-secondary me-2"></i>{{ $booking->phone }}</div>
-                                <div><i class="fas fa-envelope text-secondary me-2"></i>{{ $booking->email ?? '-' }}</div>
+                                <div><i class="fas fa-envelope text-secondary me-2"></i>{{ $booking->email ?? '-' }}
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <h6 class="card-subtitle mb-2">{{ __('book.booking_information') }}</h6>
-                                <div><i class="fas fa-users text-secondary me-2"></i>{{ $booking->guests_count }} {{ __('book.guests') }}</div>
-                                <div><i class="fas fa-calendar text-secondary me-2"></i>{{ $booking->booking_date }}</div>
-                                <div><i class="fas fa-clock text-secondary me-2"></i>{{ \Carbon\Carbon::parse($booking->booking_time)->format('h:i A') }}</div>
+                                <div><i class="fas fa-users text-secondary me-2"></i>{{ $booking->guests_count }} {{
+                                    __('book.guests') }}</div>
+                                <div><i class="fas fa-calendar text-secondary me-2"></i>{{ $booking->booking_date }}
+                                </div>
+                                <div><i class="fas fa-clock text-secondary me-2"></i>{{
+                                    \Carbon\Carbon::parse($booking->booking_time)->format('h:i A') }}</div>
                             </div>
                             @if($booking->message)
                             <div class="mb-3">
@@ -93,7 +99,8 @@
                         </div>
                         <div class="card-footer" style="background-color: #f5f5dc;">
                             <div class="d-flex gap-2">
-                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST"
+                                    class="flex-grow-1">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status" value="confirmed">
@@ -101,7 +108,8 @@
                                         <i class="fas fa-check me-1"></i>{{ __('book.confirm') }}
                                     </button>
                                 </form>
-                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST"
+                                    class="flex-grow-1">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status" value="cancelled">
@@ -122,10 +130,6 @@
                 </div>
                 @endforelse
             </div>
-
-            <div class="mt-4">
-                {{ $bookings->links() }}
-            </div>
         </div>
     </section>
 </div>
@@ -133,6 +137,7 @@
 
 @push('scripts')
 <script src="//js.pusher.com/7.2/pusher.min.js"></script>
+@vite(['js/app.js'])
 
 <script>
     const translations = {
@@ -151,15 +156,13 @@
 </script>
 <script type="module">
     document.addEventListener("DOMContentLoaded", function () {
+        AOS.init();
         const waitForEcho = setInterval(() => {
             if (typeof window.Echo !== 'undefined') {
-                clearInterval(waitForEcho);
-
-                // الآن Echo جاهزة
+                
                 window.Echo.private('admin.bookings')
                     .listen('.new.booking', (e) => {
                         console.log("📢 حجز جديد:", e.booking);
-                        // باقي الكود...
                     });
             }
         }, 300);

@@ -152,7 +152,7 @@
         });
     });
 
-    window.Echo.private('admin.contacts')
+    window.Echo.channel('admin.contacts')
         .listen('.new.contact', (e) => {
             console.log("📢 New message:", e.contact);
 

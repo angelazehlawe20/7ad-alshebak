@@ -29,9 +29,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
     @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 
 <body class="bg-light {{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
@@ -167,6 +169,10 @@
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+
 
 
     <style>
@@ -288,24 +294,27 @@
         });
 
         function markBookingsAsNotified() {
-            $.ajax({
-                url: '{{ route("admin.bookings.markAsNotified") }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                }
+            $.post('{{ route("admin.bookings.markAsNotified") }}', {
+                _token: '{{ csrf_token() }}'
             });
         }
 
         function markMessagesAsNotified() {
-            $.ajax({
-                url: '{{ route("admin.contacts.markAsNotified") }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                }
+            $.post('{{ route("admin.contacts.markAsNotified") }}', {
+                _token: '{{ csrf_token() }}'
             });
         }
+
+        @if(env('BROADCAST_DRIVER') !== 'null')
+        window.Echo.channel('admin.contacts')
+            .listen('ContactMessageReceived', (e) => {
+                const badge = document.querySelector('#contact-unread-badge');
+                if (badge) {
+                    badge.textContent = e.unreadCount;
+                    badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
+                }
+            });
+        @endif
     </script>
 <script>
     window.Echo.channel('admin.contacts')
@@ -317,48 +326,36 @@
             }
         });
 </script>
-    <script>
-        let keepAliveTimeout;
+<script>
+    let keepAliveTimeout;
 
     function keepSessionAlive() {
         clearTimeout(keepAliveTimeout);
-
-        // بعد آخر نشاط، انتظر 2 دقيقة ثم أرسل طلب تجديد
-        keepAliveTimeout = setTimeout(function () {
+        keepAliveTimeout = setTimeout(() => {
             fetch('/keep-alive', {
                 method: 'GET',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
-            }).then(response => {
-                if (!response.ok) {
-                    console.error('Failed to keep session alive.');
-                }
-            }).catch(error => {
-                console.error('Error while keeping session alive:', error);
-            });
-        }, 2 * 60 * 1000); // كل 2 دقيقة بعد نشاط المستخدم
+            }).catch(console.error);
+        }, 2 * 60 * 1000); // كل دقيقتين
     }
 
-    // الأنشطة التي تُعتبر "نشاط مستخدم"
-    ['mousemove', 'keydown', 'click', 'scroll'].forEach(function(event) {
+    ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
         window.addEventListener(event, keepSessionAlive);
     });
 
-    // أرسل أول طلب عند تحميل الصفحة
     keepSessionAlive();
-    setInterval(function () {
-fetch('/csrf-token')
-    .then(response => response.text())
-    .then(data => {
-        const meta = document.querySelector('meta[name="csrf-token"]');
-        if (meta) {
-            meta.setAttribute('content', data);
-        }
-    });
-}, 30 * 60 * 1000); // كل 30 دقيقة
 
-    </script>
+    // Refresh CSRF token كل 30 دقيقة
+    setInterval(() => {
+        fetch('/csrf-token')
+            .then(res => res.text())
+            .then(token => {
+                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
+            });
+    }, 30 * 60 * 1000);
+</script>
 
     @stack('scripts')
     @yield('scripts')
