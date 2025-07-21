@@ -35,6 +35,37 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('contacts'));
     }
 
+    public function refreshList()
+    {
+        $contacts = Contact::latest()->get();
+        return view('admin.contacts.message_list', compact('contacts'));
+    }
+
+    public function fetch()
+    {
+        $unreadCount = Contact::where('is_read', false)->count();
+        $messages = Contact::latest()->get();
+
+        $html = view('admin.contacts.messages', compact('messages'))->render();
+
+        return response()->json([
+            'unread_count' => $unreadCount,
+            'messages_html' => $html
+        ]);
+    }
+
+    public function unreadMessages()
+{
+    $messages = \App\Models\Contact::where('is_read', false)
+        ->latest()
+        ->get(['id', 'name', 'email', 'subject', 'created_at']);
+
+    return response()->json([
+        'unread_count' => $messages->count(),
+        'messages' => $messages
+    ]);
+}
+
     public function markAsNotified()
     {
         Contact::where('is_read', false)

@@ -4,31 +4,35 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title') - {{ __('messages.admin_panel') }}</title>
     <meta name="description" content="{{ __('messages.admin_panel_description') }}">
     <meta name="author" content="{{ __('messages.admin') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - {{ __('messages.admin_panel') }}</title>
 
+    {{-- Favicon --}}
     @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
-        <link href="{{ asset($settings->favicon) }}" rel="icon">
-        <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
+    <link rel="icon" href="{{ asset($settings->favicon) }}">
+    <link rel="apple-touch-icon" href="{{ asset($settings->favicon) }}">
     @else
-        <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="icon">
-        <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
+    <link rel="icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
     @endif
 
+    {{-- Styles --}}
     @if(app()->getLocale() === 'ar')
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     @else
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet" />
+    <link href="{{ asset('assets/css/admin.css') }}" rel="stylesheet" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
@@ -40,96 +44,10 @@
         @include('admin.layouts.sidebar')
 
         <div class="main-content">
-            <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
-                <div class="container-fluid">
-                    <button class="btn btn-link d-md-none text-dark" id="sidebarToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+            {{-- Navbar --}}
+            @include('admin.layouts.navbar')
 
-                    <div class="d-flex align-items-center ms-auto gap-2">
-                        @php
-                            $newBookings = \App\Models\Booking::where('status', 'pending')
-                                ->whereDate('created_at', \Carbon\Carbon::today())
-                                ->where('is_notified', false)
-                                ->count();
-                            $unreadMessages = \App\Models\Contact::where('is_read', false)
-                                ->whereDate('created_at', \Carbon\Carbon::today())
-                                ->where('is_notified', false)
-                                ->count();
-                        @endphp
-
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative"
-                                type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bell"></i>
-                                @if($newBookings > 0 || $unreadMessages > 0)
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {{ $newBookings + $unreadMessages }}
-                                    </span>
-                                @endif
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
-                                @if($newBookings > 0 || $unreadMessages > 0)
-                                    @if($newBookings > 0)
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('admin.bookings.index') }}" onclick="markBookingsAsNotified()">
-                                                <i class="fas fa-calendar-check me-2"></i> {{ $newBookings }} {{ __('messages.new_bookings') }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @if($unreadMessages > 0)
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('admin.contacts.index') }}" onclick="markMessagesAsNotified()">
-                                                <i class="fas fa-envelope me-2"></i> {{ $unreadMessages }} {{ __('messages.new_messages') }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @else
-                                    <li><span class="dropdown-item-text">{{ __('messages.no_new_notifications') }}</span></li>
-                                @endif
-                            </ul>
-                        </div>
-
-                        <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                            class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-language me-1"></i>
-                            {{ app()->getLocale() === 'ar' ? __('messages.english') : __('messages.arabic') }}
-                        </a>
-
-                        @php $admin = auth()->guard('admin')->user(); @endphp
-
-                        @if($admin->is_owner)
-                            <div class="dropdown">
-                                <button class="btn btn-light rounded-pill dropdown-toggle" type="button" id="userDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    <span>{{ __('messages.admin') }}</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}"><i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item text-danger">
-                                                <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        @else
-                            <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-sign-out-alt me-1"></i> {{ __('messages.logout') }}
-                                </button>
-                            </form>
-                        @endif
-                    </div>
-                </div>
-            </nav>
-
+            {{-- Main content --}}
             <div class="container-fluid p-4">
                 @include('admin.partials.alerts')
                 @yield('content')
@@ -137,6 +55,7 @@
         </div>
     </div>
 
+    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
@@ -145,33 +64,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-    <style>
-        body.rtl { font-size: 22px; line-height: 1.8; }
-        body.ltr { font-size: 16px; line-height: 1.6; }
-        .sidebar .nav-link { font-size: 18px !important; }
-        table th, table td { font-size: 16px !important; }
-        .form-control, .form-select, .btn, label { font-size: 16px !important; }
-        h1, .h1 { font-size: 2.2rem !important; }
-        h2, .h2 { font-size: 1.8rem !important; }
-        h3, .h3 { font-size: 1.5rem !important; }
-
-        body.rtl .sidebar .nav-link { font-size: 20px !important; }
-        body.rtl table th, body.rtl table td { font-size: 18px !important; }
-        body.rtl .form-control, body.rtl .form-select, body.rtl .btn, body.rtl label { font-size: 18px !important; }
-        body.rtl h1, body.rtl .h1 { font-size: 2.5rem !important; }
-        body.rtl h2, body.rtl .h2 { font-size: 2.2rem !important; }
-        body.rtl h3, body.rtl .h3 { font-size: 1.8rem !important; }
-
-        .small, small, .text-muted { font-size: 90% !important; }
-
-        @media (max-width: 768px) {
-            body.rtl { font-size: 20px; }
-            body.rtl .sidebar .nav-link, body.rtl .form-control, body.rtl .form-select, body.rtl .btn, body.rtl label {
-                font-size: 16px !important;
-            }
-        }
-    </style>
-
+    {{-- Sidebar toggle --}}
     <script>
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('sidebarOverlay');
@@ -194,7 +87,10 @@
                 overlay.classList.remove('show');
             }
         });
+    </script>
 
+    {{-- Notifications --}}
+    <script>
         function markBookingsAsNotified() {
             $.post('{{ route("admin.bookings.markAsNotified") }}', {
                 _token: '{{ csrf_token() }}'
@@ -206,9 +102,7 @@
                 _token: '{{ csrf_token() }}'
             });
         }
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function () {
             function waitForEcho(retries = 10) {
                 if (window.Echo && typeof window.Echo.channel === 'function') {
@@ -231,6 +125,7 @@
         });
     </script>
 
+    {{-- Keep session alive --}}
     <script>
         let keepAliveTimeout;
 
@@ -261,7 +156,147 @@
         }, 30 * 60 * 1000);
     </script>
 
+    <script>
+        function loadUnreadMessages() {
+        fetch('{{ route('admin.notifications.messages') }}')
+            .then(res => res.json())
+            .then(data => {
+                const badge = document.getElementById('contact-unread-badge');
+                if (data.unread_count > 0) {
+                    badge.textContent = data.unread_count;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+    
+                const dropdownList = document.getElementById('messages-dropdown-list');
+                dropdownList.innerHTML = '';
+    
+                if (data.messages.length > 0) {
+                    data.messages.forEach(msg => {
+                        const li = document.createElement('li');
+                        li.classList.add('dropdown-item');
+                        li.innerHTML = `<strong>${msg.name}</strong><br><small>${msg.subject}</small>`;
+                        li.onclick = () => {
+                            window.location.href = `/admin/contacts`;
+                        };
+                        dropdownList.appendChild(li);
+                    });
+                    const viewAll = document.createElement('li');
+                    viewAll.innerHTML = `<a href="{{ route('admin.contacts.index') }}" class="dropdown-item text-center text-primary">
+                        {{ __('messages.view_all') }}</a>`;
+                    dropdownList.appendChild(viewAll);
+                } else {
+                    dropdownList.innerHTML = `<li class="dropdown-item-text text-muted text-center">
+                        {{ __('messages.no_new_messages') }}</li>`;
+                }
+            })
+            .catch(err => console.error('Error loading messages', err));
+    }
+    
+    setInterval(loadUnreadMessages, 30000); // كل 30 ثانية
+    document.addEventListener('DOMContentLoaded', loadUnreadMessages);
+    </script>
+
+
+    {{-- Extra custom scripts --}}
     @stack('scripts')
     @yield('scripts')
+
+    {{-- Optional style overrides --}}
+    <style>
+        body.rtl {
+            font-size: 22px;
+            line-height: 1.8;
+        }
+
+        body.ltr {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .sidebar .nav-link {
+            font-size: 18px !important;
+        }
+
+        table th,
+        table td {
+            font-size: 16px !important;
+        }
+
+        .form-control,
+        .form-select,
+        .btn,
+        label {
+            font-size: 16px !important;
+        }
+
+        h1,
+        .h1 {
+            font-size: 2.2rem !important;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.8rem !important;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.5rem !important;
+        }
+
+        body.rtl .sidebar .nav-link {
+            font-size: 20px !important;
+        }
+
+        body.rtl table th,
+        body.rtl table td {
+            font-size: 18px !important;
+        }
+
+        body.rtl .form-control,
+        body.rtl .form-select,
+        body.rtl .btn,
+        body.rtl label {
+            font-size: 18px !important;
+        }
+
+        body.rtl h1,
+        body.rtl .h1 {
+            font-size: 2.5rem !important;
+        }
+
+        body.rtl h2,
+        body.rtl .h2 {
+            font-size: 2.2rem !important;
+        }
+
+        body.rtl h3,
+        body.rtl .h3 {
+            font-size: 1.8rem !important;
+        }
+
+        .small,
+        small,
+        .text-muted {
+            font-size: 90% !important;
+        }
+
+        @media (max-width: 768px) {
+            body.rtl {
+                font-size: 20px;
+            }
+
+            body.rtl .sidebar .nav-link,
+            body.rtl .form-control,
+            body.rtl .form-select,
+            body.rtl .btn,
+            body.rtl label {
+                font-size: 16px !important;
+            }
+        }
+    </style>
 </body>
+
 </html>
