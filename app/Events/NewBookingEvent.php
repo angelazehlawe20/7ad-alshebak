@@ -31,11 +31,9 @@ class NewBookingEvent implements ShouldBroadcast
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('admin.bookings'),
-        ];
+        return new Channel('admin.bookings');
     }
 
     public function broadcastAs()

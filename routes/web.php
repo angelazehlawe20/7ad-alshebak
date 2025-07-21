@@ -21,8 +21,10 @@ use App\Http\Controllers\{
     TelegramController
 };
 use App\Models\{About, Category, Offer, Hero_Page};
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+Broadcast::routes(['middleware' => ['auth:admin']]);
 
 /*
 |--------------------------------------------------------------------------

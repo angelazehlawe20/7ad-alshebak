@@ -2,7 +2,6 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
-    <!-- Same head section as before -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ __('messages.admin_panel_description') }}">
@@ -11,18 +10,17 @@
     <title>@yield('title') - {{ __('messages.admin_panel') }}</title>
 
     @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
-    <link href="{{ asset($settings->favicon) }}" rel="icon">
-    <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
+        <link href="{{ asset($settings->favicon) }}" rel="icon">
+        <link href="{{ asset($settings->favicon) }}" rel="apple-touch-icon">
     @else
-    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="icon">
-    <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
+        <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="icon">
+        <link href="{{ asset('assets/img/favicons/favicon.ico') }}" rel="apple-touch-icon">
     @endif
 
-    {{-- Bootstrap --}}
     @if(app()->getLocale() === 'ar')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     @else
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     @endif
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -31,7 +29,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
-    @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
@@ -43,7 +40,6 @@
         @include('admin.layouts.sidebar')
 
         <div class="main-content">
-            {{-- Navbar --}}
             <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
                 <div class="container-fluid">
                     <button class="btn btn-link d-md-none text-dark" id="sidebarToggle">
@@ -52,55 +48,44 @@
 
                     <div class="d-flex align-items-center ms-auto gap-2">
                         @php
-                        $newBookings = \App\Models\Booking::where('status', 'pending')
-                        ->whereDate('created_at', \Carbon\Carbon::today())
-                        ->where('is_notified', false)
-                        ->count();
-                        $unreadMessages = \App\Models\Contact::where('is_read', false)
-                        ->whereDate('created_at', \Carbon\Carbon::today())
-                        ->where('is_notified', false)
-                        ->count();
+                            $newBookings = \App\Models\Booking::where('status', 'pending')
+                                ->whereDate('created_at', \Carbon\Carbon::today())
+                                ->where('is_notified', false)
+                                ->count();
+                            $unreadMessages = \App\Models\Contact::where('is_read', false)
+                                ->whereDate('created_at', \Carbon\Carbon::today())
+                                ->where('is_notified', false)
+                                ->count();
                         @endphp
 
-                        {{-- Notifications Dropdown --}}
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative"
-                                type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                                type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
                                 @if($newBookings > 0 || $unreadMessages > 0)
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ $newBookings + $unreadMessages }}
-                                </span>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $newBookings + $unreadMessages }}
+                                    </span>
                                 @endif
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
                                 @if($newBookings > 0 || $unreadMessages > 0)
-                                @if($newBookings > 0)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.bookings.index') }}"
-                                        onclick="markBookingsAsNotified()">
-                                        <i class="fas fa-calendar-check me-2"></i>
-                                        {{ $newBookings }} {{ __('messages.new_bookings') }}
-                                    </a>
-                                </li>
-                                @endif
-                                @if($unreadMessages > 0)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.contacts.index') }}"
-                                        onclick="markMessagesAsNotified()">
-                                        <i class="fas fa-envelope me-2"></i>
-                                        {{ $unreadMessages }} {{ __('messages.new_messages') }}
-                                    </a>
-                                </li>
-                                @endif
+                                    @if($newBookings > 0)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.bookings.index') }}" onclick="markBookingsAsNotified()">
+                                                <i class="fas fa-calendar-check me-2"></i> {{ $newBookings }} {{ __('messages.new_bookings') }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if($unreadMessages > 0)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.contacts.index') }}" onclick="markMessagesAsNotified()">
+                                                <i class="fas fa-envelope me-2"></i> {{ $unreadMessages }} {{ __('messages.new_messages') }}
+                                            </a>
+                                        </li>
+                                    @endif
                                 @else
-                                <li>
-                                    <span class="dropdown-item-text w-600 px-1 py-2">
-                                        {{ __('messages.no_new_notifications') }}
-                                    </span>
-                                </li>
+                                    <li><span class="dropdown-item-text">{{ __('messages.no_new_notifications') }}</span></li>
                                 @endif
                             </ul>
                         </div>
@@ -111,51 +96,40 @@
                             {{ app()->getLocale() === 'ar' ? __('messages.english') : __('messages.arabic') }}
                         </a>
 
-                        @php
-                        $admin = auth()->guard('admin')->user();
-                        @endphp
+                        @php $admin = auth()->guard('admin')->user(); @endphp
 
                         @if($admin->is_owner)
-                        {{-- Dropdown (مالك) --}}
-                        <div class="dropdown">
-                            <button class="btn btn-light rounded-pill dropdown-toggle" type="button" id="userDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle me-2"></i>
-                                <span>{{ __('messages.admin') }}</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
-                                        <i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                            <div class="dropdown">
+                                <button class="btn btn-light rounded-pill dropdown-toggle" type="button" id="userDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <span>{{ __('messages.admin') }}</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}"><i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         @else
-                        {{-- زر مباشر (أدمن عادي) --}}
-                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-sign-out-alt me-1"></i> {{ __('messages.logout') }}
-                            </button>
-                        </form>
+                            <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-sign-out-alt me-1"></i> {{ __('messages.logout') }}
+                                </button>
+                            </form>
                         @endif
                     </div>
                 </div>
             </nav>
 
-            {{-- Main Content --}}
             <div class="container-fluid p-4">
                 @include('admin.partials.alerts')
                 @yield('content')
@@ -163,7 +137,6 @@
         </div>
     </div>
 
-    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
@@ -172,99 +145,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-
-
-
     <style>
-        /* Same styles as before */
-        body.rtl {
-            font-size: 22px;
-            line-height: 1.8;
-        }
+        body.rtl { font-size: 22px; line-height: 1.8; }
+        body.ltr { font-size: 16px; line-height: 1.6; }
+        .sidebar .nav-link { font-size: 18px !important; }
+        table th, table td { font-size: 16px !important; }
+        .form-control, .form-select, .btn, label { font-size: 16px !important; }
+        h1, .h1 { font-size: 2.2rem !important; }
+        h2, .h2 { font-size: 1.8rem !important; }
+        h3, .h3 { font-size: 1.5rem !important; }
 
-        body.ltr {
-            font-size: 16px;
-            line-height: 1.6;
-        }
+        body.rtl .sidebar .nav-link { font-size: 20px !important; }
+        body.rtl table th, body.rtl table td { font-size: 18px !important; }
+        body.rtl .form-control, body.rtl .form-select, body.rtl .btn, body.rtl label { font-size: 18px !important; }
+        body.rtl h1, body.rtl .h1 { font-size: 2.5rem !important; }
+        body.rtl h2, body.rtl .h2 { font-size: 2.2rem !important; }
+        body.rtl h3, body.rtl .h3 { font-size: 1.8rem !important; }
 
-        .sidebar .nav-link {
-            font-size: 18px !important;
-        }
-
-        table th,
-        table td {
-            font-size: 16px !important;
-        }
-
-        .form-control,
-        .form-select,
-        .btn,
-        label {
-            font-size: 16px !important;
-        }
-
-        h1,
-        .h1 {
-            font-size: 2.2rem !important;
-        }
-
-        h2,
-        .h2 {
-            font-size: 1.8rem !important;
-        }
-
-        h3,
-        .h3 {
-            font-size: 1.5rem !important;
-        }
-
-        body.rtl .sidebar .nav-link {
-            font-size: 20px !important;
-        }
-
-        body.rtl table th,
-        body.rtl table td {
-            font-size: 18px !important;
-        }
-
-        body.rtl .form-control,
-        body.rtl .form-select,
-        body.rtl .btn,
-        body.rtl label {
-            font-size: 18px !important;
-        }
-
-        body.rtl h1,
-        body.rtl .h1 {
-            font-size: 2.5rem !important;
-        }
-
-        body.rtl h2,
-        body.rtl .h2 {
-            font-size: 2.2rem !important;
-        }
-
-        body.rtl h3,
-        body.rtl .h3 {
-            font-size: 1.8rem !important;
-        }
-
-        .small,
-        small,
-        .text-muted {
-            font-size: 90% !important;
-        }
+        .small, small, .text-muted { font-size: 90% !important; }
 
         @media (max-width: 768px) {
-            body.rtl {
-                font-size: 20px;
-            }
-
-            body.rtl .sidebar .nav-link,
-            body.rtl .form-control,
-            body.rtl .form-select,
-            body.rtl .btn,
-            body.rtl label {
+            body.rtl { font-size: 20px; }
+            body.rtl .sidebar .nav-link, body.rtl .form-control, body.rtl .form-select, body.rtl .btn, body.rtl label {
                 font-size: 16px !important;
             }
         }
@@ -304,61 +206,62 @@
                 _token: '{{ csrf_token() }}'
             });
         }
-
-        @if(env('BROADCAST_DRIVER') !== 'null')
-        window.Echo.channel('admin.contacts')
-            .listen('ContactMessageReceived', (e) => {
-                const badge = document.querySelector('#contact-unread-badge');
-                if (badge) {
-                    badge.textContent = e.unreadCount;
-                    badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
-                }
-            });
-        @endif
     </script>
-<script>
-    window.Echo.channel('admin.contacts')
-        .listen('ContactMessageReceived', (e) => {
-            const badge = document.querySelector('#contact-unread-badge');
-            if (badge) {
-                badge.textContent = e.unreadCount;
-                badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
-            }
-        });
-</script>
-<script>
-    let keepAliveTimeout;
 
-    function keepSessionAlive() {
-        clearTimeout(keepAliveTimeout);
-        keepAliveTimeout = setTimeout(() => {
-            fetch('/keep-alive', {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function waitForEcho(retries = 10) {
+                if (window.Echo && typeof window.Echo.channel === 'function') {
+                    window.Echo.channel('admin.contacts')
+                        .listen('ContactMessageReceived', (e) => {
+                            const badge = document.querySelector('#contact-unread-badge');
+                            if (badge) {
+                                badge.textContent = e.unreadCount;
+                                badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
+                            }
+                        });
+                } else if (retries > 0) {
+                    setTimeout(() => waitForEcho(retries - 1), 300);
+                } else {
+                    console.error('Echo not ready');
                 }
-            }).catch(console.error);
-        }, 2 * 60 * 1000); // كل دقيقتين
-    }
+            }
 
-    ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
-        window.addEventListener(event, keepSessionAlive);
-    });
+            waitForEcho();
+        });
+    </script>
 
-    keepSessionAlive();
+    <script>
+        let keepAliveTimeout;
 
-    // Refresh CSRF token كل 30 دقيقة
-    setInterval(() => {
-        fetch('/csrf-token')
-            .then(res => res.text())
-            .then(token => {
-                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
-            });
-    }, 30 * 60 * 1000);
-</script>
+        function keepSessionAlive() {
+            clearTimeout(keepAliveTimeout);
+            keepAliveTimeout = setTimeout(() => {
+                fetch('/keep-alive', {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                }).catch(console.error);
+            }, 2 * 60 * 1000);
+        }
+
+        ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
+            window.addEventListener(event, keepSessionAlive);
+        });
+
+        keepSessionAlive();
+
+        setInterval(() => {
+            fetch('/csrf-token')
+                .then(res => res.text())
+                .then(token => {
+                    document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
+                });
+        }, 30 * 60 * 1000);
+    </script>
 
     @stack('scripts')
     @yield('scripts')
 </body>
-
 </html>

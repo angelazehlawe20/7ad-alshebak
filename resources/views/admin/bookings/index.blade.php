@@ -137,7 +137,7 @@
 
 @push('scripts')
 <script src="//js.pusher.com/7.2/pusher.min.js"></script>
-@vite(['js/app.js'])
+@vite(['resources/js/app.js'])
 
 <script>
     const translations = {
@@ -159,7 +159,7 @@
         AOS.init();
         const waitForEcho = setInterval(() => {
             if (typeof window.Echo !== 'undefined') {
-                
+
                 window.Echo.private('admin.bookings')
                     .listen('.new.booking', (e) => {
                         console.log("📢 حجز جديد:", e.booking);

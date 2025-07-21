@@ -32,7 +32,7 @@ class ContactMessageReceived implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('contacts');
+        return new Channel('admin.contacts');
     }
 
     public function broadcastAs()
