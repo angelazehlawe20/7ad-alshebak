@@ -8,7 +8,7 @@
     <div class="container d-flex flex-column align-items-center" data-aos="fade-up">
         <div id="menu-content"></div>
         <div class="container section-title">
-            <p>
+            <p style="margin-top: 70px;">
                 <span class="description-title">{{__('menu.brand_name_menu') }}</span>
             </p>
         </div>

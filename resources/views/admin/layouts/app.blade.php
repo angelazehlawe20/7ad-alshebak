@@ -205,26 +205,6 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            function waitForEcho(retries = 10) {
-                if (window.Echo && typeof window.Echo.channel === 'function') {
-                    window.Echo.channel('admin.contacts')
-                        .listen('ContactMessageReceived', (e) => {
-                            const badge = document.querySelector('#contact-unread-badge');
-                            if (badge) {
-                                badge.textContent = e.unreadCount;
-                                badge.style.display = e.unreadCount > 0 ? 'inline-block' : 'none';
-                            }
-                        });
-                } else if (retries > 0) {
-                    setTimeout(() => waitForEcho(retries - 1), 300);
-                } else {
-                    console.error('Echo not ready');
-                }
-            }
-
-            waitForEcho();
-        });
     </script>
 
     {{-- Keep session alive --}}

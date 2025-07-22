@@ -13,7 +13,7 @@ return [
     'delete' => 'حذف',
     'confirm_delete' => 'هل أنت متأكد أنك تريد حذف هذا العرض؟',
     'no_offers' => 'لا توجد عروض حالياً.',
-    'see_all_offers' => 'عرض كل العروض',
+    'see_all_offers' => 'عرض الكل',
     'created_message' => 'تم إنشاء العرض بنجاح.',
     'updated_message' => 'تم تحديث العرض بنجاح.',
     'title_en' => 'العنوان (بالانجليزية)',

@@ -87,64 +87,6 @@
                                     <textarea class="form-control form-field" name="main_text_ar" readonly
                                         rows="3">{{ $about->main_text_ar ?? '' }}</textarea>
                                 </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('about.why_title_en') }}</strong></label>
-                                    <input type="text" class="form-control form-field" name="why_title_en" readonly
-                                        value="{{ $about->why_title_en ?? '' }}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('about.why_title_ar') }}</strong></label>
-                                    <input type="text" class="form-control form-field" name="why_title_ar" readonly
-                                        value="{{ $about->why_title_ar ?? '' }}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('about.why_points_en') }}</strong></label>
-                                    <div id="why-points-container-en">
-                                        @forelse(json_decode($about->why_points_en ?? '[]') as $point)
-                                        <div class="input-group mb-2">
-                                            <input type="text" class="form-control form-field" name="why_points_en[]"
-                                                readonly value="{{ $point }}">
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-danger remove-point" disabled>
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        @empty
-                                        <p class="text-muted">{{ __('about.no_points') }}</p>
-                                        @endforelse
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" disabled
-                                        data-language="en">
-                                        <i class="fas fa-plus"></i> {{ __('about.add_point_en') }}
-                                    </button>
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('about.why_points_ar') }}</strong></label>
-                                    <div id="why-points-container-ar">
-                                        @forelse(json_decode($about->why_points_ar ?? '[]') as $point)
-                                        <div class="input-group mb-2">
-                                            <input type="text" class="form-control form-field" name="why_points_ar[]"
-                                                readonly value="{{ $point }}">
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-danger remove-point" disabled>
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        @empty
-                                        <p class="text-muted">{{ __('about.no_points') }}</p>
-                                        @endforelse
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-secondary add-point-btn" disabled
-                                        data-language="ar">
-                                        <i class="fas fa-plus"></i> {{ __('about.add_point_ar') }}
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -155,7 +97,6 @@
                     <div class="col-12 text-center">
                         <button type="button" class="btn btn-secondary edit-mode-btn" style="background-color: #8B7355; border: none;"
                             data-edit-text="{{ __('about.edit') }}" data-cancel-text="{{ __('about.cancel') }}"
-                            data-confirm-delete-point="{{ __('about.confirm_delete_point') }}"
                             data-confirm-delete-media="{{ __('about.confirm_delete_media') }}"
                             data-video-not-supported="{{ __('about.video_not_supported') }}">
                             <i class="fas fa-edit mr-2"></i> {{ __('about.edit') }}

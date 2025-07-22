@@ -16,6 +16,7 @@ return [
     'confirm_delete' => 'Are you sure you want to delete this item?',
     'add_to_get_started' => 'Add items to menu to get started.',
 
+    'no_image' => 'No image available',
 
 
     'create_menu_item' => 'Create Menu Item',

@@ -2,7 +2,6 @@
 
 return [
 
-    'confirm_delete_point' => 'هل أنت متأكد من حذف هذه النقطة؟',
     'delete_file_failed' => 'فشل حذف الملف. حاول مرة أخرى.',
     'delete_file_error' => 'حدث خطأ أثناء حذف الملف.',
     'confirm_delete_media' => 'هل أنت متأكد من حذف هذا العنصر؟',
@@ -15,7 +14,6 @@ return [
     // Status messages
     'no_images' => 'لا توجد صور متاحة في المعرض.',
     'no_about' => 'لا يوجد محتوى متاح في هذا القسم.',
-    'no_points' => 'لا توجد نقاط مميزة متاحة.',
     'no_gallery_images' => 'لا توجد صور متاحة في معرض الصور.',
 
     // Success messages
@@ -34,8 +32,6 @@ return [
     'main_text_ar' => 'النص الرئيسي (بالعربية)',
     'why_title_en' => 'عنوان لماذا تختارنا (بالإنكليزية)',
     'why_title_ar' => 'عنوان لماذا تختارنا (بالعربية)',
-    'why_points_en' => 'النقاط المميزة (بالإنكليزية)',
-    'why_points_ar' => 'النقاط المميزة (بالعربية)',
     'gallery_images' => 'معرض الصور',
 
     // Action buttons
@@ -45,7 +41,5 @@ return [
     'delete' => 'حذف',
     'edit' => 'تعديل',
 
-    'add_point_ar' => 'إضافة نقاط (بالعربية)',
-    'add_point_en' => 'إضافة نقاط (بالإنكليزية)',
     'about_content' => 'محتوى قسم من نحن',
 ];

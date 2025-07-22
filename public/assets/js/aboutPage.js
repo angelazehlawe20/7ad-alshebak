@@ -2,12 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const editModeBtn = document.querySelector('.edit-mode-btn');
     const saveChangesBtn = document.querySelector('.save-changes-btn');
     const formFields = document.querySelectorAll('.form-field');
-    const addPointBtns = document.querySelectorAll('.add-point-btn');
     const removeImageBtns = document.querySelectorAll('.remove-image-btn');
     const fileInput = document.getElementById('newGalleryImages');
     const previewContainer = document.getElementById('newImagesPreview');
 
-    const confirmDeletePointMsg = editModeBtn?.dataset.confirmDeletePoint || 'Are you sure you want to delete this point?';
     const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || 'Are you sure you want to delete this media?';
     const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || 'Video not supported';
 
@@ -38,34 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.remove-point').forEach(btn => btn.disabled = false); // تفعيل أزرار الحذف
         } else {
             location.reload();
-        }
-    });
-
-    // إضافة نقطة جديدة
-    addPointBtns.forEach(button => {
-        button.addEventListener('click', function () {
-            const language = this.dataset.language;
-            const container = document.getElementById(`why-points-container-${language}`);
-            const div = document.createElement('div');
-            div.classList.add('input-group', 'mb-2');
-            div.innerHTML = `
-                <input type="text" class="form-control" name="why_points_${language}[]" ${language === 'ar' ? 'dir="rtl"' : ''}>
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-danger remove-point">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            container.appendChild(div);
-        });
-    });
-
-    // حذف نقطة
-    document.addEventListener('click', function (e) {
-        if (e.target.closest('.remove-point')) {
-            if (confirm(confirmDeletePointMsg)) {
-                e.target.closest('.input-group').remove();
-            }
         }
     });
 

@@ -1,7 +1,7 @@
 <footer id="footer" class="footer dark-background py-3">
     <div class="container">
         <div class="row gy-3">
-            <div class="col-lg-3 col-md-6 d-flex gap-3">
+            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
                 <i class="bi bi-geo-alt icon"></i>
                 <div class="draggable-container">
                     <p class="mb-0 draggable-text">
@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3">
+            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
                 <i class="bi bi-envelope icon"></i>
                 <div class="draggable-container">
                     <p class="mb-0 draggable-text">
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3">
+            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
                 <i class="bi bi-telephone icon"></i>
                 <div class="draggable-container">
                     <p class="mb-0 draggable-text">
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3">
+            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
                 <i class="bi bi-clock icon"></i>
                 <div class="draggable-container">
                     <p class="mb-0 draggable-text">
@@ -40,14 +40,14 @@
             <div class="col-12 d-flex justify-content-center mt-4">
                 <div class="social-links d-flex gap-4">
                     <a href="{{ $footer?->facebook_url }}" class="facebook"
-                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); margin: 0 10px;"><i
+                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i
                             class="bi bi-facebook"></i></a>
                     <a href="{{ $footer?->instagram_url }}" class="instagram"
-                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); margin: 0 10px;"><i
+                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i
                             class="bi bi-instagram"></i></a>
                     @if($footer?->whatsapp)
                     <a href="{{ $footer?->whatsapp }}" class="whatsapp"
-                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); margin: 0 10px;"><i
+                        style="font-size: 24px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i
                             class="bi bi-whatsapp"></i></a>
                     @endif
                 </div>
@@ -83,10 +83,24 @@
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+    .footer-info {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .draggable-container {
+        max-width: 100%;
+    }
+
     .draggable-text {
         white-space: normal;
         word-wrap: break-word;
+        text-align: center;
+    }
+
+    .icon {
+        font-size: 1.2rem;
     }
 }
 </style>

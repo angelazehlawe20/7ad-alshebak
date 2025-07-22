@@ -12,14 +12,16 @@
 
 /* Add margin to body to prevent content from hiding behind fixed header */
 body {
-    padding-top: 90px; /* Reduced default padding */
+    padding-top: 90px;
+    /* Reduced default padding */
 }
 
 .header {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 90px; /* Reduced default height */
+    height: 90px;
+    /* Reduced default height */
     z-index: 999;
     background-color: #fff;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
@@ -27,7 +29,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 clamp(8px, 3vw, 20px); /* Responsive padding */
+    padding: 0 clamp(8px, 3vw, 20px);
+    /* Responsive padding */
 }
 
 .header .logo {
@@ -48,7 +51,8 @@ body {
 .header .sitename {
     line-height: 1.2;
     font-weight: 500;
-    font-size: clamp(20px, 3vw, 35px); /* Fluid typography */
+    font-size: clamp(20px, 3vw, 35px);
+    /* Fluid typography */
     margin: 0;
     padding: 0 clamp(4px, 1vw, 10px);
 }
@@ -205,6 +209,7 @@ html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
     margin-right: 0;
     z-index: 9999;
 }
+
 /*--------------------------------------------------------------
 # Global Footer
 --------------------------------------------------------------*/
@@ -241,6 +246,7 @@ html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
     color: white;
     font-size: 20px;
     transition: 0.3s;
+    margin: 0 1px; /* Further reduced margin between social icons */
 }
 
 .footer .social-links a:hover {
@@ -263,13 +269,18 @@ html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
     font-size: 13px;
 }
 
-#footer .col-lg-3,
-#footer .col-md-6 {
+#footer .col {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem; /* Reduced gap */
+}
+
+#footer .social-links {
+    margin: 0;
+    display: flex;
+    gap: 0.15rem; /* Reduced gap between social icons */
 }
 
 @media (max-width: 767px) {
@@ -280,13 +291,20 @@ html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
     .footer h4 {
         margin-bottom: 10px;
     }
+
+    #footer .col {
+        justify-content: center;
+    }
+
+    #footer .draggable-container {
+        max-width: 200px;
+    }
 }
 
 @media (max-width: 575px) {
-
     .footer .col-lg-3,
     .footer .col-md-6 {
-        gap: 0.75rem !important;
+        gap: 0.25rem !important; /* Reduced gap further for mobile */
     }
 
     .footer {
@@ -304,10 +322,10 @@ html[dir="rtl"] body.mobile-nav-active .mobile-nav-sidebar {
     }
 
     .footer .social-links a {
-        width: 38px;
-        height: 38px;
+        width: 32px;
+        height: 32px;
         font-size: 16px;
-        margin: 0 5px;
+        margin: 0 1px; /* Reduced margin */
     }
 
     .footer .row.gy-3 {

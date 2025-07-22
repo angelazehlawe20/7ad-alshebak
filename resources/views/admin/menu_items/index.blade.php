@@ -78,7 +78,7 @@
                                                         <p class="mt-2 text-secondary">{{ __('menu.no_image') }}</p>
                                                     </div>
                                                 @endif
-                                                <div class="position-absolute top-0 end-0 m-2">
+                                                <div class="position-absolute top-0 end-0 m-2" style="background-color: #8B7355; border-radius: 5px;">
                                                     <span class="badge theme-bg">
                                                         <strong>{{ number_format($item->price) }} {{__('admins.syr')}}</strong>
                                                     </span>

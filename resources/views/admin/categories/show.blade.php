@@ -48,7 +48,7 @@
                                             @endif
                                             <div class="position-absolute top-0 end-0 m-2">
                                                 <span class="badge fs-6 fw-bold" style="background-color: #8B7355;">
-                                                    {{ number_format($item->price) }} {{__('admins.syr')}}</span>
+                                                    {{ number_format($item->price) }}&nbsp;{{__('admins.syr')}}</span>
                                             </div>
                                         </div>
                                         <div class="card-body">

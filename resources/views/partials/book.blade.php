@@ -5,7 +5,9 @@
 @section('content')
 <section id="book-a-table" class="book-a-table section">
     <div class="container section-title">
-        <p><span class="description-title">{{ __('book.book_your_table_now') }}</span></p>
+        <p style="margin-top: 70px;">
+            <span class="description-title">{{ __('book.book_your_table_now') }}</span>
+        </p>
     </div>
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">

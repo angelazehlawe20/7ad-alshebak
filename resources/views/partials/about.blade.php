@@ -1,7 +1,24 @@
 <section id="about" class="about section">
     <!-- عنوان القسم -->
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <p><span class="description-title">{{ __('about.who_we_are') }}</span></p>
+        <p style="margin-top: 70px;">
+            <span class="description-title">{{ __('about.who_we_are') }}</span>
+        </p>
+    </div>
+
+    <!-- محتوى التعريف -->
+    <div class="container mt-5">
+        <div class="row gy-4 justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="content">
+                    <p class="lead">
+                        {!! app()->getLocale() === 'ar'
+                        ? nl2br(e($about->main_text_ar ?? __('about.no_about')))
+                        : nl2br(e($about->main_text_en ?? __('about.no_about'))) !!}
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     @php
@@ -78,43 +95,6 @@
             </div>
         </div>
 
-        <!-- محتوى التعريف -->
-        <div class="container mt-5">
-            <div class="row gy-4 align-items-center">
-                <div class="col-lg-6">
-                    <div class="content ps-0 ps-lg-5">
-                        <p class="text-center lead">
-                            {!! app()->getLocale() === 'ar'
-                            ? nl2br(e($about->main_text_ar ?? __('about.no_about')))
-                            : nl2br(e($about->main_text_en ?? __('about.no_about'))) !!}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="why-box p-4"
-                        style="border-radius: 90px 0 90px 0; background-color: #F5F5DC; color: #333;">
-                        <h3 class="section-title mb-4" style="color: #4a4a4a;">
-                            {{ app()->getLocale() === 'ar'
-                            ? ($about->why_title_ar ?? __('about.why_choose_us'))
-                            : ($about->why_title_en ?? __('about.why_choose_us')) }}
-                        </h3>
-                        <ul class="list-unstyled why-list">
-                            @php
-                            $points = app()->getLocale() === 'ar'
-                            ? json_decode($about->why_points_ar ?? '[]')
-                            : json_decode($about->why_points_en ?? '[]');
-                            @endphp
-                            @forelse($points as $point)
-                            <li class="mb-3"><i class="bi bi-check-circle me-2"></i>{{ $point }}</li>
-                            @empty
-                            <li class="text-muted">{{ __('about.no_points') }}</li>
-                            @endforelse
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- سكريبتات -->
         <script>

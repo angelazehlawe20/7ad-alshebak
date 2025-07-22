@@ -2,7 +2,7 @@
 <section id="offers" class="offers section light-background py-5">
     <!--Section Title -->
     <div class="container section-title">
-        <p>
+        <p style="margin-top: 70px;">
             <span class="description-title">{{ __('offers.brand_name_offers') }}</span>
         </p>
 
@@ -34,7 +34,7 @@
 
                         <p class="card-price fw-bold fs-4 mt-auto"
                             style="color: #AC8C64;">
-                            {{ number_format($offer->price, 0) }}{{__('admins.syr')}}</p>
+                            {{ number_format($offer->price) }}&nbsp;{{__('admins.syr')}}</p>
                     </div>
                 </div>
             </div>
