@@ -15,8 +15,8 @@
 
         @if(count($categories) > 0)
         <div class="menu-navigation w-100 d-flex flex-column align-items-center">
-            <div class="overflow-auto w-100">
-                <ul class="nav nav-tabs d-flex justify-content-center position-sticky top-0 bg-white z-3"
+            <div class="w-100">
+                <ul class="nav nav-tabs d-flex flex-wrap justify-content-center position-sticky top-0 bg-white z-3"
                     data-aos="fade-up" data-aos-delay="100">
                     @foreach($categories as $category)
                     <li class="nav-item">

@@ -22,6 +22,7 @@
             });
         });
     </script>
+    
 
     <div class="swiper background-swiper position-absolute"
         style="top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; width: 100vw;">
@@ -60,7 +61,16 @@
 
                 .swiper-slide {
                     padding: 0 !important;
-                    margin: 0 !important;
+                    margin: 8px !important;
+                }
+
+                .hero-title {
+                    margin: 0 15px !important;
+                    padding: 20px;
+                }
+
+                .hero-buttons {
+                    margin: 0 15px !important;
                 }
             }
         </style>
@@ -69,13 +79,13 @@
     <div class="container position-relative h-100 d-flex align-items-center" style="z-index: 2;">
         <div class="row w-100 justify-content-center align-items-center py-2 py-md-4">
             <div class="col-12 col-lg-6 order-2 order-lg-1 text-center text-lg-start px-2 px-sm-4 px-lg-0">
-                <h1 class="display-4 fw-bold mb-3 mb-md-4 text-white"
-                    style="font-size: clamp(1.5rem, 4vw, 4rem); line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: {{ app()->getLocale() == 'ar' ? 'right' : 'left' }};"
+                <h1 class="display-4 fw-bold mb-3 mb-md-4 text-white hero-title"
+                    style="font-size: clamp(1.5rem, 4vw, 4rem); line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: {{ app()->getLocale() == 'ar' ? 'right' : 'left' }}; margin: clamp(0.5rem, 2vw, 1rem) 0;"
                     data-aos="fade-up" data-aos-once="true">
                     {{ app()->getLocale() == 'en' ? ($heroPage->title_en ?? 'Had alshebak') : ($heroPage->title_ar ??
                     'حدّ الشباك') }}
                 </h1>
-                <div class="d-flex flex-column flex-sm-row gap-2 gap-sm-3 justify-content-center justify-content-lg-start"
+                <div class="d-flex flex-column flex-sm-row gap-2 gap-sm-3 justify-content-center justify-content-lg-start hero-buttons"
                     style="margin-top: clamp(1rem, 3vw, 3rem);" data-aos="zoom-out" data-aos-once="true">
                     <a href="{{route('book')}}" class="btn btn-get-started text-black fw-bold px-3 py-2 w-100 w-sm-auto"
                         style="font-size: clamp(0.875rem, 1.5vw, 1.2rem); border-radius: 25px; transition: all 0.3s ease;">

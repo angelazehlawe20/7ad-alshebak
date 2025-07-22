@@ -13,9 +13,9 @@ class FrequentBookersExport implements FromCollection, WithHeadings, WithMapping
     */
     public function collection()
     {
-        return Booking::select('phone', 'email', 'name_ar', 'name_en')
+        return Booking::select('phone', 'email', 'name')
             ->selectRaw('COUNT(*) as bookings_count')
-            ->groupBy('phone', 'email', 'name_ar', 'name_en')
+            ->groupBy('phone', 'email', 'name')
             ->having('bookings_count', '>=', 5)
             ->get();
     }
@@ -25,8 +25,7 @@ class FrequentBookersExport implements FromCollection, WithHeadings, WithMapping
         return [
             'Phone',
             'Email', 
-            'Arabic Name',
-            'English Name',
+            'Name',
             'Number of Bookings',
         ];
     }
@@ -36,8 +35,7 @@ class FrequentBookersExport implements FromCollection, WithHeadings, WithMapping
         return [
             $booking->phone,
             $booking->email,
-            $booking->name_ar,
-            $booking->name_en,
+            $booking->name,
             $booking->bookings_count
         ];
     }

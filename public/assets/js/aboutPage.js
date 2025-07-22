@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('newGalleryImages');
     const previewContainer = document.getElementById('newImagesPreview');
 
-    // رسائل مخصصة من data-*
     const confirmDeletePointMsg = editModeBtn?.dataset.confirmDeletePoint || 'Are you sure you want to delete this point?';
     const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || 'Are you sure you want to delete this media?';
     const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || 'Video not supported';
@@ -36,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             addPointBtns.forEach(btn => btn.disabled = false);
             removeImageBtns.forEach(btn => btn.disabled = false);
+            document.querySelectorAll('.remove-point').forEach(btn => btn.disabled = false); // تفعيل أزرار الحذف
         } else {
             location.reload();
         }

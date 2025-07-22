@@ -54,7 +54,6 @@ body.rtl {
     font-family: var(--arabic-font);
 }
 
-
 /* Sidebar Styles */
 .sidebar {
     position: sticky;
@@ -63,10 +62,10 @@ body.rtl {
     background: var(--sidebar-bg);
     color: #fff;
     min-width: 180px;
-    /* Reduced from 220px */
     max-width: 80%;
     transition: all 0.3s ease;
     overflow-x: hidden;
+    z-index: 1050;
 }
 
 .sidebar a {
@@ -75,9 +74,7 @@ body.rtl {
     text-overflow: ellipsis;
     display: block;
     padding-left: 8px;
-    /* Reduced from 12px */
     padding-right: 8px;
-    /* Reduced from 12px */
 }
 
 body.rtl .sidebar {
@@ -91,9 +88,7 @@ body.ltr .sidebar {
 .sidebar .nav-link {
     color: #fff;
     padding: 8px 10px;
-    /* Reduced from 12px 15px */
     margin: 2px 8px;
-    /* Reduced from 3px 10px */
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -130,31 +125,26 @@ button[disabled] {
 
 body.ltr .sidebar .nav-link i {
     margin-right: 6px;
-    /* Reduced from 8px */
     margin-left: 0;
 }
 
 body.rtl .sidebar .nav-link i {
     margin-left: 6px;
-    /* Reduced from 8px */
     margin-right: 0;
 }
 
 body.ltr .badge {
     margin-left: 6px;
-    /* Reduced from 8px */
 }
 
 body.rtl .badge {
     margin-right: 6px;
-    /* Reduced from 8px */
 }
 
 /* Main Content Styles */
 .main-content {
     background: var(--main-bg);
     width: calc(100% - 180px);
-    /* Adjusted to match new sidebar width */
 }
 
 .navbar {
@@ -281,17 +271,14 @@ textarea.resize-vertical {
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
-        z-index: 1050;
     }
 
     body.ltr .sidebar {
         left: -180px;
-        /* Adjusted to match new sidebar width */
     }
 
     body.rtl .sidebar {
         right: -180px;
-        /* Adjusted to match new sidebar width */
     }
 
     body.ltr .sidebar.show {
@@ -315,6 +302,7 @@ textarea.resize-vertical {
         bottom: 0;
         background: rgba(47, 24, 16, 0.5);
         z-index: 1040;
+        cursor: pointer;
     }
 
     .overlay.show {

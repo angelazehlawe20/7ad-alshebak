@@ -30,36 +30,21 @@
                             <div class="table-responsive">
                                 <table class="table table-borderless mb-0">
                                     <tbody>
-                                        @if($contact->name_ar)
-                                        <tr>
-                                            <th scope="row" width="200">{{ __('contact.your_name') }}</th>
-                                            <td>{{ $contact->name_ar }}</td>
-                                        </tr>
-                                        @endif
-                                        @if($contact->name_en)
                                         <tr>
                                             <th scope="row">{{ __('contact.your_name') }}</th>
-                                            <td>{{ $contact->name_en }}</td>
+                                            <td>{{ $contact->name }}</td>
                                         </tr>
-                                        @endif
                                         @if($contact->email)
                                         <tr>
                                             <th scope="row">{{ __('contact.your_email') }}</th>
                                             <td>{{ $contact->email }}</td>
                                         </tr>
                                         @endif
-                                        @if($contact->subject_ar)
+                                        
                                         <tr>
                                             <th scope="row">{{ __('contact.subject') }}</th>
-                                            <td>{{ $contact->subject_ar }}</td>
+                                            <td>{{ $contact->subject }}</td>
                                         </tr>
-                                        @endif
-                                        @if($contact->subject_en)
-                                        <tr>
-                                            <th scope="row">{{ __('contact.subject') }}</th>
-                                            <td>{{ $contact->subject_en }}</td>
-                                        </tr>
-                                        @endif
                                         <tr>
                                             <th scope="row">{{ __('contact.status') ?? 'Status' }}</th>
                                             <td>
@@ -87,19 +72,10 @@
                             <h3 class="card-title"><i class="fas fa-comment me-2"></i>{{ __('contact.message') }}</h3>
                         </div>
                         <div class="card-body" style="background-color: #f5f5dc;">
-                            @if($contact->message_ar)
                             <div class="border rounded p-3 bg-light mb-3">
                                 <h6>{{ __('contact.message') }}</h6>
-                                {!! nl2br(e($contact->message_ar)) !!}
+                                {!! nl2br(e($contact->message)) !!}
                             </div>
-                            @endif
-
-                            @if($contact->message_en)
-                                <div class="border rounded p-3 bg-light">
-                                    <h6>{{ __('contact.message') }}</h6>
-                                    {!! nl2br(e($contact->message_en)) !!}
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>

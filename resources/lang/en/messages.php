@@ -33,4 +33,8 @@ return [
     'success' => 'The process was completed successfully.',
     'error' => 'Something went wrong, please try again later.',
 
+    'are_you_sure' => 'Are you sure',
+    'yes' => 'Yes',
+    'no' => 'No',
+
 ];

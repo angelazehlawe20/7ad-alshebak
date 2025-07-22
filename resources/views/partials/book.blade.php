@@ -19,7 +19,7 @@
 
                                 <!-- الاسم -->
                                 <div class="col-md-6">
-                                    <label for="name" class="form-label">{{ __('book.your_name') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.your_name') }}</h3>
                                     <input type="text" name="name" id="name"
                                         value="{{ old('name') }}"
                                         class="form-control @error('name') is-invalid @enderror" required>
@@ -28,7 +28,7 @@
 
                                 <!-- الإيميل -->
                                 <div class="col-md-6">
-                                    <label for="email" class="form-label">{{ __('book.your_email') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.your_email') }}</h3>
                                     <input type="email" name="email" id="email"
                                         value="{{ old('email') }}"
                                         class="form-control @error('email') is-invalid @enderror" maxlength="255">
@@ -37,20 +37,25 @@
 
                                 <!-- رقم الهاتف -->
                                 <div class="col-md-6">
-                                    <label for="phone" class="form-label">{{ __('book.phone') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.phone') }}</h3>
                                     <div class="input-group phone-group" dir="ltr">
-                                        <span class="input-group-text">+963</span>
+                                        <span class="input-group-text small">+963</span>
                                         <input type="tel" name="phone" id="phone"
                                             value="{{ old('phone') }}"
-                                            class="form-control @error('phone') is-invalid @enderror"
-                                            pattern="9[0-9]{8}" maxlength="9" required>
+                                            class="form-control form-control-sm @error('phone') is-invalid @enderror"
+                                            pattern="9[0-9]{8}" maxlength="9" required
+                                            oninput="validatePhone(this)"
+                                            placeholder="9XXXXXXXX">
+                                        <div class="invalid-feedback small" id="phone-feedback" style="display: none; text-align: start;">
+                                            {{ __('book.phone_must_start_with_9') }}
+                                        </div>
                                     </div>
                                     @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
 
                                 <!-- تاريخ الحجز -->
                                 <div class="col-md-6">
-                                    <label for="booking_date" class="form-label">{{ __('book.booking_date') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.booking_date') }}</h3>
                                     <input type="date" name="booking_date" id="booking_date"
                                         value="{{ old('booking_date') }}"
                                         class="form-control @error('booking_date') is-invalid @enderror"
@@ -60,8 +65,8 @@
 
                                 <!-- وقت الحجز -->
                                 <div class="col-md-6">
-                                    <label for="booking_time" class="form-label">{{ __('book.booking_time') }}</label>
-                                    <select name="booking_time" id="booking_time" 
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.booking_time') }}</h3>
+                                    <select name="booking_time" id="booking_time"
                                         class="form-select @error('booking_time') is-invalid @enderror" required>
                                         <option value="">{{ __('book.select_time') }}</option>
                                         @php
@@ -83,7 +88,7 @@
 
                                 <!-- عدد الضيوف -->
                                 <div class="col-md-6">
-                                    <label for="guests_count" class="form-label">{{ __('book.guests_count') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.guests_count') }}</h3>
                                     <input type="number" name="guests_count" id="guests_count"
                                         value="{{ old('guests_count') }}"
                                         class="form-control @error('guests_count') is-invalid @enderror"
@@ -93,7 +98,7 @@
 
                                 <!-- رسالة إضافية -->
                                 <div class="col-12">
-                                    <label for="message" class="form-label">{{ __('book.message_optional') }}</label>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.message_optional') }}</h3>
                                     <textarea name="message" id="message" rows="4" maxlength="1000"
                                         class="form-control @error('message') is-invalid @enderror">{{ old('message') }}</textarea>
                                     @error('message')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -121,15 +126,35 @@
     .phone-group>.form-control,
     .phone-group>.input-group-text {
         border-radius: 0.375rem !important;
+        font-size: 0.875rem;
     }
 </style>
 @endpush
 
 @push('scripts')
 <script>
+    function validatePhone(input) {
+        const phonePattern = /^9\d{8}$/;
+        const feedback = document.getElementById('phone-feedback');
+
+        if (!phonePattern.test(input.value)) {
+            input.setCustomValidity('Invalid phone number format');
+            input.classList.add('is-invalid');
+            feedback.style.display = 'block';
+        } else {
+            input.setCustomValidity('');
+            input.classList.remove('is-invalid');
+            feedback.style.display = 'none';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const bookingTimeSelect = document.getElementById('booking_time');
         const bookingDateInput = document.getElementById('booking_date');
+        const phoneInput = document.getElementById('phone');
+
+        // Initialize phone validation
+        validatePhone(phoneInput);
 
         function updateTimeSlots() {
             const selectedDate = new Date(bookingDateInput.value);

@@ -135,10 +135,11 @@
 
     @stack('styles')
 </head>
-
 <body class="lang-{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
     @include('partials.header')
+
+    <div class="spacer" style="height: 30px;"></div>
 
     <main>
         @include('admin.partials.alerts')
@@ -146,7 +147,6 @@
     </main>
 
     @include('partials.footer')
-
     <!-- JS -->
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>

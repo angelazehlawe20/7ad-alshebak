@@ -18,4 +18,6 @@ return[
       'english_text' => 'English Text',
       'arabic_text' => 'Arabic Text',
       'edit_image' => 'Edit Image',
+
+      'confirm_delete_image' => 'Are you sure you want to delete this image?',
 ];

@@ -18,15 +18,13 @@ class BookingsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'ID',
-            'Name (Arabic)',
-            'Name (English)',
+            'Name ',
             'Phone',
             'Email',
             'Guests Count',
             'Booking Date',
             'Booking Time',
-            'Message (Arabic)',
-            'Message (English)',
+            'Message',
             'Status',
             'Created At'
         ];
@@ -36,15 +34,13 @@ class BookingsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $booking->id,
-            $booking->name_ar,
-            $booking->name_en,
+            $booking->name,
             $booking->phone,
             $booking->email,
             $booking->guests_count,
             $booking->booking_date,
             $booking->booking_time,
-            $booking->message_ar,
-            $booking->message_en,
+            $booking->message,
             $booking->status,
             $booking->created_at
         ];

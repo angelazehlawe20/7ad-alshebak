@@ -28,12 +28,12 @@ class NewBookingNotification extends Notification implements ShouldQueue
     {
         return [
             'id' => $this->booking->id,
-            'name' => $this->booking->name_en,
+            'name' => $this->booking->name,
             'guests_count' => $this->booking->guests_count,
             'booking_date' => $this->booking->booking_date,
             'booking_time' => $this->booking->booking_time,
             'status' => $this->booking->status,
-            'message' => "New booking request from {$this->booking->name_en}"
+            'message' => "New booking request from {$this->booking->name}"
         ];
     }
 
@@ -41,12 +41,12 @@ class NewBookingNotification extends Notification implements ShouldQueue
     {
         return new BroadcastMessage([
             'id' => $this->booking->id,
-            'name' => $this->booking->name_en,
+            'name' => $this->booking->name,
             'guests_count' => $this->booking->guests_count,
             'booking_date' => $this->booking->booking_date,
             'booking_time' => $this->booking->booking_time,
             'status' => $this->booking->status,
-            'message' => "New booking request from {$this->booking->name_en}"
+            'message' => "New booking request from {$this->booking->name}"
         ]);
     }
 }

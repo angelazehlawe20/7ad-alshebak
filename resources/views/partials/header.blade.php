@@ -26,16 +26,16 @@
             </div>
             <!-- Desktop Navigation -->
             <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center">
-                <nav class="d-flex flex-wrap gap-3 justify-content-center w-100">
-                    <a href="{{ route('hero') }}" class="nav-link text-center">
+                <nav class="d-flex flex-wrap gap-4 justify-content-center w-100">
+                    <a href="{{ route('hero') }}" class="nav-link text-center px-3">
                         {{ __('navbar.home')}}</a>
-                    <a href="{{ route('book') }}" class="nav-link text-center">
+                    <a href="{{ route('book') }}" class="nav-link text-center px-3">
                         {{__('navbar.book')}}</a>
-                    <a href="{{ route('menu') }}" class="nav-link text-center">
+                    <a href="{{ route('menu') }}" class="nav-link text-center px-3">
                         {{__('navbar.menu')}}</a>
-                    <a href="{{ route('all_offers') }}" class="nav-link text-center">
+                    <a href="{{ route('all_offers') }}" class="nav-link text-center px-3">
                         {{__('navbar.offers')}}</a>
-                    <a href="{{ route('contact') }}" class="nav-link text-center">
+                    <a href="{{ route('contact') }}" class="nav-link text-center px-3">
                         {{__('navbar.contact')}}</a>
                 </nav>
             </div>

@@ -1,9 +1,10 @@
 <?php
 return [
+    'phone_must_start_with_9' => 'Phone must start with 9',
     'book_your_table_now' => 'Book your table Now',
     'your_name' => 'Name',
     'your_email' => 'Email',
-    'phone' => 'Phone number: It should be like this (9XXXXXXXX)',
+    'phone' => 'Phone number',
     'booking_date' => 'Booking Date',
     'booking_time' => 'Booking Time',
     'guests_count' => '# of people',
@@ -36,5 +37,9 @@ return [
     'reject' => 'Reject',
     'no_bookings_found' => 'No bookings found',
     'export_to_excel' => 'Export to excel',
+
+    'confirm_booking_message' => 'Confirm booking message',
+    'status_updated_successfully' => 'Status updated successfully',
+    'reject_booking_message' => 'Reject booking message',
 
 ];

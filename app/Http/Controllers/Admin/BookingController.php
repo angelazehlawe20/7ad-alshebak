@@ -26,7 +26,6 @@ class BookingController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('name_en', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%");
             });
@@ -36,10 +35,23 @@ class BookingController extends Controller
             $query->whereDate('booking_date', $request->date);
         }
 
-        $bookings = $query->latest()->paginate(10);
+        $bookings = $query->latest()->get();
 
         return view('admin.bookings.index', compact('bookings'));
     }
+
+    public function getBookingsList()
+{
+    $bookings = Booking::latest()->get();
+    $pendingCount = Booking::where('status', 'pending')->count();
+
+    $html = view('admin.bookings.booking_list', ['bookings' => $bookings])->render();
+
+    return response()->json([
+        'html' => $html,
+        'pending_count' => $pendingCount
+    ]);
+}
 
     public function markAsNotified()
     {

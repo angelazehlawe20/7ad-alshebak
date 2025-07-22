@@ -16,10 +16,10 @@ class ContactController extends Controller
         $contactsQuery = Contact::query()
             ->select([
                 'id',
-                'name_' . $locale . ' as name',
+                'name',
                 'email',
-                'subject_' . $locale . ' as subject',
-                'message_' . $locale . ' as message',
+                'subject',
+                'message',
                 'is_read',
                 'created_at'
             ]);
@@ -41,30 +41,32 @@ class ContactController extends Controller
         return view('admin.contacts.message_list', compact('contacts'));
     }
 
-    public function fetch()
+    public function fetch(Request $request)
     {
-        $unreadCount = Contact::where('is_read', false)->count();
-        $messages = Contact::latest()->get();
+        if (!$request->ajax()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-        $html = view('admin.contacts.messages', compact('messages'))->render();
+        $contacts = Contact::latest()->get();
 
         return response()->json([
-            'unread_count' => $unreadCount,
-            'messages_html' => $html
+            'messages_html' => view('admin.contacts.messages', compact('contacts'))->render(),
+            'unread_count' => $contacts->where('is_read', false)->count(),
         ]);
     }
 
-    public function unreadMessages()
-{
-    $messages = \App\Models\Contact::where('is_read', false)
-        ->latest()
-        ->get(['id', 'name', 'email', 'subject', 'created_at']);
 
-    return response()->json([
-        'unread_count' => $messages->count(),
-        'messages' => $messages
-    ]);
-}
+    public function unreadMessages()
+    {
+        $messages = \App\Models\Contact::where('is_read', false)
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'unread_count' => $messages->count(),
+            'messages' => $messages
+        ]);
+    }
 
     public function markAsNotified()
     {
@@ -89,10 +91,10 @@ class ContactController extends Controller
         $relatedContacts = Contact::where('id', '!=', $contact->id)
             ->select([
                 'id',
-                'name_' . $locale . ' as name',
+                'name' ,
                 'email',
-                'subject_' . $locale . ' as subject',
-                'message_' . $locale . ' as message',
+                'subject',
+                'message',
                 'is_read',
                 'created_at'
             ])

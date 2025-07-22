@@ -1,9 +1,10 @@
 <?php
 return [
+    'phone_must_start_with_9' => 'يجب أن يبدأ رقم الهاتف بالرقم 9',
     'book_your_table_now' => 'احجز طاولتك الآن',
     'your_name' => 'الاسم',
     'your_email' => 'البريد الإلكتروني',
-    'phone' => 'رقم الهاتف : يجب أن يكون كالتالي (9XXXXXXXX)',
+    'phone' => 'رقم الهاتف',
     'booking_date' => 'تاريخ الحجز',
     'booking_time' => 'وقت الحجز',
     'guests_count' => 'عدد الأشخاص',
@@ -33,5 +34,10 @@ return [
     'confirm' => 'تأكيد',
     'reject' => 'رفض',
     'no_bookings_found' => 'لا توجد حجوزات',
-    'export_to_excel' => 'التصدير إلى إكسل'
+    'export_to_excel' => 'التصدير إلى إكسل',
+
+    'confirm_booking_message' => 'رسالة تأكيد الحجز',
+    'status_updated_successfully' => 'تم تحديث الحالة بنجاح',
+    'reject_booking_message' => 'رسالة رفض الحجز',
+
 ];

@@ -24,6 +24,7 @@ use App\Models\{About, Category, Offer, Hero_Page};
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+
 Broadcast::routes(['middleware' => ['auth:admin']]);
 
 /*
@@ -133,7 +134,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::post('/bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
     Route::get('/bookings/export', [AdminBookingController::class, 'export'])->name('bookings.export');
     Route::get('/bookings/export/frequent', [AdminBookingController::class, 'exportFrequentBookers'])->name('bookings.export.frequent');
-
+    Route::get('/bookings/list', [AdminBookingController::class, 'getBookingsList'])->name('bookings.list')->middleware('auth:admin');
 
     // Settings Management
     Route::controller(SettingsController::class)->group(function () {
@@ -160,7 +161,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     });
     Route::post('/contacts/mark-as-notified', [AdminContactController::class, 'markAsNotified'])->name('contacts.markAsNotified');
     Route::get('/contacts/refresh', [AdminContactController::class, 'refreshList'])->name('contacts.refresh');
-    Route::get('/contacts/fetch', [AdminContactController::class, 'fetch'])->name('contacts.fetch');
+    Route::get('/contacts/fetch', [AdminContactController::class, 'fetch'])
+        ->name('contacts.fetch')
+        ->middleware('auth:admin');
     Route::get('/contacts/notifications/messages', [AdminContactController::class, 'unreadMessages'])->name('notifications.messages');
 
 
@@ -197,4 +200,3 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 });
 
 Route::post('/telegram/webhook', [TelegramController::class, 'handleWebhook']);
-

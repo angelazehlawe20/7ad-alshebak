@@ -24,31 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileNavSidebar.classList.add("active");
         mobileNavOverlay.classList.add("active");
         body.classList.add("mobile-nav-active");
-
-        // Get the inner icon element
-        const innerIcon = mobileNavToggle.querySelector('i');
-        if (innerIcon) {
-            // Remove all icon classes and add only the X icon
-            innerIcon.classList.remove("bi-list");
-            innerIcon.classList.add("bi-x");
-        }
-
         disableScroll();
     }
 
     // Function to close the sidebar
     function closeSidebar() {
+
         mobileNavSidebar.classList.remove("active");
         mobileNavOverlay.classList.remove("active");
         body.classList.remove("mobile-nav-active");
-
-        // Get the inner icon element
-        const innerIcon = mobileNavToggle.querySelector('i');
-        if (innerIcon) {
-            // Remove all icon classes and add only the list icon
-            innerIcon.classList.remove("bi-x");
-            innerIcon.classList.add("bi-list");
-        }
 
         restoreScroll();
     }

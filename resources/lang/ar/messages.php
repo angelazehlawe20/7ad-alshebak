@@ -28,6 +28,10 @@ return [
     'new_bookings' => 'حجز جديد',
     'new_messages' => 'رسائل جديدة',
 
+    'are_you_sure' => 'هل أنت متأكد؟',
+    'yes' => 'نعم',
+    'no' => 'لا',
+
 
     // alerts
     'close' => 'إغلاق',

@@ -50,20 +50,7 @@
                                     <strong><i class="fas fa-calendar me-2"></i> {{ __('admins.created_at') }}:</strong>
                                     <p class="text-muted mb-0">{{ $admin->created_at ? $admin->created_at->format('Y-m-d') : '-' }}</p>
                                 </div>
-                                @if(!$admin->telegram_chat_id)
-                                    <div class="mb-3">
-                                        <strong><i class="fab fa-telegram me-2"></i> {{ __('admins.telegram_activation_code') }}:</strong>
-                                        <p>
-                                            <code>{{ $admin->activation_code }}</code>
-                                            <span class="text-muted small ms-2">{{ __('admins.telegram_note') }}</span>
-                                        </p>
-                                    </div>
-                                @else
-                                    <div class="mb-3">
-                                        <strong><i class="fab fa-telegram me-2"></i> Telegram:</strong>
-                                        <p class="text-success mb-0">{{ __('admins.telegram_linked') }}</p>
-                                    </div>
-                                @endif
+                            
                             </div>
                             <div class="card-footer bg-white">
                                 <div class="d-flex gap-2 justify-content-between">

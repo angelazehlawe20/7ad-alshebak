@@ -3,8 +3,8 @@
         <div class="row gy-3">
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-geo-alt icon"></i>
-                <div class="address" data-bs-toggle="tooltip" data-bs-placement="top" title="{!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}">
-                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
+                <div class="draggable-container">
+                    <p class="mb-0 draggable-text">
                         {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
                     </p>
                 </div>
@@ -12,8 +12,8 @@
 
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-envelope icon"></i>
-                <div class="email-container" style="position: relative; overflow: hidden;">
-                    <p class="mb-0 email-text" style="max-width: 300px; cursor: grab; user-select: text; overflow-x: auto; white-space: nowrap; scrollbar-width: none;">
+                <div class="draggable-container">
+                    <p class="mb-0 draggable-text">
                         {{ $footer?->email }}
                     </p>
                 </div>
@@ -21,8 +21,8 @@
 
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-telephone icon"></i>
-                <div data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $footer?->phone }}">
-                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
+                <div class="draggable-container">
+                    <p class="mb-0 draggable-text">
                         {{ $footer?->phone }}
                     </p>
                 </div>
@@ -30,8 +30,8 @@
 
             <div class="col-lg-3 col-md-6 d-flex gap-3">
                 <i class="bi bi-clock icon"></i>
-                <div data-bs-toggle="tooltip" data-bs-placement="top" title="{!! $footer?->opening_hours !!}">
-                    <p class="mb-0 text-truncate" style="max-width: 300px; cursor: pointer;">
+                <div class="draggable-container">
+                    <p class="mb-0 draggable-text">
                         {!! $footer?->opening_hours !!}
                     </p>
                 </div>
@@ -64,47 +64,73 @@
 </footer>
 
 <style>
-.email-text::-webkit-scrollbar {
+.draggable-container {
+    position: relative;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.draggable-text {
+    cursor: grab;
+    user-select: text;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    padding: 5px;
+}
+
+.draggable-text::-webkit-scrollbar {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .draggable-text {
+        white-space: normal;
+        word-wrap: break-word;
+    }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all draggable elements
+    const draggableElements = document.querySelectorAll('.draggable-text');
+
+    draggableElements.forEach(element => {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        element.addEventListener('mousedown', (e) => {
+            isDown = true;
+            element.style.cursor = 'grabbing';
+            startX = e.pageX - element.offsetLeft;
+            scrollLeft = element.scrollLeft;
+        });
+
+        element.addEventListener('mouseleave', () => {
+            isDown = false;
+            element.style.cursor = 'grab';
+        });
+
+        element.addEventListener('mouseup', () => {
+            isDown = false;
+            element.style.cursor = 'grab';
+        });
+
+        element.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - element.offsetLeft;
+            const walk = (x - startX);
+            element.scrollLeft = scrollLeft - walk;
+        });
+    });
+
+    // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-
-    // Add drag scrolling for email
-    const emailText = document.querySelector('.email-text');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    emailText.addEventListener('mousedown', (e) => {
-        isDown = true;
-        emailText.style.cursor = 'grabbing';
-        startX = e.pageX - emailText.offsetLeft;
-        scrollLeft = emailText.scrollLeft;
-    });
-
-    emailText.addEventListener('mouseleave', () => {
-        isDown = false;
-        emailText.style.cursor = 'grab';
-    });
-
-    emailText.addEventListener('mouseup', () => {
-        isDown = false;
-        emailText.style.cursor = 'grab';
-    });
-
-    emailText.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - emailText.offsetLeft;
-        const walk = (x - startX);
-        emailText.scrollLeft = scrollLeft - walk;
     });
 });
 </script>

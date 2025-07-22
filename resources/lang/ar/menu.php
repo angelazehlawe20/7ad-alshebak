@@ -15,6 +15,7 @@ return [
     'delete' => 'حذف',
     'confirm_delete' => 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
     'add_to_get_started' => 'أضف عناصر لقائمة الطعام للبدء',
+    'no_image' => 'لا تتوفر صورة',
 
     'create_menu_item' => 'إنشاء عنصر في القائمة',
     'add_new_menu_item' => 'إضافة عنصر جديد',

@@ -51,7 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     window.deleteImage = function(imageId) {
-        if (confirm('Are you sure you want to delete this image?')) {
+        const confirmMessage = window.translations.confirmDeleteImage || 'Are you sure you want to delete this image?';
+
+        if (confirm(confirmMessage)) {
             fetch(`/admin/hero/delete-image`, {
                 method: 'POST',
                 headers: {
