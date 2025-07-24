@@ -119,7 +119,10 @@
         }
 
         .alert-container {
-            
+            position: relative;
+            z-index: 9999;
+            margin-top: 80px;
+            margin-bottom: 20px;
         }
 
         @media (max-width: 768px) {
@@ -139,6 +142,7 @@
 
     @stack('styles')
 </head>
+
 <body class="lang-{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
     @include('partials.header')

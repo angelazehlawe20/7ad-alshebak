@@ -8,7 +8,7 @@
 
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-        <p style="margin-top: 70px;">
+        <p>
             <span class="description-title">{{ __('contact.contact_us')}}</span>
         </p>
     </div><!-- End Section Title -->

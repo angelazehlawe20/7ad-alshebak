@@ -1,7 +1,7 @@
 <section id="about" class="about section">
     <!-- عنوان القسم -->
     <div class="container section-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <p style="margin-top: 70px;">
+        <p>
             <span class="description-title">{{ __('about.who_we_are') }}</span>
         </p>
     </div>

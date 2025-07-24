@@ -5,7 +5,7 @@
 @section('content')
 <section id="book-a-table" class="book-a-table section">
     <div class="container section-title">
-        <p style="margin-top: 70px;">
+        <p >
             <span class="description-title">{{ __('book.book_your_table_now') }}</span>
         </p>
     </div>

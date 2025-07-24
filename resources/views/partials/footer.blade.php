@@ -1,39 +1,47 @@
 <footer id="footer" class="footer dark-background py-3">
     <div class="container">
         <div class="row gy-3">
-            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
-                <i class="bi bi-geo-alt icon"></i>
-                <div class="draggable-container">
-                    <p class="mb-0 draggable-text">
-                        {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
-                    </p>
+            <div class="col-lg-3 col-md-6 footer-info">
+                <div class="d-flex gap-3 align-items-start">
+                    <i class="bi bi-geo-alt icon"></i>
+                    <div class="draggable-container">
+                        <p class="mb-0 draggable-text">
+                            {!! nl2br(app()->getLocale() === 'ar' ? $footer?->address_ar : $footer?->address_en) !!}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
-                <i class="bi bi-envelope icon"></i>
-                <div class="draggable-container">
-                    <p class="mb-0 draggable-text">
-                        {{ $footer?->email }}
-                    </p>
+            <div class="col-lg-3 col-md-6 footer-info">
+                <div class="d-flex gap-3 align-items-start">
+                    <i class="bi bi-envelope icon"></i>
+                    <div class="draggable-container">
+                        <p class="mb-0 draggable-text">
+                            {{ $footer?->email }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
-                <i class="bi bi-telephone icon"></i>
-                <div class="draggable-container">
-                    <p class="mb-0 draggable-text">
-                        {{ $footer?->phone }}
-                    </p>
+            <div class="col-lg-3 col-md-6 footer-info">
+                <div class="d-flex gap-3 align-items-start">
+                    <i class="bi bi-telephone icon"></i>
+                    <div class="draggable-container">
+                        <p class="mb-0 draggable-text">
+                            {{ $footer?->phone }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 d-flex gap-3 footer-info">
-                <i class="bi bi-clock icon"></i>
-                <div class="draggable-container">
-                    <p class="mb-0 draggable-text">
-                        {!! $footer?->opening_hours !!}
-                    </p>
+            <div class="col-lg-3 col-md-6 footer-info">
+                <div class="d-flex gap-3 align-items-start">
+                    <i class="bi bi-clock icon"></i>
+                    <div class="draggable-container">
+                        <p class="mb-0 draggable-text">
+                            {!! $footer?->opening_hours !!}
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -85,8 +93,11 @@
 
 @media (max-width: 800px) {
     .footer-info {
-        justify-content: center;
         text-align: center;
+    }
+
+    .footer-info .d-flex {
+        justify-content: center;
     }
 
     .draggable-container {
