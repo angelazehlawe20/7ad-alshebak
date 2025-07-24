@@ -124,24 +124,6 @@ class DemoDataSeeder extends Seeder
         About::create([
             'main_text_ar' => 'مطعم حد الشباك هو وجهتك المثالية لتذوق أشهى المأكولات الشرقية والعالمية. نقدم لكم تجربة طعام فريدة في أجواء عصرية وراقية. يتميز مطعمنا باستخدام أجود أنواع المكونات الطازجة والتحضير اليومي لجميع أطباقنا. يقع مطعمنا في قلب المدينة ويوفر إطلالة رائعة مع خدمة متميزة وقائمة طعام متنوعة تناسب جميع الأذواق.',
             'main_text_en' => 'Had Alshebak Restaurant is your perfect destination for the most delicious Oriental and International cuisine. We offer a unique dining experience in a modern and elegant atmosphere. Our restaurant is distinguished by using the finest fresh ingredients and daily preparation of all our dishes. Located in the heart of the city, our restaurant offers a wonderful view with excellent service and a diverse menu that suits all tastes.',
-            'why_title_ar' => 'لماذا تختارنا؟',
-            'why_title_en' => 'Why Choose Us?',
-            'why_points_ar' => json_encode([
-                'مكونات طازجة يومياً',
-                'طهاة محترفون',
-                'أجواء عائلية مريحة',
-                'موقع مميز في قلب المدينة',
-                'قائمة طعام متنوعة',
-                'خدمة راقية',
-            ]),
-            'why_points_en' => json_encode([
-                'Daily Fresh Ingredients',
-                'Professional Chefs',
-                'Comfortable Family Atmosphere',
-                'Prime Location in City Center',
-                'Diverse Menu',
-                'Premium Service',
-            ]),
             'created_at' => now(),
             'updated_at' => now()
         ]);

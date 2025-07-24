@@ -118,6 +118,10 @@
             order: 2;
         }
 
+        .alert-container {
+            
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 10px 15px;
@@ -142,7 +146,9 @@
     <div class="spacer" style="height: 30px;"></div>
 
     <main>
-        @include('admin.partials.alerts')
+        <div class="container alert-container">
+            @include('admin.partials.alerts')
+        </div>
         @yield('content')
     </main>
 

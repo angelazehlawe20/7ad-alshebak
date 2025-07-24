@@ -24,14 +24,11 @@ return [
     'invalid' => 'البيانات المدخلة غير صالحة، يرجى المحاولة مرة أخرى.',
 
     // Section titles
-    'why_choose_us' => 'لماذا تختارنا؟',
     'edit_about' => 'تعديل قسم من نحن',
 
     // Form labels
     'main_text_en' => 'النص الرئيسي (بالإنكليزية)',
     'main_text_ar' => 'النص الرئيسي (بالعربية)',
-    'why_title_en' => 'عنوان لماذا تختارنا (بالإنكليزية)',
-    'why_title_ar' => 'عنوان لماذا تختارنا (بالعربية)',
     'gallery_images' => 'معرض الصور',
 
     // Action buttons

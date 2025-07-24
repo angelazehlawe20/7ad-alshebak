@@ -27,22 +27,13 @@ class AboutController extends Controller
         $request->validate([
             'main_text_en' => 'nullable|string|max:1000',
             'main_text_ar' => 'nullable|string|max:1000',
-            'why_title_en' => 'nullable|string|max:255',
-            'why_title_ar' => 'nullable|string|max:255',
-            'why_points_en' => 'nullable|array',
-            'why_points_ar' => 'nullable|array',
-            'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:10240',
+            'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg',
         ]);
 
         $about = About::first() ?? new About();
 
         $about->main_text_en = $request->main_text_en;
         $about->main_text_ar = $request->main_text_ar;
-        $about->why_title_en = $request->why_title_en;
-        $about->why_title_ar = $request->why_title_ar;
-        $about->why_points_en = json_encode(array_filter((array)$request->why_points_en));
-        $about->why_points_ar = json_encode(array_filter((array)$request->why_points_ar));
-
         $existingMedia = json_decode($request->input('existing_images'), true) ?? [];
 
         $oldMedia = json_decode($about->gallery_images ?? '[]', true);
@@ -115,20 +106,14 @@ class AboutController extends Controller
         $request->validate([
             'main_text_en' => 'nullable|string|max:1000',
             'main_text_ar' => 'nullable|string|max:1000',
-            'why_title_en' => 'nullable|string|max:255',
-            'why_title_ar' => 'nullable|string|max:255',
-            'why_points_en' => 'nullable|array',
-            'why_points_ar' => 'nullable|array',
+
             'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:10240'
         ]);
 
         $about = new About();
         $about->main_text_en = $request->main_text_en;
         $about->main_text_ar = $request->main_text_ar;
-        $about->why_title_en = $request->why_title_en;
-        $about->why_title_ar = $request->why_title_ar;
-        $about->why_points_en = json_encode(array_filter($request->why_points_en));
-        $about->why_points_ar = json_encode(array_filter($request->why_points_ar));
+
 
         $media = [];
 

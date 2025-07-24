@@ -48,7 +48,7 @@
                                             pattern="9[0-9]{8}" maxlength="9" required
                                             oninput="validatePhone(this)"
                                             placeholder="9XXXXXXXX">
-                                        <div class="invalid-feedback small" id="phone-feedback" style="display: none; text-align: start;">
+                                        <div class="invalid-feedback x-small" id="phone-feedback" style="display: none; text-align: start; font-size: 0.75rem;">
                                             {{ __('book.phone_must_start_with_9') }}
                                         </div>
                                     </div>

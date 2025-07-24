@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Booking;
-use App\Events\NewBookingEvent;
 use App\Notifications\NewBookingNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -47,8 +46,6 @@ class BookingController extends Controller
         ];
 
         $booking = Booking::create($dataToSave);
-        // Broadcast the new booking event
-        broadcast(new NewBookingEvent($booking))->toOthers();
 
         // Send push notification to all admins
         $admins = Admin::all();

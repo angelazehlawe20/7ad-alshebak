@@ -16,10 +16,6 @@ return new class extends Migration
             $table->text('main_text_en')->nullable();
             $table->text('main_text_ar')->nullable();
             $table->json('gallery_images')->nullable();
-            $table->json('why_points_en')->nullable();
-            $table->json('why_points_ar')->nullable();
-            $table->string('why_title_en')->nullable();
-            $table->string('why_title_ar')->nullable();
             $table->timestamps();
         });
     }

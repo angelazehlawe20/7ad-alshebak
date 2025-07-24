@@ -383,11 +383,6 @@ html[dir="ltr"] .hero h1 {
     border: 1px solid #ddd;
 }
 
-/* تحسين المسافات */
-.about .why-box {
-    margin-top: 40px;
-}
-
 /* زيادة المسافة بين الصور والسلايدر */
 .about .swiper-wrapper {
     padding-bottom: 20px;

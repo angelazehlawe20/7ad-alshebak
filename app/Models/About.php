@@ -12,9 +12,5 @@ class About extends Model
         'main_text_en',
         'main_text_ar',
         'gallery_images',
-        'why_points_en',
-        'why_points_ar',
-        'why_title_en',
-        'why_title_ar'
     ];
 }

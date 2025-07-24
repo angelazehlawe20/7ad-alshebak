@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ContactMessageReceived;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -28,7 +27,6 @@ class ContactController extends Controller
         // Save contact
         $contact = Contact::create($validatedData);
 
-        event(new ContactMessageReceived($contact));
 
         // Return success response
         return redirect()->route('contact')->with("success", __('contact.sent_message'));
