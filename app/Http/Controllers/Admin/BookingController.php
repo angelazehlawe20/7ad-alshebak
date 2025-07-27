@@ -91,7 +91,7 @@ class BookingController extends Controller
     {
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'phone' => 'sometimes|required|string|max:20',
+            'phone' => 'sometimes|required|string|max:13',
             'email' => 'sometimes|required|email|max:255',
             'guests_count' => 'sometimes|required|integer|min:1',
             'booking_date' => 'sometimes|required|date',

@@ -1,4 +1,4 @@
 <?php
 return [
-    'designed_by' => 'Designed By'
+    'developed_by' => 'Developed By'
 ];

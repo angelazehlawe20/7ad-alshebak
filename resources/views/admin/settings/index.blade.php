@@ -47,7 +47,7 @@
 
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.phone') }}</strong></label>
-                                    <input type="tel" class="form-control editable-field @error('phone') is-invalid @enderror" id="phone" name="phone" maxlength="10" value="{{ old('phone', $settings->phone ?? '') }}" disabled>
+                                    <input type="tel" class="form-control editable-field @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $settings->phone ?? '') }}" disabled>
                                     @error('phone')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 

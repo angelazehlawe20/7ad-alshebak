@@ -19,7 +19,7 @@ class ContactController extends Controller
             "name" => "nullable|string|max:255",
             "email" => "nullable|email|max:255",
             "subject" => "nullable|string|max:255",
-            "message" => "nullable|string|max:1000",
+            "message" => "nullable|string",
         ]);
 
         $validatedData['is_read'] = false;

@@ -21,13 +21,13 @@ class SettingsController extends Controller
             'address_ar' => 'nullable|string',
             'address_en' => 'nullable|string',
             'email' => 'required|email|unique:settings,email,' . Setting::first()?->id,
-            'phone' => 'nullable|string|max:10',
+            'phone' => 'nullable|string',
             'opening_hours' => 'nullable|string',
             'facebook_url' => 'nullable|string|url',
             'instagram_url' => 'nullable|string|url',
             'whatsapp' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'favicon' => 'nullable|mimes:ico,png,jpg|max:1024'
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'favicon' => 'nullable|mimes:ico,png,jpg'
         ]);
 
         $settings = Setting::firstOrNew();

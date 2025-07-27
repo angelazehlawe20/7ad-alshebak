@@ -25,8 +25,8 @@ class AboutController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'main_text_en' => 'nullable|string|max:1000',
-            'main_text_ar' => 'nullable|string|max:1000',
+            'main_text_en' => 'nullable|string',
+            'main_text_ar' => 'nullable|string',
             'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg',
         ]);
 
@@ -64,7 +64,7 @@ class AboutController extends Controller
     public function updateImage(Request $request)
     {
         $request->validate([
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:10240',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg',
             'original_image' => 'nullable|string'
         ]);
 
@@ -104,10 +104,10 @@ class AboutController extends Controller
     public function createAbout(Request $request)
     {
         $request->validate([
-            'main_text_en' => 'nullable|string|max:1000',
-            'main_text_ar' => 'nullable|string|max:1000',
+            'main_text_en' => 'nullable|string',
+            'main_text_ar' => 'nullable|string',
 
-            'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:10240'
+            'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg'
         ]);
 
         $about = new About();

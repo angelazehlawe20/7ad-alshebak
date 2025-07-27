@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('address_ar')->nullable();
             $table->text('address_en')->nullable();
             $table->string('email')->unique();
-            $table->string('phone', 10)->nullable();
+            $table->string('phone')->nullable();
             $table->string('opening_hours')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('instagram_url')->nullable();

@@ -1,4 +1,4 @@
 <?php
 return [
-    'designed_by' => 'صمم بواسطة'
+    'developed_by' => 'تم تطويره بواسطة'
 ];
