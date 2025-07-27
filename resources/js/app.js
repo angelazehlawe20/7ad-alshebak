@@ -1,5 +1,11 @@
 import './bootstrap';
 
+
+flatpickr("input[type=date]", {
+    dateFormat: "Y-m-d",
+    allowInput: true
+});
+
 document.addEventListener('DOMContentLoaded', function () {
   "use strict";
 

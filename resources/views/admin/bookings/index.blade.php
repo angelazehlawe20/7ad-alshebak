@@ -8,17 +8,38 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}</h1>
+                    <h1 class="m-0">
+                        <i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}
+                    </h1>
                 </div>
-                <div class="col-sm-6 text-end">
+                <div class="row pt-3">
                     @if(auth('admin')->user()->is_owner)
-                    <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end">
-                        <a href="{{ route('admin.bookings.export') }}" class="btn btn-success">
-                            <i class="fas fa-file-excel me-2"></i>{{ __('book.export_to_excel') }}
-                        </a>
-                        <a href="{{ route('admin.bookings.export.frequent') }}" class="btn btn-success">
-                            <i class="fas fa-file-excel me-2"></i>{{ __('book.export_frequent_bookers_to_excel') }}
-                        </a>
+                    <div class="d-flex flex-row gap-2 justify-content-center">
+                        <!-- Export by date form -->
+                        <form method="GET" action="{{ route('admin.bookings.export.by_date') }}" class="d-flex flex-row gap-1 align-items-center">
+                            <div class="d-flex align-items-center position-relative me-4">
+                                <label class="me-2" style="min-width: 85px;">{{ __('book.from_date') }}</label>
+                                <input type="text" name="from_date" class="form-control flatpickr" required id="from_date" placeholder={{__('book.y_m_d')}} readonly>
+                                <i class="fas fa-calendar-alt position-absolute"
+                                   style="{{ app()->getLocale() === 'ar' ? 'left: 10px;' : 'right: 10px;' }} top: 50%; transform: translateY(-50%); cursor: pointer;"
+                                   onclick="document.getElementById('from_date')._flatpickr.open()"
+                                   role="button"></i>
+                            </div>
+
+                            <div class="d-flex align-items-center position-relative">
+                                <label class="me-2" style="min-width: 85px;">{{ __('book.to_date') }}</label>
+                                <input type="text" name="to_date" class="form-control flatpickr" required id="to_date" placeholder={{__('book.y_m_d')}} readonly>
+                                <i class="fas fa-calendar-alt position-absolute"
+                                   style="{{ app()->getLocale() === 'ar' ? 'left: 10px;' : 'right: 10px;' }} top: 50%; transform: translateY(-50%); cursor: pointer;"
+                                   onclick="document.getElementById('to_date')._flatpickr.open()"
+                                   role="button"></i>
+                            </div>
+
+                            <button type="submit" class="btn text-white" style="background-color: #8B7355; padding: 6px 12px; border: none; border-radius: 4px;">
+                                <i class="fas fa-file-export me-2"></i>{{ __('book.export_to_excel') }}
+                            </button>
+                        </form>
+
                     </div>
                     @endif
                 </div>
@@ -47,8 +68,9 @@
                             </select>
                         </div>
                         @if(request('status'))
-                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">{{
-                            __('book.clear_filter') }}</a>
+                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">
+                            {{ __('book.clear_filter') }}
+                        </a>
                         @endif
                     </form>
                 </div>
@@ -63,8 +85,27 @@
 @endsection
 
 @push('scripts')
-<script src="//js.pusher.com/7.2/pusher.min.js"></script>
 @vite(['resources/js/app.js'])
+
+<!-- Flatpickr CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- اللغة العربية -->
+@if(app()->getLocale() === 'ar')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr(".flatpickr", {
+            dateFormat: "Y-m-d",
+            locale: "{{ app()->getLocale() === 'ar' ? 'ar' : 'default' }}",
+            allowInput: true,
+            clickOpens: true
+        });
+    });
+</script>
 
 <script>
     const translations = {

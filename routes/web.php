@@ -132,7 +132,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'destroy' => 'bookings.destroy',
     ]);
     Route::post('/bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
-    Route::get('/bookings/export', [AdminBookingController::class, 'export'])->name('bookings.export');
+    Route::get('/bookings/exportByDateRange', [AdminBookingController::class, 'exportByDateRange'])->name('bookings.export.by_date');
     Route::get('/bookings/export/frequent', [AdminBookingController::class, 'exportFrequentBookers'])->name('bookings.export.frequent');
     Route::get('/bookings/list', [AdminBookingController::class, 'getBookingsList'])->name('bookings.list')->middleware('auth:admin');
 

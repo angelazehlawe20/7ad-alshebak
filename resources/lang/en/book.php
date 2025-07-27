@@ -41,5 +41,8 @@ return [
     'confirm_booking_message' => 'Confirm booking message',
     'status_updated_successfully' => 'Status updated successfully',
     'reject_booking_message' => 'Reject booking message',
+    'from_date' => 'From date :',
+    'to_date' => 'To date :',
+    'y_m_d' => 'YY_MM_DD',
 
 ];

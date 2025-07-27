@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\BookingsExport;
-use App\Exports\FrequentBookersExport;
+use App\Exports\BookingsByDateExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
@@ -12,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class BookingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * عرض قائمة الحجوزات مع الفلاتر.
      */
     public function index(Request $request)
     {
@@ -40,19 +39,27 @@ class BookingController extends Controller
         return view('admin.bookings.index', compact('bookings'));
     }
 
-    public function getBookingsList()
-{
-    $bookings = Booking::latest()->get();
-    $pendingCount = Booking::where('status', 'pending')->count();
+    /**
+     * تصدير الحجوزات حسب نطاق التاريخ.
+     */
+    public function exportByDateRange(Request $request)
+    {
+        $request->validate([
+            'from_date' => 'required|date',
+            'to_date' => 'required|date|after_or_equal:from_date',
+        ]);
 
-    $html = view('admin.bookings.booking_list', ['bookings' => $bookings])->render();
+        $from = $request->from_date;
+        $to = $request->to_date;
 
-    return response()->json([
-        'html' => $html,
-        'pending_count' => $pendingCount
-    ]);
-}
+        $fileName = "bookings_from_{$from}_to_{$to}.xlsx";
 
+        return Excel::download(new BookingsByDateExport($from, $to), $fileName);
+    }
+
+    /**
+     * تحديث حالة الإشعار للحجوزات الجديدة.
+     */
     public function markAsNotified()
     {
         Booking::where('status', 'pending')
@@ -61,16 +68,25 @@ class BookingController extends Controller
             ->update(['is_notified' => true]);
     }
 
-    public function export()
+    /**
+     * تحميل قائمة الحجوزات بصيغة HTML (AJAX).
+     */
+    public function getBookingsList()
     {
-        return Excel::download(new BookingsExport, 'bookings.xlsx');
+        $bookings = Booking::latest()->get();
+        $pendingCount = Booking::where('status', 'pending')->count();
+
+        $html = view('admin.bookings.booking_list', ['bookings' => $bookings])->render();
+
+        return response()->json([
+            'html' => $html,
+            'pending_count' => $pendingCount
+        ]);
     }
 
-    public function exportFrequentBookers()
-    {
-        return Excel::download(new FrequentBookersExport, 'frequent_bookers.xlsx');
-    }
-
+    /**
+     * تحديث بيانات الحجز.
+     */
     public function update(Request $request, Booking $booking)
     {
         $request->validate([
