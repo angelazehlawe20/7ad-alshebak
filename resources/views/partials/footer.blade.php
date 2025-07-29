@@ -76,7 +76,8 @@
                 <hr class="footer-divider my-1">
                 <p class="copyright-text" style="font-family: 'Tajawal', sans-serif; font-size: 1rem;">
                     {{ __('footer.developed_by') }}: Angel
-                    <a href="https://wa.me/963932296001" class="developer-link ms-2" target="_blank" rel="noopener noreferrer" title="Contact via WhatsApp">
+                    <a href="https://wa.me/963932296001" class="developer-link ms-2" target="_blank"
+                        rel="noopener noreferrer" title="Contact via WhatsApp">
                         <i class="bi bi-whatsapp"></i>
                     </a>
                 </p>

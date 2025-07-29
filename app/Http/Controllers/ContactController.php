@@ -24,6 +24,7 @@ class ContactController extends Controller
 
         $validatedData['is_read'] = false;
 
+        
         // Save contact
         $contact = Contact::create($validatedData);
 

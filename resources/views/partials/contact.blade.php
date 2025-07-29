@@ -69,13 +69,13 @@
             </div><!-- End Info Item -->
 
         </div>
-        <form action={{route('contact.store')}} method="POST" class="php-email-form" data-aos="fade-up"
+        <form action="{{route('contact.store')}}" method="POST" class="php-email-form" data-aos="fade-up"
             data-aos-delay="600">
             @csrf
             <div class="row gy-4">
 
                 <div class="col-md-6">
-                    <input type="text" name="name_{{ app()->getLocale() }}" class="form-control ps-3"
+                    <input type="text" name="name" class="form-control ps-3"
                         placeholder="{{ __('contact.your_name') }}" required="">
                 </div>
 
@@ -85,11 +85,11 @@
                 </div>
 
                 <div class="col-md-12">
-                    <input type="text" class="form-control ps-3" name="subject_{{ app()->getLocale() }}"
+                    <input type="text" class="form-control ps-3" name="subject"
                         placeholder="{{ __('contact.subject') }}" required="">
                 </div>
                 <div class="col-md-12">
-                    <textarea class="form-control ps-3" name="message_{{ app()->getLocale() }}" rows="6"
+                    <textarea class="form-control ps-3" name="message" rows="6"
                         placeholder="{{ __('contact.message') }}" required="" style="white-space: pre-wrap;"></textarea>
                 </div>
                 <div class="col-md-12 text-center">

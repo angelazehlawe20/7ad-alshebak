@@ -35,26 +35,18 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('contacts'));
     }
 
-    public function refreshList()
+    public function refreshList(Request $request)
     {
-        $contacts = Contact::latest()->get();
-        return view('admin.contacts.message_list', compact('contacts'));
-    }
-
-    public function fetch(Request $request)
-    {
-        if (!$request->ajax()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
 
         $contacts = Contact::latest()->get();
+        $messages_html = view('admin.contacts.message_list', compact('contacts'))->render();
+        $unread_count = Contact::where('is_read', false)->count();
 
         return response()->json([
-            'messages_html' => view('admin.contacts.messages', compact('contacts'))->render(),
-            'unread_count' => $contacts->where('is_read', false)->count(),
+            'messages_html' => $messages_html,
+            'unread_count' => $unread_count
         ]);
     }
-
 
     public function unreadMessages()
     {
@@ -91,7 +83,7 @@ class ContactController extends Controller
         $relatedContacts = Contact::where('id', '!=', $contact->id)
             ->select([
                 'id',
-                'name' ,
+                'name',
                 'email',
                 'subject',
                 'message',

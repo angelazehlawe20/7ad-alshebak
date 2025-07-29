@@ -1,5 +1,5 @@
 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
         <div class="alert-body">
             <i class="fas fa-check-circle me-2"></i>
             <span>{{ session('success') }}</span>
@@ -9,7 +9,7 @@
 @endif
 
 @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
         <div class="alert-body">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span>{{ session('error') }}</span>
@@ -19,7 +19,7 @@
 @endif
 
 @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="validationAlert">
         <div class="alert-body">
             <div class="alert-title">
                 <i class="fas fa-times-circle me-2"></i>
@@ -34,3 +34,19 @@
         </div>
     </div>
 @endif
+
+<script>
+    // Auto-dismiss alerts after 10 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = ['successAlert', 'errorAlert', 'validationAlert'];
+        alerts.forEach(function(alertId) {
+            const alert = document.getElementById(alertId);
+            if (alert) {
+                setTimeout(function() {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 10000); // 10 seconds
+            }
+        });
+    });
+</script>

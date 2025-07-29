@@ -12,52 +12,62 @@
                         <i class="fas fa-calendar-check me-2"></i>{{ __('book.bookings_management') }}
                     </h1>
                 </div>
-                <div class="row pt-3">
-                    @if(auth('admin')->user()->is_owner)
-                    <div class="d-flex flex-row gap-2 justify-content-center">
-                        <!-- Export by date form -->
-                        <form method="GET" action="{{ route('admin.bookings.export.by_date') }}" class="d-flex flex-row gap-1 align-items-center">
-                            <div class="d-flex align-items-center position-relative me-4">
-                                <label class="me-2" style="min-width: 85px;">{{ __('book.from_date') }}</label>
-                                <input type="text" name="from_date" class="form-control flatpickr" required id="from_date" placeholder={{__('book.y_m_d')}} readonly>
-                                <i class="fas fa-calendar-alt position-absolute"
-                                   style="{{ app()->getLocale() === 'ar' ? 'left: 10px;' : 'right: 10px;' }} top: 50%; transform: translateY(-50%); cursor: pointer;"
-                                   onclick="document.getElementById('from_date')._flatpickr.open()"
-                                   role="button"></i>
-                            </div>
 
-                            <div class="d-flex align-items-center position-relative">
-                                <label class="me-2" style="min-width: 85px;">{{ __('book.to_date') }}</label>
-                                <input type="text" name="to_date" class="form-control flatpickr" required id="to_date" placeholder={{__('book.y_m_d')}} readonly>
-                                <i class="fas fa-calendar-alt position-absolute"
-                                   style="{{ app()->getLocale() === 'ar' ? 'left: 10px;' : 'right: 10px;' }} top: 50%; transform: translateY(-50%); cursor: pointer;"
-                                   onclick="document.getElementById('to_date')._flatpickr.open()"
-                                   role="button"></i>
-                            </div>
+                @if(auth('admin')->user()->is_owner)
+                <div class="col-sm-12 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="GET" action="{{ route('admin.bookings.export.by_date') }}"
+                                class="row g-3 align-items-end">
+                                {{-- حقل من تاريخ --}}
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="from_date" class="form-label">{{ __('book.from_date') }}</label>
+                                        <input type="text" name="from_date" class="form-control" required id="from_date"
+                                            lang="en" dir="ltr" placeholder="YYYY-MM-DD"
+                                            onfocus="this.type='date'; this.showPicker();"
+                                            onblur="if(!this.value) this.type='text';">
+                                    </div>
+                                </div>
 
-                            <button type="submit" class="btn text-white" style="background-color: #8B7355; padding: 6px 12px; border: none; border-radius: 4px;">
-                                <i class="fas fa-file-export me-2"></i>{{ __('book.export_to_excel') }}
-                            </button>
-                        </form>
+                                {{-- حقل إلى تاريخ --}}
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="to_date" class="form-label">{{ __('book.to_date') }}</label>
+                                        <input type="text" name="to_date" class="form-control" required id="to_date"
+                                            lang="en" dir="ltr" placeholder="YYYY-MM-DD"
+                                            onfocus="this.type='date'; this.showPicker();"
+                                            onblur="if(!this.value) this.type='text';">
+                                    </div>
+                                </div>
 
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-file-export me-2"></i>{{ __('book.export_to_excel') }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    @endif
                 </div>
+                @endif
             </div>
         </div>
     </div>
 
     <section class="content">
-        <div class="container-fluid px-0">
-            {{-- Status Filter --}}
-            <div class="card bg-beige card-outline mb-4">
-                <div class="card-header bg-light">
-                    <h3 class="card-title"><i class="fas fa-filter me-2"></i>{{ __('book.filter_by_status') }}</h3>
+        <div class="container-fluid">
+
+            {{-- الفلاتر --}}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-filter me-2"></i>{{ __('book.filter_by_status') }}
+                    </h3>
                 </div>
-                <div class="card-body" style="background-color: #f5f5dc;">
-                    <form method="GET" action="{{ route('admin.bookings.index') }}"
-                        class="d-flex align-items-center gap-2">
-                        <div class="form-group flex-grow-1 mb-0">
+                <div class="card-body">
+                    <form method="GET" action="{{ route('admin.bookings.index') }}" class="row g-3 align-items-center">
+                        <div class="col">
                             <select name="status" id="status" class="form-select" onchange="this.form.submit()">
                                 <option value="">{{ __('book.all_statuses') }}</option>
                                 @foreach(['pending', 'confirmed', 'cancelled'] as $status)
@@ -68,14 +78,17 @@
                             </select>
                         </div>
                         @if(request('status'))
-                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">
-                            {{ __('book.clear_filter') }}
-                        </a>
+                        <div class="col-auto">
+                            <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">
+                                {{ __('book.clear_filter') }}
+                            </a>
+                        </div>
                         @endif
                     </form>
                 </div>
             </div>
 
+            {{-- قائمة الحجوزات --}}
             <div class="row g-4" id="booking-list">
                 @include('admin.bookings.booking_list', ['bookings' => $bookings])
             </div>
@@ -85,28 +98,6 @@
 @endsection
 
 @push('scripts')
-@vite(['resources/js/app.js'])
-
-<!-- Flatpickr CSS & JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<!-- اللغة العربية -->
-@if(app()->getLocale() === 'ar')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
-@endif
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        flatpickr(".flatpickr", {
-            dateFormat: "Y-m-d",
-            locale: "{{ app()->getLocale() === 'ar' ? 'ar' : 'default' }}",
-            allowInput: true,
-            clickOpens: true
-        });
-    });
-</script>
-
 <script>
     const translations = {
         status: {
@@ -131,5 +122,6 @@
         errorUpdatingStatus: "{{ __('book.error_updating_status') }}"
     };
 </script>
+
 <script src="{{ asset('assets/js/bookingAdminPage.js') }}"></script>
 @endpush

@@ -45,104 +45,119 @@
 
         <div class="main-content">
             <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
-                <div class="container-fluid">
-                    <button class="btn btn-link d-md-none text-dark" id="sidebarToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                <div class="container-fluid px-3">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <button class="btn btn-link d-md-none text-dark p-1" id="sidebarToggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
 
-                    <div class="d-flex align-items-center ms-auto gap-2">
-                        @php
-                        $newBookings = \App\Models\Booking::where('status', 'pending')
-                        ->whereDate('created_at', \Carbon\Carbon::today())
-                        ->where('is_notified', false)
-                        ->count();
+                        <div class="d-flex align-items-center gap-2 flex-grow-0 flex-wrap">
+                            @php
+                            $newBookings = \App\Models\Booking::where('status', 'pending')
+                            ->whereDate('created_at', \Carbon\Carbon::today())
+                            ->where('is_notified', false)
+                            ->count();
 
-                        $unreadMessages = \App\Models\Contact::where('is_read', false)
-                        ->whereDate('created_at', \Carbon\Carbon::today())
-                        ->where('is_notified', false)
-                        ->count();
-                        @endphp
+                            $unreadMessages = \App\Models\Contact::where('is_read', false)
+                            ->whereDate('created_at', \Carbon\Carbon::today())
+                            ->where('is_notified', false)
+                            ->count();
+                            @endphp
 
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative"
-                                type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class="fas fa-bell"></i>
-                                <span id="contact-unread-badge"
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                    style="display: none;"></span>
-                            </button>
-
-                            <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="notificationsDropdown">
-                                @if($newBookings > 0 || $unreadMessages > 0)
-                                @if($newBookings > 0)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.bookings.index') }}"
-                                        onclick="markBookingsAsNotified()">
-                                        <i class="fas fa-calendar-check me-2"></i>
-                                        {{ $newBookings }} {{ __('messages.new_bookings') }}
-                                    </a>
-                                </li>
-                                @endif
-                                @if($unreadMessages > 0)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.contacts.index') }}"
-                                        onclick="markMessagesAsNotified()">
-                                        <i class="fas fa-envelope me-2"></i>
-                                        {{ $unreadMessages }} {{ __('messages.new_messages') }}
-                                    </a>
-                                </li>
-                                @endif
-                                @else
-                                <li class="dropdown-menu-empty">
-                                    <span class="dropdown-item-text text-muted text-center">
-                                        {{ __('messages.no_new_notifications') }}
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative p-2"
+                                    type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    @php
+                                    $totalUnread = $newBookings + $unreadMessages;
+                                    @endphp
+                                    <span id="notifications-count"
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="{{ $totalUnread > 0 ? 'display: block;' : 'display: none;' }}">
+                                        {{ $totalUnread }}
                                     </span>
-                                </li>
-                                @endif
-                            </ul>
+                                </button>
+
+                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="notificationsDropdown">
+                                    @if($newBookings > 0 || $unreadMessages > 0)
+                                    @if($newBookings > 0)
+                                    <li>
+                                        <a class="dropdown-item py-2" href="{{ route('admin.bookings.index') }}"
+                                            onclick="markBookingsAsNotified()">
+                                            <i class="fas fa-calendar-check me-2"></i>
+                                            {{ $newBookings }} {{ __('messages.new_bookings') }}
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @if($unreadMessages > 0)
+                                    <li>
+                                        <a class="dropdown-item py-2" href="{{ route('admin.contacts.index') }}"
+                                            onclick="markMessagesAsNotified()">
+                                            <i class="fas fa-envelope me-2"></i>
+                                            {{ $unreadMessages }} {{ __('messages.new_messages') }}
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @else
+                                    <li class="dropdown-menu-empty">
+                                        <span class="dropdown-item-text text-muted text-center py-2">
+                                            {{ __('messages.no_new_notifications') }}
+                                        </span>
+                                    </li>
+                                    @endif
+                                </ul>
+                            </div>
+
+                            <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                                class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                                <i class="fas fa-language me-1"></i>
+                                <span class="d-none d-sm-inline">
+                                    {{ app()->getLocale() === 'ar' ? __('messages.english') : __('messages.arabic') }}
+                                </span>
+                            </a>
+
+                            @php $admin = auth()->guard('admin')->user(); @endphp
+
+                            @if($admin->is_owner)
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-light rounded-pill dropdown-toggle d-flex align-items-center gap-2"
+                                    type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span class="d-none d-sm-inline">{{ __('messages.admin') }}</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item py-2" href="{{ route('admin.profile.index') }}">
+                                            <i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline w-100">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger py-2">
+                                                <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                            @else
+                            <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit"
+                                    class="btn btn-outline-danger btn-sm d-flex align-items-center gap-2">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="d-none d-sm-inline">{{ __('messages.logout') }}</span>
+                                </button>
+                            </form>
+                            @endif
                         </div>
-
-                        <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                            class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-language me-1"></i>
-                            {{ app()->getLocale() === 'ar' ? __('messages.english') : __('messages.arabic') }}
-                        </a>
-
-                        @php $admin = auth()->guard('admin')->user(); @endphp
-
-                        @if($admin->is_owner)
-                        <div class="dropdown">
-                            <button class="btn btn-light rounded-pill dropdown-toggle" type="button" id="userDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle me-2"></i>
-                                <span>{{ __('messages.admin') }}</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}">
-                                        <i class="fas fa-user-cog me-2"></i> {{ __('messages.profile') }}</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        @else
-                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-sign-out-alt me-1"></i> {{ __('messages.logout') }}
-                            </button>
-                        </form>
-                        @endif
                     </div>
                 </div>
             </nav>
@@ -161,7 +176,6 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -239,95 +253,57 @@
     </script>
 
     <script>
-        function updateNotifications() {
-    Promise.all([
-        fetch('{{ route("admin.notifications.messages") }}'),
-        fetch('{{ route("admin.contacts.fetch") }}')
-    ])
-    .then(responses => Promise.all(responses.map(res => res.json())))
-    .then(([messagesData, contactsData]) => {
-        // تحديث شارة الإشعارات
-        const badge = document.getElementById('contact-unread-badge');
-        const dropdownList = document.getElementById('messages-dropdown-list');
-        const messagesList = document.getElementById('messages-list');
-
-        if (!badge || !dropdownList) {
-            console.error('Elements not found: #contact-unread-badge or #messages-dropdown-list');
-            return;
+        function updateSidebarCounters() {
+            fetch('{{ route("admin.bookings.pending") }}', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                credentials: 'same-origin'
+            })
+            .then(res => res.json())
+            .then(data => {
+                const bookingBadge = document.getElementById('booking-pending-badge');
+                if (bookingBadge) {
+                    if (data.pending_count > 0) {
+                        bookingBadge.textContent = data.pending_count;
+                        bookingBadge.style.display = '';
+                    } else {
+                        bookingBadge.style.display = 'none';
+                    }
+                }
+            })
+            .catch(error => console.error('Error updating booking counter:', error));
+        
+            fetch('{{ route("admin.contacts.unread") }}', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                credentials: 'same-origin'
+            })
+            .then(res => res.json())
+            .then(data => {
+                const contactBadge = document.getElementById('contact-unread-badge');
+                if (contactBadge) {
+                    if (data.unread_count > 0) {
+                        contactBadge.textContent = data.unread_count;
+                        contactBadge.style.display = '';
+                    } else {
+                        contactBadge.style.display = 'none';
+                    }
+                }
+            })
+            .catch(error => console.error('Error updating contact counter:', error));
         }
-
-        // تحديث عدد الرسائل غير المقروءة
-        if (messagesData.unread_count > 0) {
-            badge.textContent = messagesData.unread_count;
-            badge.style.display = 'inline-block';
-        } else {
-            badge.style.display = 'none';
-        }
-
-        // تحديث قائمة الإشعارات
-        dropdownList.innerHTML = '';
-        if (messagesData.messages.length > 0) {
-            messagesData.messages.forEach(msg => {
-                const li = document.createElement('li');
-                li.classList.add('dropdown-item');
-                li.innerHTML = `
-                    <div class="fw-bold">${msg.name}</div>
-                    <div class="text-muted small">${msg.subject}</div>
-                    <div class="text-muted smaller">${new Date(msg.created_at).toLocaleString()}</div>
-                `;
-                li.onclick = () => {
-                    window.location.href = '{{ route("admin.contacts.index") }}';
-                };
-                dropdownList.appendChild(li);
-            });
-
-            const viewAll = document.createElement('li');
-            viewAll.innerHTML = `<a href="{{ route('admin.contacts.index') }}" class="dropdown-item text-center text-primary">
-                {{ __('messages.view_all') }}</a>`;
-            dropdownList.appendChild(viewAll);
-        } else {
-            dropdownList.innerHTML = `<li class="dropdown-item-text text-muted text-center">
-                {{ __('messages.no_new_messages') }}</li>`;
-        }
-
-        // تحديث قائمة الرسائل في الصفحة إذا كانت موجودة
-        if (messagesList && contactsData.messages_html) {
-            messagesList.innerHTML = contactsData.messages_html;
-
-            // إعادة تفعيل أزرار الحذف
-            const newDeleteForms = messagesList.querySelectorAll('.delete-form');
-            newDeleteForms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: deleteConfirmTitle,
-                        text: deleteConfirmText,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: deleteConfirmYes
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
-                });
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error updating notifications:', error);
-    });
-}
-
-// تحديث كل 5 دقائق
-const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 دقائق بالميلي ثانية
-setInterval(updateNotifications, REFRESH_INTERVAL);
-
-// تحديث عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', updateNotifications);
+    
+        // تحديث العدادات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', updateSidebarCounters);
+    
+        // تحديث العدادات كل 5 دقائق
+        setInterval(updateSidebarCounters, 5 * 60 * 1000);
     </script>
+
 
 
     {{-- Extra custom scripts --}}

@@ -155,16 +155,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     // Contacts Management
     Route::controller(AdminContactController::class)->group(function () {
         Route::get('/contacts', 'index')->name('contacts.index');
-        Route::get('/contacts/{contact}', 'show')->name('contacts.show');
         Route::post('/contacts/mark-as-read', 'markAsRead')->name('contacts.markAsRead');
         Route::delete('/contacts/{contact}', 'destroy')->name('contacts.destroy');
     });
     Route::post('/contacts/mark-as-notified', [AdminContactController::class, 'markAsNotified'])->name('contacts.markAsNotified');
-    Route::get('/contacts/refresh', [AdminContactController::class, 'refreshList'])->name('contacts.refresh');
-    Route::get('/contacts/fetch', [AdminContactController::class, 'fetch'])
-        ->name('contacts.fetch')
-        ->middleware('auth:admin');
-    Route::get('/contacts/notifications/messages', [AdminContactController::class, 'unreadMessages'])->name('notifications.messages');
+    Route::get('/contacts/refresh', [AdminContactController::class, 'refreshList'])
+        ->name('contacts.refresh');
+    Route::get('/contacts/notifications/messages', [AdminContactController::class, 'unreadMessages'])->name('contacts.notifications.messages');
+    Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
 
 
     // About Management
