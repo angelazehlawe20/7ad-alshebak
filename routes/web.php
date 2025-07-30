@@ -133,8 +133,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     ]);
     Route::post('/bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
     Route::get('/bookings/exportByDateRange', [AdminBookingController::class, 'exportByDateRange'])->name('bookings.export.by_date');
-    Route::get('/bookings/export/frequent', [AdminBookingController::class, 'exportFrequentBookers'])->name('bookings.export.frequent');
     Route::get('/bookings/list', [AdminBookingController::class, 'getBookingsList'])->name('bookings.list')->middleware('auth:admin');
+    Route::get('/bookings/pending', [AdminBookingController::class, 'getPendingBookings'])->name('bookings.pending');
 
     // Settings Management
     Route::controller(SettingsController::class)->group(function () {

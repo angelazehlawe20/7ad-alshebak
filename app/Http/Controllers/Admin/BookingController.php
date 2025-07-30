@@ -104,4 +104,18 @@ class BookingController extends Controller
 
         return redirect()->route('admin.bookings.index')->with('success', __('book.update_message'));
     }
+
+    /**
+     * جلب الحجوزات المعلقة وعددها (AJAX).
+     */
+    public function getPendingBookings()
+    {
+        $pendingCount = Booking::where('status', 'pending')
+            ->where('is_notified', false)
+            ->count();
+
+        return response()->json([
+            'pending_count' => $pendingCount
+        ]);
+    }
 }
