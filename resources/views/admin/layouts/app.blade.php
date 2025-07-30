@@ -51,15 +51,13 @@
                             <i class="fas fa-bars"></i>
                         </button>
 
-                        <div class="d-flex align-items-center gap-2 flex-grow-0 flex-wrap">
+                        <div class="d-flex align-items-center gap-2 flex-wrap ms-auto">
                             @php
                             $newBookings = \App\Models\Booking::where('status', 'pending')
-                            ->whereDate('created_at', \Carbon\Carbon::today())
                             ->where('is_notified', false)
                             ->count();
 
                             $unreadMessages = \App\Models\Contact::where('is_read', false)
-                            ->whereDate('created_at', \Carbon\Carbon::today())
                             ->where('is_notified', false)
                             ->count();
                             @endphp
@@ -79,35 +77,41 @@
                                     </span>
                                 </button>
 
-                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="notificationsDropdown">
+                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end shadow-sm p-2" style="min-width: 320px;" aria-labelledby="notificationsDropdown">
                                     @if($newBookings > 0 || $unreadMessages > 0)
-                                    @if($newBookings > 0)
-                                    <li>
-                                        <a class="dropdown-item py-2" href="{{ route('admin.bookings.index') }}"
-                                            onclick="markBookingsAsNotified()">
-                                            <i class="fas fa-calendar-check me-2"></i>
-                                            {{ $newBookings }} {{ __('messages.new_bookings') }}
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @if($unreadMessages > 0)
-                                    <li>
-                                        <a class="dropdown-item py-2" href="{{ route('admin.contacts.index') }}"
-                                            onclick="markMessagesAsNotified()">
-                                            <i class="fas fa-envelope me-2"></i>
-                                            {{ $unreadMessages }} {{ __('messages.new_messages') }}
-                                        </a>
-                                    </li>
-                                    @endif
+                                        @if($newBookings > 0)
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('admin.bookings.index') }}"
+                                                    onclick="markBookingsAsNotified()">
+                                                    <i class="fas fa-calendar-check text-primary mt-1"></i>
+                                                    <div>
+                                                        <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
+                                                        <small class="text-muted">{{ $newBookings }} {{ __('messages.new_bookings_arrived') }}</small>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endif
+                                
+                                        @if($unreadMessages > 0)
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('admin.contacts.index') }}"
+                                                    onclick="markMessagesAsNotified()">
+                                                    <i class="fas fa-envelope text-success mt-1"></i>
+                                                    <div>
+                                                        <div class="fw-bold">{{ __('messages.new_messages') }}</div>
+                                                        <small class="text-muted">{{ $unreadMessages }} {{ __('messages.new_messages_received') }}</small>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endif
                                     @else
-                                    <li class="dropdown-menu-empty">
-                                        <span class="dropdown-item-text text-muted text-center py-2">
-                                            {{ __('messages.no_new_notifications') }}
-                                        </span>
-                                    </li>
+                                        <li class="dropdown-menu-empty">
+                                            <span class="dropdown-item-text text-muted text-center py-2">
+                                                <i class="fas fa-check-circle me-1"></i> {{ __('messages.no_new_notifications') }}
+                                            </span>
+                                        </li>
                                     @endif
-                                </ul>
+                                </ul>                                
                             </div>
 
                             <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
@@ -208,17 +212,32 @@
     {{-- Notifications --}}
     <script>
         function markBookingsAsNotified() {
-            $.post('{{ route("admin.bookings.markAsNotified") }}', {
-                _token: '{{ csrf_token() }}'
+            fetch('{{ route("admin.bookings.markAsNotified") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            }).then(() => {
+                updateAllCounters(); // تحديث العدادات بعد وضع علامة "تم الإخطار"
             });
         }
 
         function markMessagesAsNotified() {
-            $.post('{{ route("admin.contacts.markAsNotified") }}', {
-                _token: '{{ csrf_token() }}'
+            fetch('{{ route("admin.contacts.markAsNotified") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            }).then(() => {
+                updateAllCounters(); // تحديث العدادات بعد وضع علامة "تم الإخطار"
             });
         }
-
     </script>
 
     {{-- Keep session alive --}}

@@ -63,9 +63,10 @@ class BookingController extends Controller
     public function markAsNotified()
     {
         Booking::where('status', 'pending')
-            ->whereDate('created_at', now())
             ->where('is_notified', false)
             ->update(['is_notified' => true]);
+
+        return response()->json(['success' => true]);
     }
 
     /**

@@ -63,7 +63,6 @@ class ContactController extends Controller
     public function markAsNotified()
     {
         Contact::where('is_read', false)
-            ->whereDate('created_at', now())
             ->where('is_notified', false)
             ->update(['is_notified' => true]);
 
