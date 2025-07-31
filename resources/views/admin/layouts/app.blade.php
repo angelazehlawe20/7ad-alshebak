@@ -53,13 +53,18 @@
 
                         <div class="d-flex align-items-center gap-2 flex-wrap ms-auto">
                             @php
+                            // الحجوزات الجديدة غير المُعلنة
                             $newBookings = \App\Models\Booking::where('status', 'pending')
                             ->where('is_notified', false)
                             ->count();
 
+                            // الرسائل غير المقروءة وغير المُعلنة
                             $unreadMessages = \App\Models\Contact::where('is_read', false)
                             ->where('is_notified', false)
-                            ->count();
+                            ->latest()
+                            ->get();
+
+                            $totalUnread = $newBookings + $unreadMessages->count();
                             @endphp
 
                             <div class="dropdown">
@@ -67,9 +72,6 @@
                                     type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fas fa-bell"></i>
-                                    @php
-                                    $totalUnread = $newBookings + $unreadMessages;
-                                    @endphp
                                     <span id="notifications-count"
                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                         style="{{ $totalUnread > 0 ? 'display: block;' : 'display: none;' }}">
@@ -77,42 +79,58 @@
                                     </span>
                                 </button>
 
-                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end shadow-sm p-2" style="min-width: 320px;" aria-labelledby="notificationsDropdown">
-                                    @if($newBookings > 0 || $unreadMessages > 0)
-                                        @if($newBookings > 0)
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('admin.bookings.index') }}"
-                                                    onclick="markBookingsAsNotified()">
-                                                    <i class="fas fa-calendar-check text-primary mt-1"></i>
-                                                    <div>
-                                                        <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
-                                                        <small class="text-muted">{{ $newBookings }} {{ __('messages.new_bookings_arrived') }}</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        @endif
-                                
-                                        @if($unreadMessages > 0)
-                                            <li>
-                                                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('admin.contacts.index') }}"
-                                                    onclick="markMessagesAsNotified()">
-                                                    <i class="fas fa-envelope text-success mt-1"></i>
-                                                    <div>
-                                                        <div class="fw-bold">{{ __('messages.new_messages') }}</div>
-                                                        <small class="text-muted">{{ $unreadMessages }} {{ __('messages.new_messages_received') }}</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        @endif
-                                    @else
-                                        <li class="dropdown-menu-empty">
-                                            <span class="dropdown-item-text text-muted text-center py-2">
-                                                <i class="fas fa-check-circle me-1"></i> {{ __('messages.no_new_notifications') }}
-                                            </span>
-                                        </li>
+                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
+                                    style="min-width: 320px;" aria-labelledby="notificationsDropdown">
+
+                                    {{-- الحجوزات --}}
+                                    @if($newBookings > 0)
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                                            href="{{ route('admin.bookings.index') }}"
+                                            onclick="markBookingsAsNotified()">
+                                            <i class="fas fa-calendar-check text-primary mt-1"></i>
+                                            <div>
+                                                <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
+                                                <small class="text-muted">{{ $newBookings }} {{
+                                                    __('messages.new_bookings_arrived') }}</small>
+                                            </div>
+                                        </a>
+                                    </li>
                                     @endif
-                                </ul>                                
+
+                                    {{-- الرسائل --}}
+                                    @if($unreadMessages->count() > 0)
+                                    @foreach($unreadMessages as $msg)
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                                            href="{{ route('admin.contacts.index') }}"
+                                            onclick="markMessagesAsNotified()">
+                                            <i class="fas fa-envelope text-success mt-1"></i>
+                                            <div>
+                                                <div class="fw-bold">{{ $msg->name }}</div>
+                                                <small class="text-muted">{{
+                                                    \Illuminate\Support\Str::limit($msg->message, 40) }}</small>
+                                                <div class="small text-muted">{{ $msg->created_at->diffForHumans() }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                    @endif
+
+                                    {{-- لا يوجد إشعارات --}}
+                                    @if($newBookings == 0 && $unreadMessages->count() == 0)
+                                    <li class="dropdown-menu-empty">
+                                        <span class="dropdown-item-text text-muted text-center py-2">
+                                            <i class="fas fa-check-circle me-1"></i> {{
+                                            __('messages.no_new_notifications') }}
+                                        </span>
+                                    </li>
+                                    @endif
+
+                                </ul>
                             </div>
+
 
                             <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
                                 class="btn btn-outline-secondary btn-sm d-flex align-items-center">
@@ -362,7 +380,7 @@
             // تحديث القائمة المنسدلة
             if (dropdownList) {
                 let dropdownContent = '';
-                
+
                 if (bookingsData.pending_count > 0 || messagesData.unread_count > 0) {
                     if (bookingsData.pending_count > 0) {
                         dropdownContent += `
@@ -390,7 +408,7 @@
                             </span>
                         </li>`;
                 }
-                
+
                 dropdownList.innerHTML = dropdownContent;
             }
 
