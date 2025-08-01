@@ -42,7 +42,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary w-100">
+                                    <button type="submit" class="btn btn-secondry w-100" style="background-color: #8B7355; color: white;">
                                         <i class="fas fa-file-export me-2"></i>{{ __('book.export_to_excel') }}
                                     </button>
                                 </div>

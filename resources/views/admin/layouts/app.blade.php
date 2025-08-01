@@ -68,7 +68,7 @@
                             @endphp
 
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative p-2"
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative px-3 py-1"
                                     type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fas fa-bell"></i>
