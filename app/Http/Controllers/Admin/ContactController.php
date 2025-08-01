@@ -50,12 +50,21 @@ class ContactController extends Controller
 
     public function unreadMessages()
     {
-        $messages = \App\Models\Contact::where('is_read', false)
+        $messages = Contact::where('is_read', false)
+            ->where('is_notified', false)
             ->latest()
-            ->get();
+            ->take(5)
+            ->get()
+            ->map(function ($message) {
+                return [
+                    'id' => $message->id,
+                    'name' => $message->name,
+                    'message' => $message->message,
+                    'created_at_diff' => $message->created_at->diffForHumans()
+                ];
+            });
 
         return response()->json([
-            'unread_count' => $messages->count(),
             'messages' => $messages
         ]);
     }

@@ -366,7 +366,7 @@
             // تحديث عداد زر الجرس
             const notificationsCount = document.getElementById('notifications-count');
             const dropdownList = document.getElementById('messages-dropdown-list');
-            const totalUnread = (messagesData.unread_count || 0) + (bookingsData.pending_count || 0);
+            const totalUnread = (messagesData.messages?.length || 0) + (bookingsData.bookings?.length || 0);
 
             if (notificationsCount) {
                 if (totalUnread > 0) {
@@ -381,29 +381,54 @@
             if (dropdownList) {
                 let dropdownContent = '';
 
-                if (bookingsData.pending_count > 0 || messagesData.unread_count > 0) {
-                    if (bookingsData.pending_count > 0) {
-                        dropdownContent += `
-                            <li>
-                                <a class="dropdown-item py-2" href="{{ route('admin.bookings.index') }}" onclick="markBookingsAsNotified()">
-                                    <i class="fas fa-calendar-check me-2"></i>
-                                    ${bookingsData.pending_count} {{ __('messages.new_bookings') }}
-                                </a>
-                            </li>`;
+                if (bookingsData.bookings?.length > 0 || messagesData.messages?.length > 0) {
+                    // عرض الحجوزات الجديدة
+                    if (bookingsData.bookings?.length > 0) {
+                        dropdownContent += '<li class="dropdown-header fw-bold">{{ __('messages.new_bookings') }}</li>';
+                        bookingsData.bookings.forEach(booking => {
+                            dropdownContent += `
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                                       href="{{ route('admin.bookings.index') }}"
+                                       onclick="markBookingsAsNotified()">
+                                        <i class="fas fa-calendar-check text-primary mt-1"></i>
+                                        <div class="small">
+                                            <div class="fw-semibold">${booking.name}</div>
+                                            <div class="text-muted">${booking.service_type}</div>
+                                            <div class="text-muted">${booking.created_at_diff}</div>
+                                        </div>
+                                    </a>
+                                </li>`;
+                        });
+                        dropdownContent += '<li><hr class="dropdown-divider"></li>';
                     }
-                    if (messagesData.unread_count > 0) {
-                        dropdownContent += `
-                            <li>
-                                <a class="dropdown-item py-2" href="{{ route('admin.contacts.index') }}" onclick="markMessagesAsNotified()">
-                                    <i class="fas fa-envelope me-2"></i>
-                                    ${messagesData.unread_count} {{ __('messages.new_messages') }}
-                                </a>
-                            </li>`;
+
+                    // عرض الرسائل الجديدة
+                    if (messagesData.messages?.length > 0) {
+                        dropdownContent += '<li class="dropdown-header fw-bold">{{ __('messages.new_messages') }}</li>';
+                        messagesData.messages.forEach(message => {
+                            dropdownContent += `
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                                       href="{{ route('admin.contacts.index') }}"
+                                       onclick="markMessagesAsNotified()">
+                                        <i class="fas fa-envelope text-success mt-1"></i>
+                                        <div class="small">
+                                            <div class="fw-semibold">${message.name}</div>
+                                            <div class="text-muted text-truncate" style="max-width: 200px;">
+                                                ${message.message.substring(0, 50)}${message.message.length > 50 ? '...' : ''}
+                                            </div>
+                                            <div class="text-muted">${message.created_at_diff}</div>
+                                        </div>
+                                    </a>
+                                </li>`;
+                        });
                     }
                 } else {
                     dropdownContent = `
                         <li class="dropdown-menu-empty">
                             <span class="dropdown-item-text text-muted text-center py-2">
+                                <i class="fas fa-check-circle me-1"></i>
                                 {{ __('messages.no_new_notifications') }}
                             </span>
                         </li>`;

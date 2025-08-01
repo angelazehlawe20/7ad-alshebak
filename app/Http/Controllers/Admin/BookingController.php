@@ -86,6 +86,30 @@ class BookingController extends Controller
     }
 
     /**
+     * الحصول على الحجوزات المعلقة غير المقروءة.
+     */
+    public function getPendingBookings()
+    {
+        $bookings = Booking::where('status', 'pending')
+            ->where('is_notified', false)
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($booking) {
+                return [
+                    'id' => $booking->id,
+                    'name' => $booking->name,
+                    'service_type' => $booking->service_type ?? __('messages.table_booking'),
+                    'created_at_diff' => $booking->created_at->diffForHumans()
+                ];
+            });
+
+        return response()->json([
+            'bookings' => $bookings
+        ]);
+    }
+
+    /**
      * تحديث بيانات الحجز.
      */
     public function update(Request $request, Booking $booking)
@@ -106,17 +130,4 @@ class BookingController extends Controller
         return redirect()->route('admin.bookings.index')->with('success', __('book.update_message'));
     }
 
-    /**
-     * جلب الحجوزات المعلقة وعددها (AJAX).
-     */
-    public function getPendingBookings()
-    {
-        $pendingCount = Booking::where('status', 'pending')
-            ->where('is_notified', false)
-            ->count();
-
-        return response()->json([
-            'pending_count' => $pendingCount
-        ]);
-    }
 }
