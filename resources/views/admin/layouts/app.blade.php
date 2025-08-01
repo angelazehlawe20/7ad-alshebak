@@ -198,284 +198,221 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function updateAllCounters() {
+            $.ajax({
+                url: '{{ route("admin.notifications.count") }}',
+                method: 'GET',
+                success: function(response) {
+                    // تحديث عداد زر الجرس
+                    const totalUnread = response.pending_bookings + response.unread_messages;
+                    $('#notifications-count').text(totalUnread);
+                    $('#notifications-count').toggle(totalUnread > 0);
+
+                    // تحديث عداد الحجوزات في الشريط الجانبي
+                    $('#booking-pending-badge').text(response.pending_bookings);
+                    $('#booking-pending-badge').toggle(response.pending_bookings > 0);
+
+                    // تحديث عداد الرسائل في الشريط الجانبي
+                    $('#contact-unread-badge').text(response.unread_messages);
+                    $('#contact-unread-badge').toggle(response.unread_messages > 0);
+
+                    // تحديث قائمة الإشعارات
+                    updateNotificationsList(response.notifications);
+                }
+            });
+        }
+
+        function updateNotificationsList(notifications) {
+            const $list = $('#messages-dropdown-list');
+            let newHtml = '';
+
+            if (notifications.bookings.length === 0 && notifications.messages.length === 0) {
+                newHtml = `
+                    <li class="dropdown-menu-empty">
+                        <span class="dropdown-item-text text-muted text-center py-2">
+                            <i class="fas fa-check-circle me-1"></i> {{ __('messages.no_new_notifications') }}
+                        </span>
+                    </li>
+                `;
+            } else {
+                // إضافة الحجوزات الجديدة
+                if (notifications.bookings.length > 0) {
+                    newHtml += `
+                        <li>
+                            <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                               href="{{ route('admin.bookings.index') }}"
+                               onclick="markBookingsAsNotified()">
+                                <i class="fas fa-calendar-check text-primary mt-1"></i>
+                                <div>
+                                    <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
+                                    <small class="text-muted">${notifications.bookings.length} {{ __('messages.new_bookings_arrived') }}</small>
+                                </div>
+                            </a>
+                        </li>
+                    `;
+                }
+
+                // إضافة الرسائل الجديدة
+                notifications.messages.forEach(msg => {
+                    newHtml += `
+                        <li>
+                            <a class="dropdown-item d-flex align-items-start gap-2 py-2"
+                               href="{{ route('admin.contacts.index') }}"
+                               onclick="markMessagesAsNotified()">
+                                <i class="fas fa-envelope text-success mt-1"></i>
+                                <div>
+                                    <div class="fw-bold">${msg.name}</div>
+                                    <small class="text-muted">${msg.message.substring(0, 40)}${msg.message.length > 40 ? '...' : ''}</small>
+                                    <div class="small text-muted">${msg.created_at_diff}</div>
+                                </div>
+                            </a>
+                        </li>
+                    `;
+                });
+            }
+
+            // تحديث المحتوى مرة واحدة فقط
+            $list.html(newHtml);
+        }
+
+        // تحديث العدادات كل دقيقة
+        $(document).ready(function() {
+            updateAllCounters();
+            setInterval(updateAllCounters, 60000);
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Sidebar toggle --}}
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('sidebarOverlay');
 
         document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show');
-            document.body.classList.toggle('no-scroll', sidebar.classList.contains('show'));
+            sidebar?.classList.toggle('show');
+            overlay?.classList.toggle('show');
+            document.body.classList.toggle('no-scroll', sidebar?.classList.contains('show'));
         });
 
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
+        overlay?.addEventListener('click', () => {
+            sidebar?.classList.remove('show');
+            overlay?.classList.remove('show');
             document.body.classList.remove('no-scroll');
         });
 
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
-                sidebar.classList.remove('show');
-                overlay.classList.remove('show');
+                sidebar?.classList.remove('show');
+                overlay?.classList.remove('show');
             }
         });
+    });
     </script>
 
     {{-- Notifications --}}
     <script>
         function markBookingsAsNotified() {
-            fetch('{{ route("admin.bookings.markAsNotified") }}', {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'same-origin'
-            }).then(() => {
-                updateAllCounters(); // تحديث العدادات بعد وضع علامة "تم الإخطار"
-            });
-        }
+        fetch('{{ route("admin.bookings.markAsNotified") }}', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        }).then(() => {
+            updateAllCounters();
+        });
+    }
 
-        function markMessagesAsNotified() {
-            fetch('{{ route("admin.contacts.markAsNotified") }}', {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'same-origin'
-            }).then(() => {
-                updateAllCounters(); // تحديث العدادات بعد وضع علامة "تم الإخطار"
-            });
-        }
+    function markMessagesAsNotified() {
+        fetch('{{ route("admin.contacts.markAsNotified") }}', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        }).then(() => {
+            updateAllCounters();
+        });
+    }
     </script>
 
     {{-- Keep session alive --}}
     <script>
         let keepAliveTimeout;
 
-        function keepSessionAlive() {
-            clearTimeout(keepAliveTimeout);
-            keepAliveTimeout = setTimeout(() => {
-                fetch('/keep-alive', {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                }).catch(console.error);
-            }, 2 * 60 * 1000);
-        }
+    function keepSessionAlive() {
+        clearTimeout(keepAliveTimeout);
+        keepAliveTimeout = setTimeout(() => {
+            fetch('/keep-alive', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).catch(console.error);
+        }, 2 * 60 * 1000);
+    }
 
-        ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
-            window.addEventListener(event, keepSessionAlive);
-        });
+    ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
+        window.addEventListener(event, keepSessionAlive);
+    });
 
-        keepSessionAlive();
+    keepSessionAlive();
 
-        setInterval(() => {
-            fetch('/csrf-token')
-                .then(res => res.text())
-                .then(token => {
-                    document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
-                });
-        }, 30 * 60 * 1000);
+    setInterval(() => {
+        fetch('/csrf-token')
+            .then(res => res.text())
+            .then(token => {
+                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
+            });
+    }, 30 * 60 * 1000);
     </script>
 
     <script>
-        async function updateSidebarCounters() {
-        try {
-            const response = await fetch('/admin/sidebar-counters', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                }
-            });
+        function updateSidebarCounters() {
+      fetch("/admin/sidebar-counters")
+        .then(response => response.json())
+        .then(data => {
+          console.log("Sidebar counters updated:", data);
 
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                throw new Error("Response is not JSON");
+          const bookingBadge = document.getElementById("booking-pending-badge");
+          if (bookingBadge) {
+            if (data.pending_bookings > 0) {
+              bookingBadge.innerText = data.pending_bookings;
+              bookingBadge.style.display = "inline-block";
+            } else {
+              bookingBadge.style.display = "none";
             }
+          }
 
-            const data = await response.json();
-
-            const contactCounter = document.getElementById('unread-contacts-counter');
-            const bookingCounter = document.getElementById('pending-bookings-counter');
-
-            if (contactCounter) {
-                contactCounter.textContent = data.unread_contacts;
+          const contactBadge = document.getElementById("contact-unread-badge");
+          if (contactBadge) {
+            if (data.unread_contacts > 0) {
+              contactBadge.innerText = data.unread_contacts;
+              contactBadge.style.display = "inline-block";
+            } else {
+              contactBadge.style.display = "none";
             }
-
-            if (bookingCounter) {
-                bookingCounter.textContent = data.pending_bookings;
-            }
-
-        } catch (error) {
-            console.error('Error updating sidebar counters:', error);
-        }
+          }
+        })
+        .catch(console.error);
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        updateSidebarCounters();                     // تشغيل مباشر
-        setInterval(updateSidebarCounters, 60000);   // كل دقيقة (للتطوير)
+    document.addEventListener("DOMContentLoaded", () => {
+      updateSidebarCounters();
+      setInterval(updateSidebarCounters, 60000);
     });
     </script>
 
 
-
-
-    {{-- Extra custom scripts --}}
-    @stack('scripts')
-    @yield('scripts')
-
-    <script>
-        function updateAllCounters() {
-        // تحديث عداد الشريط الجانبي والقوائم
-        Promise.all([
-            fetch('{{ route("admin.contacts.notifications.messages") }}', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                credentials: 'same-origin'
-            }),
-            fetch('{{ route("admin.contacts.refresh") }}', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                credentials: 'same-origin'
-            }),
-            fetch('{{ route("admin.bookings.pending") }}', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                credentials: 'same-origin'
-            })
-        ])
-        .then(responses => Promise.all(responses.map(res => res.json())))
-        .then(([messagesData, contactsData, bookingsData]) => {
-            // تحديث عداد زر الجرس
-            const notificationsCount = document.getElementById('notifications-count');
-            const dropdownList = document.getElementById('messages-dropdown-list');
-            const totalUnread = (messagesData.messages?.length || 0) + (bookingsData.bookings?.length || 0);
-
-            if (notificationsCount) {
-                if (totalUnread > 0) {
-                    notificationsCount.textContent = totalUnread;
-                    notificationsCount.style.display = 'block';
-                } else {
-                    notificationsCount.style.display = 'none';
-                }
-            }
-
-            // تحديث القائمة المنسدلة
-            if (dropdownList) {
-                let dropdownContent = '';
-
-                if (bookingsData.bookings?.length > 0 || messagesData.messages?.length > 0) {
-                    // عرض الحجوزات الجديدة
-                    if (bookingsData.bookings?.length > 0) {
-                        dropdownContent += '<li class="dropdown-header fw-bold">{{ __('messages.new_bookings') }}</li>';
-                        bookingsData.bookings.forEach(booking => {
-                            dropdownContent += `
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                       href="{{ route('admin.bookings.index') }}"
-                                       onclick="markBookingsAsNotified()">
-                                        <i class="fas fa-calendar-check text-primary mt-1"></i>
-                                        <div class="small">
-                                            <div class="fw-semibold">${booking.name}</div>
-                                            <div class="text-muted">${booking.service_type}</div>
-                                            <div class="text-muted">${booking.created_at_diff}</div>
-                                        </div>
-                                    </a>
-                                </li>`;
-                        });
-                        dropdownContent += '<li><hr class="dropdown-divider"></li>';
-                    }
-
-                    // عرض الرسائل الجديدة
-                    if (messagesData.messages?.length > 0) {
-                        dropdownContent += '<li class="dropdown-header fw-bold">{{ __('messages.new_messages') }}</li>';
-                        messagesData.messages.forEach(message => {
-                            dropdownContent += `
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                       href="{{ route('admin.contacts.index') }}"
-                                       onclick="markMessagesAsNotified()">
-                                        <i class="fas fa-envelope text-success mt-1"></i>
-                                        <div class="small">
-                                            <div class="fw-semibold">${message.name}</div>
-                                            <div class="text-muted text-truncate" style="max-width: 200px;">
-                                                ${message.message.substring(0, 50)}${message.message.length > 50 ? '...' : ''}
-                                            </div>
-                                            <div class="text-muted">${message.created_at_diff}</div>
-                                        </div>
-                                    </a>
-                                </li>`;
-                        });
-                    }
-                } else {
-                    dropdownContent = `
-                        <li class="dropdown-menu-empty">
-                            <span class="dropdown-item-text text-muted text-center py-2">
-                                <i class="fas fa-check-circle me-1"></i>
-                                {{ __('messages.no_new_notifications') }}
-                            </span>
-                        </li>`;
-                }
-
-                dropdownList.innerHTML = dropdownContent;
-            }
-
-            // تحديث عداد الشريط الجانبي
-            const sidebarBookingBadge = document.getElementById('booking-pending-badge');
-            const sidebarContactBadge = document.getElementById('contact-unread-badge');
-
-            if (sidebarBookingBadge) {
-                if (bookingsData.pending_count > 0) {
-                    sidebarBookingBadge.textContent = bookingsData.pending_count;
-                    sidebarBookingBadge.style.display = '';
-                } else {
-                    sidebarBookingBadge.style.display = 'none';
-                }
-            }
-
-            if (sidebarContactBadge) {
-                if (messagesData.unread_count > 0) {
-                    sidebarContactBadge.textContent = messagesData.unread_count;
-                    sidebarContactBadge.style.display = '';
-                } else {
-                    sidebarContactBadge.style.display = 'none';
-                }
-            }
-
-            // تحديث قائمة الرسائل في الصفحة إذا كانت موجودة
-            const messagesList = document.getElementById('messages-list');
-            if (messagesList && contactsData.messages_html) {
-                messagesList.innerHTML = contactsData.messages_html;
-            }
-        })
-        .catch(error => {
-            console.error('Error updating notifications:', error);
-        });
-    }
-
-    // تحديث العدادات عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', updateAllCounters);
-
-    // تحديث العدادات كل دقيقة
-    setInterval(updateAllCounters, 60000);
-    </script>
 
     {{-- Optional style overrides --}}
     <style>

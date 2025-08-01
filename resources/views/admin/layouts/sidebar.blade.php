@@ -65,7 +65,7 @@
             <a href="{{ route('admin.bookings.index') }}" class="nav-link py-2 px-3 mb-2 rounded {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
                 <i class="fas fa-calendar-alt {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }}"></i>
                 {{ __('messages.bookings') }}
-                <span id="booking-pending-badge" 
+                <span id="booking-pending-badge"
                       class="badge bg-warning rounded-pill {{ app()->getLocale() == 'ar' ? 'me-2' : 'ms-2' }}"
                       style="{{ isset($pendingBookingsCount) && $pendingBookingsCount > 0 ? '' : 'display: none;' }}">
                     {{ $pendingBookingsCount ?? 0 }}
@@ -97,3 +97,4 @@
         </nav>
     </div>
 </div>
+

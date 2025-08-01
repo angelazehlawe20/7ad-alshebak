@@ -20,7 +20,7 @@ use App\Http\Controllers\{
     ContactController,
     TelegramController
 };
-use App\Models\{About, Category, Offer, Hero_Page};
+use App\Models\{About, Booking, Category, Contact, Offer, Hero_Page};
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -197,4 +197,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::resource('/admins', AdminManagementController::class)->except(['show'])->middleware('owner');
 });
 
-Route::post('/telegram/webhook', [TelegramController::class, 'handleWebhook']);
+// Notifications Count Route
+Route::get('/admin/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'getCount'])->name('admin.notifications.count')->middleware('auth:admin');
+
+Route::middleware('auth:admin')->get('/admin/sidebar-counters', function () {
+    $pendingBookings = Booking::where('status', 'pending')
+        ->count();
+
+    $unreadMessages = Contact::where('is_read', false)
+        ->count();
+
+    return response()->json([
+        'pending_bookings' => $pendingBookings,
+        'unread_contacts' => $unreadMessages,
+    ]);
+});
