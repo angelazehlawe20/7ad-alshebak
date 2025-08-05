@@ -122,5 +122,4 @@
         deleteFileError: "{{ __('about.delete_file_error') }}",
     };
 </script>
-<script src="{{ asset('assets/js/aboutPage.js') }}"></script>
 @endsection

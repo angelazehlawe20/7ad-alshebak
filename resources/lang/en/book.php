@@ -45,5 +45,7 @@ return [
     'to_date' => 'To date :',
     'y_m_d' => 'YY_MM_DD',
     'birth_date' => 'Birth Date',
+    'booking_for' => 'booking for',
+    'people' => 'people'
 
 ];

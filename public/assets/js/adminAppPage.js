@@ -1,226 +1,194 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Flatpickr Init
-    flatpickr("#from_date", {
-        dateFormat: "Y-m-d",
-        locale: document.documentElement.lang === 'ar' ? 'ar' : 'default',
-        disableMobile: true
+    // Initialize AOS
+    AOS.init();
+
+    // Initialize PureCounter
+    new PureCounter();
+
+    // Initialize GLightbox
+    const lightbox = GLightbox({
+        selector: '.glightbox',
+        touchNavigation: true,
+        loop: true,
+        autoplayVideos: true
     });
 
-    flatpickr("#to_date", {
-        dateFormat: "Y-m-d",
-        locale: document.documentElement.lang === 'ar' ? 'ar' : 'default',
-        disableMobile: true
+    // Initialize Flatpickr
+    flatpickr('.flatpickr-input', {
+        enableTime: true,
+        dateFormat: 'Y-m-d H:i',
     });
 
-    initSidebarToggle();
-    initNotificationDropdown(); // ⬅️ استخدام bootstrap API صحيح
-    updateAllCounters();
-    setInterval(updateAllCounters, 60000); // تحديث كل دقيقة
-
-    setupKeepAlive();
-    setupCSRFRefresh();
-});
-
-function initSidebarToggle() {
+    // التحقق من وجود عنصر محدد للتمرير إليه
+    const urlParams = new URLSearchParams(window.location.search);
+    const highlightedId = urlParams.get('highlight');
+    if (highlightedId) {
+        if (highlightedId === 'pending') {
+            // تحديد جميع البطاقات المعلقة
+            const pendingCards = document.querySelectorAll('.booking-card');
+            pendingCards.forEach(card => {
+                const statusBadge = card.querySelector('.badge');
+                if (statusBadge && statusBadge.textContent.trim() === 'Pending') {
+                    card.classList.add('highlighted');
+                    // التمرير إلى أول بطاقة معلقة
+                    if (!document.querySelector('.highlighted')) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        } else {
+            // تحديد بطاقة محددة
+            const highlightedElement = document.querySelector(`[data-id="${highlightedId}"]`);
+            if (highlightedElement) {
+                highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                highlightedElement.classList.add('highlighted');
+            }
+        }
+    }
+    // Sidebar toggle (يمكنك نقل هذا إلى ملف خاص إذا تريده)
     const sidebar = document.querySelector('.sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     const toggleBtn = document.getElementById('sidebarToggle');
 
-    if (!sidebar || !overlay || !toggleBtn) return;
+    if (sidebar && overlay && toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.classList.toggle('no-scroll', sidebar.classList.contains('show'));
+        });
 
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-        document.body.classList.toggle('no-scroll', sidebar.classList.contains('show'));
-    });
-
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('show');
-        overlay.classList.remove('show');
-        document.body.classList.remove('no-scroll');
-    });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('show');
             overlay.classList.remove('show');
             document.body.classList.remove('no-scroll');
-        }
-    });
-}
+        });
 
-function initNotificationDropdown() {
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    }
+
+    // Notification dropdown
     const toggle = document.getElementById('notificationDropdownToggle');
     const dropdown = document.getElementById('notificationDropdownMenu');
-
     if (toggle && dropdown) {
-        // الحصول على instance من dropdown bootstrap
         const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(toggle);
 
-        // استماع لحدث الفتح
         toggle.addEventListener('show.bs.dropdown', () => {
             document.body.classList.add('no-scroll');
         });
 
-        // استماع لحدث الإغلاق
         toggle.addEventListener('hide.bs.dropdown', () => {
             document.body.classList.remove('no-scroll');
         });
-
-        // لا حاجة لتعطيل الفعل الافتراضي أو التعامل يدوياً مع class show
-    }
-}
-
-function updateAllCounters() {
-    axios.get('/admin/notifications/count')
-        .then(({ data }) => {
-            updateBadge('#notifications-count', (data.bell_pending_bookings || 0) + (data.bell_unread_messages || 0));
-            updateBadge('#booking-pending-badge', data.pending_bookings || 0);
-            updateBadge('#contact-unread-badge', data.unread_messages || 0);
-
-            updateNotificationsList(data.notifications || {});
-        })
-        .catch(error => console.error('فشل في جلب الإشعارات:', error));
-}
-
-function updateMessageList() {
-    axios.get('/admin/contacts/refresh')
-        .then(response => {
-            const container = document.getElementById('message-list-container');
-            if (container) {
-                container.innerHTML = response.data;
-            }
-        })
-        .catch(error => console.error('فشل في تحديث قائمة الرسائل:', error));
-}
-
-
-function updateBadge(selector, count) {
-    const el = document.querySelector(selector);
-    if (!el) return;
-    el.textContent = count;
-    el.style.display = count > 0 ? 'inline-block' : 'none';
-}
-
-function updateNotificationsList(notifications) {
-    const list = document.getElementById('messages-dropdown-list');
-    if (!list) return;
-
-    const items = [];
-
-    (notifications.bookings || []).forEach(booking => {
-        items.push({
-            type: 'booking',
-            id: booking.id,
-            name: booking.name || '',
-            created_at_diff: booking.created_at_diff || '',
-            created_at: booking.created_at,
-            is_new: !booking.is_notified
-        });
-    });
-
-    (notifications.messages || []).forEach(msg => {
-        items.push({
-            type: 'message',
-            id: msg.id,
-            name: msg.name || msg.sender_name || '',
-            message: msg.message || msg.content || '',
-            created_at_diff: msg.created_at_diff || '',
-            created_at: msg.created_at,
-            is_new: !msg.is_read
-        });
-    });
-
-    items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-    if (items.length === 0) {
-        list.innerHTML = `<li class="text-muted text-center">لا توجد إشعارات جديدة</li>`;
-        return;
     }
 
-    list.innerHTML = items.map(item => {
-        const url = item.type === 'message'
-            ? `/admin/contacts/${item.id}`
-            : `/admin/bookings/${item.id}`;
-
-        return `
-            <li class="notification-item ${item.is_new ? 'new' : ''}">
-                <a href="${url}" class="d-block text-decoration-none text-dark"
-                   onclick="event.preventDefault(); markAsNotified('${item.type}', ${item.id}, '${url}')">
-                    <strong>${item.name}</strong>: ${item.message}
-                    <br><small>${item.created_at_diff}</small>
-                </a>
-            </li>
-        `;
-    }).join('');
-}
-
-window.markAsNotified = function (type, id, redirectUrl) {
-    let url = '';
-    let dataKey = '';
-
-    if (type === 'message') {
-        url = '/admin/contacts/mark-as-notified';
-        dataKey = 'contact_id';
-    } else if (type === 'booking') {
-        url = '/admin/bookings/mark-as-notified';
-        dataKey = 'booking_id';
-    } else {
-        window.location.href = redirectUrl;
-        return;
+    // تحديث عداد الإشعارات في الجرس
+    function updateBadge(selector, count) {
+        const el = document.querySelector(selector);
+        if (!el) return;
+        el.textContent = count;
+        el.style.display = count > 0 ? 'inline-block' : 'none';
     }
 
-    const payload = {};
-    payload[dataKey] = id;
+    // تحديث قائمة الإشعارات في القائمة المنسدلة
+    function updateNotificationsList(notifications) {
+        const list = document.getElementById('notificationDropdownMenu');
+        if (!list) return;
 
-    axios.post(url, payload)
-        .then(() => {
-            const bell = document.querySelector('#notifications-count');
-            const current = parseInt(bell.textContent) || 0;
-            const newCount = Math.max(current - 1, 0);
-            bell.textContent = newCount;
-            bell.style.display = newCount > 0 ? 'inline-block' : 'none';
+        let itemsHtml = '';
 
-            const item = document.querySelector(`a[href="${redirectUrl}"]`);
-            if (item && item.closest('.notification-item')) {
-                item.closest('.notification-item').remove();
-            }
+        if ((notifications.pending_bookings || 0) > 0) {
+            itemsHtml += `
+          <li>
+            <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/bookings?highlight=pending" data-id="booking-group">
+              <i class="fas fa-calendar-check text-primary mt-1"></i>
+              <div>
+                <div class="fw-bold">New Bookings</div>
+                <small class="text-muted">${notifications.pending_bookings} new bookings arrived</small>
+              </div>
+            </a>
+          </li>`;
+        }
 
-            const list = document.getElementById('messages-dropdown-list');
-            if (list && list.children.length === 0) {
-                list.innerHTML = `<li class="text-muted text-center">لا توجد إشعارات جديدة</li>`;
-            }
-        })
-        .catch(err => console.error('فشل في تعليم كمقروء:', err))
-        .finally(() => {
-            window.location.href = redirectUrl;
+        if ((notifications.unread_messages || 0) > 0) {
+            notifications.messages.forEach(msg => {
+                itemsHtml += `
+            <li>
+              <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/contacts?highlight=${msg.id}" data-id="${msg.id}">
+                <i class="fas fa-envelope text-success mt-1"></i>
+                <div>
+                  <div class="fw-bold">${escapeHtml(msg.name)}</div>
+                  <small class="text-muted">${escapeHtml(truncateText(msg.message, 40))}</small>
+                  <div class="small text-muted">${msg.created_at_diff}</div>
+                </div>
+              </a>
+            </li>`;
+            });
+        }
+
+        if (!itemsHtml) {
+            itemsHtml = `
+          <li class="dropdown-menu-empty">
+            <span class="dropdown-item-text text-muted text-center py-2">
+              <i class="fas fa-check-circle me-1"></i> No new notifications
+            </span>
+          </li>`;
+        }
+
+        list.innerHTML = itemsHtml;
+    }
+
+    // دالة مساعدة لتقصير النص
+    function truncateText(text, maxLength) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substr(0, maxLength) + '...' : text;
+    }
+
+    // دالة مساعدة لتعقيم النص لمنع XSS
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>"']/g, function (m) {
+            return ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[m];
         });
-};
+    }
 
-function setupKeepAlive() {
-    let timeout;
-    const resetTimer = () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            axios.get('/keep-alive').catch(console.error);
-        }, 2 * 60 * 1000);
-    };
+    // جلب البيانات من السيرفر وتحديث الواجهة
+    function updateAllCounters() {
+        axios.get('/admin/notifications/count')
+            .then(response => {
+                const data = response.data;
 
-    ['mousemove', 'keydown', 'click', 'scroll'].forEach(evt =>
-        window.addEventListener(evt, resetTimer)
-    );
+                // هنا نفترض أن JSON الذي يعيده السيرفر يشبه هذا:
+                // {
+                //   pending_bookings: 2,
+                //   unread_messages: 3,
+                //   total: 5,
+                //   messages: [{ id, name, message, created_at_diff }, ...]
+                // }
 
-    resetTimer();
-}
-
-function setupCSRFRefresh() {
-    setInterval(() => {
-        axios.get('/csrf-token')
-            .then(res => {
-                const token = res.data;
-                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
-                axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
+                updateBadge('#notifications-count', data.total || 0);
+                updateNotificationsList(data);
             })
-            .catch(console.error);
-    }, 30 * 60 * 1000);
-}
+            .catch(error => {
+                console.error("Notification update error:", error);
+            });
+    }
+
+    // تحديث تلقائي عند تحميل الصفحة
+    updateAllCounters();
+
+    // تحديث كل 60 ثانية
+    setInterval(updateAllCounters, 60000);
+
+});

@@ -198,6 +198,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 });
 
 // Notifications Count Route
-Route::get('/admin/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'getCount'])->name('admin.notifications.count')->middleware('auth:admin');
+Route::get('/admin/notifications/counters', [App\Http\Controllers\Admin\NotificationController::class, 'counters'])->name('admin.notifications.count')->middleware('auth:admin');
 
 

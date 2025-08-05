@@ -151,6 +151,13 @@ body.rtl .badge {
     background-color: var(--nav-bg);
 }
 
+.navbar.sticky-top {
+    padding-top: 1rem;
+    padding-bottom: 0.8rem;
+    min-height: 40px;
+  }
+
+
 /* Button Styles */
 .btn-outline-secondary {
     border-color: var(--btn-primary);

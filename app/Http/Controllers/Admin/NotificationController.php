@@ -14,38 +14,47 @@ class NotificationController extends Controller
      *
      * @return JsonResponse
      */
-    public function getCount(): JsonResponse
+    public function counters(): JsonResponse
     {
+        // الحجوزات المعلقة
         $pendingBookings = Booking::where('status', 'pending')->latest()->get();
+
+        // الرسائل غير المقروءة
         $unreadMessages = Contact::where('is_read', false)->latest()->get();
+
+        // إشعارات الرسائل (أحدث 5 غير مُعلنة)
+        $notificationsMessages = $unreadMessages->where('is_notified', false)->take(5)->map(function ($msg) {
+            return [
+                'id' => $msg->id,
+                'type' => 'message',
+                'name' => $msg->name,
+                'message' => \Illuminate\Support\Str::limit(strip_tags($msg->message), 40),
+                'time' => $msg->created_at->diffForHumans(),
+            ];
+        });
+
+        // إشعارات الحجوزات (أحدث 5 غير مُعلنة)
+        $notificationsBookings = $pendingBookings->where('is_notified', false)->take(5)->map(function ($booking) {
+            return [
+                'id' => $booking->id,
+                'type' => 'booking',
+                'name' => $booking->name,
+                'phone' => $booking->phone,
+                'date' => $booking->date ? \Carbon\Carbon::parse($booking->date)->format('Y-m-d') : __('messages.no_date'),
+                'time' => $booking->time,
+                'people' => $booking->people_count,
+                'notes' => \Illuminate\Support\Str::limit(strip_tags($booking->notes), 40),
+                'created' => $booking->created_at->diffForHumans(),
+            ];
+        });
 
         return response()->json([
             'pending_bookings' => $pendingBookings->count(),
             'unread_messages' => $unreadMessages->count(),
-            'bell_pending_bookings' => $pendingBookings->where('is_notified', false)->count(),
-            'bell_unread_messages' => $unreadMessages->where('is_notified', false)->count(),
-            'notifications' => [
-                'bookings' => $pendingBookings->map(function ($booking) {
-                    return [
-                        'id' => $booking->id,
-                        'name' => $booking->name,
-                        'created_at_diff' => $booking->created_at->diffForHumans(),
-                        'created_at' => $booking->created_at->toISOString(),
-                        'is_new' => !$booking->is_notified
-                    ];
-                }),
-                'messages' => $unreadMessages->map(function ($message) {
-                    return [
-                        'id' => $message->id,
-                        'sender_name' => $message->name,
-                        'content' => $message->message,
-                        'created_at_diff' => $message->created_at->diffForHumans(),
-                        'is_read' => $message->is_read,
-                        'created_at' => $message->created_at->toISOString(),
-                        'is_new' => !$message->is_notified,
-                    ];
-                })
-            ]
+            'total' => $pendingBookings->where('is_notified', false)->count()
+                + $unreadMessages->where('is_notified', false)->count(),
+            'messages' => $notificationsMessages,
+            'bookings' => $notificationsBookings,
         ]);
     }
 }

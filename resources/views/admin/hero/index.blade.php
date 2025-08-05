@@ -121,5 +121,4 @@
         confirmDeleteImage: @json(__('hero.confirm_delete_image')),
     };
 </script>
-<script src="{{ asset('assets/js/heroAdminPage.js') }}"></script>
 @endsection

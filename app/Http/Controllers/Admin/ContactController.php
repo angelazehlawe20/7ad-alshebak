@@ -11,18 +11,9 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $filter = $request->query('filter');
-        $locale = app()->getLocale();
 
         $contactsQuery = Contact::query()
-            ->select([
-                'id',
-                'name',
-                'email',
-                'subject',
-                'message',
-                'is_read',
-                'created_at'
-            ]);
+            ->select(['id', 'name', 'email', 'subject', 'message', 'is_read', 'created_at']);
 
         if ($filter === 'read') {
             $contactsQuery->where('is_read', true);
@@ -35,9 +26,11 @@ class ContactController extends Controller
         return view('admin.contacts.index', compact('contacts'));
     }
 
+    /**
+     * جلب القائمة كاملة بشكل AJAX (بدون إعادة تحميل الصفحة)
+     */
     public function refreshList(Request $request)
     {
-
         $contacts = Contact::latest()->get();
         $messages_html = view('admin.contacts.message_list', compact('contacts'))->render();
         $unread_count = Contact::where('is_read', false)->count();
@@ -48,6 +41,9 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * جلب الرسائل غير المقروءة وغير المُبلغ عنها (للإشعارات)
+     */
     public function unreadMessages()
     {
         $messages = Contact::where('is_read', false)
@@ -59,8 +55,8 @@ class ContactController extends Controller
                 return [
                     'id' => $message->id,
                     'name' => $message->name,
-                    'message' => $message->message,
-                    'created_at_diff' => $message->created_at->diffForHumans()
+                    'message' => \Illuminate\Support\Str::limit(strip_tags($message->message), 40),
+                    'created_at_diff' => $message->created_at->diffForHumans(),
                 ];
             });
 
@@ -69,6 +65,9 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * تعليم الرسائل غير المُبلغ عنها بأنها أُبلغت
+     */
     public function markAsNotified()
     {
         Contact::where('is_read', false)
@@ -78,26 +77,17 @@ class ContactController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * عرض الرسالة الواحدة + تعليمها كمقروءة
+     */
     public function show(Contact $contact)
     {
-        $locale = app()->getLocale();
-
-        // Mark the contact as read when viewed
         if (!$contact->is_read) {
             $contact->update(['is_read' => true]);
         }
 
-        // Get related contacts (optional) - can be used to show similar messages
         $relatedContacts = Contact::where('id', '!=', $contact->id)
-            ->select([
-                'id',
-                'name',
-                'email',
-                'subject',
-                'message',
-                'is_read',
-                'created_at'
-            ])
+            ->select(['id', 'name', 'email', 'subject', 'message', 'is_read', 'created_at'])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -107,6 +97,9 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * تعليم رسالة كمقروءة
+     */
     public function markAsRead(Request $request)
     {
         $id = $request->input('contact_id');
@@ -116,6 +109,9 @@ class ContactController extends Controller
         return redirect()->back()->with('success', __('contact.message_as_read'));
     }
 
+    /**
+     * حذف الرسالة
+     */
     public function destroy(Contact $contact)
     {
         $contact->delete();

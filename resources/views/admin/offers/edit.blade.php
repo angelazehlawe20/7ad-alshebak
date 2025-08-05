@@ -1,6 +1,14 @@
 @extends('admin.layouts.app')
 @section('title', __('offers.edit') . ' ' . __('offers.offers'))
 
+@php
+function formatArabicNumber($number) {
+    $westernNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+    $arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+    return str_replace($westernNumbers, $arabicNumbers, $number);
+}
+@endphp
+
 @section('content')
 <div class="content-wrapper">
     <div class="content-header">
@@ -52,10 +60,14 @@
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
-                                        <input type="number" name="price" step="1" class="form-control fw-bold" value="{{ old('price', (int)$offer->price) }}">
+                                        <input type="text" name="price" class="form-control fw-bold"
+                                            value="{{
+                                                app()->getLocale() === 'ar'
+                                                ? formatArabicNumber(round(old('price', $offer->price)))
+                                                : round(old('price', $offer->price))
+                                            }}">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

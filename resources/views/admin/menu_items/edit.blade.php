@@ -1,6 +1,14 @@
 @extends('admin.layouts.app')
 @section('title', __('menu.edit_menu_item'))
 @section('content')
+@php
+function formatArabicNumber($number) {
+    $westernNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+    $arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+    return str_replace($westernNumbers, $arabicNumbers, $number);
+}
+@endphp
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -61,8 +69,12 @@
                                     <label><strong>{{ __('menu.price') }}</strong></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
-                                        <input type="number" name="price" step="1" class="form-control fw-bold"
-                                            value="{{ old('price', round($menuItem->price)) }}">
+                                        <input type="text" name="price" class="form-control fw-bold"
+                                            value="{{
+                                                app()->getLocale() === 'ar'
+                                                ? formatArabicNumber(round(old('price', $menuItem->price)))
+                                                : round(old('price', $menuItem->price))
+                                            }}">
                                     </div>
                                 </div>
                             </div>
@@ -113,6 +125,7 @@
     </section>
 </div>
 @endsection
+
 @push('scripts')
 <script src="{{ asset('assets/js/editMenuItemPage.js') }}"></script>
 @endpush

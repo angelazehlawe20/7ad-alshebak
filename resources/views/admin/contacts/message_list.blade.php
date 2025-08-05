@@ -1,7 +1,7 @@
 <div class="row g-4">
     @forelse ($contacts as $contact)
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card h-100">
+            <div class="card h-100" data-id="{{ $contact->id }}">
                 <div class="card-header bg-transparent">
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <h5 class="card-title mb-0 text-break" style="color: #8B7355;">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     <div class="d-flex flex-wrap gap-2 w-100">
-                        <a href="{{ route('admin.contacts.show', $contact->id) }}"
+                        <a href="{{ route('admin.contacts.show', $contact->id) }}?highlight={{ $contact->id }}"
                            class="btn btn-outline-primary flex-grow-1"
                            style="border-color: #8B7355; color: #8B7355; background-color: transparent !important;"
                            title="{{ __('contact.view_message_details') }}">
@@ -77,3 +77,11 @@
         </div>
     @endforelse
 </div>
+<style>
+    .highlighted {
+        box-shadow: 0 0 10px 3px #0d6efd;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+</style>

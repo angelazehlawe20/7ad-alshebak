@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
     <meta name="author" content="{{ __('messages.admin') }}">
 
     {{-- Favicon --}}
-    @if(isset($settings->favicon) && file_exists(public_path($settings->favicon)))
+    @if(!empty($settings->favicon))
     <link rel="icon" href="{{ asset($settings->favicon) }}">
     <link rel="apple-touch-icon" href="{{ asset($settings->favicon) }}">
     @else
@@ -28,14 +28,17 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
-    <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet" />
     <link href="{{ asset('assets/css/admin.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
 
+    @php
+    $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+    @endphp
+    <link rel="stylesheet" href="{{ asset('build/' . $manifest['resources/css/app.css']['file']) }}">
+    <script type="module" src="{{ asset('build/' . $manifest['resources/js/app.js']['file']) }}"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 
@@ -46,6 +49,7 @@
         @include('admin.layouts.sidebar')
 
         <div class="main-content">
+            {{-- Navbar --}}
             <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
                 <div class="container-fluid px-3">
                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -55,59 +59,58 @@
 
                         <div class="d-flex align-items-center gap-4 flex-wrap ms-auto">
                             @php
-                            // الحجوزات الجديدة غير المُعلنة
-                            $newBookings = \App\Models\Booking::where('status', 'pending')
-                            ->where('is_notified', false)
-                            ->count();
-
-                            // الرسائل غير المقروءة وغير المُعلنة
-                            $unreadMessages = \App\Models\Contact::where('is_read', false)
-                            ->where('is_notified', false)
-                            ->latest()
-                            ->get();
-
-                            $totalUnread = $newBookings + $unreadMessages->count();
+                            $newBookings = \App\Models\Booking::where('status', 'pending')->where('is_notified',
+                            false)->latest()->get();
+                            $unreadMessages = \App\Models\Contact::where('is_read', false)->where('is_notified',
+                            false)->latest()->get();
+                            $totalUnread = $newBookings->count() + $unreadMessages->count();
                             @endphp
 
+                            {{-- Notifications --}}
                             <div class="dropdown">
                                 <button
                                     class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative px-3 py-1"
                                     type="button" id="notificationDropdownToggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fas fa-bell"></i>
+                                    @if($totalUnread > 0)
                                     <span id="notifications-count"
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                        style="{{ $totalUnread > 0 ? 'display: block;' : 'display: none;' }}">
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         {{ $totalUnread }}
                                     </span>
+                                    @endif
                                 </button>
 
                                 <ul id="notificationDropdownMenu" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
                                     style="min-width: 300px;" aria-labelledby="notificationDropdownToggle">
 
-                                    {{-- الحجوزات --}}
-                                    @if($newBookings > 0)
+                                    {{-- New Bookings --}}
+                                    @foreach($newBookings as $booking)
                                     <li>
                                         <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                            href="{{ route('admin.bookings.index') }}"
-                                            onclick="markBookingsAsNotified()">
+                                            href="{{ route('admin.bookings.index', ['highlight' => $booking->id]) }}">
                                             <i class="fas fa-calendar-check text-primary mt-1"></i>
                                             <div>
-                                                <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
-                                                <small class="text-muted">{{ $newBookings }} {{
-                                                    __('messages.new_bookings_arrived') }}</small>
+                                                <div class="fw-bold">{{ $booking->name }}</div>
+                                                <small class="text-muted">
+                                                    {{ __('book.booking_for') }} {{ $booking->guests_count }} {{
+                                                    __('book.people') }} <br>
+                                                    {{ $booking->booking_date }} {{ $booking->booking_time }} <br>
+                                                    {{ $booking->message }}
+                                                </small>
+                                                <div class="small text-muted">{{ $booking->created_at->diffForHumans()
+                                                    }}</div>
                                             </div>
                                         </a>
                                     </li>
-                                    @endif
+                                    @endforeach
 
-                                    {{-- الرسائل --}}
-                                    @if($unreadMessages->count() > 0)
+
+                                    {{-- New Messages --}}
                                     @foreach($unreadMessages as $msg)
                                     <li>
                                         <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                            href="{{ route('admin.contacts.index') }}"
-                                            onclick="markMessagesAsNotified()">
+                                            href="{{ route('admin.contacts.index',['highlight' => $msg['id']]) }}">
                                             <i class="fas fa-envelope text-success mt-1"></i>
                                             <div>
                                                 <div class="fw-bold">{{ $msg->name }}</div>
@@ -119,10 +122,8 @@
                                         </a>
                                     </li>
                                     @endforeach
-                                    @endif
 
-                                    {{-- لا يوجد إشعارات --}}
-                                    @if($newBookings == 0 && $unreadMessages->count() == 0)
+                                    @if($totalUnread === 0)
                                     <li class="dropdown-menu-empty">
                                         <span class="dropdown-item-text text-muted text-center py-2">
                                             <i class="fas fa-check-circle me-1"></i> {{
@@ -130,11 +131,10 @@
                                         </span>
                                     </li>
                                     @endif
-
                                 </ul>
                             </div>
 
-
+                            {{-- Language Switch --}}
                             <a href="{{ route('lang.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
                                 class="btn btn-outline-secondary btn-sm d-flex align-items-center">
                                 <i class="fas fa-language me-1"></i>
@@ -143,6 +143,7 @@
                                 </span>
                             </a>
 
+                            {{-- Admin Info --}}
                             @php $admin = auth()->guard('admin')->user(); @endphp
 
                             @if($admin->is_owner)
@@ -163,7 +164,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li>
-                                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline w-100">
+                                        <form action="{{ route('admin.logout') }}" method="POST">
                                             @csrf
                                             <button type="submit" class="dropdown-item text-danger py-2">
                                                 <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
@@ -173,7 +174,7 @@
                                 </ul>
                             </div>
                             @else
-                            <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
                                 <button type="submit"
                                     class="btn btn-outline-danger btn-sm d-flex align-items-center gap-2">
@@ -187,147 +188,41 @@
                 </div>
             </nav>
 
-
-            {{-- Main content --}}
+            {{-- Main Content --}}
             <div class="container-fluid p-4">
                 @include('admin.partials.alerts')
                 @yield('content')
             </div>
         </div>
     </div>
+
     {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+    <script src="{{ asset('assets/js/adminAppPage.js') }}"></script>
 
-    <script src="{{asset('assets/js/adminAppPage.js')}}"></script>
+    @stack('scripts')
 
-
-    {{-- Optional style overrides --}}
     <style>
+        .main-content {
+            flex: 1;
+        }
+
+        .dropdown-menu-empty {
+            text-align: center;
+            padding: 1rem;
+            color: #999;
+        }
+
         .no-scroll {
-            overflow: hidden !important;
-        }
-
-        body.rtl {
-            font-size: 22px;
-            line-height: 1.8;
-        }
-
-        body.ltr {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .sidebar .nav-link {
-            font-size: 18px !important;
-        }
-
-        table th,
-        table td {
-            font-size: 16px !important;
-        }
-
-        .form-control,
-        .form-select,
-        .btn,
-        label {
-            font-size: 16px !important;
-        }
-
-        h1,
-        .h1 {
-            font-size: 2.2rem !important;
-        }
-
-        h2,
-        .h2 {
-            font-size: 1.8rem !important;
-        }
-
-        h3,
-        .h3 {
-            font-size: 1.5rem !important;
-        }
-
-        body.rtl .sidebar .nav-link {
-            font-size: 20px !important;
-        }
-
-        body.rtl table th,
-        body.rtl table td {
-            font-size: 18px !important;
-        }
-
-        body.rtl .form-control,
-        body.rtl .form-select,
-        body.rtl .btn,
-        body.rtl label {
-            font-size: 18px !important;
-        }
-
-        body.rtl h1,
-        body.rtl .h1 {
-            font-size: 2.5rem !important;
-        }
-
-        body.rtl h2,
-        body.rtl .h2 {
-            font-size: 2.2rem !important;
-        }
-
-        body.rtl h3,
-        body.rtl .h3 {
-            font-size: 1.8rem !important;
-        }
-
-        .small,
-        small,
-        .text-muted {
-            font-size: 90% !important;
-        }
-
-        @media (max-width: 768px) {
-            body.rtl {
-                font-size: 20px;
-            }
-
-            body.rtl .sidebar .nav-link,
-            body.rtl .form-control,
-            body.rtl .form-select,
-            body.rtl .btn,
-            body.rtl label {
-                font-size: 16px !important;
-            }
-        }
-
-        .notification-item {
-            background-color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .notification-item.new {
-            background-color: #f0f9ff;
-            border-left: 4px solid #0d6efd;
-        }
-
-        #messages-dropdown-list {
-            max-height: 500px;
-            /* عدل القيمة حسب ما يناسبك */
-            overflow-y: auto;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            overflow: hidden;
         }
     </style>
 </body>
 
 </html>
-@stack('scripts')
-</body>
