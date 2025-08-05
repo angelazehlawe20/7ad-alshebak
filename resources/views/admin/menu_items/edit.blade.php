@@ -26,7 +26,7 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="redirect_to" value="{{ url()->previous() }}">
-                <div class="row">
+                <div class="row gy-4">
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
@@ -49,7 +49,7 @@
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.category') }}</strong></label>
-                                    <select name="category_id" class="form-select" required>
+                                    <select name="category_id" class="form-select">
                                         @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ old('category_id', $menuItem->category_id) == $category->id ? 'selected' : '' }}>
                                             {{ $category->name_en }} - {{ $category->name_ar }}
@@ -62,7 +62,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
                                         <input type="number" name="price" step="1" class="form-control fw-bold"
-                                            value="{{ old('price', round($menuItem->price)) }}" required>
+                                            value="{{ old('price', round($menuItem->price)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -77,12 +77,12 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.name_en') }}</strong></label>
                                     <input type="text" name="name_en" class="form-control"
-                                        value="{{ old('name_en', $menuItem->name_en) }}" required>
+                                        value="{{ old('name_en', $menuItem->name_en) }}">
                                 </div>
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.name_ar') }}</strong></label>
                                     <input type="text" name="name_ar" class="form-control"
-                                        value="{{ old('name_ar', $menuItem->name_ar) }}" required>
+                                        value="{{ old('name_ar', $menuItem->name_ar) }}">
                                 </div>
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.description_en') }}</strong></label>

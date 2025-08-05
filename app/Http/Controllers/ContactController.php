@@ -16,15 +16,15 @@ class ContactController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            "name" => "nullable|string|max:255",
-            "email" => "nullable|email|max:255",
-            "subject" => "nullable|string|max:255",
-            "message" => "nullable|string",
+            "name" => "required|string|max:255",
+            "email" => "required|email|max:255",
+            "subject" => "required|string|max:255",
+            "message" => "required|string",
         ]);
 
         $validatedData['is_read'] = false;
 
-        
+
         // Save contact
         $contact = Contact::create($validatedData);
 

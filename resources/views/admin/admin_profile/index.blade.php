@@ -29,13 +29,13 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.name') }}</strong></label>
                                     <input id="name" disabled type="text" name="name"
-                                        value="{{ old('name', $admin->name) }}" class="form-control editable-field" required>
+                                        value="{{ old('name', $admin->name) }}" class="form-control editable-field">
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.email') }}</strong></label>
                                     <input id="email" disabled type="email" name="email"
-                                        value="{{ old('email', $admin->email) }}" class="form-control editable-field" required
+                                        value="{{ old('email', $admin->email) }}" class="form-control editable-field" 
                                         style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">
                                 </div>
 

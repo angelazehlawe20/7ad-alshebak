@@ -15,17 +15,18 @@
                         </div>
                         <div class="card-body" style="background-color: #f5f5dc;">
                             <div class="mb-3">
-                                <h5 class="card-title">{{ __('book.guest_information') }}</h5>
+                                <h4 class="card-title">{{ __('book.guest_information') }}</h5>
                                 <div><strong>{{ __('book.name') }}:</strong> {{ $booking->name }}</div>
+                                <div><strong>{{ __('book.birth_date') }}:</strong> {{ $booking->birth_date }}</div>
                             </div>
                             <div class="mb-3">
-                                <h6 class="card-subtitle mb-2">{{ __('book.contact_details') }}</h6>
+                                <h4 class="card-subtitle mb-2">{{ __('book.contact_details') }}</h6>
                                 <div><i class="fas fa-phone text-secondary me-2"></i>{{ $booking->phone }}</div>
                                 <div><i class="fas fa-envelope text-secondary me-2"></i>{{ $booking->email ?? '-' }}
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <h6 class="card-subtitle mb-2">{{ __('book.booking_information') }}</h6>
+                                <h4 class="card-subtitle mb-2">{{ __('book.booking_information') }}</h6>
                                 <div><i class="fas fa-users text-secondary me-2"></i>{{ $booking->guests_count }} {{
                                     __('book.guests') }}</div>
                                 <div><i class="fas fa-calendar text-secondary me-2"></i>{{ $booking->booking_date }}

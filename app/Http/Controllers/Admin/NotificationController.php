@@ -16,38 +16,33 @@ class NotificationController extends Controller
      */
     public function getCount(): JsonResponse
     {
-        // الحصول على الحجوزات المعلقة غير المُعلنة
-        $pendingBookings = Booking::where('status', 'pending')
-            ->where('is_notified', false)
-            ->latest()
-            ->take(5)
-            ->get();
-
-        // الحصول على الرسائل غير المقروءة وغير المُعلنة
-        $unreadMessages = Contact::where('is_read', false)
-            ->where('is_notified', false)
-            ->latest()
-            ->take(5)
-            ->get();
+        $pendingBookings = Booking::where('status', 'pending')->latest()->get();
+        $unreadMessages = Contact::where('is_read', false)->latest()->get();
 
         return response()->json([
             'pending_bookings' => $pendingBookings->count(),
             'unread_messages' => $unreadMessages->count(),
+            'bell_pending_bookings' => $pendingBookings->where('is_notified', false)->count(),
+            'bell_unread_messages' => $unreadMessages->where('is_notified', false)->count(),
             'notifications' => [
                 'bookings' => $pendingBookings->map(function ($booking) {
                     return [
                         'id' => $booking->id,
                         'name' => $booking->name,
-                        'service_type' => $booking->service_type,
-                        'created_at_diff' => $booking->created_at->diffForHumans()
+                        'created_at_diff' => $booking->created_at->diffForHumans(),
+                        'created_at' => $booking->created_at->toISOString(),
+                        'is_new' => !$booking->is_notified
                     ];
                 }),
                 'messages' => $unreadMessages->map(function ($message) {
                     return [
                         'id' => $message->id,
-                        'name' => $message->name,
-                        'message' => $message->message,
-                        'created_at_diff' => $message->created_at->diffForHumans()
+                        'sender_name' => $message->name,
+                        'content' => $message->message,
+                        'created_at_diff' => $message->created_at->diffForHumans(),
+                        'is_read' => $message->is_read,
+                        'created_at' => $message->created_at->toISOString(),
+                        'is_new' => !$message->is_notified,
                     ];
                 })
             ]

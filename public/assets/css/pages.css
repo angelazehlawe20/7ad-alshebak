@@ -318,6 +318,11 @@ html[dir="ltr"] .hero h1 {
     background: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
 
+.book-a-table .php-email-form input[type=date] {
+    direction: ltr;
+    text-align: left;
+}
+
 /*--------------------------------------------------------------
 # Gallery Swiper
 --------------------------------------------------------------*/

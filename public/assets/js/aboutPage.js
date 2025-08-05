@@ -31,9 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            addPointBtns.forEach(btn => btn.disabled = false);
             removeImageBtns.forEach(btn => btn.disabled = false);
-            document.querySelectorAll('.remove-point').forEach(btn => btn.disabled = false); // تفعيل أزرار الحذف
         } else {
             location.reload();
         }

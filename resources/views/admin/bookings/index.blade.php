@@ -19,27 +19,30 @@
                         <div class="card-body">
                             <form method="GET" action="{{ route('admin.bookings.export.by_date') }}"
                                 class="row g-3 align-items-end">
+
                                 {{-- حقل من تاريخ --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="from_date" class="form-label">{{ __('book.from_date') }}</label>
-                                        <input type="text" name="from_date" class="form-control" required id="from_date"
-                                            lang="en" dir="ltr" placeholder="YYYY-MM-DD"
-                                            onfocus="this.type='date'; this.showPicker();"
-                                            onblur="if(!this.value) this.type='text';">
+                                        <input type="text" name="from_date" id="from_date"
+                                               class="form-control"
+                                               placeholder="YYYY-MM-DD"
+                                               value="{{ old('from_date') }}">
                                     </div>
                                 </div>
+
 
                                 {{-- حقل إلى تاريخ --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="to_date" class="form-label">{{ __('book.to_date') }}</label>
-                                        <input type="text" name="to_date" class="form-control" required id="to_date"
-                                            lang="en" dir="ltr" placeholder="YYYY-MM-DD"
-                                            onfocus="this.type='date'; this.showPicker();"
-                                            onblur="if(!this.value) this.type='text';">
+                                        <input type="text" name="to_date" id="to_date"
+                                               class="form-control"
+                                               placeholder="YYYY-MM-DD"
+                                               value="{{ old('to_date') }}">
                                     </div>
                                 </div>
+
 
                                 <div class="col-md-4">
                                     <button type="submit" class="btn btn-secondry w-100" style="background-color: #8B7355; color: white;">

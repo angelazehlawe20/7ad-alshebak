@@ -76,7 +76,7 @@
 
                 <div class="col-md-6">
                     <input type="text" name="name" class="form-control ps-3"
-                        placeholder="{{ __('contact.your_name') }}" required="">
+                        placeholder="{{ __('contact.your_name') }}">
                 </div>
 
                 <div class="col-md-6 ">
@@ -86,11 +86,11 @@
 
                 <div class="col-md-12">
                     <input type="text" class="form-control ps-3" name="subject"
-                        placeholder="{{ __('contact.subject') }}" required="">
+                        placeholder="{{ __('contact.subject') }}">
                 </div>
                 <div class="col-md-12">
                     <textarea class="form-control ps-3" name="message" rows="6"
-                        placeholder="{{ __('contact.message') }}" required="" style="white-space: pre-wrap;"></textarea>
+                        placeholder="{{ __('contact.message') }}" style="white-space: pre-wrap;"></textarea>
                 </div>
                 <div class="col-md-12 text-center">
                     <div class="loading">

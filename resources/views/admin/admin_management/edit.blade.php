@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.name') }}</strong></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name', $useradmin->name ) }}" required>
+                                        name="name" value="{{ old('name', $useradmin->name ) }}">
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.email') }}</strong></label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ old('email', $useradmin->email) }}" required
+                                        name="email" value="{{ old('email', $useradmin->email) }}"
                                         style="text-align: {{ app()->getLocale() === 'ar' ? 'right' : 'left' }}">
                                     @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>

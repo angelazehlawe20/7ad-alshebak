@@ -31,6 +31,7 @@ class BookingController extends Controller
             'guests_count' => 'required|integer|min:1|max:50',
             'booking_date' => 'required|date|after:today',
             'booking_time' => 'required|date_format:H:i',
+            'birth_date' => 'required|date|before:today',
             'message' => 'nullable|string',
         ]);
 
@@ -41,6 +42,7 @@ class BookingController extends Controller
             'guests_count' => $validatedData['guests_count'],
             'booking_date' => $validatedData['booking_date'],
             'booking_time' => $validatedData['booking_time'],
+            'birth_date' => $validatedData['birth_date'],
             'message' => $validatedData['message'] ?? null,
             'status' => 'pending',
         ];
@@ -74,6 +76,7 @@ class BookingController extends Controller
                 'date' => $validatedData['booking_date'],
                 'time' => $validatedData['booking_time'],
                 'guests' => $validatedData['guests_count'],
+                'birth_date' => $validatedData['birth_date'],
                 'message' => $validatedData['message'] ?? '-',
             ]);
 

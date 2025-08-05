@@ -16,7 +16,7 @@ return [
     'export_frequent_bookers_to_excel' => 'More than 5 bookings',
     'select_time' => 'select the booking time',
     'booking_success' => 'Booking submitted successfully!',
-    'telegram_message' => "📅 *New Booking Received*\n\n👤 *Name:* :name\n📞 *Phone:* +963:phone\n📧 *Email:* :email\n📅 *Date:* :date\n⏰ *Time:* :time\n👥 *Number of Guests:* :guests\n💬 *Message:* :message",
+    'telegram_message' => "📅 *New Booking Received*\n\n👤 *Name:* :name\n📞 *Phone:* +963:phone\n📧 *Email:* :email\n📅 *Date:* :date\n⏰ *Time:* :time\n👥 *Number of Guests:* :guests\n📆 *Birth Date:* :birth_date\n💬 *Message:* :message",
 
 
 
@@ -44,5 +44,6 @@ return [
     'from_date' => 'From date :',
     'to_date' => 'To date :',
     'y_m_d' => 'YY_MM_DD',
+    'birth_date' => 'Birth Date',
 
 ];

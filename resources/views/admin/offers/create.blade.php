@@ -30,7 +30,7 @@
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.filter_by_category') }}</strong></label>
-                                    <select name="category_id" class="form-select" required>
+                                    <select name="category_id" class="form-select">
                                         <option value="">{{ __('offers.all_categories') }}</option>
                                         @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ old('category_id')==$category->id ?
@@ -47,14 +47,14 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
                                         <input type="number" name="price" step="0.01" class="form-control fw-bold"
-                                            value="{{ old('price') }}" required>
+                                            value="{{ old('price') }}">
                                     </div>
                                     <div class="invalid-feedback">{{__('errors.enter_the_price')}}</div>
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.status') }}</strong></label>
-                                    <select name="active" class="form-select" required>
+                                    <select name="active" class="form-select">
                                         <option value="1" {{ old('active', '1' )=="1" ? 'selected' : '' }}>{{
                                             __('offers.active') }}</option>
                                         <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>{{
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.title_en') }}</strong></label>
                                     <input type="text" name="title_en" class="form-control"
-                                        value="{{ old('title_en') }}" required>
+                                        value="{{ old('title_en') }}">
                                     <div class="invalid-feedback">Please enter the English title.</div>
                                 </div>
 

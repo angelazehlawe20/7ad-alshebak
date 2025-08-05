@@ -21,7 +21,7 @@
                 @method('PUT')
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3 mb-md-0">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
                                 <h3 class="card-title"><i class="fas fa-language mr-2"></i>{{ __('category.name_arabic') }}</h3>
@@ -32,8 +32,7 @@
                                            name="name_ar"
                                            id="name_ar"
                                            class="form-control"
-                                           value="{{ old('name_ar', $category->name_ar) }}"
-                                           required>
+                                           value="{{ old('name_ar', $category->name_ar) }}">
                                 </div>
                             </div>
                         </div>
@@ -50,8 +49,7 @@
                                            name="name_en"
                                            id="name_en"
                                            class="form-control"
-                                           value="{{ old('name_en', $category->name_en) }}"
-                                           required>
+                                           value="{{ old('name_en', $category->name_en) }}">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +62,7 @@
                             <i class="fas fa-arrow-left mr-2"></i> {{ __('category.back') }}
                         </a>
 
-                        <button type="submit" class="btn btn-primary btn-lg">
+                        <button type="submit" class="btn btn-success btn-lg save-changes-btn">
                             <i class="fas fa-save mr-2"></i> {{ __('category.update_category') }}
                         </button>
                     </div>

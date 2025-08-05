@@ -32,6 +32,8 @@
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet" />
     <link href="{{ asset('assets/css/admin.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
@@ -51,7 +53,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
 
-                        <div class="d-flex align-items-center gap-2 flex-wrap ms-auto">
+                        <div class="d-flex align-items-center gap-4 flex-wrap ms-auto">
                             @php
                             // الحجوزات الجديدة غير المُعلنة
                             $newBookings = \App\Models\Booking::where('status', 'pending')
@@ -68,8 +70,9 @@
                             @endphp
 
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative px-3 py-1"
-                                    type="button" id="notificationsDropdown" data-bs-toggle="dropdown"
+                                <button
+                                    class="btn btn-outline-secondary btn-sm dropdown-toggle position-relative px-3 py-1"
+                                    type="button" id="notificationDropdownToggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fas fa-bell"></i>
                                     <span id="notifications-count"
@@ -79,8 +82,8 @@
                                     </span>
                                 </button>
 
-                                <ul id="messages-dropdown-list" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
-                                    style="min-width: 320px;" aria-labelledby="notificationsDropdown">
+                                <ul id="notificationDropdownMenu" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
+                                    style="min-width: 300px;" aria-labelledby="notificationDropdownToggle">
 
                                     {{-- الحجوزات --}}
                                     @if($newBookings > 0)
@@ -192,230 +195,26 @@
             </div>
         </div>
     </div>
-
     {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        function updateAllCounters() {
-            $.ajax({
-                url: '{{ route("admin.notifications.count") }}',
-                method: 'GET',
-                success: function(response) {
-                    // تحديث عداد زر الجرس
-                    const totalUnread = response.pending_bookings + response.unread_messages;
-                    $('#notifications-count').text(totalUnread);
-                    $('#notifications-count').toggle(totalUnread > 0);
-
-                    // تحديث عداد الحجوزات في الشريط الجانبي
-                    $('#booking-pending-badge').text(response.pending_bookings);
-                    $('#booking-pending-badge').toggle(response.pending_bookings > 0);
-
-                    // تحديث عداد الرسائل في الشريط الجانبي
-                    $('#contact-unread-badge').text(response.unread_messages);
-                    $('#contact-unread-badge').toggle(response.unread_messages > 0);
-
-                    // تحديث قائمة الإشعارات
-                    updateNotificationsList(response.notifications);
-                }
-            });
-        }
-
-        function updateNotificationsList(notifications) {
-            const $list = $('#messages-dropdown-list');
-            let newHtml = '';
-
-            if (notifications.bookings.length === 0 && notifications.messages.length === 0) {
-                newHtml = `
-                    <li class="dropdown-menu-empty">
-                        <span class="dropdown-item-text text-muted text-center py-2">
-                            <i class="fas fa-check-circle me-1"></i> {{ __('messages.no_new_notifications') }}
-                        </span>
-                    </li>
-                `;
-            } else {
-                // إضافة الحجوزات الجديدة
-                if (notifications.bookings.length > 0) {
-                    newHtml += `
-                        <li>
-                            <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                               href="{{ route('admin.bookings.index') }}"
-                               onclick="markBookingsAsNotified()">
-                                <i class="fas fa-calendar-check text-primary mt-1"></i>
-                                <div>
-                                    <div class="fw-bold">{{ __('messages.new_bookings') }}</div>
-                                    <small class="text-muted">${notifications.bookings.length} {{ __('messages.new_bookings_arrived') }}</small>
-                                </div>
-                            </a>
-                        </li>
-                    `;
-                }
-
-                // إضافة الرسائل الجديدة
-                notifications.messages.forEach(msg => {
-                    newHtml += `
-                        <li>
-                            <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                               href="{{ route('admin.contacts.index') }}"
-                               onclick="markMessagesAsNotified()">
-                                <i class="fas fa-envelope text-success mt-1"></i>
-                                <div>
-                                    <div class="fw-bold">${msg.name}</div>
-                                    <small class="text-muted">${msg.message.substring(0, 40)}${msg.message.length > 40 ? '...' : ''}</small>
-                                    <div class="small text-muted">${msg.created_at_diff}</div>
-                                </div>
-                            </a>
-                        </li>
-                    `;
-                });
-            }
-
-            // تحديث المحتوى مرة واحدة فقط
-            $list.html(newHtml);
-        }
-
-        // تحديث العدادات كل دقيقة
-        $(document).ready(function() {
-            updateAllCounters();
-            setInterval(updateAllCounters, 60000);
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    {{-- Sidebar toggle --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-
-        document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-            sidebar?.classList.toggle('show');
-            overlay?.classList.toggle('show');
-            document.body.classList.toggle('no-scroll', sidebar?.classList.contains('show'));
-        });
-
-        overlay?.addEventListener('click', () => {
-            sidebar?.classList.remove('show');
-            overlay?.classList.remove('show');
-            document.body.classList.remove('no-scroll');
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                sidebar?.classList.remove('show');
-                overlay?.classList.remove('show');
-            }
-        });
-    });
-    </script>
-
-    {{-- Notifications --}}
-    <script>
-        function markBookingsAsNotified() {
-        fetch('{{ route("admin.bookings.markAsNotified") }}', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
-        }).then(() => {
-            updateAllCounters();
-        });
-    }
-
-    function markMessagesAsNotified() {
-        fetch('{{ route("admin.contacts.markAsNotified") }}', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
-        }).then(() => {
-            updateAllCounters();
-        });
-    }
-    </script>
-
-    {{-- Keep session alive --}}
-    <script>
-        let keepAliveTimeout;
-
-    function keepSessionAlive() {
-        clearTimeout(keepAliveTimeout);
-        keepAliveTimeout = setTimeout(() => {
-            fetch('/keep-alive', {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).catch(console.error);
-        }, 2 * 60 * 1000);
-    }
-
-    ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
-        window.addEventListener(event, keepSessionAlive);
-    });
-
-    keepSessionAlive();
-
-    setInterval(() => {
-        fetch('/csrf-token')
-            .then(res => res.text())
-            .then(token => {
-                document.querySelector('meta[name="csrf-token"]').setAttribute('content', token);
-            });
-    }, 30 * 60 * 1000);
-    </script>
-
-    <script>
-        function updateSidebarCounters() {
-      fetch("/admin/sidebar-counters")
-        .then(response => response.json())
-        .then(data => {
-          console.log("Sidebar counters updated:", data);
-
-          const bookingBadge = document.getElementById("booking-pending-badge");
-          if (bookingBadge) {
-            if (data.pending_bookings > 0) {
-              bookingBadge.innerText = data.pending_bookings;
-              bookingBadge.style.display = "inline-block";
-            } else {
-              bookingBadge.style.display = "none";
-            }
-          }
-
-          const contactBadge = document.getElementById("contact-unread-badge");
-          if (contactBadge) {
-            if (data.unread_contacts > 0) {
-              contactBadge.innerText = data.unread_contacts;
-              contactBadge.style.display = "inline-block";
-            } else {
-              contactBadge.style.display = "none";
-            }
-          }
-        })
-        .catch(console.error);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateSidebarCounters();
-      setInterval(updateSidebarCounters, 60000);
-    });
-    </script>
-
+    <script src="{{asset('assets/js/adminAppPage.js')}}"></script>
 
 
     {{-- Optional style overrides --}}
     <style>
+        .no-scroll {
+            overflow: hidden !important;
+        }
+
         body.rtl {
             font-size: 22px;
             line-height: 1.8;
@@ -507,8 +306,28 @@
                 font-size: 16px !important;
             }
         }
+
+        .notification-item {
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-item.new {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0d6efd;
+        }
+
+        #messages-dropdown-list {
+            max-height: 500px;
+            /* عدل القيمة حسب ما يناسبك */
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
     </style>
 </body>
 
 </html>
+@stack('scripts')
 </body>

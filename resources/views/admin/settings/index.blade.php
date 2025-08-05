@@ -21,89 +21,106 @@
                 @method('PUT')
 
                 <div class="row gy-4">
+                    {{-- العمود الأول --}}
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
                                 <h3 class="card-title"><i class="fas fa-address-card me-2"></i> {{ __('settings.contact_information') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
+                                {{-- العنوان بالعربية --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.address_ar') }}</strong></label>
-                                    <textarea class="form-control editable-field @error('address_ar') is-invalid @enderror" id="address_ar" name="address_ar" rows="3" disabled>{{ old('address_ar', $settings->address_ar ?? '') }}</textarea>
+                                    <textarea class="form-control editable-field @error('address_ar') is-invalid @enderror" name="address_ar" rows="3" disabled>{{ old('address_ar', $settings->address_ar ?? '') }}</textarea>
                                     @error('address_ar')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- العنوان بالإنجليزية --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.address_en') }}</strong></label>
-                                    <textarea class="form-control editable-field @error('address_en') is-invalid @enderror" id="address_en" name="address_en" rows="3" disabled>{{ old('address_en', $settings->address_en ?? '') }}</textarea>
+                                    <textarea class="form-control editable-field @error('address_en') is-invalid @enderror" name="address_en" rows="3" disabled>{{ old('address_en', $settings->address_en ?? '') }}</textarea>
                                     @error('address_en')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- البريد الإلكتروني --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.email') }}</strong></label>
-                                    <input type="email" class="form-control editable-field @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $settings->email ?? '') }}" disabled>
+                                    <input type="email" class="form-control editable-field @error('email') is-invalid @enderror" name="email" value="{{ old('email', $settings->email ?? '') }}" disabled>
                                     @error('email')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- رقم الهاتف --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.phone') }}</strong></label>
-                                    <input type="tel" class="form-control editable-field @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $settings->phone ?? '') }}" disabled>
+                                    <input type="tel" class="form-control editable-field @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $settings->phone ?? '') }}" disabled>
                                     @error('phone')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- ساعات العمل --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.opening_hours') }}</strong></label>
-                                    <input type="text" class="form-control editable-field @error('opening_hours') is-invalid @enderror" id="opening_hours" name="opening_hours" value="{{ old('opening_hours', $settings->opening_hours ?? '') }}" disabled>
+                                    <input type="text" class="form-control editable-field @error('opening_hours') is-invalid @enderror" name="opening_hours" value="{{ old('opening_hours', $settings->opening_hours ?? '') }}" disabled>
                                     @error('opening_hours')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    {{-- العمود الثاني --}}
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
                                 <h3 class="card-title"><i class="fas fa-share-alt me-2"></i> {{ __('settings.social_media_logo') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
+                                {{-- فيسبوك --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.facebook_url') }}</strong></label>
-                                    <input type="url" class="form-control editable-field @error('facebook_url') is-invalid @enderror" id="facebook_url" name="facebook_url" value="{{ old('facebook_url', $settings->facebook_url ?? '') }}" disabled>
+                                    <input type="url" class="form-control editable-field @error('facebook_url') is-invalid @enderror" name="facebook_url" value="{{ old('facebook_url', $settings->facebook_url ?? '') }}" disabled>
                                     @error('facebook_url')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- إنستغرام --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.instagram_url') }}</strong></label>
-                                    <input type="url" class="form-control editable-field @error('instagram_url') is-invalid @enderror" id="instagram_url" name="instagram_url" value="{{ old('instagram_url', $settings->instagram_url ?? '') }}" disabled>
+                                    <input type="url" class="form-control editable-field @error('instagram_url') is-invalid @enderror" name="instagram_url" value="{{ old('instagram_url', $settings->instagram_url ?? '') }}" disabled>
                                     @error('instagram_url')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- واتساب --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.whatsapp') }}</strong></label>
-                                    <input type="text" class="form-control editable-field @error('whatsapp') is-invalid @enderror" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $settings->whatsapp ?? '') }}" disabled>
+                                    <input type="text" class="form-control editable-field @error('whatsapp') is-invalid @enderror" name="whatsapp" value="{{ old('whatsapp', $settings->whatsapp ?? '') }}" disabled>
                                     @error('whatsapp')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
 
+                                {{-- الشعار --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.logo') }}</strong></label>
-                                    <input type="file" class="form-control editable-field @error('logo') is-invalid @enderror" id="logo" name="logo" disabled>
+                                    <input type="file" class="form-control editable-field @error('logo') is-invalid @enderror" name="logo" disabled>
                                     @error('logo')<span class="invalid-feedback">{{ $message }}</span>@enderror
-                                    @php $logoPath = isset($settings) && $settings->logo ? asset($settings->logo) : asset('assets/img/logos/web-app-manifest-512x512.png'); @endphp
-                                    <img id="logo-preview" src="{{ $logoPath }}" alt="Logo" class="mt-2 img-thumbnail" style="max-height: 50px">
+                                    @php
+                                        $logoPath = isset($settings) && $settings->logo ? asset($settings->logo) : asset('assets/img/logos/web-app-manifest-512x512.png');
+                                    @endphp
+                                    <img src="{{ $logoPath }}" class="mt-2 img-thumbnail" style="max-height: 50px">
                                 </div>
 
+                                {{-- الأيقونة --}}
                                 <div class="form-group">
                                     <label><strong>{{ __('settings.favicon') }}</strong></label>
-                                    <input type="file" class="form-control editable-field @error('favicon') is-invalid @enderror" id="favicon" name="favicon" disabled>
+                                    <input type="file" class="form-control editable-field @error('favicon') is-invalid @enderror" name="favicon" disabled>
                                     @error('favicon')<span class="invalid-feedback">{{ $message }}</span>@enderror
-                                    @php $faviconPath = isset($settings) && $settings->favicon ? asset($settings->favicon) : asset('assets/img/logos/web-app-manifest-512x512.png'); @endphp
-                                    <img id="favicon-preview" src="{{ $faviconPath }}" alt="Favicon" class="mt-2 img-thumbnail" style="max-height: 50px">
+                                    @php
+                                        $faviconPath = isset($settings) && $settings->favicon ? asset($settings->favicon) : asset('assets/img/logos/web-app-manifest-512x512.png');
+                                    @endphp
+                                    <img src="{{ $faviconPath }}" class="mt-2 img-thumbnail" style="max-height: 50px">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                {{-- الأزرار --}}
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="button" id="editBtn" class="btn btn-lg" style="background-color: #8B7355; color: white;">
@@ -125,7 +142,7 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    window.onload = function () {
         const editBtn = document.getElementById('editBtn');
         const saveBtn = document.getElementById('saveBtn');
         const cancelBtn = document.getElementById('cancelBtn');
@@ -133,12 +150,14 @@
         const fields = document.querySelectorAll('.editable-field');
         const originalValues = {};
 
+        // حفظ القيم الأصلية
         fields.forEach(field => {
             if (field.type !== 'file') {
                 originalValues[field.name] = field.value;
             }
         });
 
+        // عند الضغط على تعديل
         editBtn.addEventListener('click', () => {
             fields.forEach(field => field.disabled = false);
             editBtn.classList.add('d-none');
@@ -146,6 +165,7 @@
             cancelBtn.classList.remove('d-none');
         });
 
+        // عند الضغط على إلغاء
         cancelBtn.addEventListener('click', () => {
             fields.forEach(field => {
                 field.disabled = true;
@@ -157,6 +177,6 @@
             saveBtn.classList.add('d-none');
             cancelBtn.classList.add('d-none');
         });
-    });
+    };
 </script>
 @endpush

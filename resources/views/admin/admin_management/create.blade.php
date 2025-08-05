@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.name') }}</strong></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name') }}" required>
+                                        name="name" value="{{ old('name') }}">
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.email') }}</strong></label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ old('email') }}" required>
+                                        name="email" value="{{ old('email') }}">
                                     @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.new_password') }}</strong></label>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        name="password" required>
+                                        name="password">
                                     @error('password')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('admins.password_confirmation') }}</strong></label>
                                     <input type="password" class="form-control"
-                                        name="password_confirmation" required>
+                                        name="password_confirmation">
                                 </div>
 
                                 <div class="row mt-4">

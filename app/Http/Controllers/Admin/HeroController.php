@@ -31,8 +31,8 @@ class HeroController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_en' => 'nullable|string|max:255',
-            'title_ar' => 'nullable|string|max:255',
+            'title_en' => 'required|string|max:255',
+            'title_ar' => 'required|string|max:255',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -63,10 +63,10 @@ class HeroController extends Controller
     {
         $hero = Hero_Page::first();
 
-        $validated = $request->validate([
+        $request->validate([
             'title_en' => 'nullable|string|max:255',
             'title_ar' => 'nullable|string|max:255',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $heroData = $request->only(['title_en', 'title_ar']);

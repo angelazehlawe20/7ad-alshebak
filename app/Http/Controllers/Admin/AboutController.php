@@ -104,10 +104,10 @@ class AboutController extends Controller
     public function createAbout(Request $request)
     {
         $request->validate([
-            'main_text_en' => 'nullable|string',
-            'main_text_ar' => 'nullable|string',
+            'main_text_en' => 'required|string',
+            'main_text_ar' => 'required|string',
 
-            'gallery_images.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg'
+            'gallery_images.*' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg'
         ]);
 
         $about = new About();

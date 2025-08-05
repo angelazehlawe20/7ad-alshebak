@@ -43,7 +43,7 @@
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.status') }}</strong></label>
-                                    <select name="active" class="form-select" required>
+                                    <select name="active" class="form-select">
                                         <option value="1" {{ old('active', $offer->active) == 1 ? 'selected' : '' }}>{{ __('offers.active') }}</option>
                                         <option value="0" {{ old('active', $offer->active) == 0 ? 'selected' : '' }}>{{ __('offers.inactive') }}</option>
                                     </select>
@@ -52,7 +52,7 @@
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
-                                        <input type="number" name="price" step="1" class="form-control fw-bold" value="{{ old('price', (int)$offer->price) }}" required>
+                                        <input type="number" name="price" step="1" class="form-control fw-bold" value="{{ old('price', (int)$offer->price) }}">
                                     </div>
                                 </div>
 
@@ -68,11 +68,11 @@
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.title_en') }}</strong></label>
-                                    <input type="text" name="title_en" class="form-control" value="{{ old('title_en', $offer->title_en) }}" required>
+                                    <input type="text" name="title_en" class="form-control" value="{{ old('title_en', $offer->title_en) }}">
                                 </div>
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.title_ar') }}</strong></label>
-                                    <input type="text" name="title_ar" class="form-control" value="{{ old('title_ar', $offer->title_ar) }}" required>
+                                    <input type="text" name="title_ar" class="form-control" value="{{ old('title_ar', $offer->title_ar) }}">
                                 </div>
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.description_en') }}</strong></label>

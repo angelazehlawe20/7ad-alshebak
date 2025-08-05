@@ -22,25 +22,21 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name_ar' => 'required|string|max:255|unique:categories,name_ar',
             'name_en' => 'required|string|max:255|unique:categories,name_en',
-        ], [
-            'name_ar.required' => 'The Arabic name field is required.',
-            'name_ar.unique' => 'The name in Arabic is already in use.',
-            'name_en.required' => 'The English name field is required.',
-            'name_en.unique' => 'The name in English is already in use',
         ]);
 
         Category::create([
-            'name_ar' => $request->name_ar,
-            'name_en' => $request->name_en,
-            'slug' => \Illuminate\Support\Str::slug($request->name_en),
+            'name_ar' => $validatedData['name_ar'],
+            'name_en' => $validatedData['name_en'],
+            'slug' => \Illuminate\Support\Str::slug($validatedData['name_en']),
         ]);
 
         return redirect()->route('admin.categories.index')
             ->with('success', __('category.created_message'));
     }
+
 
     public function show(Category $category)
     {

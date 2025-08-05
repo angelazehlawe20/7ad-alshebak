@@ -37,7 +37,7 @@
                                 @else
                                     <div class="form-group">
                                         <label><strong>{{ __('menu.category') }}</strong></label>
-                                        <select name="category_id" class="form-control" required>
+                                        <select name="category_id" class="form-control">
                                             <option value="">{{ __('menu.select_category') }}</option>
                                             @foreach($categories as $cat)
                                                 <option value="{{ $cat->id }}" {{ old('category_id')==$cat->id ? 'selected' : '' }}>
@@ -50,19 +50,19 @@
 
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.name_en') }}</strong></label>
-                                    <input type="text" name="name_en" class="form-control" value="{{ old('name_en') }}" required>
+                                    <input type="text" name="name_en" class="form-control" value="{{ old('name_en') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.name_ar') }}</strong></label>
-                                    <input type="text" name="name_ar" class="form-control" value="{{ old('name_ar') }}" required>
+                                    <input type="text" name="name_ar" class="form-control" value="{{ old('name_ar') }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.price') }}</strong></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
-                                        <input type="number" name="price" step="0.01" class="form-control font-weight-bold" value="{{ old('price') }}" required>
+                                        <input type="number" name="price" step="0.01" class="form-control font-weight-bold" value="{{ old('price') }}">
                                     </div>
                                 </div>
                             </div>
