@@ -159,8 +159,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::delete('/contacts/{contact}', 'destroy')->name('contacts.destroy');
     });
     Route::post('/contacts/mark-as-notified', [AdminContactController::class, 'markAsNotified'])->name('contacts.markAsNotified');
-    Route::get('/contacts/refresh', [AdminContactController::class, 'refreshList'])
-        ->name('contacts.refresh');
+    Route::get('/contacts/refresh', function () {
+        $contacts = \App\Models\Contact::latest()->take(10)->get();
+        return view('admin.contacts.message-list', compact('contacts'));
+    })->name('contacts.refresh');
     Route::get('/contacts/notifications/messages', [AdminContactController::class, 'unreadMessages'])->name('contacts.notifications.messages');
     Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
 

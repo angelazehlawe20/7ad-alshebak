@@ -40,10 +40,10 @@ class NotificationController extends Controller
                 'type' => 'booking',
                 'name' => $booking->name,
                 'phone' => $booking->phone,
-                'date' => $booking->date ? \Carbon\Carbon::parse($booking->date)->format('Y-m-d') : __('messages.no_date'),
-                'time' => $booking->time,
-                'people' => $booking->people_count,
-                'notes' => \Illuminate\Support\Str::limit(strip_tags($booking->notes), 40),
+                'date' => $booking->booking_date ? \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d') : __('messages.no_date'),
+                'time' => $booking->booking_time,
+                'people' => $booking->guests_count,
+                'notes' => \Illuminate\Support\Str::limit(strip_tags($booking->message), 40),
                 'created' => $booking->created_at->diffForHumans(),
             ];
         });

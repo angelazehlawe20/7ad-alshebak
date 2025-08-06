@@ -72,17 +72,19 @@ class BookingController extends Controller
     /**
      * تحميل قائمة الحجوزات بصيغة HTML (AJAX).
      */
-    public function getBookingsList()
+    public function getBookingsList(Request $request)
     {
-        $bookings = Booking::latest()->get();
-        $pendingCount = Booking::where('status', 'pending')->count();
+        $status = $request->query('status');
 
-        $html = view('admin.bookings.booking_list', ['bookings' => $bookings])->render();
+        $query = Booking::query()->latest();
 
-        return response()->json([
-            'html' => $html,
-            'pending_count' => $pendingCount
-        ]);
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $bookings = $query->get();
+
+        return view('admin.bookings.booking_list', compact('bookings'));
     }
 
     /**
@@ -129,5 +131,4 @@ class BookingController extends Controller
 
         return redirect()->route('admin.bookings.index')->with('success', __('book.update_message'));
     }
-
 }

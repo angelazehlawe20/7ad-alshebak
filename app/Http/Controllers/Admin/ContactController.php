@@ -29,16 +29,10 @@ class ContactController extends Controller
     /**
      * جلب القائمة كاملة بشكل AJAX (بدون إعادة تحميل الصفحة)
      */
-    public function refreshList(Request $request)
+    public function refreshList()
     {
         $contacts = Contact::latest()->get();
-        $messages_html = view('admin.contacts.message_list', compact('contacts'))->render();
-        $unread_count = Contact::where('is_read', false)->count();
-
-        return response()->json([
-            'messages_html' => $messages_html,
-            'unread_count' => $unread_count
-        ]);
+        return view('admin.contacts.message_list', compact('contacts'));
     }
 
     /**

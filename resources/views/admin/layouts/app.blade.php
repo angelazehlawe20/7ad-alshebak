@@ -82,7 +82,7 @@
                                 </button>
 
                                 <ul id="notificationDropdownMenu" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
-                                    style="min-width: 300px;" aria-labelledby="notificationDropdownToggle">
+                                    style="min-width: 250px;" aria-labelledby="notificationDropdownToggle">
 
                                     {{-- New Bookings --}}
                                     @foreach($newBookings as $booking)
@@ -205,6 +205,12 @@
     <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script src="{{ asset('assets/js/adminAppPage.js') }}"></script>
+
+    <script>
+        const translations = {
+            people: @json(__('book.people'))
+        };
+    </script>
 
     @stack('scripts')
 
