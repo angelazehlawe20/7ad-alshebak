@@ -153,6 +153,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script>
         window.translations = {
+            people: "{{__('book.people')}}",
             noNewNotifications: "{{ __('messages.no_new_notifications') }}",
             markAsNotifiedError: "{{ __('messages.mark_as_notified_error') }}",
             notificationUpdateError: "{{__('messages.notification_update_error')}}"
