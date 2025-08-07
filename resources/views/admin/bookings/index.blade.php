@@ -121,7 +121,6 @@
         success: "{{ __('messages.success') }}",
         error: "{{ __('messages.error') }}",
         statusUpdated: "{{ __('book.status_updated_successfully') }}",
-        errorUpdatingStatus: "{{ __('book.error_updating_status') }}",
     };
 </script>
 

@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('newGalleryImages');
     const previewContainer = document.getElementById('newImagesPreview');
 
-    const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || 'Are you sure you want to delete this media?';
-    const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || 'Video not supported';
+    const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || about.confirmDeleteMedia;
+    const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || about.videoNotSupported;
 
     let editMode = false;
     let selectedMediaFiles = [];
 
-    // Hide delete buttons initially
+    // إخفاء أزرار الحذف في البداية
     removeImageBtns.forEach(btn => {
         btn.style.display = 'none';
         btn.disabled = true;
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editMode = !editMode;
 
         if (editMode) {
-            editModeBtn.innerHTML = `<i class="fas fa-times mr-2"></i> ${editModeBtn.dataset.cancelText}`;
+            editModeBtn.innerHTML = `<i class="fas fa-times mr-2"></i> ${editModeBtn.dataset.cancelText || contact.cancel }`;
             editModeBtn.classList.remove('btn-secondary');
             editModeBtn.classList.add('btn-danger');
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Show and enable delete buttons in edit mode
+            // إظهار أزرار الحذف
             removeImageBtns.forEach(btn => {
                 btn.style.display = 'block';
                 btn.disabled = false;

@@ -44,6 +44,5 @@ return [
     'birth_date' => 'تاريخ الميلاد',
     'booking_for' => 'حجز ل',
     'people' => 'شخص',
-    'error_updating_status' => 'خطأ في تحديث حالة الحجز',
     'cancel' => 'إلغاء',
 ];

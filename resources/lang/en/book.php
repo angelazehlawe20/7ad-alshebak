@@ -47,6 +47,5 @@ return [
     'birth_date' => 'Birth Date',
     'booking_for' => 'booking for',
     'people' => 'people',
-    'error_updating_status' => 'error updating status',
     'cancel' => 'cancel',
 ];

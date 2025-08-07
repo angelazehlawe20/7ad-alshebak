@@ -117,9 +117,10 @@
 
 <script>
     const messages = {
-        confirmDeleteFile: "{{ __('about.confirm_delete_file') }}",
+        confirmDeleteMedia: "{{ __('about.confirm_delete_media') }}",
         deleteFileFailed: "{{ __('about.delete_file_failed') }}",
         deleteFileError: "{{ __('about.delete_file_error') }}",
+        videoNotSupported: "{{__('about.video_not_supported')}}"
     };
 </script>
 @endsection

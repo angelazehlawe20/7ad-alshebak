@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(error => {
-                console.error(translations.errorUpdatingStatus, error);
+                console.error('خطأ في تحديث حالة الحجز', error);
             });
     }
 
