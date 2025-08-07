@@ -1,73 +1,74 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ✅ جزء 1: SweetAlert لحذف الرسائل
-    const deleteForms = document.querySelectorAll('.delete-form');
-    deleteForms.forEach(form => {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            Swal.fire({
-                title: deleteConfirmTitle,
-                text: deleteConfirmText,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: deleteConfirmYes
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-    });
+    // نصوص SweetAlert (يمكنك تعديلها أو وضعها من السيرفر)
+    const deleteConfirmTitle = 'هل أنت متأكد؟';
+    const deleteConfirmText = 'لن تتمكن من التراجع عن هذا!';
+    const deleteConfirmYes = 'نعم، احذف!';
 
-    // ✅ جزء 2: التحديث التلقائي لقائمة الرسائل
+    // تفعيل SweetAlert عند حذف الرسالة
+    function bindDeleteConfirmations() {
+        const deleteForms = document.querySelectorAll('.delete-form');
+        deleteForms.forEach(form => {
+            // إزالة المعالج السابق ثم إضافته من جديد
+            form.removeEventListener('submit', deleteFormHandler); // احترازي فقط
+            form.addEventListener('submit', deleteFormHandler);
+        });
+    }
+
+    function deleteFormHandler(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: deleteConfirmTitle,
+            text: deleteConfirmText,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: deleteConfirmYes
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit();
+            }
+        });
+    }
+
+    // جلب الرسائل وتحديث العدادات
     const messageFetchInterval = 60000; // كل 60 ثانية
 
-    const refreshMessagesRoute = "{{ route('admin.contacts.refresh') }}";
     function fetchUpdatedMessages() {
-        axios.get(refreshMessagesRoute)
+        axios.get('/admin/contacts/refresh', {
+            headers: { 'Cache-Control': 'no-cache' },
+            params: { t: new Date().getTime() }
+        })
             .then(response => {
-                const messageList = document.querySelector('.message-list-wrapper');
+                const messageList = document.getElementById('messages-list');
                 if (messageList) {
                     messageList.innerHTML = response.data;
-
-                    // ⚠️ مهم: بعد التحديث، نعيد تفعيل SweetAlert لأن العناصر تغيرت
-                    rebindDeleteConfirmations();
+                    bindDeleteConfirmations(); // تفعيل الحذف من جديد
                 }
             })
             .catch(error => {
                 console.error('حدث خطأ أثناء تحديث الرسائل:', error);
             });
-    }
 
-
-    // ✅ وظيفة لتفعيل SweetAlert مرة أخرى بعد التحديث
-    function rebindDeleteConfirmations() {
-        const deleteForms = document.querySelectorAll('.delete-form');
-        deleteForms.forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: deleteConfirmTitle,
-                    text: deleteConfirmText,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: deleteConfirmYes
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
+        axios.get('/admin/notifications/counters')
+            .then(res => {
+                const data = res.data;
+                const sidebarMessagesCount = document.getElementById('contact-unread-badge');
+                if (sidebarMessagesCount) {
+                    sidebarMessagesCount.textContent = data.unread_messages || 0;
+                    sidebarMessagesCount.style.display = data.unread_messages > 0 ? '' : 'none';
+                }
+            })
+            .catch(err => console.error('خطأ في تحديث العدادات:', err));
     }
 
     // أول تحميل
     fetchUpdatedMessages();
 
-    // تحديث كل دقيقة
+    // تحديث دوري
     setInterval(fetchUpdatedMessages, messageFetchInterval);
+
+    // التفعيل الأولي لأزرار الحذف
+    bindDeleteConfirmations();
 });

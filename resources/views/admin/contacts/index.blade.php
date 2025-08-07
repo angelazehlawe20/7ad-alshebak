@@ -65,8 +65,8 @@
     </section>
 </div>
 @endsection
-@section('scripts')
+@push('scripts')
     @vite(['resources/js/app.js'])
 
     <script src="{{ asset('assets/js/contactAdminPage.js') }}"></script>
-@endsection
+@endpush

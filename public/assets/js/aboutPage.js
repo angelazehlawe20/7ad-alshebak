@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let editMode = false;
     let selectedMediaFiles = [];
 
+    // Hide delete buttons initially
+    removeImageBtns.forEach(btn => {
+        btn.style.display = 'none';
+        btn.disabled = true;
+    });
+
     // تفعيل / إلغاء وضع التعديل
     editModeBtn?.addEventListener('click', function () {
         editMode = !editMode;
@@ -31,7 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            removeImageBtns.forEach(btn => btn.disabled = false);
+            // Show and enable delete buttons in edit mode
+            removeImageBtns.forEach(btn => {
+                btn.style.display = 'block';
+                btn.disabled = false;
+            });
         } else {
             location.reload();
         }
@@ -95,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="position-relative">
                         ${content}
                         <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
-                            onclick="removeTempMedia(${index})">
+                            onclick="removeTempMedia(${index})" style="display: ${editMode ? 'block' : 'none'}">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>

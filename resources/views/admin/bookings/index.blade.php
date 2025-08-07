@@ -24,10 +24,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="from_date" class="form-label">{{ __('book.from_date') }}</label>
-                                        <input type="text" name="from_date" id="from_date"
-                                               class="form-control"
-                                               placeholder="YYYY-MM-DD"
-                                               value="{{ old('from_date') }}">
+                                        <input type="text" name="from_date" id="from_date" class="form-control"
+                                            placeholder="YYYY-MM-DD" value="{{ old('from_date') }}">
                                     </div>
                                 </div>
 
@@ -36,16 +34,15 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="to_date" class="form-label">{{ __('book.to_date') }}</label>
-                                        <input type="text" name="to_date" id="to_date"
-                                               class="form-control"
-                                               placeholder="YYYY-MM-DD"
-                                               value="{{ old('to_date') }}">
+                                        <input type="text" name="to_date" id="to_date" class="form-control"
+                                            placeholder="YYYY-MM-DD" value="{{ old('to_date') }}">
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-secondry w-100" style="background-color: #8B7355; color: white;">
+                                    <button type="submit" class="btn btn-secondry w-100"
+                                        style="background-color: #8B7355; color: white;">
                                         <i class="fas fa-file-export me-2"></i>{{ __('book.export_to_excel') }}
                                     </button>
                                 </div>
@@ -122,7 +119,7 @@
         success: "{{ __('messages.success') }}",
         error: "{{ __('messages.error') }}",
         statusUpdated: "{{ __('book.status_updated_successfully') }}",
-        errorUpdatingStatus: "{{ __('book.error_updating_status') }}"
+        errorUpdatingStatus: "{{ __('book.error_updating_status') }}",
     };
 </script>
 

@@ -43,7 +43,7 @@
         </div>
         <div class="card-footer" style="background-color: #f5f5dc;">
             <div class="d-flex gap-2">
-                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="booking-action-form flex-grow-1" data-action="confirm">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="confirmed">
@@ -51,7 +51,7 @@
                         <i class="fas fa-check me-1"></i>{{ __('book.confirm') }}
                     </button>
                 </form>
-                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="flex-grow-1">
+                <form action="{{ route('admin.bookings.update', $booking->id) }}" method="POST" class="booking-action-form flex-grow-1" data-action="reject">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="status" value="cancelled">

@@ -46,6 +46,8 @@ return [
     'y_m_d' => 'YY_MM_DD',
     'birth_date' => 'Birth Date',
     'booking_for' => 'booking for',
-    'people' => 'people'
+    'people' => 'people',
+    'error_updating_status' => 'error updating status',
+    'birth_date_fun'=> 'Enter your date of birth.. Maybe we can celebrate together soon😌'
 
 ];

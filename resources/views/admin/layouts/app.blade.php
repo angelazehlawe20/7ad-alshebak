@@ -92,14 +92,18 @@
                                             <i class="fas fa-calendar-check text-primary mt-1"></i>
                                             <div>
                                                 <div class="fw-bold">{{ $booking->name }}</div>
-                                                <small class="text-muted">
+
+                                                <small class="text-muted d-block">
                                                     {{ __('book.booking_for') }} {{ $booking->guests_count }} {{
-                                                    __('book.people') }} <br>
-                                                    {{ $booking->booking_date }} {{ $booking->booking_time }} <br>
+                                                    __('book.people') }}<br>
+                                                    {{ $booking->booking_date }} {{ $booking->booking_time }}<br>
                                                     {{ $booking->message }}
                                                 </small>
-                                                <div class="small text-muted">{{ $booking->created_at->diffForHumans()
-                                                    }}</div>
+
+                                                <div class="small text-muted">
+                                                    {{ $booking->created_at->diffForHumans() }}
+                                                </div>
+
                                             </div>
                                         </a>
                                     </li>
@@ -204,13 +208,15 @@
     <script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
-    <script src="{{ asset('assets/js/adminAppPage.js') }}"></script>
-
     <script>
-        const translations = {
-            people: @json(__('book.people'))
+        window.translations = {
+            people: "{{ __('book.people') }}"
         };
     </script>
+    <script src="{{ asset('assets/js/heroAdminPage.js') }}"></script>
+    <script src="{{ asset('assets/js/aboutPage.js') }}"></script>
+    <script src="{{ asset('assets/js/adminAppPage.js') }}"></script>
+
 
     @stack('scripts')
 

@@ -106,36 +106,6 @@ function updateAllCounters() {
         .catch(err => console.error('Notification update error:', err));
 }
 
-function updateSidebarCounters() {
-    fetch('/admin/sidebar-counters')
-        .then(response => response.json())
-        .then(data => {
-            const contactBadge = document.getElementById('contact-unread-badge');
-            const bookingBadge = document.getElementById('booking-pending-badge');
-
-            if (data.unreadMessagesCount > 0) {
-                contactBadge.style.display = 'inline-block';
-                contactBadge.textContent = data.unreadMessagesCount;
-            } else {
-                contactBadge.style.display = 'none';
-            }
-
-            if (data.pendingBookingsCount > 0) {
-                bookingBadge.style.display = 'inline-block';
-                bookingBadge.textContent = data.pendingBookingsCount;
-            } else {
-                bookingBadge.style.display = 'none';
-            }
-        })
-        .catch(error => console.error('Sidebar counters update failed:', error));
-}
-
-// أول تحديث عند تحميل الصفحة
-updateSidebarCounters();
-
-// تحديث كل دقيقة
-setInterval(updateSidebarCounters, 60000);
-
 function updateNotificationsList(data) {
     const list = document.getElementById('notificationDropdownMenu');
     if (!list) return;
@@ -150,7 +120,7 @@ function updateNotificationsList(data) {
                     <i class="fas fa-calendar-check text-primary mt-1"></i>
                     <div>
                         <div class="fw-bold">${escapeHtml(b.name)}</div>
-                        <small class="text-muted">${b.people} people - ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
+                        <small class="text-muted">${b.people} ${translations.people} <br> ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
                         <div class="small text-muted">${b.created}</div>
                     </div>
                 </a>
