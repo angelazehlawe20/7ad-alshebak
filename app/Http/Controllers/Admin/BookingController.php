@@ -58,18 +58,6 @@ class BookingController extends Controller
     }
 
     /**
-     * تحديث حالة الإشعار للحجوزات الجديدة.
-     */
-    public function markAsNotified()
-    {
-        Booking::where('status', 'pending')
-            ->where('is_notified', false)
-            ->update(['is_notified' => true]);
-
-        return response()->json(['success' => true]);
-    }
-
-    /**
      * تحميل قائمة الحجوزات بصيغة HTML (AJAX).
      */
     public function getBookingsList(Request $request)

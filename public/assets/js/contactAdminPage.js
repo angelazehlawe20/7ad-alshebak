@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // نصوص SweetAlert (يمكنك تعديلها أو وضعها من السيرفر)
-    const deleteConfirmTitle = 'هل أنت متأكد؟';
-    const deleteConfirmText = 'لن تتمكن من التراجع عن هذا!';
-    const deleteConfirmYes = 'نعم، احذف!';
+    const deleteConfirmTitle = window.translations.delete_confirm_title
+    const deleteConfirmText = window.translations.delete_confirm_text
+    const deleteConfirmYes = window.translations.delete_confirm_yes
+    const cancel = window.translations.cancel
 
     // تفعيل SweetAlert عند حذف الرسالة
     function bindDeleteConfirmations() {
@@ -24,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: deleteConfirmYes
+            cancelButtonText : cancel,
+            confirmButtonText: deleteConfirmYes,
         }).then((result) => {
             if (result.isConfirmed) {
                 e.target.submit();

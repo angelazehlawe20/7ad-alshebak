@@ -60,18 +60,6 @@ class ContactController extends Controller
     }
 
     /**
-     * تعليم الرسائل غير المُبلغ عنها بأنها أُبلغت
-     */
-    public function markAsNotified()
-    {
-        Contact::where('is_read', false)
-            ->where('is_notified', false)
-            ->update(['is_notified' => true]);
-
-        return response()->json(['success' => true]);
-    }
-
-    /**
      * عرض الرسالة الواحدة + تعليمها كمقروءة
      */
     public function show(Contact $contact)

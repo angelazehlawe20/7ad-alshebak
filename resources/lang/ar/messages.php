@@ -39,4 +39,9 @@ return [
     'success' => 'تمت العملية بنجاح',
     'error' => 'حدث خطأ ما، يرجى المحاولة لاحقًا',
 
+    //_______
+    'no_new_notifications' => 'لا توجد إشعارات جديدة',
+    'people' => 'شخص',
+    'mark_as_notified_error' => ':فشل وضع علامة على الإشعار',
+    'notification_update_error' => ':خطأ في تحديث الإشعار',
 ];

@@ -37,4 +37,11 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
 
+    //___________
+    'no_new_notifications' => 'No new notifications',
+    'people' => 'people',
+    'mark_as_notified_error' => 'Mark as notified failed:',
+    'notification_update_error' => 'Notification update error:',
+
+
 ];

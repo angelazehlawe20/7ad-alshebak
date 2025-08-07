@@ -53,7 +53,7 @@
                         </p>
 
                         <p class="card-price fw-bolder fs-4 mt-auto" style="color: #AC8C64;">
-                            <strong>{{ number_format($offer->price) }} {{__('admins.syr')}}</strong>
+                            <strong>{{ number_format($offer->price) }} {{__('admins.syp')}}</strong>
                         </p>
                     </div>
                 </div>

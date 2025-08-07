@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
+                                        <span class="input-group-text"><strong>{{__('admins.syp')}}</strong></span>
                                         <input type="number" name="price" step="0.01" class="form-control font-weight-bold" value="{{ old('price') }}">
                                     </div>
                                 </div>

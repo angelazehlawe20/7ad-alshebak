@@ -58,14 +58,6 @@
                         </button>
 
                         <div class="d-flex align-items-center gap-4 flex-wrap ms-auto">
-                            @php
-                            $newBookings = \App\Models\Booking::where('status', 'pending')->where('is_notified',
-                            false)->latest()->get();
-                            $unreadMessages = \App\Models\Contact::where('is_read', false)->where('is_notified',
-                            false)->latest()->get();
-                            $totalUnread = $newBookings->count() + $unreadMessages->count();
-                            @endphp
-
                             {{-- Notifications --}}
                             <div class="dropdown">
                                 <button
@@ -73,68 +65,19 @@
                                     type="button" id="notificationDropdownToggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="fas fa-bell"></i>
-                                    @if($totalUnread > 0)
                                     <span id="notifications-count"
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {{ $totalUnread }}
-                                    </span>
-                                    @endif
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="display: none;"></span>
                                 </button>
 
                                 <ul id="notificationDropdownMenu" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
                                     style="min-width: 250px;" aria-labelledby="notificationDropdownToggle">
-
-                                    {{-- New Bookings --}}
-                                    @foreach($newBookings as $booking)
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                            href="{{ route('admin.bookings.index', ['highlight' => $booking->id]) }}">
-                                            <i class="fas fa-calendar-check text-primary mt-1"></i>
-                                            <div>
-                                                <div class="fw-bold">{{ $booking->name }}</div>
-
-                                                <small class="text-muted d-block">
-                                                    {{ __('book.booking_for') }} {{ $booking->guests_count }} {{
-                                                    __('book.people') }}<br>
-                                                    {{ $booking->booking_date }} {{ $booking->booking_time }}<br>
-                                                    {{ $booking->message }}
-                                                </small>
-
-                                                <div class="small text-muted">
-                                                    {{ $booking->created_at->diffForHumans() }}
-                                                </div>
-
-                                            </div>
-                                        </a>
-                                    </li>
-                                    @endforeach
-
-
-                                    {{-- New Messages --}}
-                                    @foreach($unreadMessages as $msg)
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-start gap-2 py-2"
-                                            href="{{ route('admin.contacts.index',['highlight' => $msg['id']]) }}">
-                                            <i class="fas fa-envelope text-success mt-1"></i>
-                                            <div>
-                                                <div class="fw-bold">{{ $msg->name }}</div>
-                                                <small class="text-muted">{{
-                                                    \Illuminate\Support\Str::limit($msg->message, 40) }}</small>
-                                                <div class="small text-muted">{{ $msg->created_at->diffForHumans() }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    @endforeach
-
-                                    @if($totalUnread === 0)
                                     <li class="dropdown-menu-empty">
                                         <span class="dropdown-item-text text-muted text-center py-2">
                                             <i class="fas fa-check-circle me-1"></i> {{
                                             __('messages.no_new_notifications') }}
                                         </span>
                                     </li>
-                                    @endif
                                 </ul>
                             </div>
 
@@ -210,7 +153,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
     <script>
         window.translations = {
-            people: "{{ __('book.people') }}"
+            noNewNotifications: "{{ __('messages.no_new_notifications') }}",
+            markAsNotifiedError: "{{ __('messages.mark_as_notified_error') }}",
+            notificationUpdateError: "{{__('messages.notification_update_error')}}"
         };
     </script>
     <script src="{{ asset('assets/js/heroAdminPage.js') }}"></script>

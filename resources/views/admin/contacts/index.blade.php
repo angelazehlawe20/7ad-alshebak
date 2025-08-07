@@ -68,5 +68,13 @@
 @push('scripts')
     @vite(['resources/js/app.js'])
 
+    <script>
+        window.translations = {
+            delete_confirm_title: "{{ __('contact.delete_confirm_title') }}",
+            delete_confirm_text: "{{ __('contact.delete_confirm_text') }}",
+            delete_confirm_yes: "{{ __('contact.delete_confirm_yes') }}",
+            cancel: "{{ __('contact.cancel') }}"
+        };
+    </script>
     <script src="{{ asset('assets/js/contactAdminPage.js') }}"></script>
 @endpush

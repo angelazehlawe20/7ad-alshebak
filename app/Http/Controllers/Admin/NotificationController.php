@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
@@ -22,8 +23,7 @@ class NotificationController extends Controller
         // الرسائل غير المقروءة
         $unreadMessages = Contact::where('is_read', false)->latest()->get();
 
-        // إشعارات الرسائل (أحدث 5 غير مُعلنة)
-        $notificationsMessages = $unreadMessages->where('is_notified', false)->take(5)->map(function ($msg) {
+        $notificationsMessages = $unreadMessages->where('is_notified', false)->take(50)->map(function ($msg) {
             return [
                 'id' => $msg->id,
                 'type' => 'message',
@@ -33,8 +33,7 @@ class NotificationController extends Controller
             ];
         });
 
-        // إشعارات الحجوزات (أحدث 5 غير مُعلنة)
-        $notificationsBookings = $pendingBookings->where('is_notified', false)->take(5)->map(function ($booking) {
+        $notificationsBookings = $pendingBookings->where('is_notified', false)->take(50)->map(function ($booking) {
             return [
                 'id' => $booking->id,
                 'type' => 'booking',
@@ -56,5 +55,27 @@ class NotificationController extends Controller
             'messages' => $notificationsMessages,
             'bookings' => $notificationsBookings,
         ]);
+    }
+
+    public function markAsNotified(Request $request)
+    {
+        $id = $request->input('id');
+        $type = $request->input('type');
+
+        if ($type === 'booking') {
+            $booking = \App\Models\Booking::find($id);
+            if ($booking) {
+                $booking->is_notified = true;
+                $booking->save();
+            }
+        } elseif ($type === 'contact') {
+            $contact = \App\Models\Contact::find($id);
+            if ($contact) {
+                $contact->is_notified = true;
+                $contact->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 }

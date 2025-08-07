@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+    flatpickr('#from_date', { enableTime: true, dateFormat: 'Y-m-d H:i' });
+    flatpickr('#to_date', { enableTime: true, dateFormat: 'Y-m-d H:i' });
     const fetchInterval = 60000; // كل 60 ثانية
 
-    // SweetAlert للعميات (تأكيد أو رفض)
     function bindActionConfirmations() {
         const actionForms = document.querySelectorAll('.booking-action-form');
 
         actionForms.forEach(form => {
-            form.removeEventListener('submit', actionFormHandler); // إزالة القديم
-            form.addEventListener('submit', actionFormHandler);    // ربط الجديد
+            form.removeEventListener('submit', actionFormHandler);
+            form.addEventListener('submit', actionFormHandler);
         });
     }
 
@@ -15,17 +16,17 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         const form = e.target;
-        const actionType = form.dataset.action; // "confirm" أو "reject"
+        const actionType = form.dataset.action;
         let title, confirmText;
 
         if (actionType === 'confirm') {
-            title = 'هل تريد تأكيد هذا الحجز؟';
-            confirmText = 'نعم، تأكيد';
+            title = translations.confirmBooking;
+            confirmText = translations.confirm;
         } else if (actionType === 'reject') {
-            title = 'هل تريد رفض هذا الحجز؟';
-            confirmText = 'نعم، رفض';
+            title = translations.rejectBooking;
+            confirmText = translations.reject;
         } else {
-            form.submit(); // fallback
+            form.submit();
             return;
         }
 
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
+            cancelButtonText: translations.cancel,
             confirmButtonText: confirmText
         }).then((result) => {
             if (result.isConfirmed) {
@@ -53,21 +55,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (bookingList) {
                     bookingList.innerHTML = response.data;
 
-                    // بعد التحديث، ربط تأكيدات العمليات
                     bindActionConfirmations();
                 }
             })
             .catch(error => {
-                console.error('حدث خطأ أثناء تحديث الحجوزات:', error);
+                console.error(translations.errorUpdatingStatus, error);
             });
     }
 
-    // أول تحميل
     fetchUpdatedBookings();
-
-    // كل دقيقة
     setInterval(fetchUpdatedBookings, fetchInterval);
-
-    // تفعيل SweetAlert لأول مرة
     bindActionConfirmations();
 });

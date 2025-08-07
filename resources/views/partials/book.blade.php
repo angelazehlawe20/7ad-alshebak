@@ -94,7 +94,7 @@
 
                                 <!-- تاريخ الميلاد -->
                                 <div class="col-md-6">
-                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.birth_date_fun') }}</h3>
+                                    <h3 class="h6 mb-2 fw-bold">{{ __('book.birth_date') }}</h3>
                                     <input type="date" name="birth_date" id="birth_date" dir="ltr"
                                         value="{{ old('birth_date') }}"
                                         class="form-control @error('birth_date') is-invalid @enderror"

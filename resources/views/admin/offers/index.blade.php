@@ -74,7 +74,7 @@
                                                 @endif
                                             </div>
                                             <div class="position-absolute top-0 end-0 m-2">
-                                                <span class="badge fs-6" style="background-color: #8B7355"><strong>{{ number_format($offer->price) }} {{__('admins.syr')}}</strong></span>
+                                                <span class="badge fs-6" style="background-color: #8B7355"><strong>{{ number_format($offer->price) }} {{__('admins.syp')}}</strong></span>
                                             </div>
                                             <div class="position-absolute top-0 start-0 m-2">
                                                 @if($offer->active)

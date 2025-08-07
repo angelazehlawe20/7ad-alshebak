@@ -59,7 +59,7 @@ function formatArabicNumber($number) {
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
+                                        <span class="input-group-text"><strong>{{__('admins.syp')}}</strong></span>
                                         <input type="text" name="price" class="form-control fw-bold"
                                             value="{{
                                                 app()->getLocale() === 'ar'

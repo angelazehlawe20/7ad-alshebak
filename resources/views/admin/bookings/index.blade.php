@@ -116,6 +116,8 @@
         rejectBooking: "{{ __('book.reject_booking_message') }}",
         yes: "{{ __('messages.yes') }}",
         no: "{{ __('messages.no') }}",
+        cancel: "{{__('book.cancel')}}",
+        people: "{{__('book.people')}}",
         success: "{{ __('messages.success') }}",
         error: "{{ __('messages.error') }}",
         statusUpdated: "{{ __('book.status_updated_successfully') }}",

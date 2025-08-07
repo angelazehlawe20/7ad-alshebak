@@ -28,6 +28,7 @@ return [
     'delete_confirm_title' => 'هل أنت متأكد؟',
     'delete_confirm_text' => 'لا يمكنك التراجع عن هذا!',
     'delete_confirm_yes' => 'نعم، احذفها!',
+    'cancel' => 'إلغاء',
     'status' => 'حالة الرسالة',
     'sent_at' => 'أرسلت في:',
     'contact_details' => 'تفاصيل الرسالة'

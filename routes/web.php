@@ -133,7 +133,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'update' => 'bookings.update',
         'destroy' => 'bookings.destroy',
     ]);
-    Route::post('/bookings/markAsNotified', [AdminBookingController::class, 'markAsNotified'])->name('bookings.markAsNotified');
     Route::get('/bookings/exportByDateRange', [AdminBookingController::class, 'exportByDateRange'])->name('bookings.export.by_date');
     Route::get('/bookings/list', [AdminBookingController::class, 'getBookingsList'])->name('bookings.list')->middleware('auth:admin');
     Route::get('/bookings/pending', [AdminBookingController::class, 'getPendingBookings'])->name('bookings.pending');
@@ -160,7 +159,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::post('/contacts/mark-as-read', 'markAsRead')->name('contacts.markAsRead');
         Route::delete('/contacts/{contact}', 'destroy')->name('contacts.destroy');
     });
-    Route::post('/contacts/mark-as-notified', [AdminContactController::class, 'markAsNotified'])->name('contacts.markAsNotified');
     Route::get('/contacts/refresh', [AdminContactController::class, 'refreshList'])->name('contacts.refresh');
     Route::get('/contacts/notifications/messages', [AdminContactController::class, 'unreadMessages'])->name('contacts.notifications.messages');
     Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
@@ -200,3 +198,4 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
 // Notifications Count Route
 Route::get('/admin/notifications/counters', [App\Http\Controllers\Admin\NotificationController::class, 'counters'])->name('admin.notifications.count')->middleware('auth:admin');
+Route::post('/admin/notifications/mark-as-notified', [\App\Http\Controllers\Admin\NotificationController::class, 'markAsNotified'])->name('admin.notifications.markAsNotified');

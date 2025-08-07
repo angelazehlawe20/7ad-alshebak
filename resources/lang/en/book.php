@@ -48,6 +48,5 @@ return [
     'booking_for' => 'booking for',
     'people' => 'people',
     'error_updating_status' => 'error updating status',
-    'birth_date_fun'=> 'Enter your date of birth.. Maybe we can celebrate together soon😌'
-
+    'cancel' => 'cancel',
 ];

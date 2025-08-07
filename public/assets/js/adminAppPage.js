@@ -112,50 +112,58 @@ function updateNotificationsList(data) {
 
     let html = '';
 
-    if (data.bookings?.length) {
-        data.bookings.forEach(b => {
-            html += `
-            <li>
-                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/bookings?highlight=${b.id}" data-id="${b.id}">
-                    <i class="fas fa-calendar-check text-primary mt-1"></i>
-                    <div>
-                        <div class="fw-bold">${escapeHtml(b.name)}</div>
-                        <small class="text-muted">${b.people} ${translations.people} <br> ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
-                        <div class="small text-muted">${b.created}</div>
-                    </div>
-                </a>
-            </li>`;
+    const bookings = Object.values(data.bookings || {});
+    if (bookings.length) {
+        bookings.forEach(b => {
+            if (!b.is_notified) {
+                html += `
+                <li>
+                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/bookings?highlight=${b.id}" data-id="${b.id}">
+                        <i class="fas fa-calendar-check text-primary mt-1"></i>
+                        <div>
+                            <div class="fw-bold">${escapeHtml(b.name)}</div>
+                            <small class="text-muted">${b.people} ${translations.people} <br> ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
+                            <div class="small text-muted">${b.created}</div>
+                        </div>
+                    </a>
+                </li>`;
+            }
         });
     }
 
-    if (data.messages?.length) {
-        data.messages.forEach(m => {
-            html += `
-            <li>
-                <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/contacts?highlight=${m.id}" data-id="${m.id}">
-                    <i class="fas fa-envelope text-success mt-1"></i>
-                    <div>
-                        <div class="fw-bold">${escapeHtml(m.name)}</div>
-                        <small class="text-muted">${escapeHtml(truncateText(m.message, 40))}</small>
-                        <div class="small text-muted">${m.time}</div>
-                    </div>
-                </a>
-            </li>`;
+    const messages = Object.values(data.messages || {});
+    if (messages.length) {
+        messages.forEach(m => {
+
+            if (!m.is_notified) {
+                html += `
+                <li>
+                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="/admin/contacts?highlight=${m.id}" data-id="${m.id}">
+                        <i class="fas fa-envelope text-success mt-1"></i>
+                        <div>
+                            <div class="fw-bold">${escapeHtml(m.name)}</div>
+                            <small class="text-muted">${escapeHtml(truncateText(m.message, 40))}</small>
+                            <div class="small text-muted">${m.time}</div>
+                        </div>
+                    </a>
+                </li>`;
+            }
         });
     }
 
     if (!html) {
         html = `
-        <li class="dropdown-menu-empty">
-            <span class="dropdown-item-text text-muted text-center py-2">
-                <i class="fas fa-check-circle me-1"></i> No new notifications
-            </span>
-        </li>`;
+            <li class="dropdown-menu-empty">
+                <span class="dropdown-item-text text-muted text-center py-2">
+                    <i class="fas fa-check-circle me-1"></i> ${translations.noNewNotifications}
+                </span>
+            </li>`;
     }
 
     list.innerHTML = html;
     addNotificationClickListeners();
 }
+
 
 function addNotificationClickListeners() {
     const items = document.querySelectorAll('#notificationDropdownMenu a[data-id]');
@@ -163,27 +171,41 @@ function addNotificationClickListeners() {
         item.addEventListener('click', function (e) {
             e.preventDefault();
 
+            const id = this.dataset.id;
             const targetUrl = this.getAttribute('href');
             const li = this.closest('li');
             if (li) li.remove();
 
+            // ✅ تحديث الإشعار في السيرفر
+            let type = targetUrl.includes('/contacts') ? 'contact' : 'booking';
+            axios.post('/admin/notifications/mark-as-notified', {
+                id: id,
+                type: type
+            }).catch(err => {
+                console.error(translations.markAsNotifiedError, err);
+            });
+
+            // ✅ إنقاص العداد
             const countEl = document.querySelector('#notifications-count');
             if (countEl) {
                 let count = parseInt(countEl.textContent) || 0;
                 updateBadge('#notifications-count', Math.max(0, count - 1));
             }
 
+            // ✅ عرض رسالة "لا توجد إشعارات" إذا لزم
             const menu = document.getElementById('notificationDropdownMenu');
             if (menu && !menu.querySelector('li')) {
                 menu.innerHTML = `
                 <li class="dropdown-menu-empty">
                     <span class="dropdown-item-text text-muted text-center py-2">
-                        <i class="fas fa-check-circle me-1"></i> No new notifications
+                        <i class="fas fa-check-circle me-1"></i> ${translations.noNewNotifications}
                     </span>
                 </li>`;
             }
 
+            // ✅ إعادة التوجيه
             setTimeout(() => window.location.href = targetUrl, 100);
         });
     });
 }
+

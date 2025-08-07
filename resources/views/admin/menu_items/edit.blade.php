@@ -3,9 +3,9 @@
 @section('content')
 @php
 function formatArabicNumber($number) {
-    $westernNumbers = ['0','1','2','3','4','5','6','7','8','9'];
-    $arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-    return str_replace($westernNumbers, $arabicNumbers, $number);
+$westernNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+$arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+return str_replace($westernNumbers, $arabicNumbers, $number);
 }
 @endphp
 
@@ -30,7 +30,8 @@ function formatArabicNumber($number) {
                 </ul>
             </div>
             @endif
-            <form action="{{ route('admin.menu.update', $menuItem->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+            <form action="{{ route('admin.menu.update', $menuItem->id) }}" method="POST" enctype="multipart/form-data"
+                novalidate>
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="redirect_to" value="{{ url()->previous() }}">
@@ -38,28 +39,33 @@ function formatArabicNumber($number) {
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ __('menu.item_image') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ __('menu.item_image')
+                                    }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <input type="file" name="image" class="form-control" accept="image/*">
-                                    <div class="mt-2" id="imagePreview" style="display: {{ $menuItem->image ? 'block' : 'none' }};">
-                                        <img src="{{ $menuItem->image ? asset($menuItem->image) : '' }}" alt="Menu Item Image"
-                                            class="img-fluid rounded shadow" style="width: 100%; height: 100%; object-fit: contain;">
+                                    <div class="mt-2" id="imagePreview"
+                                        style="display: {{ $menuItem->image ? 'block' : 'none' }};">
+                                        <img src="{{ $menuItem->image ? asset($menuItem->image) : '' }}"
+                                            alt="Menu Item Image" class="img-fluid rounded shadow"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card bg-beige card-outline mt-4">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-tag"></i>&nbsp;&nbsp;{{ __('menu.category_and_price') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-tag"></i>&nbsp;&nbsp;{{
+                                    __('menu.category_and_price') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.category') }}</strong></label>
                                     <select name="category_id" class="form-select">
                                         @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ old('category_id', $menuItem->category_id) == $category->id ? 'selected' : '' }}>
+                                        <option value="{{ $category->id }}" {{ old('category_id', $menuItem->
+                                            category_id) == $category->id ? 'selected' : '' }}>
                                             {{ $category->name_en }} - {{ $category->name_ar }}
                                         </option>
                                         @endforeach
@@ -68,9 +74,8 @@ function formatArabicNumber($number) {
                                 <div class="form-group">
                                     <label><strong>{{ __('menu.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><strong>{{__('admins.syr')}}</strong></span>
-                                        <input type="text" name="price" class="form-control fw-bold"
-                                            value="{{
+                                        <span class="input-group-text"><strong>{{__('admins.')}}</strong></span>
+                                        <input type="text" name="price" class="form-control fw-bold" value="{{
                                                 app()->getLocale() === 'ar'
                                                 ? formatArabicNumber(round(old('price', $menuItem->price)))
                                                 : round(old('price', $menuItem->price))
@@ -83,7 +88,8 @@ function formatArabicNumber($number) {
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-align-left"></i>&nbsp;&nbsp;{{ __('menu.item_content') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-align-left"></i>&nbsp;&nbsp;{{
+                                    __('menu.item_content') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
