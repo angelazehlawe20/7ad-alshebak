@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
-    flatpickr('#from_date', { enableTime: true, dateFormat: 'Y-m-d H:i' });
-    flatpickr('#to_date', { enableTime: true, dateFormat: 'Y-m-d H:i' });
-    const fetchInterval = 60000; // كل 60 ثانية
+
+    flatpickr('#from_date', {
+        enableTime: true,
+        dateFormat: "d-m-Y",
+        time_24hr: true,
+        disableMobile: true
+    });
+
+    flatpickr('#to_date', {
+        enableTime: true,
+        dateFormat: "d-m-Y",
+        time_24hr: true,
+        disableMobile: true
+    });
+    const fetchInterval = 600000; 
 
     function bindActionConfirmations() {
         const actionForms = document.querySelectorAll('.booking-action-form');

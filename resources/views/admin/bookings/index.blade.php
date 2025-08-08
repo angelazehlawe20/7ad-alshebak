@@ -24,21 +24,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="from_date" class="form-label">{{ __('book.from_date') }}</label>
-                                        <input type="text" name="from_date" id="from_date" class="form-control"
-                                            placeholder="YYYY-MM-DD" value="{{ old('from_date') }}">
+                                        <input type="date" name="from_date" id="from_date" class="form-control"
+                                            value="{{ old('from_date') }}">
                                     </div>
                                 </div>
-
 
                                 {{-- حقل إلى تاريخ --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="to_date" class="form-label">{{ __('book.to_date') }}</label>
-                                        <input type="text" name="to_date" id="to_date" class="form-control"
-                                            placeholder="YYYY-MM-DD" value="{{ old('to_date') }}">
+                                        <input type="date" name="to_date" id="to_date" class="form-control"
+                                            value="{{ old('to_date') }}">
                                     </div>
                                 </div>
-
 
                                 <div class="col-md-4">
                                     <button type="submit" class="btn btn-secondry w-100"

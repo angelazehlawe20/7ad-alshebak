@@ -51,16 +51,6 @@
                                     </div>
                                     <div class="invalid-feedback">{{__('errors.enter_the_price')}}</div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label><strong>{{ __('offers.status') }}</strong></label>
-                                    <select name="active" class="form-select">
-                                        <option value="1" {{ old('active', '1' )=="1" ? 'selected' : '' }}>{{
-                                            __('offers.active') }}</option>
-                                        <option value="0" {{ old('active')=="0" ? 'selected' : '' }}>{{
-                                            __('offers.inactive') }}</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>

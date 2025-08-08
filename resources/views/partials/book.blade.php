@@ -58,7 +58,7 @@
                                     <input type="date" name="booking_date" id="booking_date" dir="ltr"
                                         value="{{ old('booking_date') }}"
                                         class="form-control @error('booking_date') is-invalid @enderror"
-                                        min="{{ date('Y-m-d') }}">
+                                        min="{{ date('d-m-Y') }}">
                                     @error('booking_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
 
@@ -98,7 +98,7 @@
                                     <input type="date" name="birth_date" id="birth_date" dir="ltr"
                                         value="{{ old('birth_date') }}"
                                         class="form-control @error('birth_date') is-invalid @enderror"
-                                        max="{{ date('Y-m-d') }}">
+                                        max="{{ date('d-m-Y') }}">
                                     @error('birth_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
 

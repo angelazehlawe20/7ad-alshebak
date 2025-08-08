@@ -27,7 +27,7 @@ class TestDataSeeder extends Seeder
                 'email' => $fakerEn->email,
                 'phone' => '9' . $fakerEn->numberBetween(10000000, 99999999),
                 'guests_count' => $fakerEn->numberBetween(1, 10),
-                'booking_date' => Carbon::parse($createdAt)->addDays($fakerEn->numberBetween(1, 14))->format('Y-m-d'),
+                'booking_date' => Carbon::parse($createdAt)->addDays($fakerEn->numberBetween(1, 14))->format('d-m-Y'),
                 'booking_time' => $fakerEn->dateTimeBetween('10:00', '22:00')->format('H:i:s'),
                 'message' => $fakerAr->optional(0.7)->text(100),
                 'status' => $status,

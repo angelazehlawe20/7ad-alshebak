@@ -2,7 +2,7 @@ import './bootstrap';
 
 
 flatpickr("input[type=date]", {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y",
     allowInput: true
 });
 

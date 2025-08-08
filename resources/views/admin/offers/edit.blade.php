@@ -52,13 +52,6 @@
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
-                                    <label><strong>{{ __('offers.status') }}</strong></label>
-                                    <select name="active" class="form-select">
-                                        <option value="1" {{ old('active', $offer->active) == 1 ? 'selected' : '' }}>{{ __('offers.active') }}</option>
-                                        <option value="0" {{ old('active', $offer->active) == 0 ? 'selected' : '' }}>{{ __('offers.inactive') }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
                                         <span class="input-group-text"><strong>{{ __('admins.syp') }}</strong></span>

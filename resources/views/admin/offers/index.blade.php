@@ -76,13 +76,6 @@
                                             <div class="position-absolute top-0 end-0 m-2">
                                                 <span class="badge fs-6" style="background-color: #8B7355"><strong>{{ number_format($offer->price) }} {{__('admins.syp')}}</strong></span>
                                             </div>
-                                            <div class="position-absolute top-0 start-0 m-2">
-                                                @if($offer->active)
-                                                <span class="badge bg-success">{{ __('offers.active') }}</span>
-                                                @else
-                                                <span class="badge bg-secondary">{{ __('offers.inactive') }}</span>
-                                                @endif
-                                            </div>
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title" style="color: #8B7355">{{ $offer->title_en }}</h5>

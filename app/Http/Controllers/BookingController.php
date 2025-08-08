@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Booking;
 use App\Notifications\NewBookingNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -48,6 +49,7 @@ class BookingController extends Controller
         ];
 
         $booking = Booking::create($dataToSave);
+        $time12h = Carbon::createFromFormat('H:i', $validatedData['booking_time'])->format('h:i A');
 
         // Send push notification to all admins
         $admins = Admin::all();
@@ -74,7 +76,7 @@ class BookingController extends Controller
                 'phone' => $validatedData['phone'],
                 'email' => $validatedData['email'] ?? '-',
                 'date' => $validatedData['booking_date'],
-                'time' => $validatedData['booking_time'],
+                'time' => $time12h,
                 'guests' => $validatedData['guests_count'],
                 'birth_date' => $validatedData['birth_date'],
                 'message' => $validatedData['message'] ?? '-',

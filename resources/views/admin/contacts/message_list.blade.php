@@ -30,7 +30,7 @@
                 </div>
                 <div class="text-muted">
                     <i class="fas fa-clock me-2"></i>&nbsp;
-                    <small>{{ $contact->created_at?->format('Y-m-d H:i') }}</small>
+                    <small>{{ $contact->created_at?->format('d-m-Y H:i') }}</small>
                 </div>
             </div>
             <div class="card-footer bg-transparent">

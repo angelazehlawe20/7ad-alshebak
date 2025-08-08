@@ -14,7 +14,6 @@ class Offer extends Model
         'title_en',
         'description_ar',
         'description_en',
-        'active',
         'image',
         'price',
         'category_id'

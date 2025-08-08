@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     AOS.init();
     new PureCounter();
     GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true, autoplayVideos: true });
-    flatpickr('.flatpickr-input', { enableTime: true, dateFormat: 'Y-m-d H:i' });
+    flatpickr('.flatpickr-input', { enableTime: true, dateFormat: 'd-m-Y H:i' });
 
     // ✅ Sidebar toggle
     const sidebar = document.querySelector('.sidebar');
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ✅ التحديث التلقائي للإشعارات
     updateAllCounters();
-    setInterval(updateAllCounters, 60000);
+    setInterval(updateAllCounters, 600000);
 });
 
 // ✅ الدوال المساعدة
@@ -99,8 +99,8 @@ function updateAllCounters() {
         .then(res => {
             const data = res.data;
             updateBadge('#notifications-count', data.total || 0);
-            updateBadge('#sidebar-bookings-count', data.pending_bookings || 0);
-            updateBadge('#sidebar-messages-count', data.unread_messages || 0);
+            updateBadge('#booking-pending-badge', data.pending_bookings || 0);
+            updateBadge('#contact-unread-badge', data.unread_messages || 0);
             updateNotificationsList(data);
         })
         .catch(err => console.error('Notification update error:', err));

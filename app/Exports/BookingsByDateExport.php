@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -67,12 +68,12 @@ class BookingsByDateExport implements FromCollection, WithHeadings, WithMapping,
         return [
             $booking->id,
             $booking->name,
-            $booking->phone,
+            '+963'.$booking->phone,
             $booking->email,
             $booking->birth_date,
             $booking->guests_count,
             $booking->booking_date,
-            $booking->booking_time,
+            Carbon::parse($booking->booking_time)->format('h:i A'),
             $booking->message,
             $booking->status,
             $booking->created_at,

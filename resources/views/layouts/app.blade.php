@@ -218,14 +218,14 @@
 
     <script>
         flatpickr("#booking_date", {
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             minDate: "today",
             locale: "{{ app()->getLocale() == 'ar' ? 'ar' : 'default' }}",
             disableMobile: true
         });
 
         flatpickr("#birth_date", {
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             maxDate: "today",
             locale: "{{ app()->getLocale() == 'ar' ? 'ar' : 'default' }}",
             disableMobile: true

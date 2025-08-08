@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // جلب الرسائل وتحديث العدادات
-    const messageFetchInterval = 60000; // كل 60 ثانية
+    const messageFetchInterval = 600000; 
 
     function fetchUpdatedMessages() {
         axios.get('/admin/contacts/refresh', {

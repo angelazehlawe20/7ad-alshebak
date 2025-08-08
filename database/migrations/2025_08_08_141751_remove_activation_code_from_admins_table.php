@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('admins', function (Blueprint $table) {
-            $table->string('telegram_chat_id')->nullable()->after('email');
+            $table->dropColumn('activation_code');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('admins', function (Blueprint $table) {
-            $table->dropColumn('telegram_chat_id');
+            $table->string('activation_code')->nullable();
         });
     }
 };

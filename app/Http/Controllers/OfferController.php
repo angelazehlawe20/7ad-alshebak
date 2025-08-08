@@ -13,7 +13,6 @@ class OfferController extends Controller
         $categoryId = $request->category;
 
         $offers = Offer::query()
-            ->where('active', true)
             ->when($categoryId, function ($query) use ($categoryId) {
                 $query->where('category_id', $categoryId);
             })

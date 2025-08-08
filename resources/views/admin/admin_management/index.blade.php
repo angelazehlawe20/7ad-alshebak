@@ -48,9 +48,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <strong><i class="fas fa-calendar me-2"></i> {{ __('admins.created_at') }}:</strong>
-                                    <p class="text-muted mb-0">{{ $admin->created_at ? $admin->created_at->format('Y-m-d') : '-' }}</p>
+                                    <p class="text-muted mb-0">{{ $admin->created_at ? $admin->created_at->format('d-m-Y') : '-' }}</p>
                                 </div>
-                            
+
                             </div>
                             <div class="card-footer bg-white">
                                 <div class="d-flex gap-2 justify-content-between">

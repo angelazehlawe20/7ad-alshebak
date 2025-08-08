@@ -37,7 +37,6 @@ class OfferController extends Controller
             'title_en' => 'required|string|max:255',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
-            'active' => 'required|boolean',
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
@@ -67,20 +66,6 @@ class OfferController extends Controller
         return view('admin.offers.index', compact('offers', 'categories'));
     }
 
-    public function filterByStatus(Request $request)
-    {
-        $status = $request->status;
-
-        $offers = Offer::when($status !== null, function ($query) use ($status) {
-            $query->where('active', $status);
-        })->get();
-
-        $categories = Category::all();
-
-        return view('admin.offers.index', compact('offers', 'categories'));
-    }
-
-
     // عرض صفحة تعديل عرض معين
     public function edit(Offer $offer)
     {
@@ -95,8 +80,6 @@ class OfferController extends Controller
             'title_en' => 'required|string|max:255',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
-            'active' => 'required|boolean',
-            'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
