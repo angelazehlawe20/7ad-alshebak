@@ -1,15 +1,8 @@
 @extends('admin.layouts.app')
 @section('title', __('offers.edit') . ' ' . __('offers.offers'))
 
-@php
-function formatArabicNumber($number) {
-    $westernNumbers = ['0','1','2','3','4','5','6','7','8','9'];
-    $arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-    return str_replace($westernNumbers, $arabicNumbers, $number);
-}
-@endphp
-
 @section('content')
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -20,33 +13,42 @@ function formatArabicNumber($number) {
             </div>
         </div>
     </div>
-
     <section class="content">
         <div class="container-fluid px-0">
-            <form action="{{ route('admin.offers.update', $offer->id) }}" method="POST" id="offerForm" enctype="multipart/form-data">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <form action="{{ route('admin.offers.update', $offer->id) }}" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 @method('PUT')
-                <div class="row gy-4"> <!-- Added gy-4 class for vertical gutters -->
+                <input type="hidden" name="redirect_to" value="{{ url()->previous() }}">
+                <div class="row gy-4">
                     <div class="col-md-6">
-                        <div class="card bg-beige card-outline mb-4"> <!-- Added mb-4 margin bottom -->
+                        <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-image mr-2"></i>&nbsp;&nbsp;{{ __('offers.image') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-image"></i>&nbsp;&nbsp;{{ __('offers.image') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
-                                <div class="gallery-preview mb-3">
-                                    @if($offer->image && file_exists(public_path($offer->image)))
-                                        <img src="{{ asset($offer->image) }}" class="img-fluid rounded shadow gallery-image" alt="Offer Image" style="width: 100%; height: 100%; object-fit: contain;">
-                                    @endif
-                                </div>
                                 <div class="form-group">
                                     <input type="file" name="image" class="form-control" accept="image/*">
+                                    <div class="mt-2" id="imagePreview" style="display: {{ $offer->image ? 'block' : 'none' }};">
+                                        <img src="{{ $offer->image ? asset($offer->image) : '' }}"
+                                            alt="{{ __('offers.image') }}" class="img-fluid rounded shadow"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card bg-beige card-outline">
+                        <div class="card bg-beige card-outline mt-4">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-cog mr-2"></i>&nbsp;&nbsp;{{ __('offers.settings') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-cog"></i>&nbsp;&nbsp;{{ __('offers.settings') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -59,13 +61,9 @@ function formatArabicNumber($number) {
                                 <div class="form-group">
                                     <label><strong>{{ __('offers.price') }}</strong></label>
                                     <div class="input-group">
-                                        <span class="input-group-text"><strong>{{__('admins.syp')}}</strong></span>
+                                        <span class="input-group-text"><strong>{{ __('admins.syp') }}</strong></span>
                                         <input type="text" name="price" class="form-control fw-bold"
-                                            value="{{
-                                                app()->getLocale() === 'ar'
-                                                ? formatArabicNumber(round(old('price', $offer->price)))
-                                                : round(old('price', $offer->price))
-                                            }}">
+                                            value="{{ round(old('price', $offer->price)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +73,7 @@ function formatArabicNumber($number) {
                     <div class="col-md-6">
                         <div class="card bg-beige card-outline">
                             <div class="card-header bg-light">
-                                <h3 class="card-title"><i class="fas fa-align-left mr-2"></i>&nbsp;&nbsp;{{ __('offers.content') }}</h3>
+                                <h3 class="card-title"><i class="fas fa-align-left"></i>&nbsp;&nbsp;{{ __('offers.content') }}</h3>
                             </div>
                             <div class="card-body" style="background-color: #f5f5dc;">
                                 <div class="form-group">
@@ -102,10 +100,10 @@ function formatArabicNumber($number) {
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-success btn-lg">
-                            <i class="fas fa-save mr-2"></i>&nbsp;&nbsp;{{ __('offers.update_offer') }}
+                            <i class="fas fa-save"></i>&nbsp;&nbsp;{{ __('offers.update_offer') }}
                         </button>
-                        <a href="{{ route('admin.offers.index') }}" class="btn btn-secondary btn-lg">
-                            <i class="fas fa-times mr-2"></i>&nbsp;&nbsp;{{ __('offers.cancel') }}
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i>&nbsp;&nbsp;{{ __('offers.cancel') }}
                         </a>
                     </div>
                 </div>
@@ -115,6 +113,6 @@ function formatArabicNumber($number) {
 </div>
 @endsection
 
-@section('scripts')
-    <script src="{{ asset('assets/js/admin/editOfferPage.js') }}"></script>
-@endsection
+@push('scripts')
+<script src="{{ asset('assets/js/editOfferPage.js') }}"></script>
+@endpush

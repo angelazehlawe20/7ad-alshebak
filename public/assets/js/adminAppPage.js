@@ -122,7 +122,7 @@ function updateNotificationsList(data) {
                         <i class="fas fa-calendar-check text-primary mt-1"></i>
                         <div>
                             <div class="fw-bold">${escapeHtml(b.name)}</div>
-                            <small class="text-muted">${b.people} ${translations.people} <br> ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
+                            <small class="text-muted">${b.people} people <br> ${b.date} ${b.time}<br>${escapeHtml(truncateText(b.notes, 40))}</small>
                             <div class="small text-muted">${b.created}</div>
                         </div>
                     </a>

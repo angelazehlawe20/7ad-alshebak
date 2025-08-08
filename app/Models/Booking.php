@@ -13,6 +13,7 @@ class Booking extends Model
         'name',
         'phone',
         'email',
+        'birth_date',
         'guests_count',
         'booking_date',
         'booking_time',

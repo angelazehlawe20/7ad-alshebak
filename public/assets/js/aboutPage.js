@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('newGalleryImages');
     const previewContainer = document.getElementById('newImagesPreview');
 
-    const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia || about.confirmDeleteMedia;
-    const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported || about.videoNotSupported;
+    const confirmDeleteMediaMsg = editModeBtn?.dataset.confirmDeleteMedia ||  window.translations?.confirmDeleteMedia;
+    const videoNotSupportedMsg = fileInput?.dataset.videoNotSupported ||  window.translations?.videoNotSupported;
 
     let editMode = false;
     let selectedMediaFiles = [];

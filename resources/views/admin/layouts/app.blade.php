@@ -71,7 +71,8 @@
                                 </button>
 
                                 <ul id="notificationDropdownMenu" class="dropdown-menu dropdown-menu-end shadow-sm p-2"
-                                    style="min-width: 250px;" aria-labelledby="notificationDropdownToggle">
+                                    style="min-width: 250px; max-width: 90vw; width: auto;"
+                                    aria-labelledby="notificationDropdownToggle">
                                     <li class="dropdown-menu-empty">
                                         <span class="dropdown-item-text text-muted text-center py-2">
                                             <i class="fas fa-check-circle me-1"></i> {{
@@ -175,6 +176,18 @@
             text-align: center;
             padding: 1rem;
             color: #999;
+        }
+
+        @media (max-width: 576px) {
+            #notificationDropdownMenu {
+                position: fixed !important;
+                top: 60px !important;
+                left: 5% !important;
+                right: 5% !important;
+                width: 90% !important;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
         }
 
         .no-scroll {

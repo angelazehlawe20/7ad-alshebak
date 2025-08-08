@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->date('birth_date')->nullable(false)->change();
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->bigInteger('price')->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            //
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->decimal('price')->change();
         });
     }
 };
