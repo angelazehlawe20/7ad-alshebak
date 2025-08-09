@@ -66,7 +66,6 @@
 </div>
 @endsection
 @push('scripts')
-    @vite(['resources/js/app.js'])
 
     <script>
         window.translations = {

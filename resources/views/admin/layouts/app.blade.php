@@ -34,11 +34,14 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/aos/aos.css') }}">
 
     @php
-    $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+    $manifestPath = public_path('build/manifest.json');
+    $manifest = file_exists($manifestPath) ? json_decode(file_get_contents($manifestPath), true) : null;
     @endphp
+
+    @if($manifest)
     <link rel="stylesheet" href="{{ asset('build/' . $manifest['resources/css/app.css']['file']) }}">
     <script type="module" src="{{ asset('build/' . $manifest['resources/js/app.js']['file']) }}"></script>
-
+    @endif
     @stack('styles')
 </head>
 
